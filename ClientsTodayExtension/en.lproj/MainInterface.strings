@@ -1,0 +1,12 @@
+
+/* Class = "UIButton"; normalTitle = "Ближайшие"; ObjectID = "57t-dU-oYV"; */
+"57t-dU-oYV.normalTitle" = "Nearest places";
+
+/* Class = "UIButton"; normalTitle = "Адрес"; ObjectID = "Cje-AR-UMg"; */
+"Cje-AR-UMg.normalTitle" = "Contact info";
+
+/* Class = "UIButton"; normalTitle = "Скопировано в буфер обмена"; ObjectID = "Fct-O6-YR5"; */
+"Fct-O6-YR5.normalTitle" = "Copied to the clipboard";
+
+/* Class = "UIButton"; normalTitle = "Прайс"; ObjectID = "kPH-D2-p0z"; */
+"kPH-D2-p0z.normalTitle" = "Price list";

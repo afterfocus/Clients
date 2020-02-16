@@ -1,0 +1,318 @@
+//
+//  TodayViewController.swift
+//  Clients
+//
+//  Created by Максим Голов on 01.02.2020.
+//  Copyright © 2020 Максим Голов. All rights reserved.
+//
+
+import UIKit
+ 
+// TODO: Требует документирования
+class TodayViewController: UITableViewController {
+    
+    // MARK: - Private properties
+    
+    private var collectionView: UICollectionView!
+    private var unoccupiedPlacesCellHeight: CGFloat!
+    private var collectionCellSize: CGSize!
+    
+    private var startDate = Date.today
+    private var endDate = Date.today + 7
+    private var requiredDuration = Time(hours: 2)
+    
+    private var tableData = [AnyObject]()
+    private var unoccupiedPlaces: [Date: [Time]]! {
+        didSet {
+            keys = unoccupiedPlaces.keys.sorted(by: <)
+            collectionView?.reloadData()
+        }
+    }
+    /// Ключи словаря данных
+    private var keys = [Date]()
+    
+    // MARK: - View Life Cycle
+    
+    override func viewDidLoad() {
+        // Создание контроллера отображения результатов поиска
+        let searchResultsController = self.storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
+        searchResultsController.tableView.delegate = self
+        // Создание контроллера поиска
+        navigationItem.searchController = UISearchController(searchResultsController: searchResultsController)
+        navigationItem.searchController?.searchResultsUpdater = searchResultsController
+        navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController?.searchBar.autocapitalizationType = .words
+        
+        collectionCellSize = CGSize(width: UIScreen.main.scale == 3 ? 55 : 50, height: 30)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        unoccupiedPlaces = VisitRepository.unoccupiedPlaces(between: startDate, and: endDate, requiredDuration: requiredDuration)
+        updateTableData()
+    }
+    
+    private func updateTableData() {
+        tableData.removeAll()
+        let visits = VisitRepository.visits(
+            for: Date.today,
+            hideCancelled: Settings.isCancelledVisitsHidden,
+            hideNotCome: Settings.isClientNotComeVisitsHidden
+        )
+        
+        var client: Client? = nil
+        visits.forEach {
+            if $0.client != client {
+                tableData.append($0.client)
+                client = $0.client
+            }
+            tableData.append($0)
+        }
+        tableView.reloadData()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: .showAddVisit, sender: sender)
+    }
+}
+
+
+// MARK: - SegueHandler
+
+extension TodayViewController: SegueHandler {
+    
+    enum SegueIdentifier: String {
+        /// Отобразить экран редактирования записи
+        case showAddVisit
+        /// Отобразить профиль клиента
+        case showClientProfile
+        /// Отобразить экран подробной информации о записи
+        case showVisitInfo
+        
+        case showSearchParameters
+    }
+    
+    // Подготовиться к переходу
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segueIdentifier(for: segue) {
+        case .showAddVisit:
+            if ServiceRepository.isEmpty {
+                let alert = UIAlertController(
+                    title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
+                    message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
+                    preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+            else if let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? EditVisitController {
+                
+                target.unwindSegue = .unwindFromAddVisitToToday
+                
+                if let cell = sender as? NearestPlacesCollectionCell,
+                    let indexPath = collectionView.indexPath(for: cell) {
+                    target.date = keys[indexPath.section]
+                    target.time = unoccupiedPlaces[keys[indexPath.section]]![indexPath.item]
+                }
+            }
+        case .showClientProfile:
+            if let target = segue.destination as? ClientProfileController {
+                // Отправить клиента в ClientProfileController
+                target.client = tableData[tableView.indexPathForSelectedRow!.row] as? Client
+            }
+        case .showVisitInfo:
+            if let target = segue.destination as? VisitInfoController {
+                if let indexPath = tableView.indexPathForSelectedRow {
+                    // Отправить в VisitInfoController выбранную запись
+                    target.visit = tableData[indexPath.row] as? Visit
+                } else if let sender = sender as? SearchResultsController {
+                    // Отправить в VisitInfoController выбранную запись из результатов поиска
+                    target.visit = sender.selectedVisit
+                }
+            }
+        case .showSearchParameters:
+            if let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? SearchParametersController {
+                target.startDate = startDate
+                target.endDate = endDate
+                target.requiredDuration = requiredDuration
+            }
+        }
+    }
+    
+    /// Возврат с экрана создания записи
+    @IBAction func unwindFromAddVisitToToday(segue: UIStoryboardSegue) {
+        unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
+            between: startDate,
+            and: endDate,
+            requiredDuration: requiredDuration)
+        updateTableData()
+    }
+    
+    /// Возврат с экрана параметров поиска
+    @IBAction func unwindFromSearchParametersToToday(segue: UIStoryboardSegue) {
+        if let source = segue.source as? SearchParametersController {
+            startDate = source.startDate
+            endDate = source.endDate
+            requiredDuration = source.requiredDuration
+            
+            unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
+                between: startDate,
+                and: endDate,
+                requiredDuration: requiredDuration)
+            updateTableData()
+        }
+    }
+}
+
+
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension TodayViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionCellSize
+    }
+}
+
+
+// MARK: - UITableViewDelegate
+
+extension TodayViewController {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let (section, row) = (indexPath.section, indexPath.row)
+        if tableView === self.tableView {
+            if section == 1 && row == 1, let height = unoccupiedPlacesCellHeight {
+                return height
+            } else if section == 1 && row == 2 {
+                return 44
+            } else {
+                return super.tableView(tableView, heightForRowAt: indexPath)
+            }
+        } else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
+        }
+    }
+    
+    // Нажатие на элемент списка записей
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView !== self.tableView {
+            performSegue(withIdentifier: .showVisitInfo, sender: navigationItem.searchController?.searchResultsController)
+        } else if indexPath.section == 1 && indexPath.row == 2 {
+            var string = ""
+            for date in keys {
+                string += "\(date.string(style: .dayAndMonth)):"
+                for time in unoccupiedPlaces[date]! {
+                    string += " \(time),"
+                }
+                string.removeLast()
+                string += "\n"
+            }
+            UIPasteboard.general.string = string
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+
+// MARK: - UITableViewDataSource
+
+extension TodayViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return tableData.isEmpty ? 1 : tableData.count
+        } else {
+            return unoccupiedPlaces.isEmpty ? 2 : 3
+        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let (section, row) = (indexPath.section, indexPath.row)
+        
+        switch (section, row) {
+        case (0, _):
+            if tableData.count == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
+                cell.label.text = NSLocalizedString("LOOKS_LIKE_ITS_YOUR_DAY_OFF", comment: "Похоже, сегодня у Вас выходной")
+                return cell
+            } else {
+                if let client = tableData[row] as? Client {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.clientTableCell, for: indexPath) as! ClientTableCell
+                    cell.configure(with: client)
+                    return cell
+                } else {
+                    let visit = tableData[row] as! Visit
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.visitHistoryTableCell, for: indexPath) as! VisitHistoryTableCell
+                    cell.configure(with: visit, labelStyle: .service)
+                    return cell
+                }
+            }
+        case (1, 0):
+            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.searchIntervalTableCell, for: indexPath) as! SearchIntervalTableCell
+            if startDate.month == endDate.month && startDate.year == endDate.year {
+                cell.intervalLabel.text =
+                    NSLocalizedString("FROM", comment: "с") + " \(startDate.day) " +
+                    NSLocalizedString("UNTIL", comment: "по") + " \(endDate.string(style: .dayAndMonth)), \(requiredDuration.string(style: .duration))"
+            } else {
+                cell.intervalLabel.text =
+                    NSLocalizedString("FROM", comment: "с") + " \(startDate.string(style: .dayAndMonth)) " +
+                    NSLocalizedString("UNTIL", comment: "по") + " \(endDate.string(style: .dayAndMonth)), \(requiredDuration.string(style: .duration))"
+            }
+            return cell
+        case (1, 1):
+            if unoccupiedPlaces.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
+                cell.label.text = NSLocalizedString("UNOCCUPIED_PLACES_WERE_NOT_FOUND", comment: "Свободных мест не найдено")
+                unoccupiedPlacesCellHeight = 80
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.nearestPlacesTableCell, for: indexPath) as! NearestPlacesTableCell
+                collectionView = cell.collectionView
+                unoccupiedPlacesCellHeight = collectionView.collectionViewLayout.collectionViewContentSize.height + 13
+                return cell
+            }
+        case (1, 2):
+            return tableView.dequeueReusableCell(withIdentifier: ReusableViewID.copyButtonTableCell, for: indexPath)
+        default:
+            fatalError("Undefined cell")
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ?
+            NSLocalizedString("VISITS", comment: "Записи") :
+            NSLocalizedString("UNOCCUPIED_PLACES", comment: "Свободные места")
+    }
+}
+
+
+// MARK: - UICollectionViewDataSource
+
+extension TodayViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return unoccupiedPlaces[keys[section]]!.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return unoccupiedPlaces.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.nearestPlacesCollectionCell, for: indexPath) as! NearestPlacesCollectionCell
+        cell.timeLabel.text = "\(unoccupiedPlaces[keys[indexPath.section]]![indexPath.row])"
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewID.nearestPlacesCollectionHeader, for: indexPath) as! NearestPlacesCollectionHeader
+        header.dateLabel.text = keys[indexPath.section].string(style: .dayAndMonth)
+        return header
+    }
+}

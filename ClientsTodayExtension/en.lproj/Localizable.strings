@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Clients
+
+  Created by Максим Голов on 16.02.2020.
+  Copyright © 2020 Максим Голов. All rights reserved.
+*/
+
+/* Свободных мест не найдено */
+"UNOCCUPIED_PLACES_WERE_NOT_FOUND" = "No unoccupied places found";
+
+/* Записи на завтра */
+"TOMORROWS_VISITS" = "Tomorrow's visits";
+
+/* Записи на сегодня */
+"TODAYS_VISITS" = "Today's visits";

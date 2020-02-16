@@ -1,0 +1,409 @@
+/* 
+  Localizable.strings
+  Clients
+
+  Created by Максим Голов on 15.02.2020.
+  Copyright © 2020 Максим Голов. All rights reserved.
+*/
+
+/* Предоставляемые услуги */
+"ACTIVE_SERVICES" = "Active services";
+
+/* доп. услуга */
+"ADDITIONAL_SERVICE" = "additional service";
+
+/* доп. услуги */
+"ADDITIONAL_SERVICE_PLURAL" = "additional services";
+
+/* доп. услуг */
+"ADDITIONAL_SERVICE_PLURAL_GENITIVE" = "additional services";
+
+/* Дополнительные услуги не заданы */
+"ADDITIONAL_SERVICES_ARE_NOT_SPECIFIED" = "Additional services are not specified";
+
+/* Все */
+"ALL" = "All";
+
+/* разрешены */
+"ALLOWED" = "allowed";
+
+/* Апрель */
+"APRIL" = "April";
+
+/* апреля */
+"APRIL_GENITIVE" = "April";
+
+/* Архивировать */
+"ARCHIVE" = "Archive";
+
+/* Архивные услуги */
+"ARCHIVE_SERVICES" = "Archive services";
+
+/* Август */
+"AUGUST" = "August";
+
+/* августа */
+"AUGUST_GENITIVE" = "August";
+
+/* Внести в чёрный список */
+"BLOCK_CLIENT" = "Add to blacklist";
+
+/* Вы не сможете создавать записи для клиентов, внесенных в список заблокированных. */
+"BLOCK_CLIENT_WARNING" = "You will not be able to create visits for clients listed as blocked.";
+
+/* Заблокировать профиль */
+"BLOCK_PROFILE" = "Add to blacklist";
+
+/* Синий */
+"BLUE" = "Blue";
+
+/* Коричневый */
+"BROWN" = "Brown";
+
+/* По количеству мест */
+"BY_NUMBER_OF_PLACES" = "By number of places";
+
+/* Отменить */
+"CANCEL" = "Cancel";
+
+/* Удалить выходной */
+"CANCEL_A_DAY_OFF" = "Cancel a day off";
+
+/* Клиент в чёрном списке */
+"CLIENT_IN_BLACKLIST" = "Client in the black list";
+
+/* Запись недоступна для клиентов, находящихся в чёрном списке. */
+"CLIENT_IN_BLACKLIST_DETAILS" = "Booking is not available for customers who are in the black list.";
+
+/* Клиент явился по записи */
+"CLIENT_IS_COME_BUTTON" = "The client came";
+
+/* Клиент не явился */
+"CLIENT_IS_NOT_COME" = "Client didn't come";
+
+/* Клиент не явился по записи */
+"CLIENT_IS_NOT_COME_BUTTON" = "The client didn't come";
+
+/* Дополнительная услуга будет вычеркнута из всех записей, где она указана */
+"CONFIRM_ADDITIONAL_SERVICE_DELETION_DESCRIPTION" = "The additional service will be deleted from all visits where it is specified";
+
+/* Удаление профиля клиента повлечет за собой удаление из календаря всех его записей! */
+"CONFIRM_CLIENT_DELETION_DESCRIPTION" = "Deleting a client profile will delete all of the client's visits!";
+
+/* Подтвердите удаление */
+"CONFIRM_DELETION" = "Confirm the deletion";
+
+/* Удаление услуги повлечет за собой удаление всех записей, связанных с этой услугой! */
+"CONFIRM_SERVICE_DELETION_DESCRIPTION" = "Deleting a service will delete all visits associated with that service!";
+
+/* День */
+"DAY" = "Day";
+
+/* Декабрь */
+"DECEMBER" = "December";
+
+/* декабря */
+"DECEMBER_GENITIVE" = "December";
+
+/* Контактная информация */
+"DEFAULT_CONTACT_INFO" = "Contact information";
+
+/* Прайс-лист */
+"DEFAULT_PRICE_LIST" = "Price list";
+
+/* Отображение записей в виджете отключено */
+"DISPLAYING_VISITS_IN_WIDGET_IS_DISABLED" = "Displaying visits in the widget is disabled";
+
+/* Февраль */
+"FEBRUARY" = "February";
+
+/* февраля */
+"FEBRUARY_GENITIVE" = "February";
+
+/* Пятница */
+"FRIDAY" = "Friday";
+
+/* пт */
+"FRIDAY_SHORT" = "Fri";
+
+/* с */
+"FROM" = "from";
+
+/* Зелёный */
+"GREEN" = "Green";
+
+/* час */
+"HOUR" = "hour";
+
+/* часа */
+"HOUR_GENITIVE" = "hours";
+
+/* часов */
+"HOUR_GENITIVE_PLURAL" = "hours";
+
+/* ч */
+"HOUR_SHORT" = "h";
+
+/* Не явился по записи */
+"IS_NOT_COME" = "Not come";
+
+/* Январь */
+"JANUARY" = "January";
+
+/* января */
+"JANUARY_GENITIVE" = "January";
+
+/* Июль */
+"JULY" = "July";
+
+/* июля */
+"JULY_GENITIVE" = "July";
+
+/* Июнь */
+"JUNE" = "June";
+
+/* июня */
+"JUNE_GENITIVE" = "June";
+
+/* Похоже, сегодня у Вас выходной */
+"LOOKS_LIKE_ITS_YOUR_DAY_OFF" = "Looks like it's your day off";
+
+/* Внести в список актуальных */
+"MAKE_ACTIVE" = "Make active";
+
+/* Сделать выходным днём */
+"MAKE_IT_A_DAY_OFF" = "Make a day off";
+
+/* Март */
+"MARCH" = "March";
+
+/* марта */
+"MARCH_GENITIVE" = "March";
+
+/* Выбрано максимальное количество дополнительных услуг */
+"MAXIMUM_NUMBER_OF_ADDITIONAL_SERVICES_IS_SELECTED" = "The maximum number of additional services is selected";
+
+/* Май */
+"MAY" = "May";
+
+/* мая */
+"MAY_GENITIVE" = "May";
+
+/* минута */
+"MINUTE" = "minute";
+
+/* минуты */
+"MINUTE_PLURAL" = "minutes";
+
+/* минут */
+"MINUTES_GENITIVE" = "minutes";
+
+/* мин */
+"MINUTES_SHORT" = "min";
+
+/* Понедельник */
+"MONDAY" = "Monday";
+
+/* пн */
+"MONDAY_SHORT" = "Mon";
+
+/* месяц */
+"MONTH" = "month";
+
+/* Месяц */
+"MONTH_UPPERCASE" = "Month";
+
+/* месяца */
+"MONTH_GENITIVE" = "months";
+
+/* месяцев */
+"MONTH_PLURAL" = "months";
+
+/* ближайшие 30 дн. */
+"NEXT_30_DAYS" = "the next 30 days.";
+
+/* ближайшие 7 дн. */
+"NEXT_7_DAYS" = "the next 7 days.";
+
+/* Дополнительные услуги не заданы */
+"NO_ADDITIONAL_SERVICES_FOUND" = "Additional services are not specified";
+
+/* Ноябрь */
+"NOVEMBER" = "November";
+
+/* ноября */
+"NOVEMBER_GENITIVE" = "November";
+
+/* Октябрь */
+"OCTOBER" = "October";
+
+/* октября */
+"OCTOBER_GENITIVE" = "October";
+
+/* выкл */
+"OFF" = "off";
+
+/* вкл */
+"ON" = "on";
+
+/* Оранжевый */
+"ORANGE" = "Orange";
+
+/* Доступ к медиатеке запрещён */
+"PHOTO_ACCESS_DENIED" = "Access to the photo library is prohibited";
+
+/* Вы можете разрешить доступ в настройках устройства */
+"PHOTO_ACCESS_DENIED_DESCRIPTION" = "You can allow access in your device settings";
+
+/* Выбрать фото */
+"PICK_PHOTO" = "Select a photo";
+
+/* запрещены */
+"PROHIBITED" = "prohibited";
+
+/* Лиловый */
+"PURPLE" = "Purple";
+
+/* Красный */
+"RED" = "Red";
+
+/* Удалить дополнительную услугу */
+"REMOVE_ADDITIONAL_SERVICE" = "Delete additional service";
+
+/* Удалить фото */
+"REMOVE_PHOTO" = "Delete photo";
+
+/* Удалить профиль */
+"REMOVE_PROFILE" = "Delete profile";
+
+/* Удалить услугу */
+"REMOVE_SERVICE" = "Delete service";
+
+/* Удалить запись */
+"REMOVE_VISIT" = "Delete visit";
+
+/* Суббота */
+"SATURDAY" = "Saturday";
+
+/* сб */
+"SATURDAY_SHORT" = "Sat";
+
+/* Необходимо указать имя и фамилию клиента */
+"SAVE_CLIENT_ERROR_DESCRIPTION" = "You must specify the client's first and last name";
+
+/* Ошибка сохранения */
+"SAVE_ERROR" = "Saving error";
+
+/* Необходимо указать название и стоимость услуги */
+"SAVE_SERVICE_ERROR_DESCRIPTION" = "You must specify the name and cost of the service";
+
+/* Необходимо указать клиента, для которого создается запись */
+"SAVE_VISIT_ERROR_CLIENT_NOT_SPECIFIED" = "Необходимо указать клиента, для которого создается запись";
+
+/* Необходимо указать стоимость услуги */
+"SAVE_VISIT_ERROR_PRICE_NOT_SPECIFIED" = "You must specify the client for which the visit is created";
+
+/* Поиск мест будет продолжаться до достижения заданного количества найденных мест */
+"SEARCH_BY_BY_NUMBER_OF_PLACES_DESCRIPTION" = "The search for places will continue until the specified number of found places is reached";
+
+/* Поиск мест будет выполняться на */
+"SEARCH_FOR_PLACES_WILL_BE_PERFORMED_FOR" = "Search for places will be performed for";
+
+/* Выберите дополнительные услуги */
+"SELECT_ADDITIONAL_SERVICES" = "Select additional services";
+
+/* Сентябрь */
+"SEPTEMBER" = "September";
+
+/* сентября */
+"SEPTEMBER_GENITIVE" = "September";
+
+/* Вы не сможете создавать записи для архивированных услуг */
+"SERVICE_ARCHIVING_ALERT" = "You will not be able to create records for archived services";
+
+/* Не задано ни одной услуги */
+"SERVICES_NOT_SPECIFIED" = "services are not specified";
+
+/* Задайте список предоставляемых услуг во вкладке «‎Настройки»‎ */
+"SERVICES_NOT_SPECIFIED_DETAILS" = "Set the list of services provided in the Settings tab";
+
+/* Воскресенье */
+"SUNDAY" = "Sunday";
+
+/* вс */
+"SUNDAY_SHORT" = "Sun";
+
+/* Четверг */
+"THURSDAY" = "Thursday";
+
+/* чт */
+"THURSDAY_SHORT" = "Thu";
+
+/* до */
+"TO" = "to";
+
+/* завтра */
+"TOMORROW" = "tomorrow";
+
+/* Вторник */
+"TUESDAY" = "Tuesday";
+
+/* вт */
+"TUESDAY_SHORT" = "Tue";
+
+/* Извлечь из чёрного списка */
+"UNBLOCK_CLIENT" = "Remove from the blacklist";
+
+/* по */
+"UNTIL" = "to";
+
+/* Свободные места */
+"UNOCCUPIED_PLACES" = "Unoccupied places";
+
+/* Свободных мест не найдено */
+"UNOCCUPIED_PLACES_WERE_NOT_FOUND" = "Unoccupied places were not found";
+
+/* Не указаны */
+"Unspecified" = "Unspecified";
+
+/* Запись отменена */
+"VISIT_CANCELLED" = "Visit cancelled";
+
+/* Клиент отменил запись */
+"VISIT_CANCELLED_BY_CLIENT" = "Visit cancelled by client";
+
+/* Клиент не отменил запись */
+"VISIT_NOT_CANCELLED_BY_CLIENT_BUTTON" = "The client did not cancel the visit";
+
+/* Записи */
+"VISITS" = "Visits";
+
+/* Среда */
+"WEDNESDAY" = "Wednesday";
+
+/* ср */
+"WEDNESDAY_SHORT" = "Wed";
+
+/* Неделя */
+"WEEK" = "Week";
+
+/* Выходной */
+"WEEKEND" = "Weekend";
+
+/* После окончания текущего рабочего дня виджет отобразит записи на завтра */
+"WIDGET_WILL_DISPLAY_TOMORROW_VISITS" = "After the end of the current working day, the widget will display the visits for tomorrow";
+
+/* Виджет будет отображать записи на текущий день */
+"WIDGET_WILL_DISPLAY_VISITS_FOR_TODAY" = "The widget will display visits for today";
+
+/* Рабочий день c */
+"WORKDAY_LABEL_START" = "Working day from";
+
+/* г. */
+"YEAR_SHORT" = "";
+
+/* Жёлтый */
+"YELLOW" = "Yellow";
+
+/* мес */
+"MONTH_SHORT" = "months";
