@@ -8,11 +8,9 @@
 
 import UIKit
 
-/**
- Контроллер календаря
- 
- *Massive View Controller во всей красе!*
- */
+// FIXME: Massive View Controller во всей красе
+
+/// Контроллер календаря
 class CalendarController: UIViewController {
     
     // MARK: - IBOutlets
@@ -49,7 +47,7 @@ class CalendarController: UIViewController {
 
     // MARK: - Private properties
     
-    /// Высота одной секции календаря
+    /// Высота секции календаря
     private var calendarPageHeight: CGFloat!
     /// Размеры ячейки календаря
     private var cellSize: CGSize!
@@ -123,7 +121,7 @@ class CalendarController: UIViewController {
         // Скрыть фон Navigation Bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        // Сбросить ккш данных календаря, т.к. они могли быть изменены из других вкладок приложения, а так же обновить список записей
+        // Сбросить кеш данных календаря, т.к. они могли быть изменены из других вкладок приложения, а так же обновить список записей
         calendarData.reset()
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits
@@ -226,7 +224,7 @@ class CalendarController: UIViewController {
                 action in self.updateIsWeekend(newValue: !isWeekend)
         }
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel) { action -> Void in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
         actionSheet.addAction(action)
         actionSheet.addAction(cancelAction)
         present(actionSheet, animated: true)
@@ -435,12 +433,13 @@ extension CalendarController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
+            // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
             if ServiceRepository.isEmpty {
                 let alert = UIAlertController(
                     title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
                     message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
                     preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alert, animated: true)
             }
             else if let destination = segue.destination as? UINavigationController,

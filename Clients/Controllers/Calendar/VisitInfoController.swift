@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер подробной информации о записи
 class VisitInfoController: UITableViewController {
     
     // MARK: - IBOutlets
@@ -34,6 +35,7 @@ class VisitInfoController: UITableViewController {
     @IBOutlet weak var notesLabel: UILabel!
     /// Массив меток названий дополнительных услуг
     @IBOutlet var additionalServiceLabels: [UILabel]!
+    
     
     // MARK: - Segue properties
     
@@ -65,7 +67,7 @@ class VisitInfoController: UITableViewController {
     
     // MARK: - Configure Subviews
     
-    /// Заполнить дочерние представления контроллера данными о записи
+    /// Заполнить контроллер данными о записи
     private func configureVisitInfo() {
         photoImageView.image = visit.client.photo ?? UIImage(named: "default_photo")
         nameLabel.text = "\(visit.client)"
@@ -122,7 +124,7 @@ extension VisitInfoController: SegueHandler {
     
     /// Возврат с экрана редактирования записи
     @IBAction func unwindFromEditVisitToVisitInfo(segue: UIStoryboardSegue) {
-        // Пезегрузить информацию о записи
+        // Перезагрузить информацию о записи
         configureVisitInfo()
         tableView.reloadData()
     }
@@ -136,7 +138,6 @@ extension VisitInfoController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 3 {
-            // Отобразить диалоговое меню
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let deleteAction = UIAlertAction(
                 title: NSLocalizedString("REMOVE_VISIT", comment: "Удалить запись"),
@@ -165,7 +166,6 @@ extension VisitInfoController {
             let cancelAction = UIAlertAction(
                 title: NSLocalizedString("CANCEL", comment: "Отменить"),
                 style: .cancel)
-            
             actionSheet.addAction(notComeAction)
             actionSheet.addAction(visitCancelledAction)
             actionSheet.addAction(deleteAction)

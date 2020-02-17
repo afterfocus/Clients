@@ -6,60 +6,87 @@
 //  Copyright © 2020 Максим Голов. All rights reserved.
 //
 
-// TODO: Требует документирования
+
 import UIKit
 
+/// Контроллер редактирования записи
 class EditVisitController: UITableViewController {
     
     // MARK: - IBOutlets
     
+    /// Фотография клиента
     @IBOutlet weak var photoImageView: UIImageView!
+    /// Метка имени и фамилии клиента
     @IBOutlet weak var nameLabel: UILabel!
+    /// Метка даты записи
     @IBOutlet weak var dateLabel: UILabel!
+    /// Метка времени начала записи
     @IBOutlet weak var timeLabel: UILabel!
+    /// Метка рабочего графика на выбранную дату
     @IBOutlet weak var scheduleLabel: UILabel!
+    /// Метка продолжительности записи
     @IBOutlet weak var durationLabel: UILabel!
+    /// Метка названия услуги
     @IBOutlet weak var serviceLabel: UILabel!
+    /// Индикатор цвета услуги
     @IBOutlet weak var serviceColorView: UIView!
+    /// Поле стоимости услуги
     @IBOutlet weak var costTextField: UITextField!
+    /// Метка количества выбранных доп.услуг
     @IBOutlet weak var additionalServicesCountLabel: UILabel!
+    /// Поле заметок
     @IBOutlet weak var notesTextField: UITextField!
-    
+    /// Селектор даты
     @IBOutlet weak var datePicker: UIDatePicker!
+    /// Селектор продолжительности
     @IBOutlet weak var durationPicker: UIDatePicker!
+    /// Селектор услуги
     @IBOutlet weak var servicePicker: UIPickerView!
+    /// Переключатель, определяющий отменена ли запись клиентом
     @IBOutlet weak var visitCancelledSwitch: UISwitch!
+    /// Переключатель, определяющий не явился ли клиент по записи
     @IBOutlet weak var clientNotComeSwitch: UISwitch!
     
     
     // MARK: - Segue properties
     
+    /// Клиент
     var client: Client?
+    /// Запись
     var visit: Visit?
+    /// Дата записи
     var date = Date.today
+    /// Время начала записи
     var time = Time(hours: 9)
+    /// Выбранные дополнительные услуги
     var additionalServices = Set<AdditionalService>() {
         didSet {
             additionalServicesCountLabel.text = additionalServices.isEmpty ?
             NSLocalizedString("Unspecified", comment: "Не указаны") : "\(additionalServices.count)"
         }
     }
+    /// Куда возвращаться после завершения редактирования
     var unwindSegue: SegueIdentifier!
+    
     
     // MARK: - Private properties
     
+    /// Данные селектора услуг
     private var servicePickerData: [Service]!
+    /// Открыт ли селектор даты
     private var isDatePickerShown = false {
         didSet {
             dateLabel.textColor = isDatePickerShown ? .red : .label
             timeLabel.textColor = isDatePickerShown ? .red : .label
         }
     }
+    /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
         didSet {
             durationLabel.textColor = isDurationPickerShown ? .red : .label
         }
     }
+    /// Открыт ли селектор услуг
     private var isServicePickerShown = false {
         didSet {
             serviceLabel.textColor = isServicePickerShown ? .red : .label
@@ -70,6 +97,7 @@ class EditVisitController: UITableViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        // Закрывать клавиатуру при нажатии вне полей
         hideKeyboardWhenTappedAround()
         
         servicePickerData = ServiceRepository.activeServices

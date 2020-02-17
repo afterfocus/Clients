@@ -8,11 +8,12 @@
 
 import UIKit
 
+/// Контроллер результатов поиска
 class SearchResultsController: UITableViewController {
     
     // MARK: - Segue properties
     
-    /// Идентификатор выбранной записи
+    /// Выбранная запись
     var selectedVisit: Visit? {
         if let indexPath = tableView.indexPathForSelectedRow {
             return tableData[keys[indexPath.section]]?[indexPath.row]

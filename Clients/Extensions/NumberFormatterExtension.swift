@@ -23,7 +23,7 @@ extension NumberFormatter {
         return currencyNumberFormatter.string(from: NSNumber(value: value))!
     }
     
-    /// Конвентирует строку, содержащую стоимость (0-2 знака после запятой) со знаком национальной валюты, в число с плавающей точкой
+    /// Конвентирует строку, содержащую стоимость со знаком национальной валюты, в число с плавающей точкой
     static func convertToFloat(_ value: String) -> Float {
         if currencyNumberFormatter == nil {
             currencyNumberFormatter = NumberFormatter()

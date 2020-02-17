@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Контроллер выбора параметров поиска
 class SearchParametersController: UITableViewController {
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var durationPicker: UIDatePicker!
@@ -18,22 +19,29 @@ class SearchParametersController: UITableViewController {
     
     // MARK: - Segue properties
     
+    /// Начало интервала поиска
     var startDate: Date!
+    /// Конец интервала поиска
     var endDate: Date!
+    /// Требуемая продолжительность
     var requiredDuration: Time!
+    
     
     // MARK: - Private properties
     
+    /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
         didSet {
             durationLabel.textColor = isDurationPickerShown ? .red : .label
         }
     }
+    /// Открыт ли селектор начала интервала
     private var isStartDatePickerShown = false {
         didSet {
             startDateLabel.textColor = isStartDatePickerShown ? .red : .label
         }
     }
+    /// Открыт ли селектор конца интервала
     private var isEndDatePickerShown = false {
         didSet {
             endDateLabel.textColor = isEndDatePickerShown ? .red : .label
@@ -42,6 +50,7 @@ class SearchParametersController: UITableViewController {
     
     
     override func viewDidLoad() {
+        // Установка начальных значений
         durationPicker.set(time: requiredDuration)
         startDatePicker.set(date: startDate, time: nil)
         endDatePicker.set(date: endDate, time: nil)
@@ -62,6 +71,7 @@ class SearchParametersController: UITableViewController {
         case startDatePicker:
             startDate = Date(foundationDate: sender.date)
             startDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+            // Если конец интервала меньше начала интервала, изменить значение селектора конца интервала
             if endDatePicker.date < sender.date {
                 endDate = Date(foundationDate: sender.date)
                 endDatePicker.date = sender.date
@@ -70,6 +80,7 @@ class SearchParametersController: UITableViewController {
         case endDatePicker:
             endDate = Date(foundationDate: sender.date)
             endDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+            // Если начало интервала больше конца интервала, изменить значение селектора начала интервала
             if startDatePicker.date > sender.date {
                 startDate = Date(foundationDate: sender.date)
                 startDatePicker.date = sender.date
@@ -100,17 +111,21 @@ extension SearchParametersController: SegueHandler {
 // MARK: - UITableViewDelegate
 
 extension SearchParametersController {
+    // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch (indexPath.section, indexPath.row) {
+        // Ячейка продолжительности
         case (0, 0):
             isDurationPickerShown = !isDurationPickerShown
             isStartDatePickerShown = false
             isEndDatePickerShown = false
+        // Ячейка начала интервала
         case (1, 0):
             isDurationPickerShown = false
             isStartDatePickerShown = !isStartDatePickerShown
             isEndDatePickerShown = false
+        // Ячейка конца интервала
         case (2, 0):
             isDurationPickerShown = false
             isStartDatePickerShown = false
@@ -120,6 +135,7 @@ extension SearchParametersController {
         tableView.performBatchUpdates(nil)
     }
     
+    // Высота ячейки таблицы
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {
         case (0, 1): return isDurationPickerShown ? 150 : 0
