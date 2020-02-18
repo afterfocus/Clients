@@ -28,6 +28,7 @@ class ClientProfileController: UIViewController {
     /// Клиент
     var client: Client!
     
+    
     // MARK: - Private properties
     
     /// Словарь всех записей клиента, сгруппированных по году
@@ -35,6 +36,11 @@ class ClientProfileController: UIViewController {
         didSet {
             tableData = visits
             keys = visits.keys.sorted(by: >)
+            if let service = previousServiceFilter {
+                keys.forEach {
+                    tableData[$0]?.removeAll { $0.service != service }
+                }
+            }
         }
     }
     /// Данные списка записей, сгруппированные по году
@@ -42,10 +48,11 @@ class ClientProfileController: UIViewController {
     /// Ключи к словарю данных списка записей
     private var keys = [Int]()
     
+    private var services: [Service]!
     /// Строка для метки первой секции фильтра списка записей
     private var allString = NSLocalizedString("ALL", comment: "Все")
     /// Предыдущее значение фильтра списка записей
-    private var previousServiceName = NSLocalizedString("ALL", comment: "Все")
+    private var previousServiceFilter: Service? = nil
     
 
     // MARK: - View Life Cycle
@@ -58,12 +65,15 @@ class ClientProfileController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         // Скрыть фон NavigationBar
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
 
+        // Если клиент не был удалён
         if client?.managedObjectContext != nil {
             // Получить из БД записи клиента
             visits = client.visitsByYear
+            // Получить из БД услуги, которыми пользовался клиент
+            services = client.usedServices
             // Отобразить данные в дочерних представлениях
             configureSubviews()
         } else {
@@ -96,19 +106,19 @@ class ClientProfileController: UIViewController {
         UIApplication.shared.open(URL(string: client.vk)!)
     }
     
-    /// Изменение фильтра списка записей
+    /// Изменение значения фильтра списка записей
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         /// Список индексов строк, требующих обновления
         var indexes = [IndexPath]()
         /// Новое значение фильтра
-        let newServiceName = sender.titleForSegment(at: sender.selectedSegmentIndex)!
+        let newServiceFilter = sender.selectedSegmentIndex == 0 ? nil : services[sender.selectedSegmentIndex - 1]
         
         // Если фильтр сброшен на начальное значение
-        if sender.selectedSegmentIndex == 0 && previousServiceName != allString {
+        if newServiceFilter == nil && previousServiceFilter != nil {
             // Перебрать словарь всех записей и запомнить индексы тех, что требуется вернуть в ранее отфильтрованный список
             for (section, key) in keys.enumerated() {
                 for (row, visit) in visits[key]!.enumerated() {
-                    if visit.service.name != previousServiceName {
+                    if visit.service != previousServiceFilter {
                         tableData[key]!.insert(visit, at: row)
                         indexes.append(IndexPath(row: row, section: section))
                     }
@@ -119,33 +129,31 @@ class ClientProfileController: UIViewController {
         }
         else {
             // Если фильтр переключен из начального значения
-            if previousServiceName == allString {
+            if previousServiceFilter == nil {
                 // Перебрать словарь всех записей и запомнить индексы тех, что требуется отфильтровать из списка
                 for (section, key) in keys.enumerated() {
                     for (row, visit) in visits[key]!.enumerated() {
-                        if visit.service.name != newServiceName {
+                        if visit.service != newServiceFilter {
                             indexes.append(IndexPath(row: row, section: section))
                         }
                     }
-                    tableData[key]!.removeAll { $0.service.name != newServiceName }
+                    tableData[key]!.removeAll { $0.service != newServiceFilter }
                 }
                 // Удалить отфильтрованные строки
                 visitHistoryTable.deleteRows(at: indexes, with: .top)
             }
             // Если фильтр переключен НЕ из начального значения
-            else if sender.selectedSegmentIndex != 0 {
+            else if newServiceFilter != nil {
                 // Перебрать словарь всех записей и заменить старые отфильтрованные данные новыми
                 keys.forEach {
-                    tableData[$0] = visits[$0]!.filter {
-                        $0.service.name == newServiceName
-                    }
+                    tableData[$0] = visits[$0]!.filter { $0.service == newServiceFilter }
                 }
                 // Перезагрузить полностью все секции
                 visitHistoryTable.reloadSections(IndexSet(0..<keys.count), with: .none)
             }
         }
         // Запомнить текущее значение фильтра
-        previousServiceName = newServiceName
+        previousServiceFilter = newServiceFilter
     }
     
     
@@ -168,7 +176,7 @@ class ClientProfileController: UIViewController {
         // Удалить все секции и вставить новые
         segmentedControl.removeAllSegments()
         segmentedControl.insertSegment(withTitle: allString, at: 0, animated: false)
-        client.usedServices.forEach {
+        services.forEach {
             segmentedControl.insertSegment(withTitle: $0.name, at: segmentedControl.numberOfSegments, animated: false)
         }
         
@@ -178,7 +186,7 @@ class ClientProfileController: UIViewController {
         } else {
             // Иначе сбросить фильтр
             segmentedControl.selectedSegmentIndex = 0
-            previousServiceName = allString
+            previousServiceFilter = nil
         }
     }
 }
@@ -201,15 +209,15 @@ extension ClientProfileController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
+            // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
             if ServiceRepository.isEmpty {
                 let alert = UIAlertController(
                     title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
                     message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
                     preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true)
-            }
-            else if let destination = segue.destination as? UINavigationController,
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                present(alert, animated: true)
+            } else if let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditVisitController {
                 // Отправить клиента в EditVisitController
                 target.client = client
@@ -245,6 +253,7 @@ extension ClientProfileController: SegueHandler {
     /// Возврат к профилю клиента с экрана создания записи
     @IBAction func unwindFromAddVisitToClientProfile(segue: UIStoryboardSegue) {
         visits = client.visitsByYear
+        services = client.usedServices
         configureSegmentedControl()
         visitHistoryTable.reloadData()
     }

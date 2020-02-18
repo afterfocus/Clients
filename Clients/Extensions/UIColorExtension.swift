@@ -19,26 +19,26 @@ extension UIColor {
     
     var name: String {
         switch self {
-        case UIColor.red: return NSLocalizedString("RED", comment: "Красный")
-        case UIColor.orange: return NSLocalizedString("ORANGE", comment: "Оранжевый")
-        case UIColor.yellow: return NSLocalizedString("YELLOW", comment: "Жёлтый")
-        case UIColor.green: return NSLocalizedString("GREEN", comment: "Зелёный")
-        case UIColor.blue: return NSLocalizedString("BLUE", comment: "Синий")
-        case UIColor.purple: return NSLocalizedString("PURPLE", comment: "Лиловый")
-        case UIColor.brown: return NSLocalizedString("BROWN", comment: "Коричневый")
+        case .red: return NSLocalizedString("RED", comment: "Красный")
+        case .orange: return NSLocalizedString("ORANGE", comment: "Оранжевый")
+        case .yellow: return NSLocalizedString("YELLOW", comment: "Жёлтый")
+        case .green: return NSLocalizedString("GREEN", comment: "Зелёный")
+        case .blue: return NSLocalizedString("BLUE", comment: "Синий")
+        case .purple: return NSLocalizedString("PURPLE", comment: "Лиловый")
+        case .brown: return NSLocalizedString("BROWN", comment: "Коричневый")
         default: return "Unknown Color"
         }
     }
     
     var id: Int {
         switch self {
-        case UIColor.red: return 0
-        case UIColor.orange: return 1
-        case UIColor.yellow: return 2
-        case UIColor.green: return 3
-        case UIColor.blue: return 4
-        case UIColor.purple: return 5
-        case UIColor.brown: return 6
+        case .red: return 0
+        case .orange: return 1
+        case .yellow: return 2
+        case .green: return 3
+        case .blue: return 4
+        case .purple: return 5
+        case .brown: return 6
         default: return -1
         }
     }

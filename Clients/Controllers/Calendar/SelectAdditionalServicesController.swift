@@ -8,21 +8,24 @@
 
 import UIKit
 
-// TODO: Требует документирования
+/// Контроллер выбора дополнительных услуг
 class SelectAdditionalServicesController: UITableViewController {
     
     // MARK: - Segue properties
 
+    /// Родительская услуга
     var service: Service! {
         didSet {
             tableData = service.additionalServicesSorted
         }
     }
+    /// Набор выбранных доп.услуг
     var selectedAdditionalServices: Set<AdditionalService>!
 
 
     // MARK: - Private properties
 
+    /// Данные таблицы доп.услуг
     private var tableData: [AdditionalService]!
 }
 
@@ -31,6 +34,7 @@ class SelectAdditionalServicesController: UITableViewController {
 
 extension SelectAdditionalServicesController: SegueHandler {
     enum SegueIdentifier: String {
+        /// Вернуться к экрану редактирования записи
         case unwindFromSelectAdditionalVisitsToEditVisit
     }
     
@@ -49,9 +53,12 @@ extension SelectAdditionalServicesController: SegueHandler {
 // MARK: - UITableViewDelegate
 
 extension SelectAdditionalServicesController {
+    // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        // Если ячейка ранее не была выбрана
         if tableView.cellForRow(at: indexPath)!.accessoryType == .none {
+            // И если выбрано менее 10 доп.услуг, отметить ячейку галочкой и добавить доп.услугу в набор выбранных
             if selectedAdditionalServices.count < 10 {
                 selectedAdditionalServices.insert(tableData[indexPath.row])
                 tableView.cellForRow(at: indexPath)!.accessoryType = .checkmark
@@ -64,6 +71,7 @@ extension SelectAdditionalServicesController {
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
+        // Если ячейка ранее была выбрана, убрать галочку с ячейки и удалить доп.услугу из набора выбранных
         } else {
             selectedAdditionalServices.remove(tableData[indexPath.row])
             tableView.cellForRow(at: indexPath)!.accessoryType = .none
@@ -75,7 +83,6 @@ extension SelectAdditionalServicesController {
 // MARK: - UITableViewDataSource
 
 extension SelectAdditionalServicesController {
-    
     // Количество элементов в секции таблицы
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.isEmpty ? 1 : tableData.count
@@ -83,6 +90,7 @@ extension SelectAdditionalServicesController {
 
     // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Если доп.услуги не заданы, отобразить соответствующее сообщение
         if tableData.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
             cell.label.text = NSLocalizedString("ADDITIONAL_SERVICES_ARE_NOT_SPECIFIED", comment: "Дополнительные услуги не заданы")
@@ -96,7 +104,7 @@ extension SelectAdditionalServicesController {
         }
     }
     
-
+    // Заголовок секции таблицы
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if tableData.isEmpty {
             return ""

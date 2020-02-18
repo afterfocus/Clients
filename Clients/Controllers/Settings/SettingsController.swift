@@ -10,14 +10,18 @@ import UIKit
 
 // TODO: Требует документирования
 
+/// Контроллер экрана Настройки
 class SettingsControler: UITableViewController {
-    
+    /// Индикаторы предоставляемых услуг
     @IBOutlet weak var activeServiceIndicatorsStackView: UIStackView!
+    /// Индикаторы архивных услуг
     @IBOutlet weak var archiveServiceIndicatorsStackView: UIStackView!
 
+    /// Метки рабочего графика
     @IBOutlet var scheduleLabels: [UILabel]!
     
-    @IBOutlet weak var widgetSearchLengthLabel: UILabel!
+    ///
+    @IBOutlet weak var widgetSearchDurationLabel: UILabel!
     @IBOutlet weak var widgetSearchRangeLabel: UILabel!
     
     @IBOutlet weak var clientArchivingPeriodLabel: UILabel!
@@ -42,7 +46,7 @@ class SettingsControler: UITableViewController {
             configureScheduleLabel(label, weekday: Weekday(rawValue: index)!)
         }
         
-        widgetSearchLengthLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        widgetSearchDurationLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
         widgetSearchRangeLabel.text = Settings.widgetPlacesSearchRange.string
         
         let months = Settings.clientArchivingPeriod

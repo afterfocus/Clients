@@ -1238,7 +1238,7 @@
                         <outlet property="displayingClientNotComeVisitsLabel" destination="R8L-ng-eRQ" id="UK3-Ag-DTN"/>
                         <outlet property="overtimeAllowedLabel" destination="2fp-mv-iUV" id="mox-GN-esE"/>
                         <outlet property="shouldBlockIncomingCallsLabel" destination="WWm-RU-o4B" id="8wW-Dj-nQI"/>
-                        <outlet property="widgetSearchLengthLabel" destination="zxU-Ur-8s8" id="aiP-Fe-MGz"/>
+                        <outlet property="widgetSearchDurationLabel" destination="zxU-Ur-8s8" id="SRB-DO-Boo"/>
                         <outlet property="widgetSearchRangeLabel" destination="G6c-oK-QwO" id="zlI-7e-Uj7"/>
                         <outletCollection property="scheduleLabels" destination="mlo-ML-2u6" collectionClass="NSMutableArray" id="a91-Ho-dPC"/>
                         <outletCollection property="scheduleLabels" destination="iz5-6i-3Dw" collectionClass="NSMutableArray" id="fwz-vC-1Ax"/>

@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 
+/// Контроллер редактирования клиента
 class EditClientController: UITableViewController, UINavigationControllerDelegate {
     
     // MARK: - IBOutlets
@@ -54,7 +55,6 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     
     /// Определяет, выбрана ли фотография
     private var isPhotoPicked = false {
-        /// Если выбрана, прячет кнопку выбора и отображает кнопку смены/удаления фотографии
         didSet {
             pickPhotoButton.isHidden = isPhotoPicked
             changePhotoButton.isHidden = !isPhotoPicked
@@ -136,7 +136,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
         } else {
-            /// Обновленный профиль клиента
+            /// Обновить существующий профиль клиента
             if let client = client {
                 client.photo = isPhotoPicked ? photoImageView.image! : nil
                 client.surname = surnameTextField.text!
@@ -146,6 +146,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                 client.notes = notesTextField.text!
                 client.isBlocked = isBlocked
             } else {
+                // Или создать новый
                 _ = Client(
                     photo: isPhotoPicked ? photoImageView.image! : nil,
                     surname: surnameTextField.text!,
@@ -174,16 +175,15 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     @IBAction func pickPhotoButtonPressed(_ sender: Any) {
         // Проверить наличие доступа к медиатеке
         switch PHPhotoLibrary.authorizationStatus() {
-            // Если доступ разрешен, вызвать UIImagePickerController
-        case .authorized:
-            showImagePicker()
-            // Если доступ не определен, запросить доступ
+        // Если доступ разрешен, вызвать UIImagePickerController
+        case .authorized: showImagePicker()
+        // Если доступ не определен, запросить доступ
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization {
                 // На основании ответа пользователя вызвать UIImagePickerController или отобразить сообщение о запрете доступа
                 $0 == .authorized ? self.showImagePicker() : self.showAccessDeniedAlert()
             }
-            // Если доступ запрещен, отобразить сообщение о запрете доступа
+        // Если доступ запрещен, отобразить сообщение о запрете доступа
         case .denied, .restricted: showAccessDeniedAlert()
         @unknown default: fatalError()
         }
@@ -329,8 +329,7 @@ extension EditClientController {
                     actionSheet.addAction(blockAction)
                     actionSheet.addAction(cancel)
                     present(actionSheet, animated: true)
-                }
-                else {
+                } else {
                     isBlocked = false
                 }
             }
@@ -353,7 +352,7 @@ extension EditClientController {
                                 CoreDataManager.instance.saveContext()
                                 self.performSegue(withIdentifier: .unwindFromEditClientToClientProfile, sender: self)
                             }
-                         let cancel = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
+                        let cancel = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
                         comfirmSheet.addAction(comfirm)
                         comfirmSheet.addAction(cancel)
                         self.present(comfirmSheet, animated: true)

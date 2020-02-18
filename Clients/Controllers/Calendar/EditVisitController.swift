@@ -148,6 +148,7 @@ class EditVisitController: UITableViewController {
 
     // MARK: - IBActions
     
+    /// Нажатие на кнопку сохранения
     @IBAction func doneButtonPressed(_ sender: Any) {
         costTextField.resignFirstResponder()
         if client == nil || costTextField.text!.isEmpty {
@@ -161,6 +162,7 @@ class EditVisitController: UITableViewController {
         }
         else {
             let service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
+            // Обновить существующую запись
             if let visit = visit {
                 visit.client = client!
                 visit.date = Date(foundationDate: datePicker.date)
@@ -172,7 +174,9 @@ class EditVisitController: UITableViewController {
                 visit.notes = notesTextField.text!
                 visit.isCancelled = visitCancelledSwitch.isOn
                 visit.isClientNotCome = clientNotComeSwitch.isOn
-            } else {
+            }
+            // Или создать новую
+            else {
                 _ = Visit(
                     client: client!,
                     date: Date(foundationDate: datePicker.date),
@@ -201,11 +205,17 @@ class EditVisitController: UITableViewController {
 
 extension EditVisitController: SegueHandler {
     enum SegueIdentifier: String {
+        /// Перейти к выбору клиента
         case showSelectClient
+        /// Перейти к выбору доп.услуг
         case showSelectAdditionalServices
+        /// Вернуться к экрану Сегодня
         case unwindFromAddVisitToToday
+        /// Вернуться к профилю клиента
         case unwindFromAddVisitToClientProfile
+        /// Вернуться к календарю
         case unwindFromAddVisitToCalendar
+        /// Вернуться к информации о записи
         case unwindFromEditVisitToVisitInfo
     }
     
@@ -228,11 +238,14 @@ extension EditVisitController: SegueHandler {
         }
     }
     
+    /// Возврат с экрана выбора клиента
     @IBAction func unwindFromClientTableToEditVisit(segue: UIStoryboardSegue) {
         configureClientInfo(with: client!)
     }
     
+    /// Возврат с экрана выбора доп.услуг
     @IBAction func unwindFromSelectAdditionalVisitsToEditVisit(segue: UIStoryboardSegue) {
+        // Обновить стоимость и продолжительность
         let selectedService = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
         var cost = selectedService.cost
         var duration = selectedService.duration
@@ -252,7 +265,9 @@ extension EditVisitController: SegueHandler {
 // MARK: - UITextFieldDelegate
 
 extension EditVisitController: UITextFieldDelegate {
+    /// Пользователь начал редактирование поля
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Закрыть все селекторы
         isDatePickerShown = false
         isDurationPickerShown = false
         isServicePickerShown = false
@@ -263,8 +278,10 @@ extension EditVisitController: UITextFieldDelegate {
         }
     }
     
+    /// Пользователь завершил редактирование поля
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField === costTextField {
+            // Очистить поле, если не удается конвертировать введенную строку в число
             if let cost = Float(textField.text!.replacingOccurrences(of: ",", with: ".")) {
                 textField.text = NumberFormatter.convertToCurrency(cost)
             } else {
@@ -278,24 +295,29 @@ extension EditVisitController: UITextFieldDelegate {
 // MARK: - UIPickerViewDelegate
 
 extension EditVisitController: UIPickerViewDelegate {
+    // Заголовок строки селектора услуг
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return servicePickerData[row].name
     }
     
+    // Изменено значение селектора услуг
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let service = servicePickerData[row]
         serviceLabel.text = service.name
         serviceColorView.backgroundColor = service.color
-        
+        // Очистить выбранные доп.услуги
         additionalServices = []
+        // Установить стоимость по умолчанию
         costTextField.text = NumberFormatter.convertToCurrency(service.cost)
-        
+        // Установить продолжительность по умолчанию
         durationPicker.set(time: service.duration)
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
     
+    // Изменено значение селектора даты и времени
     @IBAction func dateValueChanged(_ sender: UIDatePicker) {
         let date = Date(foundationDate: sender.date)
+        // Обновить текст метки рабочего графика
         if WeekendRepository.isWeekend(date) {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
@@ -306,6 +328,7 @@ extension EditVisitController: UIPickerViewDelegate {
         timeLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .none, timeStyle: .short)
     }
     
+    // Изменено значение селектора продолжительности
     @IBAction func durationValueChanged(_ sender: UIDatePicker) {
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
@@ -315,10 +338,12 @@ extension EditVisitController: UIPickerViewDelegate {
 // MARK: - UIPickerViewDataSource
 
 extension EditVisitController: UIPickerViewDataSource {
+    // Количество компонентов селектора услуг
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
     }
     
+    // Количество строк селектора услуг
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return servicePickerData.count
     }
@@ -328,21 +353,22 @@ extension EditVisitController: UIPickerViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension EditVisitController {
+    // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch (indexPath.section, indexPath.row) {
+        // Ячейка даты и времени
         case (0, 1):
-            // Нажатие на ячейку даты раскрывает datePicker
             isDatePickerShown = !isDatePickerShown
             isDurationPickerShown = false
             isServicePickerShown = false
+        // Ячейка услуги
         case (0, 3):
-            // Нажатие на ячейку услуги раскрывает servicePicker
             isServicePickerShown = !isServicePickerShown
             isDatePickerShown = false
             isDurationPickerShown = false
+        // Ячейка продолжительности
         case (1, 0):
-            // Нажатие на ячейку продолжительности раскрывает lengthPicker
             isDurationPickerShown = !isDurationPickerShown
             isDatePickerShown = false
             isServicePickerShown = false
@@ -353,12 +379,17 @@ extension EditVisitController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {
+        // Ячейка селектора даты и времени
         case (0, 2): return isDatePickerShown ? 210 : 0
+        // Ячейка селектора услуг
         case (0, 4): return isServicePickerShown ? 150 : 0
+        // Ячейка селектора продолжительности
         case (1, 1): return isDurationPickerShown ? 150 : 0
+        // Ячейки переключателей при создании новой записи скрыты
         case (2, 1), (2, 2):
             return visit != nil ? super.tableView(tableView, heightForRowAt: indexPath) : 0
-        default: return super.tableView(tableView, heightForRowAt: indexPath)
+        default:
+            return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
 }

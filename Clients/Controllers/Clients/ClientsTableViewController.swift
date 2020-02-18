@@ -16,13 +16,16 @@ class ClientsTableViewController: UITableViewController {
     /// Фильтр [Активные/Архивные]
     @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     
+    
     // MARK: - Segue properties
     
     /// Находится ли в режиме выбора клиента для записи
     var inSelectionMode = false
     
+    
     // MARK: - Private properties
     
+    /// Словари активных и архивных клиентов, сгруппированные по первой букве фамилии
     private var clients: (active: [String: [Client]], archive: [String: [Client]])!
     /// Данные таблицы, сгруппированные по первой букве фамилии
     private var tableData = [String: [Client]]() {
@@ -52,6 +55,7 @@ class ClientsTableViewController: UITableViewController {
         // Заполнить данные таблицы из словаря активных или архивных клиентов
         tableData = filterSegmentedControl.selectedSegmentIndex == 0 ? clients.active : clients.archive
     }
+    
     
     // MARK: IBActions
     
@@ -117,8 +121,8 @@ extension ClientsTableViewController: SegueHandler {
     
     /// Возврат к списку клиентов после создания нового профиля клиента
     @IBAction func unwindFromAddClientToClientsTable(segue: UIStoryboardSegue) {
-        clients = ClientRepository.clients
         // Обновить данные таблицы
+        clients = ClientRepository.clients
         tableData = filterSegmentedControl.selectedSegmentIndex == 0 ? clients.active : clients.archive
     }
 }
@@ -127,7 +131,7 @@ extension ClientsTableViewController: SegueHandler {
 // MARK: - UITableViewDelegate
 
 extension ClientsTableViewController {
-    // Нажатие на элемент таблицы
+    // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Если контроллер находится в режиме выбора клиента для записи
         if inSelectionMode {
@@ -155,7 +159,6 @@ extension ClientsTableViewController {
 // MARK: - UITableViewDataSource
 
 extension ClientsTableViewController {
-    
     // Количество элементов в секции таблицы
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData[keys[section]]!.count
