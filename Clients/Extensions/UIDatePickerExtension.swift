@@ -9,17 +9,14 @@
 import UIKit
 
 extension DateComponents {
-    fileprivate init(date: Date?, time: Time?) {
-        self.init()
-        if let date = date {
-            year = Int(date.year)
-            month = Int(date.month.rawValue)
-            day = Int(date.day)
-        }
-        if let time = time {
-            hour = Int(time.hours)
-            minute = Int(time.minutes)
-        }
+    fileprivate init(date: Date?, time: Time? = nil) {
+        self.init(
+            year: date?.year,
+            month: date?.month.rawValue,
+            day: date?.day,
+            hour: time?.hours,
+            minute: time?.minutes
+        )
     }
 }
 

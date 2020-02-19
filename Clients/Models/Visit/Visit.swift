@@ -38,7 +38,7 @@ public class Visit: NSManagedObject {
     
     /// Время окончания
     var endTime: Time {
-        return time + duration
+        time + duration
     }
     
     /// Продолжительность
@@ -54,7 +54,7 @@ public class Visit: NSManagedObject {
     
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
-        return additionalServices.sorted { $0.name < $1.name }
+        additionalServices.sorted { $0.name < $1.name }
     }
     
     convenience init(client: Client, date: Date, time: Time, service: Service, cost: Float, duration: Time, additionalServices: Set<AdditionalService> = [], notes: String = "", isCancelled: Bool = false, isClientNotCome: Bool = false) {

@@ -26,7 +26,7 @@ public class AdditionalService: NSManagedObject {
     
     /// Название дополнительной услуги
     override public var description: String {
-        return "\(name)"
+        "\(name)"
     }
     
     convenience init(name: String, cost: Float, duration: Time) {

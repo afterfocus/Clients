@@ -31,16 +31,16 @@ struct Time: CustomStringConvertible {
     private(set) var minutes: Int
     /// Текущее время
     static var currentTime: Time {
-        return Time(foundationDate: Foundation.Date())
+        Time(foundationDate: Foundation.Date())
     }
     
     /// Строкове представление времени в кратком стиле (HH:mm)
     var description: String {
-        return string(style: .short)
+        string(style: .short)
     }
     
     var modulo: Time {
-        return Time(hours: abs(hours), minutes: abs(minutes))
+        Time(hours: abs(hours), minutes: abs(minutes))
     }
     
     /// Получить локализованное строковое представление времени в формате `style`

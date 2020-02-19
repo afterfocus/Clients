@@ -34,30 +34,35 @@ class DayData {
 /// Контейнер, содержащий данные о календарном месяце
 class MonthData {
     /// Номер дня недели первого дня месяца
-    var firstDay: Int {
-        return monthAndYear.firstDayOfMonth
-    }
+    let firstDay: Int
+    
+    // Месяц и год, которым соответствует объект
+    fileprivate let month: Int
+    fileprivate let year: Int
     
     /// Количество дней в месяце
     var numberOfDays: Int {
-        return days.count
+        days.count
     }
     
-    /// Месяц и год, которым соответствует объект
-    fileprivate let monthAndYear: Date
+    var monthAndYear: Date {
+        Date(month: month, year: year)
+    }
     
     /// Массив данных о календарных днях.
     /// Данные по каждому дню извлекаются из БД отдельно только в момент первого обращения к ним и сохраняются до удаления контейнера или вызова метода `reset()`
     private var days: [DayData?]
     
     init(month: Int, year: Int) {
-        monthAndYear = Date(month: month, year: year)
-        days = Array(repeating: nil, count: monthAndYear.numberOfDaysInMonth)
+        self.month = month
+        self.year = year
+        firstDay = Date.firstDayOf(month, year: year)
+        days = Array(repeating: nil, count: Date.numberOfDaysIn(month, year: year))
     }
     
     /// Получить полную дату, соответствующую числу месяца `day`
     fileprivate func dateFor(day: Int) -> Date {
-        return Date(day: day, month: monthAndYear.month, year: monthAndYear.year)
+        return Date(day: day, month: month, year: year)
     }
     
     /// Очистить кеш данных
@@ -91,7 +96,7 @@ class CalendarData {
     private var months: [MonthData]
     /// Количество месяцев данных
     var count: Int {
-        return months.count
+        months.count
     }
     
     init(startYear: Int, numberOfYears: Int) {

@@ -36,12 +36,12 @@ public class Service: NSManagedObject {
     
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
-        return additionalServices.sorted { $0.name < $1.name }
+        additionalServices.sorted { $0.name < $1.name }
     }
     
     /// Название услуги
     override public var description: String {
-        return "\(name)"
+        "\(name)"
     }
     
     convenience init(color: UIColor, name: String, cost: Float, duration: Time, isArchive: Bool = false, additionalServices: Set<AdditionalService> = []) {

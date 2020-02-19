@@ -133,58 +133,37 @@ enum DateStyle {
 
 /// Дата
 struct Date: CustomStringConvertible {
-    /// Системный календарь
-    static let calendar = Calendar.current
-    
-    // FIXME: ⚠️ Сегодняшняя дата подменена здесь ⚠️
-    /// Дата, соответвующая сегодняшнему дню
-    static let today = Date(day: 26, month: 3, year: 2019)
-    //static let today = Date(foundationDate: Foundation.Date())
-   
     /// День
-    private(set) var day: Int
+    let day: Int
     /// Месяц
-    private(set) var month: Month
+    let month: Month
     /// Год
-    private(set) var year: Int
+    let year: Int
     
     /// День недели
     var dayOfWeek: Weekday {
-        let date = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
-        return Weekday(rawValue: Date.calendar.component(.weekday, from: date) - 1)!
-    }
-    
-    /// Количество дней в месяце
-    var numberOfDaysInMonth: Int {
-        let date = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue))!
-        return Date.calendar.range(of: .day, in: .month, for: date)!.count
-    }
-    
-    /// Первый день месяца
-    var firstDayOfMonth: Int {
-        let date = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue))!
-        let day = Date.calendar.component(.weekday, from: date) - 2
-        return day == -1 ? 6 : day
+        let foundationDate = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
+        return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
     }
     
     /// Локализованное строковое представление даты в формате "понедельник, 13 января 2020 г."
     var description: String {
-        return string(style: .full)
+        string(style: .full)
     }
     
     /// Следующий день
     var nextDay: Date {
-        var tomorrow = Date(day: day + 1, month: month, year: year)
-        if tomorrow.day > tomorrow.numberOfDaysInMonth {
-            tomorrow.day -= tomorrow.numberOfDaysInMonth
-            if tomorrow.month == .december {
-                tomorrow.month = .january
-                tomorrow.year += 1
+        var (day, month, year) = (self.day + 1, self.month.rawValue, self.year)
+        if day > Date.numberOfDaysIn(month, year: year) {
+            day -= Date.numberOfDaysIn(month, year: year)
+            if month == 12 {
+                month = 1
+                year += 1
             } else {
-                tomorrow.month = Month(rawValue: tomorrow.month.rawValue + 1)!
+                month += 1
             }
         }
-        return tomorrow
+        return Date(day: day, month: month, year: year)
     }
     
     /**
@@ -192,18 +171,16 @@ struct Date: CustomStringConvertible {
      - parameter count: Количество месяцев для вычитания
      */
     func subtractMonths(_ count: Int) -> Date {
-        var month = self.month.rawValue - count
-        var year = self.year
+        var (day, month, year) = (self.day + 1, self.month.rawValue - count, self.year)
         while month < 1 {
             month += 12
             year -= 1
         }
-        var result = Date(day: self.day, month: month, year: year)
-        let numberOfDays = result.numberOfDaysInMonth
-        if result.day > numberOfDays {
-            result.day = numberOfDays
+        let numberOfDays = Date.numberOfDaysIn(month, year: year)
+        if day > numberOfDays {
+            day = numberOfDays
         }
-        return result
+        return Date(day: day, month: month, year: year)
     }
     
     /**
@@ -243,6 +220,31 @@ struct Date: CustomStringConvertible {
         self.day = Date.calendar.component(.day, from: foundationDate)
         self.month = Month(rawValue: Date.calendar.component(.month, from: foundationDate))!
         self.year = Date.calendar.component(.year, from: foundationDate)
+    }
+}
+
+
+// MARK: - Static
+
+extension Date {
+    /// Системный календарь
+    static let calendar = Calendar.current
+     
+    // FIXME: ⚠️ Сегодняшняя дата подменена здесь ⚠️
+    /// Дата, соответвующая сегодняшнему дню
+    static let today = Date(day: 26, month: 3, year: 2019)
+    //static let today = Date(foundationDate: Foundation.Date())
+    
+    /// Количество дней в месяце
+    static func numberOfDaysIn(_ month: Int, year: Int) -> Int {
+        let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
+        return Date.calendar.range(of: .day, in: .month, for: date)!.count
+    }
+     
+    static func firstDayOf(_ month: Int, year: Int) -> Int {
+        let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
+        let day = Date.calendar.component(.weekday, from: date) - 2
+        return day == -1 ? 6 : day
     }
 }
 
@@ -299,17 +301,17 @@ extension Date: Comparable {
     }
     
     static func + (lhs: Date, rhs: Int) -> Date {
-        var result = Date(day: lhs.day + rhs, month: lhs.month, year: lhs.year)
-        while result.day > result.numberOfDaysInMonth {
-            result.day -= result.numberOfDaysInMonth
-            if result.month == .december {
-                result.month = .january
-                result.year += 1
+        var (day, month, year) = (lhs.day + rhs, lhs.month.rawValue, lhs.year)
+        while day > Date.numberOfDaysIn(month, year: year) {
+            day -= Date.numberOfDaysIn(month, year: year)
+            if month == 12 {
+                month = 1
+                year += 1
             } else {
-                result.month = Month(rawValue: result.month.rawValue + 1)!
+                month += 1
             }
         }
-        return result
+        return Date(day: day, month: month, year: year)
     }
     
     static func += (lhs: inout Date, rhs: Int) {

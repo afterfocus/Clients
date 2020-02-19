@@ -29,12 +29,12 @@ public class Client: NSManagedObject {
     
     /// Записи клиента, отсортированные по убыванию даты
     var visitsSorted: [Visit] {
-        return visits.sorted { $0.date > $1.date }
+        visits.sorted { $0.date > $1.date }
     }
     
     /// Записи клиента, отсортированные по убыванию даты и сгруппированные по году
     var visitsByYear: [Int: [Visit]] {
-        return Dictionary(grouping: visitsSorted) { $0.date.year }
+        Dictionary(grouping: visitsSorted) { $0.date.year }
     }
     
     /// Услуги, которыми пользовался клиент
@@ -47,7 +47,7 @@ public class Client: NSManagedObject {
     
     /// Имя и фамилия клиента
     override public var description: String {
-        return "\(name) \(surname)"
+        "\(name) \(surname)"
     }
     
     convenience init(
