@@ -16,7 +16,7 @@ public class Visit: NSManagedObject {
     /// Дата
     var date: Date {
         get {
-            return Date(day: Int(day), month: Month(rawValue: Int(month))!, year: Int(year))
+            Date(day: Int(day), month: Month(rawValue: Int(month))!, year: Int(year))
         }
         set {
             day = Int16(newValue.day)
@@ -28,7 +28,7 @@ public class Visit: NSManagedObject {
     /// Время начала
     var time: Time {
         get {
-            return Time(hours: Int(timeHours), minutes: Int(timeMinutes))
+            Time(hours: Int(timeHours), minutes: Int(timeMinutes))
         }
         set {
             timeHours = Int16(newValue.hours)
@@ -44,7 +44,7 @@ public class Visit: NSManagedObject {
     /// Продолжительность
     var duration: Time {
         get {
-            return Time(hours: Int(durationHours), minutes: Int(durationMinutes))
+            Time(hours: Int(durationHours), minutes: Int(durationMinutes))
         }
         set {
             durationHours = Int16(newValue.hours)

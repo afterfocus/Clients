@@ -16,7 +16,7 @@ public class Service: NSManagedObject {
     /// Продолжительность
     var duration: Time {
         get {
-            return Time(hours: Int(durationHours), minutes: Int(durationMinutes))
+            Time(hours: Int(durationHours), minutes: Int(durationMinutes))
         }
         set {
             durationHours = Int16(newValue.hours)
@@ -27,7 +27,7 @@ public class Service: NSManagedObject {
     /// Цвет индикации
     var color: UIColor {
         get {
-            return UIColor.color(withId: Int(colorId))
+            UIColor.color(withId: Int(colorId))
         }
         set {
             colorId = Int16(newValue.id)

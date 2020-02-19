@@ -25,7 +25,7 @@ class TodayViewController: UITableViewController {
     /// Конец интервала поиска свободных мест
     private var endDate = Date.today + 7
     /// Требуемая продолжительность записи для поиска свободных мест
-    private var requiredDuration = Time(hours: 2)
+    private var requiredDuration: Time = 2
     
     /// Данные таблицы сегодняшних записей. Содержит клиентов и их записи.
     private var tableData = [AnyObject]()

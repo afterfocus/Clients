@@ -57,7 +57,7 @@ class EditVisitController: UITableViewController {
     /// Дата записи
     var date = Date.today
     /// Время начала записи
-    var time = Time(hours: 9)
+    var time: Time = 9
     /// Выбранные дополнительные услуги
     var additionalServices = Set<AdditionalService>() {
         didSet {
@@ -250,13 +250,13 @@ extension EditVisitController: SegueHandler {
         var cost = selectedService.cost
         var duration = selectedService.duration
         
-        for additionalService in additionalServices {
-            cost += additionalService.cost
-            duration = duration + additionalService.duration
+        additionalServices.forEach {
+            cost += $0.cost
+            duration += $0.duration
         }
         
-        costTextField.text = NumberFormatter.convertToCurrency(cost < 0 ? 0 : cost)
-        durationPicker.set(time: (duration < Time(hours: 0)) ? Time(hours: 0) : duration)
+        costTextField.text = NumberFormatter.convertToCurrency((cost < 0) ? 0 : cost)
+        durationPicker.set(time: (duration < 0) ? Time(minutes: 5) : duration)
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
 }

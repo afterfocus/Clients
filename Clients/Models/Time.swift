@@ -47,7 +47,7 @@ struct Time: CustomStringConvertible {
     func string(style: TimeStyle) -> String {
         switch style {
         case .short:
-            return "\(hours):" + (minutes < 10 ? "0" : "") + "\(minutes)"
+            return "\(hours):" + (abs(minutes) < 10 ? "0" : "") + "\(minutes)"
         case .duration:
             var hoursString: String
             var minutesString: String
@@ -88,7 +88,16 @@ struct Time: CustomStringConvertible {
     }
 }
 
+
+// MARK: - ExpressibleByIntegerLiteral
+
+extension Time: ExpressibleByIntegerLiteral {
+    init(integerLiteral: Int) {
+        self.init(hours: integerLiteral)
+    }
+}
     
+
 // MARK: - Operators
 
 extension Time: Comparable {

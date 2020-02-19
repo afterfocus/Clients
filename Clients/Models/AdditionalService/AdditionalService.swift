@@ -16,7 +16,7 @@ public class AdditionalService: NSManagedObject {
     /// Продолжительность
     var duration: Time {
         get {
-            return Time(hours: Int(durationHours), minutes: Int(durationMinutes))
+            Time(hours: Int(durationHours), minutes: Int(durationMinutes))
         }
         set {
             durationHours = Int16(newValue.hours)

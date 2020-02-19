@@ -45,7 +45,7 @@ class EditServiceController: UITableViewController {
     override func viewDidLoad() {
         hideKeyboardWhenTappedAround()
         
-        var duration = Time(hours: 1)
+        var duration: Time = 1
         if service != nil {
             additionalServices = service.additionalServices
             duration = service.duration
