@@ -142,11 +142,11 @@ struct Date: CustomStringConvertible {
     //static let today = Date(foundationDate: Foundation.Date())
    
     /// День
-    var day: Int
+    private(set) var day: Int
     /// Месяц
-    var month: Month
+    private(set) var month: Month
     /// Год
-    var year: Int
+    private(set) var year: Int
     
     /// День недели
     var dayOfWeek: Weekday {

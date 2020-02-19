@@ -1,5 +1,5 @@
 //
-//  Weekend+CoreDataClass.swift
+//  Weekend.swift
 //  Clients
 //
 //  Created by Максим Голов on 06.02.2020.

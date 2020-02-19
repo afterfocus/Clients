@@ -375,18 +375,20 @@ extension CalendarController: UIScrollViewDelegate {
             /// Индекс секции, которая будет отображена по окончании анимации пролистывания
             let section = Int(round(targetContentOffset.pointee.y / calendarPageHeight))
             /// Дата (месяц и год), связанная с отображаемой секцией
-            var targetDate = calendarData.dateFor(section)
-            targetDate.day = Date.today.day
+            let targetMonth = calendarData.dateFor(section)
 
             // Обновить текст на кнопке возврата ("апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме)
-            let title = calendarView.isPagingEnabled ? "\(targetDate.string(style: .monthAndYear))" : "\(targetDate.year)"
+            let title = calendarView.isPagingEnabled ? "\(targetMonth.string(style: .monthAndYear))" : "\(targetMonth.year)"
             backButton.setTitleWithoutAnimation(title)
 
             if calendarView.isPagingEnabled {
                 // В постраничном режиме по окончании скроллинга обновить положение календаря и списка записей
                 updateConstraints(section: section)
                 // Выбрать первый день отображаемого месяца или сегодняшний день, если отображается текущий месяц
-                let pickedDay = (targetDate == Date.today) ? Date.today.day : 1
+                var pickedDay = 1
+                if targetMonth.month == Date.today.month && targetMonth.year == Date.today.year {
+                    pickedDay = Date.today.day
+                }
                 collectionView(scrollView as! UICollectionView, didSelectItemAt: IndexPath(item: pickedDay, section: section))
                 // Щёлк
                 impactFeedbackGenerator.impactOccurred()

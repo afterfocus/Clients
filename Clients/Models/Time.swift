@@ -26,9 +26,9 @@ enum TimeStyle {
 /// Время
 struct Time: CustomStringConvertible {
     /// Часы
-    var hours: Int
+    private(set) var hours: Int
     /// Минуты
-    var minutes: Int
+    private(set) var minutes: Int
     /// Текущее время
     static var currentTime: Time {
         return Time(foundationDate: Foundation.Date())
