@@ -22,10 +22,10 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPH-ge-Guf" userLabel="Unoccupied Places Button">
-                                            <rect key="frame" x="172" y="11" width="56" height="56"/>
+                                            <rect key="frame" x="172.5" y="11" width="55" height="55"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="56" id="Pne-cH-4Sa"/>
-                                                <constraint firstAttribute="width" constant="56" id="hAQ-PY-Dwh"/>
+                                                <constraint firstAttribute="height" constant="55" id="Pne-cH-4Sa"/>
+                                                <constraint firstAttribute="width" constant="55" id="hAQ-PY-Dwh"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="tintColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
@@ -41,10 +41,10 @@
                                             </connections>
                                         </button>
                                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="sHj-fv-kSE" userLabel="Price List Button">
-                                            <rect key="frame" x="62" y="11" width="56" height="56"/>
+                                            <rect key="frame" x="62.5" y="11" width="55" height="55"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="56" id="Zh9-Xr-f3N"/>
-                                                <constraint firstAttribute="width" constant="56" id="zfw-f7-85V"/>
+                                                <constraint firstAttribute="height" constant="55" id="Zh9-Xr-f3N"/>
+                                                <constraint firstAttribute="width" constant="55" id="zfw-f7-85V"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="tintColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
@@ -60,10 +60,10 @@
                                             </connections>
                                         </button>
                                         <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pzg-SX-mag" userLabel="Contact Info Button">
-                                            <rect key="frame" x="282" y="11" width="56" height="56"/>
+                                            <rect key="frame" x="282.5" y="11" width="55" height="55"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="56" id="EzI-4i-oyo"/>
-                                                <constraint firstAttribute="width" constant="56" id="izI-nS-b1I"/>
+                                                <constraint firstAttribute="height" constant="55" id="EzI-4i-oyo"/>
+                                                <constraint firstAttribute="width" constant="55" id="izI-nS-b1I"/>
                                             </constraints>
                                             <color key="tintColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <state key="normal" image="contact_info_button"/>
@@ -84,7 +84,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57t-dU-oYV">
-                                            <rect key="frame" x="160" y="71" width="80" height="29"/>
+                                            <rect key="frame" x="160" y="70" width="80" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="Ближайшие">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -94,7 +94,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cje-AR-UMg">
-                                            <rect key="frame" x="288.5" y="71" width="43" height="29"/>
+                                            <rect key="frame" x="288.5" y="70" width="43" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="Адрес">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -104,7 +104,7 @@
                                             </connections>
                                         </button>
                                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPH-D2-p0z">
-                                            <rect key="frame" x="68.5" y="71" width="43" height="29"/>
+                                            <rect key="frame" x="68.5" y="70" width="43" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="Прайс">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -117,7 +117,7 @@
                                             </connections>
                                         </button>
                                         <button userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fct-O6-YR5">
-                                            <rect key="frame" x="98.5" y="71" width="203" height="29"/>
+                                            <rect key="frame" x="98.5" y="70" width="203" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="Скопировано в буфер обмена">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -156,14 +156,14 @@
                                         <constraint firstItem="57t-dU-oYV" firstAttribute="top" secondItem="LPH-ge-Guf" secondAttribute="bottom" constant="4" id="5sg-nS-GMU"/>
                                         <constraint firstItem="LPH-ge-Guf" firstAttribute="centerX" secondItem="F3L-k3-CdO" secondAttribute="centerX" id="9KB-63-Yvb"/>
                                         <constraint firstItem="YAT-9G-DUz" firstAttribute="leading" secondItem="F3L-k3-CdO" secondAttribute="leading" id="DGz-nk-JYZ"/>
-                                        <constraint firstItem="pzg-SX-mag" firstAttribute="leading" secondItem="LPH-ge-Guf" secondAttribute="trailing" constant="54" id="EPe-bJ-nQ1"/>
+                                        <constraint firstItem="pzg-SX-mag" firstAttribute="leading" secondItem="LPH-ge-Guf" secondAttribute="trailing" constant="55" id="EPe-bJ-nQ1"/>
                                         <constraint firstItem="kPH-D2-p0z" firstAttribute="centerX" secondItem="sHj-fv-kSE" secondAttribute="centerX" id="H68-JF-MGh"/>
                                         <constraint firstItem="Cje-AR-UMg" firstAttribute="centerX" secondItem="pzg-SX-mag" secondAttribute="centerX" id="IJh-2Z-pLl"/>
                                         <constraint firstItem="Fct-O6-YR5" firstAttribute="centerY" secondItem="57t-dU-oYV" secondAttribute="centerY" id="NU8-oc-d8c"/>
                                         <constraint firstItem="57t-dU-oYV" firstAttribute="centerX" secondItem="LPH-ge-Guf" secondAttribute="centerX" id="NqY-iJ-VWJ"/>
                                         <constraint firstAttribute="trailing" secondItem="YAT-9G-DUz" secondAttribute="trailing" id="Q7v-rN-Lkd"/>
                                         <constraint firstItem="pzg-SX-mag" firstAttribute="centerY" secondItem="LPH-ge-Guf" secondAttribute="centerY" id="SzC-3S-b8d"/>
-                                        <constraint firstItem="LPH-ge-Guf" firstAttribute="leading" secondItem="sHj-fv-kSE" secondAttribute="trailing" constant="54" id="VAh-cw-6Cm"/>
+                                        <constraint firstItem="LPH-ge-Guf" firstAttribute="leading" secondItem="sHj-fv-kSE" secondAttribute="trailing" constant="55" id="VAh-cw-6Cm"/>
                                         <constraint firstItem="kPH-D2-p0z" firstAttribute="centerY" secondItem="57t-dU-oYV" secondAttribute="centerY" id="boW-gs-GLS"/>
                                         <constraint firstItem="LPH-ge-Guf" firstAttribute="top" secondItem="F3L-k3-CdO" secondAttribute="top" constant="11" id="g8z-ny-xiW"/>
                                         <constraint firstItem="sHj-fv-kSE" firstAttribute="centerY" secondItem="LPH-ge-Guf" secondAttribute="centerY" id="iup-M2-1qO"/>
