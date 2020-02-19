@@ -12,7 +12,7 @@ import CoreData
 class WeekendRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
     
-    private static var fetchRequest: NSFetchRequest<Weekend> {
+    private class var fetchRequest: NSFetchRequest<Weekend> {
         return NSFetchRequest<Weekend>(entityName: "Weekend")
     }
     
@@ -20,7 +20,7 @@ class WeekendRepository {
      Проверить, является ли дата `date` выходным днём
      - returns: `true`, если переданная дата является выходным днём
      */
-    static func isWeekend(_ date: Date) -> Bool {
+    class func isWeekend(_ date: Date) -> Bool {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)
         request.includesPropertyValues = false
@@ -32,10 +32,9 @@ class WeekendRepository {
         }
     }
     
-    /**
-     Сделать дату `date` рабочим днём
-     */
-    static func removeWeekend(for date: Date) {
+    
+    /// Сделать дату `date` рабочим днём
+    class func removeWeekend(for date: Date) {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)
         request.includesPropertyValues = false

@@ -43,7 +43,7 @@ extension UIColor {
         }
     }
     
-    static func color(withId id: Int) -> UIColor {
+    class func color(withId id: Int) -> UIColor {
         switch id {
         case 0: return red
         case 1: return orange

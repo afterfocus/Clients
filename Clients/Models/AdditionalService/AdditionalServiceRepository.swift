@@ -16,7 +16,7 @@ class AdditionalServiceRepository {
      Удалить дополнительную услугу
      - parameter additionalService: Дополнительная услуга, подлежащая удалению
     */
-    static func remove(_ additionalService: AdditionalService) {
+    class func remove(_ additionalService: AdditionalService) {
         context.delete(additionalService)
     }
 }

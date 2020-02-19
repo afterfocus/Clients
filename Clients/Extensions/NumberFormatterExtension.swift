@@ -10,27 +10,21 @@ import Foundation
 
 extension NumberFormatter {
     /// Форматер валюты
-    private static var currencyNumberFormatter: NumberFormatter!
+    static var currencyNumberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
     
     /// Конвентирует число с плавающей точкой в строку, содержащую стоимость (0-2 знака после запятой) со знаком национальной валюты
-    static func convertToCurrency(_ value: Float) -> String {
-        if currencyNumberFormatter == nil {
-            currencyNumberFormatter = NumberFormatter()
-            currencyNumberFormatter.numberStyle = .currency
-            currencyNumberFormatter.minimumFractionDigits = 0
-            currencyNumberFormatter.maximumFractionDigits = 2
-        }
+    class func convertToCurrency(_ value: Float) -> String {
         return currencyNumberFormatter.string(from: NSNumber(value: value))!
     }
     
     /// Конвентирует строку, содержащую стоимость со знаком национальной валюты, в число с плавающей точкой
-    static func convertToFloat(_ value: String) -> Float {
-        if currencyNumberFormatter == nil {
-            currencyNumberFormatter = NumberFormatter()
-            currencyNumberFormatter.numberStyle = .currency
-            currencyNumberFormatter.minimumFractionDigits = 0
-            currencyNumberFormatter.maximumFractionDigits = 2
-        }
+    class func convertToFloat(_ value: String) -> Float {
         return currencyNumberFormatter.number(from: value)!.floatValue
     }
 }

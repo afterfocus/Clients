@@ -12,7 +12,7 @@ import CoreData
 class VisitRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
     
-    private static var sortedFetchRequest: NSFetchRequest<Visit> {
+    private class var sortedFetchRequest: NSFetchRequest<Visit> {
         let request = NSFetchRequest<Visit>(entityName: "Visit")
         request.sortDescriptors = [
             NSSortDescriptor(key: "timeHours", ascending: true),
@@ -28,7 +28,7 @@ class VisitRepository {
      - parameter date: Дата, на которую требуется получить записи
      - returns: Массив записей, отсортированный по возрастанию времени начала и времени окончания
      */
-    static func visits(for date: Date) -> [Visit] {
+    class func visits(for date: Date) -> [Visit] {
         let request = sortedFetchRequest
         request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)
         do {
@@ -46,7 +46,7 @@ class VisitRepository {
         - hideNotCome: Отфильтровывать записи, по которым клиенты не явились.
      - returns: Массив записей, отсортированный по возрастанию времени начала и времени окончания.
      */
-    static func visits(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [Visit] {
+    class func visits(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [Visit] {
         let request = sortedFetchRequest
         var predicates = [NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)]
         if hideCancelled {
@@ -68,7 +68,7 @@ class VisitRepository {
      - parameter pattern: Строка для поиска. Может содержать имя или фамилию клиента.
      - returns: Записи, отсортированные по возрастанию времени начала и времени окончания и сгруппированные по дате.
      */
-    static func visits(matching pattern: String) -> [Date: [Visit]] {
+    class func visits(matching pattern: String) -> [Date: [Visit]] {
         let request = sortedFetchRequest
         request.predicate = NSPredicate(format: "client.name BEGINSWITH[c] %@ OR client.surname BEGINSWITH[c] %@", pattern, pattern)
         do {
@@ -83,7 +83,7 @@ class VisitRepository {
      Получить запись по ее идентификатору.
      - parameter idString: URI-представление идентификатора объекта.
      */
-    static func visit(with idString: String) -> Visit? {
+    class func visit(with idString: String) -> Visit? {
         do {
             if let objectIDURL = URL(string: idString),
                 let managedObjectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: objectIDURL) {
@@ -100,7 +100,7 @@ class VisitRepository {
      Удалить запись
      - parameter visit: Запись, подлежащая удалению
      */
-    static func remove(_ visit: Visit) {
+    class func remove(_ visit: Visit) {
         context.delete(visit)
     }
     
@@ -112,7 +112,7 @@ class VisitRepository {
     ///   - endDate: Конец интервала
     ///   - requiredDuration: Длительность услуги, для которой нужно найти свободные места.
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
-    static func unoccupiedPlaces(between startDate: Date, and endDate: Date, requiredDuration: Time) -> [Date: [Time]] {
+    class func unoccupiedPlaces(between startDate: Date, and endDate: Date, requiredDuration: Time) -> [Date: [Time]] {
         var result = [Date: [Time]]()
         var date = startDate
         // Проход по всем датам интервала
@@ -180,7 +180,7 @@ class VisitRepository {
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
     ///
     /// Поиск свободных мест выполняется до достижения заданного количества найденных мест. Если по достижении года с даты начала поиска требуемое количество мест не найдено, поиск останавливается.
-    static func unoccupiedPlaces(placesCount: Int, requiredDuration: Time) -> [Date: [Time]] {
+    class func unoccupiedPlaces(placesCount: Int, requiredDuration: Time) -> [Date: [Time]] {
         var result = [Date: [Time]]()
         var date = Date.today
         let endDate = Date.today + 365

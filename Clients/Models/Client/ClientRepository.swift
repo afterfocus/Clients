@@ -12,12 +12,12 @@ import CoreData
 class ClientRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
     
-    private static var fetchRequest: NSFetchRequest<Client> {
+    private class var fetchRequest: NSFetchRequest<Client> {
         return NSFetchRequest<Client>(entityName: "Client")
     }
     
     /// Возвращает `true`, если в БД нет ни одного клиента
-    static var isEmpty: Bool {
+    class var isEmpty: Bool {
         do {
             return try context.count(for: fetchRequest) == 0
         } catch {
@@ -26,7 +26,7 @@ class ClientRepository {
     }
     
     /// Номера телефонов клиентов для CallDirectoryExtension
-    static var identificationPhoneNumbers: [(label: String, number: String, isBlocked: Bool)] {
+    class var identificationPhoneNumbers: [(label: String, number: String, isBlocked: Bool)] {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "phonenumber != ''")
         request.sortDescriptors = [NSSortDescriptor(key: "phonenumber", ascending: true)]
@@ -39,7 +39,7 @@ class ClientRepository {
     }
     
     /// Активные и архивные клиенты, сгруппированные по первой букве фамилии
-    static var clients: (active: [String: [Client]], archive: [String: [Client]]) {
+    class var clients: (active: [String: [Client]], archive: [String: [Client]]) {
         let minimumDate = Date.today.subtractMonths(Settings.clientArchivingPeriod)
         var activeClients = [Client]()
         var archiveClients = [Client]()
@@ -63,7 +63,7 @@ class ClientRepository {
      - parameter pattern: Строка для поиска. Может содержать имя, фамилию, номер телефона, или ссылку на профиль вконтакте.
      - returns: Клиенты, сгруппированные по первой букве фамилии.
      */
-    static func clients(matching pattern: String) -> [String: [Client]] {
+    class func clients(matching pattern: String) -> [String: [Client]] {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "surname BEGINSWITH[c] %@ OR name BEGINSWITH[c] %@ OR phonenumber CONTAINS[c] %@ OR vk CONTAINS[c] %@", pattern, pattern, pattern, pattern)
         do {
@@ -79,7 +79,7 @@ class ClientRepository {
      - parameter clients: Массив (`Array`)  или набор (`Set`) клиентов для группировки
      - returns: Клиенты, сгруппированные по первой букве фамилии.
      */
-    private static func convertToDictionary<T: Sequence>(_ clients: T) -> [String: [Client]] where T.Iterator.Element == Client {
+    private class func convertToDictionary<T: Sequence>(_ clients: T) -> [String: [Client]] where T.Iterator.Element == Client {
         return Dictionary(grouping: clients) {
             String($0.surname.first!)
         }
@@ -89,7 +89,7 @@ class ClientRepository {
      Удалить клиента
      - parameter client: Клиент, подлежащий удалению
      */
-    static func remove(_ client: Client) {
+    class func remove(_ client: Client) {
         context.delete(client)
     }
 }

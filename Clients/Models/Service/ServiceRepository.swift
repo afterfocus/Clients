@@ -12,12 +12,12 @@ import CoreData
 class ServiceRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
     
-    private static var fetchRequest: NSFetchRequest<Service> {
+    private class var fetchRequest: NSFetchRequest<Service> {
         return NSFetchRequest<Service>(entityName: "Service")
     }
     
     /// Возвращает `true`, если в БД нет ни одной записи
-    static var isEmpty: Bool {
+    class var isEmpty: Bool {
         do {
             return try context.count(for: fetchRequest) == 0
         } catch {
@@ -26,7 +26,7 @@ class ServiceRepository {
     }
     
     /// Предоставляемые  услуги
-    static var activeServices: [Service] {
+    class var activeServices: [Service] {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "isArchive = false")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
@@ -38,7 +38,7 @@ class ServiceRepository {
     }
     
     /// Архивные  услуги
-    static var archiveServices: [Service] {
+    class var archiveServices: [Service] {
         let request = fetchRequest
         request.predicate = NSPredicate(format: "isArchive = true")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
@@ -53,7 +53,7 @@ class ServiceRepository {
      Удалить услугу
      - parameter service: Услуга, подлежащая удалению
     */
-    static func remove(_ service: Service) {
+    class func remove(_ service: Service) {
         context.delete(service)
     }
 }
