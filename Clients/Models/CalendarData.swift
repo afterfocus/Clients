@@ -131,9 +131,7 @@ class CalendarData {
     
     /// Сбросить кеш данных
     func reset() {
-        for monthData in months {
-            monthData.reset()
-        }
+        months.forEach { $0.reset() }
         hideCancelledVisits = Settings.isCancelledVisitsHidden
         hideNotComeVisits = Settings.isClientNotComeVisitsHidden
     }
