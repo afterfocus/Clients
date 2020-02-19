@@ -71,13 +71,17 @@ class MonthData {
     }
     
     /// Получить данные о календарном дне с индексом `index`
-    fileprivate func dayData(for index: Int, _ hideCancelled: Bool, _ hideNotCome: Bool) -> DayData {
+    fileprivate subscript(index: Int) -> DayData {
         // Получить данные из БД при первом обращении
         if days[index] == nil {
             let date = dateFor(day: index + 1)
             days[index] = DayData(
                 isWeekend: WeekendRepository.isWeekend(date),
-                visits: VisitRepository.visits(for: date, hideCancelled: hideCancelled, hideNotCome: hideNotCome)
+                visits: VisitRepository.visits(
+                    for: date,
+                    hideCancelled: Settings.isCancelledVisitsHidden,
+                    hideNotCome: Settings.isClientNotComeVisitsHidden
+                )
             )
         }
         return days[index]!
@@ -92,9 +96,6 @@ class CalendarData {
     /// Массив данных о месяцах
     private var months: [MonthData]
     
-    private var hideCancelledVisits: Bool
-    private var hideNotComeVisits: Bool
-    
     /// Количество месяцев данных
     var count: Int {
         months.count
@@ -105,13 +106,11 @@ class CalendarData {
         for i in 0 ..< numberOfYears * 12 {
             months.append(MonthData(month: i % 12 + 1, year: startYear + i / 12))
         }
-        hideCancelledVisits = Settings.isCancelledVisitsHidden
-        hideNotComeVisits = Settings.isClientNotComeVisitsHidden
     }
     
     /// Получить данные о календарном дне с номером `indexPath.item` (от 1 до 31) из секции календаря `indexPath.section`
     subscript(indexPath: IndexPath) -> DayData {
-        return months[indexPath.section].dayData(for: indexPath.item - 1, hideCancelledVisits, hideNotComeVisits)
+        return months[indexPath.section][indexPath.item - 1]
     }
     
     /// Получить данные для секции календаря с индексом `index`
@@ -132,7 +131,5 @@ class CalendarData {
     /// Сбросить кеш данных
     func reset() {
         months.forEach { $0.reset() }
-        hideCancelledVisits = Settings.isCancelledVisitsHidden
-        hideNotComeVisits = Settings.isClientNotComeVisitsHidden
     }
 }
