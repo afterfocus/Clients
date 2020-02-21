@@ -39,8 +39,8 @@ class SettingsControler: UITableViewController {
     // MARK: - View Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
-        configureServicesIndicators(activeServiceIndicatorsStackView, with: ServiceRepository.activeServices)
-        configureServicesIndicators(archiveServiceIndicatorsStackView, with: ServiceRepository.archiveServices)
+        configureServicesIndicators(in: activeServiceIndicatorsStackView, with: ServiceRepository.activeServices)
+        configureServicesIndicators(in: archiveServiceIndicatorsStackView, with: ServiceRepository.archiveServices)
 
         for (index, label) in scheduleLabels.enumerated() {
             configureScheduleLabel(label, weekday: Weekday(rawValue: index)!)
@@ -65,7 +65,7 @@ class SettingsControler: UITableViewController {
         shouldBlockIncomingCallsLabel.text = Settings.shouldBlockIncomingCalls ? onString : offString
     }
     
-    private func configureServicesIndicators(_ stackView: UIStackView, with services: [Service]) {
+    private func configureServicesIndicators(in stackView: UIStackView, with services: [Service]) {
         stackView.subviews.forEach { $0.removeFromSuperview() }
         for (index, service) in services.enumerated() {
             let indicator = UIView(frame: CGRect(x: 18 * index, y: 0, width: 12, height: 12))

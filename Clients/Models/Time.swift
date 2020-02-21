@@ -24,20 +24,11 @@ enum TimeStyle {
 // MARK: - Time
 
 /// Время
-struct Time: CustomStringConvertible {
+struct Time {
     /// Часы
     private(set) var hours: Int
     /// Минуты
     private(set) var minutes: Int
-    /// Текущее время
-    static var currentTime: Time {
-        Time(foundationDate: Foundation.Date())
-    }
-    
-    /// Строкове представление времени в кратком стиле (HH:mm)
-    var description: String {
-        string(style: .short)
-    }
     
     var modulo: Time {
         Time(hours: abs(hours), minutes: abs(minutes))
@@ -89,6 +80,16 @@ struct Time: CustomStringConvertible {
 }
 
 
+// MARK: - CustomStringConvertible
+
+extension Time: CustomStringConvertible {
+    /// Строкове представление времени в кратком стиле (HH:mm)
+    var description: String {
+        string(style: .short)
+    }
+}
+
+
 // MARK: - ExpressibleByIntegerLiteral
 
 extension Time: ExpressibleByIntegerLiteral {
@@ -98,9 +99,14 @@ extension Time: ExpressibleByIntegerLiteral {
 }
     
 
-// MARK: - Operators
+// MARK: - Static
 
 extension Time: Comparable {
+    
+    /// Текущее время
+    static var currentTime: Time {
+        Time(foundationDate: Foundation.Date())
+    }
     
     static func +(left: Time, right: Time) -> Time {
         var result = left &+ right

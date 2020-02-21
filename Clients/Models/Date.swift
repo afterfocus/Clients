@@ -132,7 +132,7 @@ enum DateStyle {
 // MARK: - Date
 
 /// Дата
-struct Date: CustomStringConvertible {
+struct Date {
     /// День
     let day: Int
     /// Месяц
@@ -144,11 +144,6 @@ struct Date: CustomStringConvertible {
     var dayOfWeek: Weekday {
         let foundationDate = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
         return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
-    }
-    
-    /// Локализованное строковое представление даты в формате "понедельник, 13 января 2020 г."
-    var description: String {
-        string(style: .full)
     }
     
     /// Следующий день
@@ -224,6 +219,27 @@ struct Date: CustomStringConvertible {
 }
 
 
+// MARK: - CustomStringConvertible
+
+extension Date: CustomStringConvertible {
+    /// Локализованное строковое представление даты в формате "понедельник, 13 января 2020 г."
+    var description: String {
+        string(style: .full)
+    }
+}
+
+
+// MARK: - Hashable
+
+extension Date: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(day)
+        hasher.combine(month)
+        hasher.combine(year)
+    }
+}
+
+
 // MARK: - Static
 
 extension Date {
@@ -245,17 +261,6 @@ extension Date {
         let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
         let day = Date.calendar.component(.weekday, from: date) - 2
         return day == -1 ? 6 : day
-    }
-}
-
-
-// MARK: - Hashable
-
-extension Date: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(day)
-        hasher.combine(month)
-        hasher.combine(year)
     }
 }
 
