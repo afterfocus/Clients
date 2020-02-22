@@ -10,5 +10,8 @@ import UIKit
 
 /// Ячейка коллекции ближайщих свободных мест
 class NearestPlacesCollectionCell: UICollectionViewCell {
+    
+    static let identifier = "NearestPlacesCollectionCell"
+    
     @IBOutlet weak var timeLabel: UILabel!
 }

@@ -10,5 +10,8 @@ import UIKit
 
 /// Ячейка с одной меткой
 class OneLabelTableCell: UITableViewCell {
+    
+    static let identifier = "OneLabelTableCell"
+    
     @IBOutlet weak var label: UILabel!
 }

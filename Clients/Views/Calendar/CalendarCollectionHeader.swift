@@ -10,6 +10,9 @@ import UIKit
 
 /// Заголовок секции календаря
 class CalendarCollectionHeader: UICollectionReusableView {
+    
+    static let identifier = "CalendarCollectionHeader"
+    
     // MARK: IBOutlets
     
     /// Метка названия месяца

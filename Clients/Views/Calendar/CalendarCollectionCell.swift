@@ -10,6 +10,9 @@ import UIKit
 
 /// Ячейка календаря
 class CalendarCollectionCell: UICollectionViewCell {
+    
+    static let identifier = "CalendarCollectionCell"
+    
     // MARK: IBOutlets
     
     /// Метка числа

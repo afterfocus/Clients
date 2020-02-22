@@ -536,7 +536,7 @@ extension CalendarController: UICollectionViewDataSource {
         if indexPath.item == 0 || indexPath.item > calendarData[indexPath.section].numberOfDays {
             return collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.calendarPlaceholderCell, for: indexPath)
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.calendarCollectionCell, for: indexPath) as! CalendarCollectionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionCell.identifier, for: indexPath) as! CalendarCollectionCell
             /// Данные на день, связанный с ячейкой
             let dayData = calendarData[indexPath]
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
@@ -547,7 +547,7 @@ extension CalendarController: UICollectionViewDataSource {
     
     // Формирование заголовка секции календаря
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ReusableViewID.calendarCollectionHeader, for: indexPath) as! CalendarCollectionHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CalendarCollectionHeader.identifier, for: indexPath) as! CalendarCollectionHeader
         // Текст = название месяца, связанного с секцией
         header.monthLabel.text = Month(rawValue: indexPath.section % 12 + 1)?.name
         // Цвет текста красный, если связанный месяц - текущий
@@ -585,7 +585,7 @@ extension CalendarController: UITableViewDataSource {
 
     // Формирование элемента списка записей
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.visitHistoryTableCell, for: indexPath) as! VisitHistoryTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier, for: indexPath) as! VisitHistoryTableCell
         cell.configure(with: tableData[indexPath.row], labelStyle: .clientName)
         return cell
     }

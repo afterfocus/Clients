@@ -287,7 +287,7 @@ extension ClientProfileController: UITableViewDataSource {
     
     // Формирование элемента таблицы
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.visitHistoryTableCell, for: indexPath) as! VisitHistoryTableCell 
+        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier, for: indexPath) as! VisitHistoryTableCell
         cell.configure(with: tableData[keys[indexPath.section]]![indexPath.row], labelStyle: .date)
         return cell
     }

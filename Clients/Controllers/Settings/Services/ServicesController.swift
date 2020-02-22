@@ -79,11 +79,11 @@ extension ServicesController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if activeServices.isEmpty && archiveServices.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier, for: indexPath) as! OneLabelTableCell
             cell.label.text = NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги")
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.serviceTableCell, for: indexPath) as! ServiceTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ServiceTableCell.identifier, for: indexPath) as! ServiceTableCell
             let service = (indexPath.section == 1 || activeServices.isEmpty) ? archiveServices[indexPath.row] : activeServices[indexPath.row]
             cell.configure(with: service)
             return cell

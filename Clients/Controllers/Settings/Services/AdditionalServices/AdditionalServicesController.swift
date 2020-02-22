@@ -58,11 +58,11 @@ extension AdditionalServicesController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if additionalServices.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier, for: indexPath) as! OneLabelTableCell
             cell.label.text = NSLocalizedString("NO_ADDITIONAL_SERVICES_FOUND", comment: "Дополнительные услуги не заданы")
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.additionalServiceTableCell, for: indexPath) as! AdditionalServiceTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: AdditionalServiceTableCell.identifier, for: indexPath) as! AdditionalServiceTableCell
             cell.configure(with: additionalServices[indexPath.row])
             return cell
         }

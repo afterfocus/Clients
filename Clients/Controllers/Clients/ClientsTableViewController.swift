@@ -171,7 +171,7 @@ extension ClientsTableViewController {
 
     // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.clientTableCell, for: indexPath) as! ClientTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ClientTableCell.identifier, for: indexPath) as! ClientTableCell
         cell.configure(with: tableData[keys[indexPath.section]]![indexPath.row])
         return cell
     }

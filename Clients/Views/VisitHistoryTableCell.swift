@@ -11,6 +11,8 @@ import UIKit
 /// Ячейка записи
 class VisitHistoryTableCell: UITableViewCell {
     
+    static let identifier = "VisitHistoryTableCell"
+    
     // MARK: - Main label style enum
     
     /// Стиль главной метки ячейки

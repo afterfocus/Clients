@@ -55,7 +55,7 @@ class SearchResultsController: UITableViewController {
     
     // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.visitHistoryTableCell, for: indexPath) as! VisitHistoryTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier, for: indexPath) as! VisitHistoryTableCell
         let visit = tableData[keys[indexPath.section]]![indexPath.row]
         cell.configure(with: visit, labelStyle: .clientName)
         return cell

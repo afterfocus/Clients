@@ -11,6 +11,8 @@ import UIKit
 /// Ячейка клиента
 class ClientTableCell: UITableViewCell {
     
+    static let identifier = "ClientTableCell"
+    
     // MARK: - IBOutlets
     
     /// Фотография клиента

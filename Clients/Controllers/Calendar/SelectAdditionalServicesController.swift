@@ -92,11 +92,11 @@ extension SelectAdditionalServicesController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Если доп.услуги не заданы, отобразить соответствующее сообщение
         if tableData.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.oneLabelTableCell, for: indexPath) as! OneLabelTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier, for: indexPath) as! OneLabelTableCell
             cell.label.text = NSLocalizedString("ADDITIONAL_SERVICES_ARE_NOT_SPECIFIED", comment: "Дополнительные услуги не заданы")
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ReusableViewID.additionalServiceTableCell, for: indexPath) as! AdditionalServiceTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: AdditionalServiceTableCell.identifier, for: indexPath) as! AdditionalServiceTableCell
             let additionalService = tableData[indexPath.row]
             cell.configure(with: additionalService)
             cell.accessoryType = selectedAdditionalServices.contains(additionalService) ? .checkmark : .none

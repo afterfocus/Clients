@@ -10,5 +10,8 @@ import UIKit
 
 /// Ячейка параметров поиска свободных мест
 class SearchIntervalTableCell: UITableViewCell {
+    
+    static let identifier = "SearchIntervalTableCell"
+    
     @IBOutlet weak var intervalLabel: UILabel!
 }

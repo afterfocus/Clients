@@ -10,5 +10,8 @@ import UIKit
 
 /// Заголовок секции коллекции ближайших свободных мест
 class NearestPlacesCollectionHeader: UICollectionReusableView {
+    
+    static let identifier = "NearestPlacesCollectionHeader"
+    
     @IBOutlet weak var dateLabel: UILabel!
 }

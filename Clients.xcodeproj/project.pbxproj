@@ -324,12 +324,9 @@
 				B516F27B23CE1CBF0087B2CB /* Views */,
 				B516F27C23CE1CCA0087B2CB /* Controllers */,
 				B516F27E23CE1CE00087B2CB /* Extensions */,
-				B516F27D23CE1CD00087B2CB /* Supporting */,
-				B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */,
-				B5465E6223F82E33004F0C09 /* Main.storyboard */,
-				B5465E7723F82F9F004F0C09 /* Localizable.strings */,
+				B516F27D23CE1CD00087B2CB /* Resources */,
+				B516F26223CE15EA0087B2CB /* AppDelegate.swift */,
 				B516F27323CE15FB0087B2CB /* Info.plist */,
-				B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -338,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				B5121A8823EC54E900D27926 /* CoreDataManager.swift */,
+				B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */,
 				B5E3E4D423ED524500E61B9D /* Client */,
 				B5E3E4D523ED525C00E61B9D /* Visit */,
 				B5E3E4D623ED526E00E61B9D /* Service */,
@@ -346,6 +344,7 @@
 				B516F28723CE1F830087B2CB /* Date.swift */,
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
 				B5E6D62223D8B824001E18A3 /* CalendarData.swift */,
+				B516F28D23CE501D0087B2CB /* Settings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -379,14 +378,15 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		B516F27D23CE1CD00087B2CB /* Supporting */ = {
+		B516F27D23CE1CD00087B2CB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */,
+				B5465E6223F82E33004F0C09 /* Main.storyboard */,
+				B5465E7723F82F9F004F0C09 /* Localizable.strings */,
 				B516F26E23CE15FB0087B2CB /* Assets.xcassets */,
-				B516F26223CE15EA0087B2CB /* AppDelegate.swift */,
-				B516F28D23CE501D0087B2CB /* Settings.swift */,
 			);
-			path = Supporting;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		B516F27E23CE1CE00087B2CB /* Extensions */ = {
