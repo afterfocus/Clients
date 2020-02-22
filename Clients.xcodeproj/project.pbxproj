@@ -83,6 +83,8 @@
 		B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */; };
 		B5890AF923E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */; };
 		B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */; };
+		B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */; };
+		B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE5124019448008CA7BF /* MonthGradientView.swift */; };
 		B5E2269023D119AA0024C0AF /* VisitInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */; };
 		B5E4219B23EC77AD00476480 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219A23EC77AD00476480 /* ClientRepository.swift */; };
 		B5E4219D23EC7B3700476480 /* VisitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219C23EC7B3700476480 /* VisitRepository.swift */; };
@@ -204,6 +206,8 @@
 		B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionCell.swift; sourceTree = "<group>"; };
 		B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionHeader.swift; sourceTree = "<group>"; };
 		B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesTableCell.swift; sourceTree = "<group>"; };
+		B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		B5B3BE5124019448008CA7BF /* MonthGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGradientView.swift; sourceTree = "<group>"; };
 		B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitInfoController.swift; sourceTree = "<group>"; };
 		B5E4219A23EC77AD00476480 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
 		B5E4219C23EC7B3700476480 /* VisitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitRepository.swift; sourceTree = "<group>"; };
@@ -576,6 +580,8 @@
 			children = (
 				B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */,
 				B5F415AF23D7313B00D48319 /* CalendarCollectionCell.swift */,
+				B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */,
+				B5B3BE5124019448008CA7BF /* MonthGradientView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -778,6 +784,7 @@
 				B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */,
 				B516F28A23CE1F8A0087B2CB /* Time.swift in Sources */,
 				B5F8955323ECA1C800938FA7 /* Weekend.swift in Sources */,
+				B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */,
 				B5E76F5E23CF9DA8009F6D99 /* ClientProfileController.swift in Sources */,
 				B5890AEC23E35A8000C3A50E /* AdditionalServiceTableCell.swift in Sources */,
 				B5E9745F23E861200061AB9B /* ServicesController.swift in Sources */,
@@ -799,6 +806,7 @@
 				B5E6D62323D8B824001E18A3 /* CalendarData.swift in Sources */,
 				B5E939DB23EC5C58008112D4 /* AdditionalService+CoreDataProperties.swift in Sources */,
 				B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */,
+				B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */,
 				B5E939D523EC5C58008112D4 /* Visit+CoreDataProperties.swift in Sources */,
 				B5F415AC23D63DB300D48319 /* CalendarController.swift in Sources */,
 			);

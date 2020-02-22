@@ -57,31 +57,20 @@ class TodayViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Получить свободные места
-        unoccupiedPlaces = VisitRepository.unoccupiedPlaces(between: startDate, and: endDate, requiredDuration: requiredDuration)
-        // Перезагрузить содержимое таблицы
         updateTableData()
     }
     
-    /// Обновляет содержимое TableView
     private func updateTableData() {
-        tableData.removeAll()
-        // Получить сегодняшние записи
-        let visits = VisitRepository.visits(
+        tableData = VisitRepository.visitsWithClients(
             for: Date.today,
             hideCancelled: Settings.isCancelledVisitsHidden,
             hideNotCome: Settings.isClientNotComeVisitsHidden
         )
-        
-        // Заполнить массив данных клиентами и их записями
-        var client: Client? = nil
-        visits.forEach {
-            if $0.client != client {
-                tableData.append($0.client)
-                client = $0.client
-            }
-            tableData.append($0)
-        }
+        unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
+            between: startDate,
+            and: endDate,
+            requiredDuration: requiredDuration
+        )
         tableView.reloadData()
     }
     
@@ -137,16 +126,13 @@ extension TodayViewController: SegueHandler {
             }
         case .showClientProfile:
             if let target = segue.destination as? ClientProfileController {
-                // Отправить клиента в ClientProfileController
                 target.client = tableData[tableView.indexPathForSelectedRow!.row] as? Client
             }
         case .showVisitInfo:
             if let target = segue.destination as? VisitInfoController {
                 if let indexPath = tableView.indexPathForSelectedRow {
-                    // Отправить в VisitInfoController выбранную запись
                     target.visit = tableData[indexPath.row] as? Visit
                 } else if let sender = sender as? SearchResultsController {
-                    // Отправить в VisitInfoController выбранную запись из результатов поиска
                     target.visit = sender.selectedVisit
                 }
             }
@@ -163,11 +149,6 @@ extension TodayViewController: SegueHandler {
     
     /// Возврат с экрана создания записи
     @IBAction func unwindFromAddVisitToToday(segue: UIStoryboardSegue) {
-        // Обновить свободные места
-        unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
-            between: startDate,
-            and: endDate,
-            requiredDuration: requiredDuration)
         updateTableData()
     }
     
@@ -178,25 +159,9 @@ extension TodayViewController: SegueHandler {
             startDate = source.startDate
             endDate = source.endDate
             requiredDuration = source.requiredDuration
-            
-            // Обновить свободные места
-            unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
-                between: startDate,
-                and: endDate,
-                requiredDuration: requiredDuration)
+        
             updateTableData()
         }
-    }
-}
-
-
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension TodayViewController: UICollectionViewDelegateFlowLayout {
-    // Размер ячейки коллекции свободных мест
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionCellSize
     }
 }
 
@@ -324,6 +289,16 @@ extension TodayViewController {
         return section == 0 ?
             NSLocalizedString("VISITS", comment: "Записи") :
             NSLocalizedString("UNOCCUPIED_PLACES", comment: "Свободные места")
+    }
+}
+
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension TodayViewController: UICollectionViewDelegateFlowLayout {
+    // Размер ячейки коллекции свободных мест
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionCellSize
     }
 }
 

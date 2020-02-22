@@ -96,6 +96,21 @@ class VisitRepository {
         }
     }
     
+    class func visitsWithClients(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [AnyObject] {
+        let visits = VisitRepository.visits(for: date, hideCancelled: hideCancelled, hideNotCome: hideNotCome)
+        var result = [AnyObject]()
+        
+        var client: Client? = nil
+        visits.forEach {
+            if $0.client != client {
+                result.append($0.client)
+                client = $0.client
+            }
+            result.append($0)
+        }
+        return result
+    }
+    
     /**
      Удалить запись
      - parameter visit: Запись, подлежащая удалению
@@ -167,7 +182,7 @@ class VisitRepository {
                 }
             }
             // Переходим к следующему дню
-            date = date.nextDay
+            date += 1
         }
         return result
     }
@@ -244,7 +259,7 @@ class VisitRepository {
                 }
             }
             // Переходим к следующему дню
-            date = date.nextDay
+            date += 1
         }
         return result
     }

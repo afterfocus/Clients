@@ -20,7 +20,6 @@ class SettingsControler: UITableViewController {
     /// Метки рабочего графика
     @IBOutlet var scheduleLabels: [UILabel]!
     
-    ///
     @IBOutlet weak var widgetSearchDurationLabel: UILabel!
     @IBOutlet weak var widgetSearchRangeLabel: UILabel!
     

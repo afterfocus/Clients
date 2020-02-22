@@ -23,13 +23,7 @@ enum DayOfWeekStyle {
 
 /// День недели
 enum Weekday: Int {
-    case sunday
-    case monday
-    case tuesday
-    case wednesday
-    case thursday
-    case friday
-    case saturday
+    case sunday, monday, tuesday, wednesday, thursday, friday, saturday
     
     /// Локализованное название дня недели
     var name: String {
@@ -63,18 +57,7 @@ enum Weekday: Int {
 
 // Месяц
 enum Month: Int {
-    case january = 1
-    case february
-    case march
-    case april
-    case may
-    case june
-    case july
-    case august
-    case september
-    case october
-    case november
-    case december
+    case january = 1, february, march, april, may, june, july, august, september, october, november, december
     
     /// Локализованное название месяца
     var name: String {
@@ -146,21 +129,6 @@ struct Date {
         return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
     }
     
-    /// Следующий день
-    var nextDay: Date {
-        var (day, month, year) = (self.day + 1, self.month.rawValue, self.year)
-        if day > Date.numberOfDaysIn(month, year: year) {
-            day -= Date.numberOfDaysIn(month, year: year)
-            if month == 12 {
-                month = 1
-                year += 1
-            } else {
-                month += 1
-            }
-        }
-        return Date(day: day, month: month, year: year)
-    }
-    
     /**
      Вычесть заданное количество месяцев из даты.
      - parameter count: Количество месяцев для вычитания
@@ -198,16 +166,14 @@ struct Date {
     
     // MARK: Initializers
     
-    init(day: Int = 1, month: Int, year: Int) {
-        self.day = day
-        self.month = Month(rawValue: month)!
-        self.year = year
-    }
-    
     init(day: Int, month: Month, year: Int) {
         self.day = day
         self.month = month
         self.year = year
+    }
+    
+    init(day: Int = 1, month: Int, year: Int) {
+        self.init(day: day, month: Month(rawValue: month)!, year: year)
     }
     
     /// Извлекает день, месяц и год из экземпляра класса Date каркаса Foundation

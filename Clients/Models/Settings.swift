@@ -114,14 +114,8 @@ class Settings {
     }
     
     static var clientArchivingPeriod: Int {
-        set {
-            sharedDefaults.set(newValue, forKey: clientArchivingPeriodKey)
-        }
-        get {
-            return (
-                sharedDefaults.integer(forKey: clientArchivingPeriodKey)
-            )
-        }
+        set { sharedDefaults.set(newValue, forKey: clientArchivingPeriodKey) }
+        get { return sharedDefaults.integer(forKey: clientArchivingPeriodKey) }
     }
         
     static var isCancelledVisitsHidden: Bool {

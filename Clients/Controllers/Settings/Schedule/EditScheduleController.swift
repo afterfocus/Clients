@@ -39,10 +39,12 @@ class EditScheduleController: UITableViewController {
             end: Time(foundationDate: endTimePicker.date)
             )
         )
+        
+        // TODO: Убрать в репозиторий
         if isWeekendOldValue != isWeekendSwitch.isOn {
             var date = Date.today
             while date.dayOfWeek != dayOfWeek {
-                date = date.nextDay
+                date += 1
             }
             
             if isWeekendOldValue && !isWeekendSwitch.isOn {

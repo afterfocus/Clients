@@ -16,7 +16,7 @@ public class Client: NSManagedObject {
     /// Фотография клиента
     var photo: UIImage? {
         get {
-            photoData != nil ? UIImage(data: photoData!) : nil
+            return photoData != nil ? UIImage(data: photoData!) : nil
         }
         set {
             photoData = newValue?.jpegData(compressionQuality: 1.0)

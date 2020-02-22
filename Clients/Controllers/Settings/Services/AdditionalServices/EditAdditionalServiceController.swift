@@ -9,9 +9,6 @@
 import UIKit
 
 class EditAdditionalServiceController: UITableViewController {
-
-    var service: Service!
-    var additionalService: AdditionalService!
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var durationSignSegmentedControl: UISegmentedControl!
@@ -19,6 +16,9 @@ class EditAdditionalServiceController: UITableViewController {
     @IBOutlet weak var durationPicker: UIPickerView!
     @IBOutlet weak var costSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var costTextField: UITextField!
+    
+    var service: Service!
+    var additionalService: AdditionalService!
     
     private var isDurationPickerShown = false {
         didSet {

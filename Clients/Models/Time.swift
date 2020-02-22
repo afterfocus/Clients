@@ -153,11 +153,11 @@ extension Time: Comparable {
         }
     }
     
-    static func <=(lhs: Time, rhs: Time) -> Bool {
+    static func <= (lhs: Time, rhs: Time) -> Bool {
         return lhs < rhs || lhs == rhs
     }
     
-    static func >=(lhs: Time, rhs: Time) -> Bool {
+    static func >= (lhs: Time, rhs: Time) -> Bool {
         return lhs > rhs || lhs == rhs
     }
 

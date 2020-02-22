@@ -20,27 +20,17 @@ class CalendarController: UIViewController {
     /// Календарь
     @IBOutlet weak var calendarView: UICollectionView!
     /// Представление названия месяца для свободного режима пролистывания
-    @IBOutlet weak var monthView: UIView!
-    /// Название месяца для свободного режима пролистывания
-    @IBOutlet weak var monthLabel: UILabel!
+    @IBOutlet weak var monthGradientView: MonthGradientView!
     
+    /// Представление рабочего графика
+    @IBOutlet weak var scheduleView: ScheduleView!
     /// Список записей на выбранный день
     @IBOutlet weak var visitsTableView: UITableView!
-    /// Корневое представление рабочего графика
-    @IBOutlet weak var scheduleView: UIView!
-    /// Представление рабочего дня
-    @IBOutlet weak var workdayView: UIView!
-    /// Представление выходного дня
-    @IBOutlet weak var weekendView: UIView!
-    /// Метка рабочего графика
-    @IBOutlet weak var scheduleLabel: UILabel!
     
     /// Отступ календаря от NavigationBar
     @IBOutlet weak var calendarViewTop: NSLayoutConstraint!
     /// Высота календаря
     @IBOutlet weak var calendarViewHeight: NSLayoutConstraint!
-    /// Высота представления рабочего графика
-    @IBOutlet weak var scheduleViewHeight: NSLayoutConstraint!
     /// Высота списка записей
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
@@ -56,10 +46,7 @@ class CalendarController: UIViewController {
     
     /// Генератор обратной связи (для щелчков при пролистывании календаря)
     private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-    /// Градиент под названием месяца в свободном режиме пролистывания
-    private var gradient = CAGradientLayer()
     
-    // MARK: - SearchController
     /// Контроллер поиска записей по имени и фамилии клиента
     private var searchController: UISearchController!
     /// Контроллер отображения результатов поиска записей
@@ -90,7 +77,7 @@ class CalendarController: UIViewController {
     private var pickedCell: IndexPath! {
         /// При изменении обновляет представление `scheduleView` и данные списка записей `tableData`
         didSet {
-            configureScheduleView(isWeekend: calendarData[pickedCell].isWeekend)
+            updateScheduleView()
             tableData = calendarData[pickedCell].visits
         }
     }
@@ -125,7 +112,7 @@ class CalendarController: UIViewController {
         calendarData.reset()
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits
-        configureScheduleView(isWeekend: calendarData[pickedCell].isWeekend)
+        updateScheduleView()
     }
     
     // При первом запуске контроллера, как только была завершена расстановка дочерних представлений, необходимо запомнить высоту секции календаря, вычислить размер ячеек и перейти к текущему дню в календаре
@@ -136,12 +123,6 @@ class CalendarController: UIViewController {
             calendarPageHeight = calendarView.frame.height
             // Вычислить размер ячеек календаря (размер секции: 7 х 6 ячеек)
             cellSize = CGSize(width: calendarView.frame.width / 7 - 0.00001, height: (calendarPageHeight - 40) / 6)
-            
-            // Создание градиента под надписью месяца
-            gradient.frame = monthView.bounds
-            gradient.locations = [0.4, 1.0]
-            gradient.colors = [UIColor.systemBackground.cgColor, UIColor.systemBackground.withAlphaComponent(0).cgColor]
-            monthView.layer.insertSublayer(gradient, at: 0)
         
             // Переход к текущему дню в календаре
             let contentOffset = CGPoint(x: 0, y: calendarPageHeight * CGFloat(pickedCell.section))
@@ -157,11 +138,6 @@ class CalendarController: UIViewController {
         // Вернуть фон MavigationBar
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
-    }
-    
-    // Обновить цвета градиента под названием месяца при смене темы
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        gradient.colors = [UIColor.systemBackground.cgColor, UIColor.systemBackground.withAlphaComponent(0).cgColor]
     }
     
     
@@ -252,6 +228,16 @@ class CalendarController: UIViewController {
         }
     }
     
+    private func updateScheduleView() {
+        if calendarData[pickedCell].isWeekend {
+            scheduleView.configure(state: .weekend)
+        } else {
+            let schedule = Settings.schedule(for: calendarData.dateFor(pickedCell).dayOfWeek)
+            scheduleView.configure(state: .workday(start: schedule.start, end: schedule.end))
+        }
+        visitsTableView.contentInset.top = scheduleView.height
+    }
+    
     /**
      В зависимости от значения `newValue` добавляет новый выходной день или удаляет существующий для даты, связанной с ячейкой `pickedCell`.
      - Parameter newValue: является ли выходным днём дата, связанная с ячейкой `pickedCell`
@@ -266,30 +252,7 @@ class CalendarController: UIViewController {
         CoreDataManager.instance.saveContext()
         // Внести изменения в кеш данных календаря
         calendarData[pickedCell].isWeekend = newValue
-        // Обновить содержимое scheduleView
-        configureScheduleView(isWeekend: newValue)
-    }
-    
-    
-    /**
-     Обновить содержимое представления рабочего графика в зависимости от значения `isWeekend`
-     - Parameter isWeekend: является ли выбранный день выходным
-     */
-    private func configureScheduleView(isWeekend: Bool) {
-        // Показать / скрыть панель рабочего графика
-        scheduleViewHeight.constant = isWeekend ? 70 : 1.0 / UIScreen.main.scale
-        visitsTableView.contentInset.top = scheduleViewHeight.constant
-        
-        // Отобрать нужное дочернее представление панели рабочего графика
-        workdayView.isHidden = isWeekend
-        weekendView.isHidden = !isWeekend
-        
-        // Если не выходной, загрузить из UserDefaults и отобразить время начала и окончания рабочего дня
-        if !isWeekend {
-            let date = calendarData.dateFor(pickedCell)
-            let schedule = Settings.schedule(for: date.dayOfWeek)
-            scheduleLabel.text = NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") + " \(schedule.start) " + NSLocalizedString("TO", comment: "до") + " \(schedule.end)"
-        }
+        updateScheduleView()
     }
     
     /**
@@ -304,14 +267,8 @@ class CalendarController: UIViewController {
         if calendarView.isPagingEnabled {
             /// Количество строк в секции = (кол-во дней в месяце + первый день месяца) div 7
             let numberOfWeeks = ceil(Double(calendarData[section].firstDay + calendarData[section].numberOfDays) / 7)
-            
             // 23 - высота панели с пиктограммами дней недели
-            switch numberOfWeeks {
-            case 4: tableViewHeight.constant = 23 + cellSize.height * 2
-            case 5: tableViewHeight.constant = 23 + cellSize.height
-            case 6: tableViewHeight.constant = 23
-            default : break
-            }
+            tableViewHeight.constant = 23 + cellSize.height * CGFloat(6 - numberOfWeeks)
             // Сдвинуть календарь вверх под NavigationBar на высоту заголовка секции календаря
             calendarViewTop.constant = -41
             // Высоту календаря сбросить до начального значения
@@ -326,7 +283,7 @@ class CalendarController: UIViewController {
             tableViewHeight.constant = -UIScreen.main.bounds.height * 0.35
         }
         // Изменить фон календаря в зависимости от режима
-        self.view.backgroundColor = self.calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
+        view.backgroundColor = calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
         // Анимировать изменения при необходимости
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
@@ -358,14 +315,12 @@ extension CalendarController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Скроллинг списка записей открывает или закрывает панель рабочего графика
         if scrollView === visitsTableView {
-            let isWeekend = calendarData[pickedCell].isWeekend
-            scheduleView.alpha = max(0, min(1, -scrollView.contentOffset.y * (isWeekend ? 0.02 : 0.028) - 0.4))
-            scheduleViewHeight.constant = max(1.0 / UIScreen.main.scale, -scrollView.contentOffset.y)
+            scheduleView.height = -scrollView.contentOffset.y
         // Скроллинг календаря в свободном режиме обновляет текст метки названия месяца
         } else if scrollView === calendarView && !calendarView.isPagingEnabled {
             /// Индекс текущей отображаемой секции
             let section = Int(round(scrollView.contentOffset.y / calendarPageHeight))
-            monthLabel.text = calendarData.dateFor(section < 0 ? 0 : section).string(style: .monthAndYear)
+            monthGradientView.text = calendarData.dateFor(section < 0 ? 0 : section).string(style: .monthAndYear)
         }
     }
     
@@ -395,15 +350,7 @@ extension CalendarController: UIScrollViewDelegate {
                 
             // В свободном режиме при быстром пролистывании отобразить название месяца
             } else if velocity.y.magnitude > 1 {
-                monthView.alpha = 1
-                monthLabel.alpha = 1
-                // И анимировать исчезновение через 1 секунду
-                UIView.animate(withDuration: 0.5, delay: 1.0, options: .curveEaseIn, animations: {
-                    self.monthLabel.alpha = 0
-                })
-                UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
-                    self.monthView.alpha = 0
-                })
+                monthGradientView.showAndSmoothlyDisappear()
             }
         }
     }
