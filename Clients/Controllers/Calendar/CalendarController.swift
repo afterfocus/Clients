@@ -421,7 +421,7 @@ extension CalendarController: UICollectionViewDelegate {
 
 // MARK: - UICollectionViewDataSource
 
-extension CalendarController {
+extension CalendarController: UICollectionViewDataSource {
     // Количество ячеек в секции календаря
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Количество ячеек в секции = 1 начальная заглушка + кол-во дней в месяце + кол-во заглушек, необходимое для того, чтобы в секции в итоге оказалось 6 строк (хотя-бы одна ячейка в шестой строке).

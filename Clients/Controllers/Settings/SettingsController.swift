@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 /// Контроллер экрана Настройки
 class SettingsControler: UITableViewController {
     /// Индикаторы предоставляемых услуг
