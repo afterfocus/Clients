@@ -125,6 +125,7 @@
 		B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */; };
 		B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */; };
 		B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB89A42402ACA7005A31B0 /* CalendarView.swift */; };
+		B5FB89A92402C6CD005A31B0 /* CalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB89A82402C6CD005A31B0 /* CalendarData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,6 +253,7 @@
 		B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekendRepository.swift; sourceTree = "<group>"; };
 		B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRepository.swift; sourceTree = "<group>"; };
 		B5FB89A42402ACA7005A31B0 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		B5FB89A82402C6CD005A31B0 /* CalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +352,7 @@
 				B516F28723CE1F830087B2CB /* Date.swift */,
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
 				B516F28D23CE501D0087B2CB /* Settings.swift */,
+				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				B5890AEE23E35A9100C3A50E /* OneLabelTableCell.swift in Sources */,
 				B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */,
 				B50C937E23E6FE4C00B2D2CB /* SettingsController.swift in Sources */,
+				B5FB89A92402C6CD005A31B0 /* CalendarData.swift in Sources */,
 				B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */,
 				B5E939D423EC5C58008112D4 /* Visit.swift in Sources */,
 				B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */,
