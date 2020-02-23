@@ -73,12 +73,7 @@ class EditAdditionalServiceController: UITableViewController {
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         costTextField.resignFirstResponder()
         if nameTextField.text!.isEmpty || costTextField.text!.isEmpty {
-            let alert = UIAlertController(
-                title: NSLocalizedString("SAVE_ERROR", comment: "Ошибка сохранения"),
-                message: NSLocalizedString("SAVE_SERVICE_ERROR_DESCRIPTION", comment: "Необходимо указать название и стоимость услуги"),
-                preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true)
+            present(UIAlertController.serviceSavingErrorAlert, animated: true)
         } else {
             let costText = String(costTextField.text!.dropFirst())
             let costSign = costSignSegmentedControl.selectedSegmentIndex == 0 ? 1 : -1
@@ -212,26 +207,15 @@ extension EditAdditionalServiceController {
                 title: NSLocalizedString("REMOVE_ADDITIONAL_SERVICE", comment: "Удалить дополнительную услугу"),
                 style: .destructive) {
                     action in
-                    let comfirmSheet = UIAlertController(
-                        title: NSLocalizedString("CONFIRM_DELETION", comment: "Подтвердите удаление"),
-                        message: NSLocalizedString("CONFIRM_ADDITIONAL_SERVICE_DELETION_DESCRIPTION", comment: "\nДополнительная услуга будет вычеркнута из всех записей, где она указана"),
-                        preferredStyle: .alert)
-                    let comfirm = UIAlertAction(
-                        title: NSLocalizedString("REMOVE_ADDITIONAL_SERVICE", comment: "Удалить дополнительную услугу"),
-                        style: .destructive) {
-                            action in
-                            AdditionalServiceRepository.remove(self.additionalService!)
-                            CoreDataManager.instance.saveContext()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    let cancel = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
-                    comfirmSheet.addAction(comfirm)
-                    comfirmSheet.addAction(cancel)
-                    self.present(comfirmSheet, animated: true)
+                    let confirmSheet = UIAlertController.confirmAdditionalServiceDeletionAlert {
+                        AdditionalServiceRepository.remove(self.additionalService!)
+                        CoreDataManager.instance.saveContext()
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    self.present(confirmSheet, animated: true)
             }
-            let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
             actionSheet.addAction(deleteAction)
-            actionSheet.addAction(cancelAction)
+            actionSheet.addAction(UIAlertAction.cancel)
             present(actionSheet, animated: true)
         default:
             isDurationPickerShown = false

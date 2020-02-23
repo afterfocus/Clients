@@ -138,12 +138,7 @@ extension ClientsTableViewController {
             // И если выбранный клиент находится в черном списке, отобразить сообщение о недопустимости выбора
             if tableData[keys[indexPath.section]]![indexPath.row].isBlocked {
                 tableView.deselectRow(at: indexPath, animated: true)
-                let alert = UIAlertController(
-                    title: NSLocalizedString("CLIENT_IN_BLACKLIST", comment: "Клиент в чёрном списке"),
-                    message: NSLocalizedString("CLIENT_IN_BLACKLIST_DETAILS", comment: "Запись недоступна для клиентов, находящихся в чёрном списке."),
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true)
+                present(UIAlertController.clientInBlacklistAlert, animated: true)
             // Иначе вернуться к экрану создания/редактирования записи
             } else {
                 performSegue(withIdentifier: .unwindFromClientsTableToEditVisit, sender: tableView.cellForRow(at: indexPath))

@@ -103,15 +103,9 @@ extension TodayViewController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
-            // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
-            if ServiceRepository.isEmpty {
-                let alert = UIAlertController(
-                    title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
-                    message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true)
-                
+            // Перейти к созданию услуги можно только если создана хотя-бы одна активная услуга
+            if ServiceRepository.activeServices.isEmpty {
+                present(UIAlertController.servicesNotSpecifiedAlert, animated: true)
             } else if let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditVisitController {
                 // После завершения редактирования вернуться обратно к экрану Сегодня
@@ -171,8 +165,8 @@ extension TodayViewController: SegueHandler {
 extension TodayViewController {
     // Высота ячейки таблицы
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let (section, row) = (indexPath.section, indexPath.row)
         if tableView === self.tableView {
+            let (section, row) = (indexPath.section, indexPath.row)
             // Ячейка коллекции свободных мест
             if section == 1 && row == 1, let height = unoccupiedPlacesCellHeight {
                 return height
@@ -199,8 +193,8 @@ extension TodayViewController {
             var string = ""
             for date in keys {
                 string += "\(date.string(style: .dayAndMonth)):"
-                for time in unoccupiedPlaces[date]! {
-                    string += " \(time),"
+                unoccupiedPlaces[date]!.forEach {
+                    string += " \($0),"
                 }
                 string.removeLast()
                 string += "\n"

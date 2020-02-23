@@ -82,12 +82,7 @@ class EditServiceController: UITableViewController {
     
     private func saveService() -> Bool {
         if nameTextField.text!.isEmpty || costTextField.text!.isEmpty {
-            let alert = UIAlertController(
-                title: NSLocalizedString("SAVE_ERROR", comment: "Ошибка сохранения"),
-                message: NSLocalizedString("SAVE_SERVICE_ERROR_DESCRIPTION", comment: "Необходимо указать название и стоимость услуги"),
-                preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true)
+            present(UIAlertController.serviceSavingErrorAlert, animated: true)
             return false
         } else {
             if let service = service {
@@ -195,20 +190,9 @@ extension EditServiceController {
         case (2, 0):
             isDurationPickerShown = false
             if !isArchive {
-                let actionSheet = UIAlertController(
-                    title: nil,
-                    message: NSLocalizedString("SERVICE_ARCHIVING_ALERT", comment: "Вы не сможете создавать записи для архивированных услуг"),
-                    preferredStyle: .actionSheet)
-                let archiveAction = UIAlertAction(
-                    title: NSLocalizedString("ARCHIVE", comment: "Архивировать"),
-                    style: .destructive) {
-                        action in self.isArchive = true
+                let actionSheet = UIAlertController.archiveServiceActionSheet {
+                    self.isArchive = true
                 }
-                let cancelAction = UIAlertAction(
-                    title: NSLocalizedString("CANCEL", comment: "Отменить"),
-                    style: .cancel)
-                actionSheet.addAction(archiveAction)
-                actionSheet.addAction(cancelAction)
                 present(actionSheet, animated: true)
             } else {
                 isArchive = false
@@ -220,26 +204,15 @@ extension EditServiceController {
                 title: NSLocalizedString("REMOVE_SERVICE", comment: "Удалить услугу"),
                 style: .destructive) {
                     action in
-                    let comfirmSheet = UIAlertController(
-                        title: NSLocalizedString("CONFIRM_DELETION", comment: "Подтвердите удаление"),
-                        message: NSLocalizedString("CONFIRM_SERVICE_DELETION_DESCRIPTION", comment: "\nУдаление услуги повлечет за собой удаление всех записей, связанных с этой услугой!"),
-                        preferredStyle: .alert)
-                    let comfirm = UIAlertAction(
-                        title: NSLocalizedString("REMOVE_SERVICE", comment: "Удалить услугу"),
-                        style: .destructive) {
-                            action in
-                            ServiceRepository.remove(self.service!)
-                            CoreDataManager.instance.saveContext()
-                            self.performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: self)
-                        }
-                    let cancel = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
-                    comfirmSheet.addAction(comfirm)
-                    comfirmSheet.addAction(cancel)
-                    self.present(comfirmSheet, animated: true)
+                    let confirmAlert = UIAlertController.confirmServiceDeletionAlert {
+                        ServiceRepository.remove(self.service!)
+                        CoreDataManager.instance.saveContext()
+                        self.performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: self)
+                    }
+                    self.present(confirmAlert, animated: true)
             }
-            let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
             actionSheet.addAction(deleteAction)
-            actionSheet.addAction(cancelAction)
+            actionSheet.addAction(UIAlertAction.cancel)
             present(actionSheet, animated: true)
         default: break
         }

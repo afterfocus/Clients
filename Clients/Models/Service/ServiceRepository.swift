@@ -16,15 +16,6 @@ class ServiceRepository {
         return NSFetchRequest<Service>(entityName: "Service")
     }
     
-    /// Возвращает `true`, если в БД нет ни одной записи
-    class var isEmpty: Bool {
-        do {
-            return try context.count(for: fetchRequest) == 0
-        } catch {
-            fatalError(#function + ": \(error)")
-        }
-    }
-    
     /// Предоставляемые  услуги
     class var activeServices: [Service] {
         let request = fetchRequest

@@ -152,13 +152,7 @@ class EditVisitController: UITableViewController {
     @IBAction func doneButtonPressed(_ sender: Any) {
         costTextField.resignFirstResponder()
         if client == nil || costTextField.text!.isEmpty {
-            let alert = UIAlertController(
-                title: NSLocalizedString("SAVE_ERROR", comment: "Ошибка сохранения"), message: client == nil ?
-                    NSLocalizedString("SAVE_VISIT_ERROR_CLIENT_NOT_SPECIFIED", comment: "Необходимо указать клиента, для которого создается запись") :
-                    NSLocalizedString("SAVE_VISIT_ERROR_PRICE_NOT_SPECIFIED", comment:"Необходимо указать стоимость услуги"),
-                preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
+            present(UIAlertController.visitSavingErrorAlert(clientNotSpecified: client == nil), animated: true)
         }
         else {
             let service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]

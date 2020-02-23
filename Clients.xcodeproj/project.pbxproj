@@ -75,6 +75,7 @@
 		B5768A0123F17E0600506953 /* UIDatePickerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */; };
 		B5777F6623CFDCBE00FB96D3 /* VisitHistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5777F6523CFDCBE00FB96D3 /* VisitHistoryTableCell.swift */; };
 		B5777F6823D0011600FB96D3 /* ClientProfileTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5777F6723D0011600FB96D3 /* ClientProfileTopView.swift */; };
+		B57FDC222402953900B4D757 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */; };
 		B5890AEA23E3585500C3A50E /* SelectAdditionalServicesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AE923E3585500C3A50E /* SelectAdditionalServicesController.swift */; };
 		B5890AEC23E35A8000C3A50E /* AdditionalServiceTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AEB23E35A8000C3A50E /* AdditionalServiceTableCell.swift */; };
 		B5890AEE23E35A9100C3A50E /* OneLabelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AED23E35A9100C3A50E /* OneLabelTableCell.swift */; };
@@ -198,6 +199,7 @@
 		B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDatePickerExtension.swift; sourceTree = "<group>"; };
 		B5777F6523CFDCBE00FB96D3 /* VisitHistoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitHistoryTableCell.swift; sourceTree = "<group>"; };
 		B5777F6723D0011600FB96D3 /* ClientProfileTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileTopView.swift; sourceTree = "<group>"; };
+		B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		B5890AE923E3585500C3A50E /* SelectAdditionalServicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAdditionalServicesController.swift; sourceTree = "<group>"; };
 		B5890AEB23E35A8000C3A50E /* AdditionalServiceTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceTableCell.swift; sourceTree = "<group>"; };
 		B5890AED23E35A9100C3A50E /* OneLabelTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLabelTableCell.swift; sourceTree = "<group>"; };
@@ -397,12 +399,13 @@
 			isa = PBXGroup;
 			children = (
 				B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */,
-				B503F1DB23D202FD0097B04E /* UIImageExtension.swift */,
 				B552D69723D2651000DF1CB9 /* StringExtension.swift */,
+				B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */,
 				B5E76F4F23CE7B9D009F6D99 /* UIButtonExtension.swift */,
 				B5E76F5323CE7DBD009F6D99 /* UIColorExtension.swift */,
-				B5E76F5123CE7C29009F6D99 /* UIViewControllerExtension.swift */,
 				B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */,
+				B503F1DB23D202FD0097B04E /* UIImageExtension.swift */,
+				B5E76F5123CE7C29009F6D99 /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				B5E76F6523CFAC74009F6D99 /* EditVisitController.swift in Sources */,
 				B5777F6823D0011600FB96D3 /* ClientProfileTopView.swift in Sources */,
 				B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */,
+				B57FDC222402953900B4D757 /* UIAlertControllerExtension.swift in Sources */,
 				B52C1F8023F0764C001CCDAB /* AdditionalServiceRepository.swift in Sources */,
 				B5E4219D23EC7B3700476480 /* VisitRepository.swift in Sources */,
 				B516F26D23CE15EA0087B2CB /* Clients.xcdatamodeld in Sources */,

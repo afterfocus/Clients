@@ -59,11 +59,9 @@ class CalendarCollectionCell: UICollectionViewCell {
                 numberLabel.font = .systemFont(ofSize: 18)
             }
         }
-        for (index, visit) in visits.enumerated() {
-            if index < 6 {
-                visitIndicators[index].backgroundColor = visit.service.color
-                visitIndicators[index].isHidden = false
-            }
+        for (index, visit) in visits.enumerated() where index < 6 {
+            visitIndicators[index].backgroundColor = visit.service.color
+            visitIndicators[index].isHidden = false
         }
     }
 }

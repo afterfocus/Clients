@@ -210,13 +210,8 @@ extension ClientProfileController: SegueHandler {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
             // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
-            if ServiceRepository.isEmpty {
-                let alert = UIAlertController(
-                    title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
-                    message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                present(alert, animated: true)
+            if ServiceRepository.activeServices.isEmpty {
+                present(UIAlertController.servicesNotSpecifiedAlert, animated: true)
             } else if let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditVisitController {
                 // Отправить клиента в EditVisitController

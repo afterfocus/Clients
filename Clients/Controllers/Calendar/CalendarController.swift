@@ -193,16 +193,15 @@ class CalendarController: UIViewController {
      */
     @objc private func scheduleViewPressed() {
         let isWeekend = calendarData[pickedCell].isWeekend
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let action = UIAlertAction(
             title: isWeekend ? NSLocalizedString("CANCEL_A_DAY_OFF", comment: "Удалить выходной") : NSLocalizedString("MAKE_IT_A_DAY_OFF", comment: "Сделать выходным днём"),
             style: isWeekend ? .destructive : .default) {
                 // При подтверждении действия внести изменения в данные
                 action in self.updateIsWeekend(newValue: !isWeekend)
         }
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("CANCEL", comment: "Отменить"), style: .cancel)
         actionSheet.addAction(action)
-        actionSheet.addAction(cancelAction)
+        actionSheet.addAction(UIAlertAction.cancel)
         present(actionSheet, animated: true)
     }
 
@@ -383,15 +382,9 @@ extension CalendarController: SegueHandler {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
             // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
-            if ServiceRepository.isEmpty {
-                let alert = UIAlertController(
-                    title: NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги"),
-                    message: NSLocalizedString("SERVICES_NOT_SPECIFIED_DETAILS", comment: "Задайте список предоставляемых услуг во вкладке «‎Настройки»‎"),
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true)
-            }
-            else if let destination = segue.destination as? UINavigationController,
+            if ServiceRepository.activeServices.isEmpty {
+                present(UIAlertController.servicesNotSpecifiedAlert, animated: true)
+            } else if let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditVisitController {
                 // Отправить в EditVisitController дату, связанную с текущей выбранной ячейкой
                 target.date = calendarData.dateFor(pickedCell)
@@ -407,7 +400,7 @@ extension CalendarController: SegueHandler {
                     // Отправить в VisitInfoController выбранную запись из результатов поиска
                     target.visit = sender.selectedVisit
                     
-                    // FIXME: Если контроллер календаря не определяет контекст презентации, то для правильного отображения перехода к подробной информации о записи придётся скрыть контроллер поиска вручную
+                    // FIXME: Если контроллер календаря не определяет контекст презентации, то для правильного отображения перехода придётся скрыть контроллер поиска вручную
                     if !definesPresentationContext {
                         searchController.dismiss(animated: true)
                     }
@@ -431,7 +424,6 @@ extension CalendarController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == 0 {
             // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки положения первой видимой ячейки в зависимости от первого дня месяца.
-            // Ширина заглушки = ширина обычной ячейки * номер первого дня месяца
             return CGSize(
                 width: cellSize.width * CGFloat(calendarData[indexPath.section].firstDay),
                 height: cellSize.height)
@@ -449,7 +441,8 @@ extension CalendarController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Отфильтровать повторные нажатия на ту же ячейку
         if indexPath != pickedCell {
-            let oldPickedCell = pickedCell; pickedCell = indexPath
+            let oldPickedCell = pickedCell;
+            pickedCell = indexPath
             UIView.performWithoutAnimation {
                 self.calendarView.reloadItems(at: [indexPath, oldPickedCell!])
             }
@@ -468,7 +461,6 @@ extension CalendarController: UICollectionViewDataSource {
     // Количество ячеек в секции календаря
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Количество ячеек в секции = 1 начальная заглушка + кол-во дней в месяце + кол-во заглушек, необходимое для того, чтобы в секции в итоге оказалось 6 строк (хотя-бы одна ячейка в шестой строке).
-        // Ячейки-заглушки в конце могут и не понадобится. К примеру: в месяце 31 день и первый день месяца - воскресенье => отображается 1 заглушка шириной 6 ячеек + 31 день => 2 ячейки в последней шестой строке (всего 32 ячейки).
         return max(calendarData[section].numberOfDays + 1, 37 - calendarData[section].firstDay)
     }
     

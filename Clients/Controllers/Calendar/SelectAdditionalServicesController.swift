@@ -63,13 +63,7 @@ extension SelectAdditionalServicesController {
                 selectedAdditionalServices.insert(tableData[indexPath.row])
                 tableView.cellForRow(at: indexPath)!.accessoryType = .checkmark
             } else {
-                let alert = UIAlertController(
-                    title: nil,
-                    message: NSLocalizedString("MAXIMUM_NUMBER_OF_ADDITIONAL_SERVICES_IS_SELECTED",
-                        comment: "Выбрано максимальное количество дополнительных услуг"),
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                present(UIAlertController.maximumNumberOfAdditionalServicesSelectedAlert, animated: true)
             }
         // Если ячейка ранее была выбрана, убрать галочку с ячейки и удалить доп.услугу из набора выбранных
         } else {

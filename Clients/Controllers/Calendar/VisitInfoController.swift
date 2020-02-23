@@ -163,13 +163,10 @@ extension VisitInfoController {
                     CoreDataManager.instance.saveContext()
                     self.configureVisitInfo()
             }
-            let cancelAction = UIAlertAction(
-                title: NSLocalizedString("CANCEL", comment: "Отменить"),
-                style: .cancel)
             actionSheet.addAction(notComeAction)
             actionSheet.addAction(visitCancelledAction)
             actionSheet.addAction(deleteAction)
-            actionSheet.addAction(cancelAction)
+            actionSheet.addAction(UIAlertAction.cancel)
             present(actionSheet, animated: true)
         }
     }
