@@ -89,7 +89,6 @@
 		B5E2269023D119AA0024C0AF /* VisitInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */; };
 		B5E4219B23EC77AD00476480 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219A23EC77AD00476480 /* ClientRepository.swift */; };
 		B5E4219D23EC7B3700476480 /* VisitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219C23EC7B3700476480 /* VisitRepository.swift */; };
-		B5E6D62323D8B824001E18A3 /* CalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6D62223D8B824001E18A3 /* CalendarData.swift */; };
 		B5E76F5023CE7B9D009F6D99 /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E76F4F23CE7B9D009F6D99 /* UIButtonExtension.swift */; };
 		B5E76F5223CE7C29009F6D99 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E76F5123CE7C29009F6D99 /* UIViewControllerExtension.swift */; };
 		B5E76F5423CE7DBD009F6D99 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E76F5323CE7DBD009F6D99 /* UIColorExtension.swift */; };
@@ -125,6 +124,7 @@
 		B5F8955423ECA1C800938FA7 /* Weekend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955223ECA1C800938FA7 /* Weekend+CoreDataProperties.swift */; };
 		B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */; };
 		B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */; };
+		B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB89A42402ACA7005A31B0 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,7 +213,6 @@
 		B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitInfoController.swift; sourceTree = "<group>"; };
 		B5E4219A23EC77AD00476480 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
 		B5E4219C23EC7B3700476480 /* VisitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitRepository.swift; sourceTree = "<group>"; };
-		B5E6D62223D8B824001E18A3 /* CalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarData.swift; sourceTree = "<group>"; };
 		B5E76F4F23CE7B9D009F6D99 /* UIButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtension.swift; sourceTree = "<group>"; };
 		B5E76F5123CE7C29009F6D99 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		B5E76F5323CE7DBD009F6D99 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -252,6 +251,7 @@
 		B5F8955223ECA1C800938FA7 /* Weekend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weekend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekendRepository.swift; sourceTree = "<group>"; };
 		B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRepository.swift; sourceTree = "<group>"; };
+		B5FB89A42402ACA7005A31B0 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -349,7 +349,6 @@
 				B5E3E4D823ED529100E61B9D /* Weekend */,
 				B516F28723CE1F830087B2CB /* Date.swift */,
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
-				B5E6D62223D8B824001E18A3 /* CalendarData.swift */,
 				B516F28D23CE501D0087B2CB /* Settings.swift */,
 			);
 			path = Models;
@@ -515,9 +514,9 @@
 			isa = PBXGroup;
 			children = (
 				B5F415AB23D63DB300D48319 /* CalendarController.swift */,
-				B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */,
 				B5E76F6423CFAC74009F6D99 /* EditVisitController.swift */,
 				B5890AE923E3585500C3A50E /* SelectAdditionalServicesController.swift */,
+				B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -581,10 +580,11 @@
 		B5F415B123D732E200D48319 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */,
 				B5F415AF23D7313B00D48319 /* CalendarCollectionCell.swift */,
-				B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */,
+				B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */,
+				B5FB89A42402ACA7005A31B0 /* CalendarView.swift */,
 				B5B3BE5124019448008CA7BF /* MonthGradientView.swift */,
+				B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -794,6 +794,7 @@
 				B5E9745F23E861200061AB9B /* ServicesController.swift in Sources */,
 				B5E76F5023CE7B9D009F6D99 /* UIButtonExtension.swift in Sources */,
 				B5E939D623EC5C58008112D4 /* Service.swift in Sources */,
+				B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */,
 				B5E939DE23EC5CBB008112D4 /* Client.swift in Sources */,
 				B541E21C23CFD30A00FD1F3F /* ClientProfileTableTopView.swift in Sources */,
 				B516F28E23CE501D0087B2CB /* Settings.swift in Sources */,
@@ -807,7 +808,6 @@
 				B5777F6623CFDCBE00FB96D3 /* VisitHistoryTableCell.swift in Sources */,
 				B5890AF923E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift in Sources */,
 				B5E9746423E8652A0061AB9B /* EditServiceController.swift in Sources */,
-				B5E6D62323D8B824001E18A3 /* CalendarData.swift in Sources */,
 				B5E939DB23EC5C58008112D4 /* AdditionalService+CoreDataProperties.swift in Sources */,
 				B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */,
 				B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */,

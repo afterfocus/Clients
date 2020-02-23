@@ -37,7 +37,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WB3-ZZ-jc0">
+                            <collectionView opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WB3-ZZ-jc0" customClass="CalendarView" customModule="Clients" customModuleProvider="target">
                                 <rect key="frame" x="9.5" y="22" width="356" height="344.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mv2-Wi-P9s">
@@ -228,6 +228,8 @@
                                 <connections>
                                     <outlet property="dataSource" destination="65x-lW-Aug" id="cdU-sJ-5Pq"/>
                                     <outlet property="delegate" destination="65x-lW-Aug" id="HAJ-MY-XNK"/>
+                                    <outlet property="heightConstraint" destination="eFM-of-EBE" id="tXg-xY-6li"/>
+                                    <outlet property="topConstraint" destination="iJ4-Bk-eg1" id="toH-u9-kDu"/>
                                 </connections>
                             </collectionView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7j-HV-olx">
@@ -601,8 +603,6 @@
                     <connections>
                         <outlet property="backButton" destination="fx8-8P-Zjl" id="fmL-dn-DpE"/>
                         <outlet property="calendarView" destination="WB3-ZZ-jc0" id="Q1l-IB-UCK"/>
-                        <outlet property="calendarViewHeight" destination="eFM-of-EBE" id="Egl-OM-QAq"/>
-                        <outlet property="calendarViewTop" destination="iJ4-Bk-eg1" id="LxZ-PN-d3c"/>
                         <outlet property="monthGradientView" destination="5jr-Kn-TRd" id="r8S-i3-ez6"/>
                         <outlet property="scheduleView" destination="mdP-3G-dUP" id="Gmd-0S-XZP"/>
                         <outlet property="tableViewHeight" destination="6ts-H8-ATz" id="zca-O9-dZL"/>

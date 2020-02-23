@@ -8,8 +8,6 @@
 
 import UIKit
 
-// FIXME: Massive View Controller во всей красе
-
 /// Контроллер календаря
 class CalendarController: UIViewController {
     
@@ -18,7 +16,7 @@ class CalendarController: UIViewController {
     /// Кнопка возврата к текущему месяцу
     @IBOutlet weak var backButton: UIButton!
     /// Календарь
-    @IBOutlet weak var calendarView: UICollectionView!
+    @IBOutlet weak var calendarView: CalendarView!
     /// Представление названия месяца для свободного режима пролистывания
     @IBOutlet weak var monthGradientView: MonthGradientView!
     
@@ -27,20 +25,12 @@ class CalendarController: UIViewController {
     /// Список записей на выбранный день
     @IBOutlet weak var visitsTableView: UITableView!
     
-    /// Отступ календаря от NavigationBar
-    @IBOutlet weak var calendarViewTop: NSLayoutConstraint!
-    /// Высота календаря
-    @IBOutlet weak var calendarViewHeight: NSLayoutConstraint!
     /// Высота списка записей
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
 
     // MARK: - Private properties
     
-    /// Высота секции календаря
-    private var calendarPageHeight: CGFloat!
-    /// Размеры ячейки календаря
-    private var cellSize: CGSize!
     /// Инициализированы ли высота секции и размеры ячейки календаря
     private var isConfigured = false
     
@@ -97,7 +87,6 @@ class CalendarController: UIViewController {
         //definesPresentationContext = true
         
         tabBarController?.delegate = self
-        calendarView.scrollsToTop = false
         // Добавление распознавателя нажатия на представление рабочего графика
         scheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scheduleViewPressed)))
         // Изначально выбрать ячейку текущего дня
@@ -113,22 +102,16 @@ class CalendarController: UIViewController {
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits
         updateScheduleView()
+        // Обновить кнопку "назад"
+        backButton.setTitleWithoutAnimation(Date.today.string(style: .monthAndYear))
     }
     
     // При первом запуске контроллера, как только была завершена расстановка дочерних представлений, необходимо запомнить высоту секции календаря, вычислить размер ячеек и перейти к текущему дню в календаре
     override func viewDidLayoutSubviews() {
         if !isConfigured {
             isConfigured = true
-            // Запомнить высоту секции календаря
-            calendarPageHeight = calendarView.frame.height
-            // Вычислить размер ячеек календаря (размер секции: 7 х 6 ячеек)
-            cellSize = CGSize(width: calendarView.frame.width / 7 - 0.00001, height: (calendarPageHeight - 40) / 6)
-        
-            // Переход к текущему дню в календаре
-            let contentOffset = CGPoint(x: 0, y: calendarPageHeight * CGFloat(pickedCell.section))
-            calendarView.setContentOffset(contentOffset, animated: false)
-            // Обновить кнопку "назад"
-            backButton.setTitleWithoutAnimation(Date.today.string(style: .monthAndYear))
+            calendarView.configurePageAndCellSize()
+            calendarView.scrollTo(section: todayCell.section, animated: false)
             // Обновить высоту списка записей
             updateConstraints(section: pickedCell.section, animated: false)
         }
@@ -154,30 +137,19 @@ class CalendarController: UIViewController {
      */
     @IBAction func backButtonPressed(_ sender: UIButton) {
         // Если отображаемый месяц не равен текущему, то выполняется переход к текущему месяцу
-        let currentSection = Int(round(calendarView.contentOffset.y / calendarPageHeight))
-        if todayCell.section != currentSection {
-            // Сохранение индексов ячеек, требующих обновления
-            let oldPickedCell = pickedCell; pickedCell = todayCell
-            // Вычисление смещения нужной секции календаря
-            var targetOffset = CGPoint(x: 0, y: calendarPageHeight * CGFloat(todayCell.section))
-            
-            calendarView.setContentOffset(targetOffset, animated: true)
+        if todayCell.section != calendarView.currentSection {
+            calendarView.scrollTo(section: todayCell.section)
             UIView.performWithoutAnimation {
-                self.calendarView.reloadItems(at: [todayCell, oldPickedCell!])
+                self.calendarView.reloadItems(at: [todayCell, pickedCell!])
             }
+            // Вычисление смещения нужной секции календаря
+            var targetOffset = CGPoint(x: 0, y: calendarView.pageHeight * CGFloat(todayCell.section))
             scrollViewWillEndDragging(calendarView, withVelocity: CGPoint(), targetContentOffset: withUnsafeMutablePointer(to: &targetOffset) { $0 })
+            pickedCell = todayCell
         }
         // Иначе анимация подпрыгивания календаря
         else {
-            UIView.animate(withDuration: 0.2) {
-                self.calendarView.contentOffset.y -= 45
-            }
-            UIView.animate(withDuration: 0.25, delay: 0.2, animations: {
-                self.calendarView.contentOffset.y += 60
-            })
-            UIView.animate(withDuration: 0.2, delay: 0.4, options: .curveEaseOut, animations: {
-                self.calendarView.contentOffset.y -= 15
-            })
+            calendarView.jump()
         }
     }
     
@@ -222,8 +194,7 @@ class CalendarController: UIViewController {
         
         // Корректировать положение календаря, если включен постраничный режим
         if calendarView.isPagingEnabled {
-            let targetOffset = CGPoint(x: 0, y: calendarPageHeight * CGFloat(pickedCell.section))
-            calendarView.setContentOffset(targetOffset, animated: true)
+            calendarView.scrollTo(section: pickedCell.section)
         }
     }
     
@@ -262,22 +233,15 @@ class CalendarController: UIViewController {
      Устанавливает отступ `calendarViewTop` и высоту календаря `calendarViewHeight` на основании текущего режима пролистывания календаря (`isPagingEnabled`) и количества строк с ячейками в секции с номером `section`
      */
     private func updateConstraints(section: Int, animated: Bool = true) {
+        calendarView.updateTopAndHeightConstraints()
         // Если включен постраничный режим, высота списка записей изменяется в соответствии с количеством строк с ячейками в секции
         if calendarView.isPagingEnabled {
             /// Количество строк в секции = (кол-во дней в месяце + первый день месяца) div 7
             let numberOfWeeks = ceil(Double(calendarData[section].firstDay + calendarData[section].numberOfDays) / 7)
             // 23 - высота панели с пиктограммами дней недели
-            tableViewHeight.constant = 23 + cellSize.height * CGFloat(6 - numberOfWeeks)
-            // Сдвинуть календарь вверх под NavigationBar на высоту заголовка секции календаря
-            calendarViewTop.constant = -41
-            // Высоту календаря сбросить до начального значения
-            calendarViewHeight.constant = 0
+            tableViewHeight.constant = 23 + calendarView.cellSize.height * CGFloat(6 - numberOfWeeks)
+            
         } else {
-            // Если постраничный режим выключен, список записей спрятан
-            // Вывести календарь из под NavigationBar, чтобы были видны названия секций
-            calendarViewTop.constant = 0
-            // Высоту календаря дополнить на 0.35 высоты экрана, чтобы он занимал всю его площадь
-            calendarViewHeight.constant = UIScreen.main.bounds.height * 0.35
             // Высоту списка записей уменьшить на его начальную высоту (уменьшить до нуля)
             tableViewHeight.constant = -UIScreen.main.bounds.height * 0.35
         }
@@ -318,7 +282,7 @@ extension CalendarController: UIScrollViewDelegate {
         // Скроллинг календаря в свободном режиме обновляет текст метки названия месяца
         } else if scrollView === calendarView && !calendarView.isPagingEnabled {
             /// Индекс текущей отображаемой секции
-            let section = Int(round(scrollView.contentOffset.y / calendarPageHeight))
+            let section = calendarView.currentSection
             monthGradientView.text = calendarData.dateFor(section < 0 ? 0 : section).string(style: .monthAndYear)
         }
     }
@@ -327,7 +291,7 @@ extension CalendarController: UIScrollViewDelegate {
         // По окончании скроллинга календаря
         if scrollView is UICollectionView {
             /// Индекс секции, которая будет отображена по окончании анимации пролистывания
-            let section = Int(round(targetContentOffset.pointee.y / calendarPageHeight))
+            let section = Int(round(targetContentOffset.pointee.y / calendarView.pageHeight))
             /// Дата (месяц и год), связанная с отображаемой секцией
             let targetMonth = calendarData.dateFor(section)
 
@@ -425,10 +389,10 @@ extension CalendarController: UICollectionViewDelegateFlowLayout {
         if indexPath.item == 0 {
             // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки положения первой видимой ячейки в зависимости от первого дня месяца.
             return CGSize(
-                width: cellSize.width * CGFloat(calendarData[indexPath.section].firstDay),
-                height: cellSize.height)
+                width: calendarView.cellSize.width * CGFloat(calendarData[indexPath.section].firstDay),
+                height: calendarView.cellSize.height)
         } else {
-            return cellSize
+            return calendarView.cellSize
         }
     }
 }
@@ -457,7 +421,7 @@ extension CalendarController: UICollectionViewDelegate {
 
 // MARK: - UICollectionViewDataSource
 
-extension CalendarController: UICollectionViewDataSource {
+extension CalendarController {
     // Количество ячеек в секции календаря
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Количество ячеек в секции = 1 начальная заглушка + кол-во дней в месяце + кол-во заглушек, необходимое для того, чтобы в секции в итоге оказалось 6 строк (хотя-бы одна ячейка в шестой строке).
@@ -492,7 +456,7 @@ extension CalendarController: UICollectionViewDataSource {
         // Цвет текста красный, если связанный месяц - текущий
         header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .red : .label
         // Горизонатальный центр метки совпадает с центром первой видимой ячейки секции
-        header.moveCenterX(to: calendarData[indexPath.section].firstDay, cellWidth: cellSize.width)
+        header.moveCenterX(to: calendarData[indexPath.section].firstDay, cellWidth: calendarView.cellSize.width)
         return header
     }
 }
