@@ -11,11 +11,11 @@ import CoreData
 
 class ServiceRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
-    
+
     private class var fetchRequest: NSFetchRequest<Service> {
         return NSFetchRequest<Service>(entityName: "Service")
     }
-    
+
     /// Предоставляемые  услуги
     class var activeServices: [Service] {
         let request = fetchRequest
@@ -27,7 +27,7 @@ class ServiceRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /// Архивные  услуги
     class var archiveServices: [Service] {
         let request = fetchRequest
@@ -39,7 +39,7 @@ class ServiceRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Удалить услугу
      - parameter service: Услуга, подлежащая удалению

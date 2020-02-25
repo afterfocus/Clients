@@ -11,11 +11,11 @@ import CoreData
 
 class ClientRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
-    
+
     private class var fetchRequest: NSFetchRequest<Client> {
         return NSFetchRequest<Client>(entityName: "Client")
     }
-    
+
     /// Возвращает `true`, если в БД нет ни одного клиента
     class var isEmpty: Bool {
         do {
@@ -24,7 +24,7 @@ class ClientRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /// Номера телефонов клиентов для CallDirectoryExtension
     class var identificationPhoneNumbers: [(label: String, number: String, isBlocked: Bool)] {
         let request = fetchRequest
@@ -37,7 +37,7 @@ class ClientRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /// Активные и архивные клиенты, сгруппированные по первой букве фамилии
     class var clients: (active: [String: [Client]], archive: [String: [Client]]) {
         let minimumDate = Date.today.subtractMonths(Settings.clientArchivingPeriod)
@@ -57,10 +57,11 @@ class ClientRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Получить клиентов, удовлетворяющих строке поиска `pattern`.
-     - parameter pattern: Строка для поиска. Может содержать имя, фамилию, номер телефона, или ссылку на профиль вконтакте.
+     - parameter pattern: Строка для поиска. Может содержать имя, фамилию, номер телефона,
+     или ссылку на профиль вконтакте.
      - returns: Клиенты, сгруппированные по первой букве фамилии.
      */
     class func clients(matching pattern: String) -> [String: [Client]] {
@@ -73,7 +74,7 @@ class ClientRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Сгруппировать клиентов в словарь по первой букве фамилии
      - parameter clients: Массив (`Array`)  или набор (`Set`) клиентов для группировки
@@ -84,7 +85,7 @@ class ClientRepository {
             String($0.surname.first!)
         }
     }
-    
+
     /**
      Удалить клиента
      - parameter client: Клиент, подлежащий удалению

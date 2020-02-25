@@ -16,12 +16,12 @@ extension String {
 
         var result = ""
         var index = cleanPhoneNumber.startIndex
-        for ch in mask where index < cleanPhoneNumber.endIndex {
-            if ch == "X" {
+        for char in mask where index < cleanPhoneNumber.endIndex {
+            if char == "X" {
                 result.append(cleanPhoneNumber[index])
                 index = cleanPhoneNumber.index(after: index)
             } else {
-                result.append(ch)
+                result.append(char)
             }
         }
         return result

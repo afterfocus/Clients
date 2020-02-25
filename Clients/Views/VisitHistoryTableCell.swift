@@ -10,9 +10,9 @@ import UIKit
 
 /// Ячейка записи
 class VisitHistoryTableCell: UITableViewCell {
-    
+
     static let identifier = "VisitHistoryTableCell"
-    
+
     // MARK: - Main label style enum
     
     /// Стиль главной метки ячейки
@@ -24,9 +24,9 @@ class VisitHistoryTableCell: UITableViewCell {
         /// Главная метка отображает название услуги
         case service
     }
-    
+
     // MARK: - IBOutlets
-    
+
     /// Метка времени начала записи
     @IBOutlet weak var startLabel: UILabel!
     /// Метка времени окончания записи
@@ -41,9 +41,9 @@ class VisitHistoryTableCell: UITableViewCell {
     @IBOutlet weak var servicesLabel: UILabel!
     /// Индикатор текущей записи
     @IBOutlet weak var nowIndicatorView: UIView!
-    
+
     // MARK: -
-    
+
     /**
      Заполнить ячейку данными
      - Parameter visit: Запись для отображения в ячейке
@@ -58,11 +58,13 @@ class VisitHistoryTableCell: UITableViewCell {
         startLabel.text = "\(visit.time)"
         endLabel.text = "\(visit.time + visit.duration)"
         colorView.backgroundColor = visit.service.color
-        
+
         if visit.isCancelled || visit.isClientNotCome {
             costLabel.textColor = .red
             costLabel.alpha = 1
-            costLabel.text = visit.isCancelled ? NSLocalizedString("VISIT_CANCELLED_BY_CLIENT", comment: "Клиент отменил запись") : NSLocalizedString("IS_NOT_COME", comment: "Не явился по записи")
+            costLabel.text = visit.isCancelled ?
+                NSLocalizedString("VISIT_CANCELLED_BY_CLIENT", comment: "Клиент отменил запись") :
+                NSLocalizedString("IS_NOT_COME", comment: "Не явился по записи")
         } else {
             costLabel.textColor = .label
             costLabel.alpha = 0.5
@@ -77,4 +79,3 @@ class VisitHistoryTableCell: UITableViewCell {
         servicesLabel.text!.removeLast()
     }
 }
-

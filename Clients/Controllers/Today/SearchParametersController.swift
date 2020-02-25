@@ -16,19 +16,18 @@ class SearchParametersController: UITableViewController {
     @IBOutlet weak var startDatePicker: UIDatePicker!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var endDatePicker: UIDatePicker!
-    
+
     // MARK: - Segue properties
-    
+
     /// Начало интервала поиска
     var startDate: Date!
     /// Конец интервала поиска
     var endDate: Date!
     /// Требуемая продолжительность
     var requiredDuration: Time!
-    
-    
+
     // MARK: - Private properties
-    
+
     /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
         didSet {
@@ -47,22 +46,22 @@ class SearchParametersController: UITableViewController {
             endDateLabel.textColor = isEndDatePickerShown ? .red : .label
         }
     }
-    
-    
+
     override func viewDidLoad() {
         // Установка начальных значений
         durationPicker.set(time: requiredDuration)
         startDatePicker.set(date: startDate, time: nil)
         endDatePicker.set(date: endDate, time: nil)
-        
+
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
-        startDateLabel.text = DateFormatter.localizedString(from: startDatePicker.date, dateStyle: .long, timeStyle: .none)
+        startDateLabel.text = DateFormatter.localizedString(from: startDatePicker.date,
+                                                            dateStyle: .long,
+                                                            timeStyle: .none)
         endDateLabel.text = DateFormatter.localizedString(from: endDatePicker.date, dateStyle: .long, timeStyle: .none)
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         switch sender {
         case durationPicker:
@@ -84,21 +83,22 @@ class SearchParametersController: UITableViewController {
             if startDatePicker.date > sender.date {
                 startDate = Date(foundationDate: sender.date)
                 startDatePicker.date = sender.date
-                startDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+                startDateLabel.text = DateFormatter.localizedString(from: sender.date,
+                                                                    dateStyle: .long,
+                                                                    timeStyle: .none)
             }
         default: break
         }
     }
-    
+
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
-    
+
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: .unwindFromSearchSettingsToToday, sender: sender)
     }
 }
-
 
 // MARK: - SegueHandler
 extension SearchParametersController: SegueHandler {
@@ -106,7 +106,6 @@ extension SearchParametersController: SegueHandler {
         case unwindFromSearchSettingsToToday
     }
 }
-    
 
 // MARK: - UITableViewDelegate
 
@@ -134,7 +133,7 @@ extension SearchParametersController {
         }
         tableView.performBatchUpdates(nil)
     }
-    
+
     // Высота ячейки таблицы
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {

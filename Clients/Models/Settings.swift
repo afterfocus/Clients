@@ -17,16 +17,21 @@ class Settings {
         case week
         case day
         case counter
-        
+
         var string: String {
             switch self {
-            case .day: return NSLocalizedString("DAY", comment: "День")
-            case .week: return NSLocalizedString("WEEK", comment: "Неделя")
-            case .month: return NSLocalizedString("MONTH_UPPERCASE", comment: "Месяц")
-            case .counter: return NSLocalizedString("BY_NUMBER_OF_PLACES", comment: "По количеству мест") + " (\(Settings.widgetPlacesSearchCounter))"
+            case .day:
+                return NSLocalizedString("DAY", comment: "День")
+            case .week:
+                return NSLocalizedString("WEEK", comment: "Неделя")
+            case .month:
+                return NSLocalizedString("MONTH_UPPERCASE", comment: "Месяц")
+            case .counter:
+                return NSLocalizedString("BY_NUMBER_OF_PLACES",
+                                         comment: "По количеству мест") + "(\(Settings.widgetPlacesSearchCounter))"
             }
         }
-        
+
         var daysInRange: Int {
             switch self {
             case .month: return 30
@@ -36,12 +41,11 @@ class Settings {
             }
         }
     }
-    
-    
+
     static let sharedDefaults = UserDefaults(suiteName: "group.MaximGolov.Clients")!
-    
+
     // MARK: - Keys
-    
+
     private static let isVisitsShownInWidgetKey = "Is Visits Shown In Widget"
     private static let isTomorrowVisitsShownInWidgetKey = "Is Tomorrow Visits Shown In Widget"
     private static let priceListTextKey = "Price List Text"
@@ -61,33 +65,32 @@ class Settings {
     private static let startMinutesKey = " Start Minutes"
     private static let endMinutesKey = " End Minutes"
 
-    
     // MARK: - Properties Access
-    
+
     /// Определяет отображать ли записи на сегодняшний день в виджете
     static var isVisitsShownInWidget: Bool {
         set { sharedDefaults.set(newValue, forKey: isVisitsShownInWidgetKey) }
         get { return sharedDefaults.bool(forKey: isVisitsShownInWidgetKey) }
     }
-    
+
     /// Определяет, отображать ли записи на завтрашний день в виджете
     static var isTomorrowVisitsShownInWidget: Bool {
         set { sharedDefaults.set(newValue, forKey: isTomorrowVisitsShownInWidgetKey) }
         get { return sharedDefaults.bool(forKey: isTomorrowVisitsShownInWidgetKey) }
     }
-    
+
     /// Текст прайс-листа для быстрого копирования из виджета
     static var priceListText: String {
         set { sharedDefaults.set(newValue, forKey: priceListTextKey) }
         get { return sharedDefaults.string(forKey: priceListTextKey)! }
     }
-    
+
     /// Текст контактной информации для быстрого копирования из виджета
     static var contactInformationText: String {
         set { sharedDefaults.set(newValue, forKey: contactInformationTextKey) }
         get { return sharedDefaults.string(forKey: contactInformationTextKey)! }
     }
-    
+
     static var widgetPlacesSearchRequiredLength: Time {
         set {
             sharedDefaults.set(newValue.hours, forKey: widgetPlacesSearchRequiredLengthHoursKey)
@@ -100,44 +103,44 @@ class Settings {
             )
         }
     }
-    
+
     /// Интервал дат для быстрого поиска свободных мест из виджета
     static var widgetPlacesSearchRange: WidgetPlacesSearchRange {
         set { sharedDefaults.set(newValue.rawValue, forKey: widgetPlacesSearchRangeKey) }
         get { return WidgetPlacesSearchRange(rawValue: sharedDefaults.integer(forKey: widgetPlacesSearchRangeKey))! }
     }
-    
+
     /// Ограничение на максимальное количество находимых мест быстрым поиском из виджета
     static var widgetPlacesSearchCounter: Int {
         set { sharedDefaults.set(newValue, forKey: widgetPlacesSearchCounterKey) }
         get { return sharedDefaults.integer(forKey: widgetPlacesSearchCounterKey) }
     }
-    
+
     static var clientArchivingPeriod: Int {
         set { sharedDefaults.set(newValue, forKey: clientArchivingPeriodKey) }
         get { return sharedDefaults.integer(forKey: clientArchivingPeriodKey) }
     }
-        
+
     static var isCancelledVisitsHidden: Bool {
         set { sharedDefaults.set(newValue, forKey: isCancelledVisitsHiddenKey) }
         get { return sharedDefaults.bool(forKey: isCancelledVisitsHiddenKey) }
     }
-    
+
     static var isClientNotComeVisitsHidden: Bool {
         set { sharedDefaults.set(newValue, forKey: isClientNotComeVisitsHiddenKey) }
         get { return sharedDefaults.bool(forKey: isClientNotComeVisitsHiddenKey) }
     }
-    
+
     static var isOvertimeAllowed: Bool {
         set { sharedDefaults.set(newValue, forKey: isOvertimeAllowedKey) }
         get { return sharedDefaults.bool(forKey: isOvertimeAllowedKey) }
     }
-    
+
     static var shouldBlockIncomingCalls: Bool {
         set { sharedDefaults.set(newValue, forKey: shouldBlockIncomingCallsKey) }
         get { return sharedDefaults.bool(forKey: shouldBlockIncomingCallsKey) }
     }
-    
+
     /// Получить рабочий график на день недели `dayOfWeek`
     static func schedule(for dayOfWeek: Weekday) -> (isWeekend: Bool, start: Time, end: Time) {
         let day = String(dayOfWeek.rawValue)
@@ -149,7 +152,7 @@ class Settings {
                       minutes: sharedDefaults.integer(forKey: day + endMinutesKey))
         )
     }
-    
+
     /// Установить рабочий график на день недели `dayOfWeek`
     static func setSchedule(for dayOfWeek: Weekday, schedule: (isWeekend: Bool, start: Time, end: Time)) {
         let day = String(dayOfWeek.rawValue)
@@ -159,17 +162,16 @@ class Settings {
         sharedDefaults.set(schedule.end.hours, forKey: day + endHoursKey)
         sharedDefaults.set(schedule.end.minutes, forKey: day + endMinutesKey)
     }
-    
-    
+
     // MARK: - Default Settings
-    
+
     /// Настройки по умолчанию
     static var defaultSettings: [String: String] {
         var sharedDefaults = [
-            isVisitsShownInWidgetKey : "YES",
-            isTomorrowVisitsShownInWidgetKey : "YES",
-            priceListTextKey : NSLocalizedString("DEFAULT_PRICE_LIST", comment: "Прайс-лист"),
-            contactInformationTextKey : NSLocalizedString("DEFAULT_CONTACT_INFO", comment: "Контактная информация"),
+            isVisitsShownInWidgetKey: "YES",
+            isTomorrowVisitsShownInWidgetKey: "YES",
+            priceListTextKey: NSLocalizedString("DEFAULT_PRICE_LIST", comment: "Прайс-лист"),
+            contactInformationTextKey: NSLocalizedString("DEFAULT_CONTACT_INFO", comment: "Контактная информация"),
             widgetPlacesSearchRequiredLengthHoursKey: "1",
             widgetPlacesSearchRequiredLengthMinutesKey: "0",
             widgetPlacesSearchRangeKey: "\(WidgetPlacesSearchRange.week.rawValue)",
@@ -189,4 +191,3 @@ class Settings {
         return sharedDefaults
     }
 }
-

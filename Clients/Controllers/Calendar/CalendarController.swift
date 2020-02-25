@@ -10,38 +10,37 @@ import UIKit
 
 /// Контроллер календаря
 class CalendarController: UIViewController {
-    
+
     // MARK: - IBOutlets
-    
+
     /// Кнопка возврата к текущему месяцу
     @IBOutlet weak var backButton: UIButton!
     /// Календарь
     @IBOutlet weak var calendarView: CalendarView!
     /// Представление названия месяца для свободного режима пролистывания
     @IBOutlet weak var monthGradientView: MonthGradientView!
-    
+
     /// Представление рабочего графика
     @IBOutlet weak var scheduleView: ScheduleView!
     /// Список записей на выбранный день
     @IBOutlet weak var visitsTableView: UITableView!
-    
+
     /// Высота списка записей
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
-    
 
     // MARK: - Private properties
-    
+
     /// Инициализированы ли высота секции и размеры ячейки календаря
     private var isConfigured = false
-    
+
     /// Генератор обратной связи (для щелчков при пролистывании календаря)
     private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-    
+
     /// Контроллер поиска записей по имени и фамилии клиента
     private var searchController: UISearchController!
     /// Контроллер отображения результатов поиска записей
     private var searchResultsController: SearchResultsController!
-    
+
     // MARK: - Data
     /**
      Данные календаря.
@@ -56,7 +55,7 @@ class CalendarController: UIViewController {
             visitsTableView.reloadData()
         }
     }
-    
+
     /**
      Индекс ячейки, связанной с текущим днем.
    
@@ -71,33 +70,34 @@ class CalendarController: UIViewController {
             tableData = calendarData[pickedCell].visits
         }
     }
-    
+
     // MARK: - View Life Cycle
-    
+
     override func viewDidLoad() {
         // Создание контроллеров поиска и отображения результатов поиска
-        searchResultsController = self.storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as? SearchResultsController
+        searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as? SearchResultsController
         searchResultsController.tableView.delegate = self
         searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.searchResultsUpdater = searchResultsController
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.autocapitalizationType = .words
-        
+
         // FIXME: Для правильного отображения переходов из SearchResultsController необходимо, чтобы презентующий контроллер определял контекст презентации, но его определение приводит к неверному размещению SearchBar под NavigationItem.....
         //definesPresentationContext = true
-        
+
         tabBarController?.delegate = self
         // Добавление распознавателя нажатия на представление рабочего графика
         scheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scheduleViewPressed)))
         // Изначально выбрать ячейку текущего дня
         pickedCell = todayCell
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         // Скрыть фон Navigation Bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        // Сбросить кеш данных календаря, т.к. они могли быть изменены из других вкладок приложения, а так же обновить список записей
+        // Сбросить кеш данных календаря, т.к. они могли быть изменены из
+        // других вкладок приложения, а так же обновить список записей
         calendarData.reset()
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits
@@ -105,8 +105,10 @@ class CalendarController: UIViewController {
         // Обновить кнопку "назад"
         backButton.setTitleWithoutAnimation(Date.today.string(style: .monthAndYear))
     }
-    
-    // При первом запуске контроллера, как только была завершена расстановка дочерних представлений, необходимо запомнить высоту секции календаря, вычислить размер ячеек и перейти к текущему дню в календаре
+
+    // При первом запуске контроллера, как только была завершена расстановка дочерних
+    // представлений, необходимо запомнить высоту секции календаря, вычислить размер
+    // ячеек и перейти к текущему дню в календаре
     override func viewDidLayoutSubviews() {
         if !isConfigured {
             isConfigured = true
@@ -116,24 +118,24 @@ class CalendarController: UIViewController {
             updateConstraints(section: pickedCell.section, animated: false)
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         // Вернуть фон MavigationBar
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.shadowImage = nil
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     /// Нажатие на кнопку смены режима календаря (свободный / постраничный)
     @IBAction func calendarModeButtonPressed(_ sender: UIBarButtonItem) {
         // Переключить режим календарпя
         switchPagingMode()
     }
-    
+
     /**
-     Нажатие на "кнопку возврата". Пролистывает календарь обратно к текущему месяцу или воспроизводит анимацию подпрыгивания, если в календаре уже отображается текущий месяц.
+     Нажатие на "кнопку возврата". Пролистывает календарь обратно к текущему месяцу или
+     воспроизводит анимацию подпрыгивания, если в календаре уже отображается текущий месяц.
      */
     @IBAction func backButtonPressed(_ sender: UIButton) {
         // Если отображаемый месяц не равен текущему, то выполняется переход к текущему месяцу
@@ -146,57 +148,61 @@ class CalendarController: UIViewController {
             }
             // Вычисление смещения нужной секции календаря
             var targetOffset = CGPoint(x: 0, y: calendarView.pageHeight * CGFloat(pickedCell.section))
-            scrollViewWillEndDragging(calendarView, withVelocity: CGPoint(), targetContentOffset: withUnsafeMutablePointer(to: &targetOffset) { $0 })
+            scrollViewWillEndDragging(calendarView,
+                                      withVelocity: CGPoint(),
+                                      targetContentOffset: withUnsafeMutablePointer(to: &targetOffset) { $0 })
         } else {
             calendarView.jump()
         }
     }
-    
+
     /// Нажатие на кнопку поиска. Презентует `searchController`.
     @IBAction func searchButtonPressed(_ sender: Any) {
         present(searchController, animated: true)
     }
-    
+
     /**
      Обработчик нажатия на панель рабочего графика.
      
-     Отображает ActionSheet для возможности удалить/добавить выходной день. Если пользователь подтверждает действие, вызывает метод `updateIsWeekend` для внесения изменений в данные.
+     Отображает ActionSheet для возможности удалить/добавить выходной день. Если пользователь
+     подтверждает действие, вызывает метод `updateIsWeekend` для внесения изменений в данные.
      */
     @objc private func scheduleViewPressed() {
         let isWeekend = calendarData[pickedCell].isWeekend
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let action = UIAlertAction(
-            title: isWeekend ? NSLocalizedString("CANCEL_A_DAY_OFF", comment: "Удалить выходной") : NSLocalizedString("MAKE_IT_A_DAY_OFF", comment: "Сделать выходным днём"),
-            style: isWeekend ? .destructive : .default) {
+            title: isWeekend ?
+                NSLocalizedString("CANCEL_A_DAY_OFF", comment: "Удалить выходной") :
+                NSLocalizedString("MAKE_IT_A_DAY_OFF", comment: "Сделать выходным днём"),
+            style: isWeekend ? .destructive : .default) { _ in
                 // При подтверждении действия внести изменения в данные
-                action in self.updateIsWeekend(newValue: !isWeekend)
+                self.updateIsWeekend(newValue: !isWeekend)
         }
         actionSheet.addAction(action)
         actionSheet.addAction(UIAlertAction.cancel)
         present(actionSheet, animated: true)
     }
 
-    
     // MARK: - Private Methods
-    
+
     /// Переключить режим пролисытвания календаря (свободный / постраничный)
     private func switchPagingMode() {
         calendarView.isPagingEnabled = !calendarView.isPagingEnabled
         updateConstraints(section: pickedCell.section)
-        
+
         // Обновить текст на кнопке "назад"
         let date = calendarData.dateFor(pickedCell.section)
         backButton.setTitleWithoutAnimation(
             // "апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме
             calendarView.isPagingEnabled ? date.string(style: .monthAndYear) : "\(date.year)"
         )
-        
+
         // Корректировать положение календаря, если включен постраничный режим
         if calendarView.isPagingEnabled {
             calendarView.scrollTo(section: pickedCell.section)
         }
     }
-    
+
     private func updateScheduleView() {
         if calendarData[pickedCell].isWeekend {
             scheduleView.configure(state: .weekend)
@@ -206,9 +212,10 @@ class CalendarController: UIViewController {
         }
         visitsTableView.contentInset.top = scheduleView.height
     }
-    
+
     /**
-     В зависимости от значения `newValue` добавляет новый выходной день или удаляет существующий для даты, связанной с ячейкой `pickedCell`.
+     В зависимости от значения `newValue` добавляет новый выходной день или удаляет
+     существующий для даты, связанной с ячейкой `pickedCell`.
      - Parameter newValue: является ли выходным днём дата, связанная с ячейкой `pickedCell`
      */
     private func updateIsWeekend(newValue: Bool) {
@@ -223,59 +230,64 @@ class CalendarController: UIViewController {
         calendarData[pickedCell].isWeekend = newValue
         updateScheduleView()
     }
-    
+
     /**
      Обновить положение календаря и высоту списка записей
      - Parameter section: индекс отображаемой секции календаря
      - Parameter animated: определяет небходимость анимации изменений (`true` по умолчанию)
-     
-     Устанавливает отступ `calendarViewTop` и высоту календаря `calendarViewHeight` на основании текущего режима пролистывания календаря (`isPagingEnabled`) и количества строк с ячейками в секции с номером `section`
+
+     Устанавливает отступ `calendarViewTop` и высоту календаря `calendarViewHeight`
+     на основании текущего режима пролистывания календаря (`isPagingEnabled`) и количества
+     строк с ячейками в секции с номером `section`
      */
     private func updateConstraints(section: Int, animated: Bool = true) {
         calendarView.updateTopAndHeightConstraints()
-        // Если включен постраничный режим, высота списка записей изменяется в соответствии с количеством строк с ячейками в секции
+        // Если включен постраничный режим, высота списка записей изменяется
+        // в соответствии с количеством строк с ячейками в секции
         if calendarView.isPagingEnabled {
             /// Количество строк в секции = (кол-во дней в месяце + первый день месяца) div 7
             let numberOfWeeks = ceil(Double(calendarData[section].firstDay + calendarData[section].numberOfDays) / 7)
             // 23 - высота панели с пиктограммами дней недели
             tableViewHeight.constant = 23 + calendarView.cellSize.height * CGFloat(6 - numberOfWeeks)
-            
+
         } else {
             // Высоту списка записей уменьшить на его начальную высоту (уменьшить до нуля)
             tableViewHeight.constant = -UIScreen.main.bounds.height * 0.35
         }
-        
+
         // Анимировать изменения при необходимости
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                 self.view.layoutIfNeeded()
-                self.view.backgroundColor = self.calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
+                self.view.backgroundColor = self.calendarView.isPagingEnabled ?
+                    UIColor(named: "Calendar Background Color") : .systemBackground
             })
         } else {
-            view.backgroundColor = calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
+            view.backgroundColor = calendarView.isPagingEnabled ?
+                UIColor(named: "Calendar Background Color") : .systemBackground
         }
     }
 }
 
-    
 // MARK: - UITabBarControllerDelegate
 
 extension CalendarController: UITabBarControllerDelegate {
     // Нажатие на панель вкладок
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          shouldSelect viewController: UIViewController) -> Bool {
         // Если не было перехода из другой вкладки, нажатие на вкладку календаря эквивалентно нажатию на кнопку "назад"
-        if (viewController as! UINavigationController).topViewController is CalendarController && tabBarController.selectedIndex == 1 {
+        let navController = viewController as! UINavigationController
+        if navController.topViewController is CalendarController && tabBarController.selectedIndex == 1 {
             backButtonPressed(backButton)
         }
         return true
     }
 }
 
-
 // MARK: - UIScrollViewDelegate
 
 extension CalendarController: UIScrollViewDelegate {
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Скроллинг списка записей открывает или закрывает панель рабочего графика
         if scrollView === visitsTableView {
@@ -287,8 +299,10 @@ extension CalendarController: UIScrollViewDelegate {
             monthGradientView.text = calendarData.dateFor(section < 0 ? 0 : section).string(style: .monthAndYear)
         }
     }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         // По окончании скроллинга календаря
         if scrollView is UICollectionView {
             /// Индекс секции, которая будет отображена по окончании анимации пролистывания
@@ -297,7 +311,8 @@ extension CalendarController: UIScrollViewDelegate {
             let targetMonth = calendarData.dateFor(section)
 
             // Обновить текст на кнопке возврата ("апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме)
-            let title = calendarView.isPagingEnabled ? "\(targetMonth.string(style: .monthAndYear))" : "\(targetMonth.year)"
+            let title = calendarView.isPagingEnabled ?
+                "\(targetMonth.string(style: .monthAndYear))" : "\(targetMonth.year)"
             backButton.setTitleWithoutAnimation(title)
 
             if calendarView.isPagingEnabled {
@@ -308,10 +323,11 @@ extension CalendarController: UIScrollViewDelegate {
                 if targetMonth.month == Date.today.month && targetMonth.year == Date.today.year {
                     pickedDay = Date.today.day
                 }
-                collectionView(scrollView as! UICollectionView, didSelectItemAt: IndexPath(item: pickedDay, section: section))
+                collectionView(scrollView as! UICollectionView,
+                               didSelectItemAt: IndexPath(item: pickedDay, section: section))
                 // Щёлк
                 impactFeedbackGenerator.impactOccurred()
-                
+
             // В свободном режиме при быстром пролистывании отобразить название месяца
             } else if velocity.y.magnitude > 1 {
                 monthGradientView.showAndSmoothlyDisappear()
@@ -331,7 +347,6 @@ extension CalendarController: UIScrollViewDelegate {
     }
 }
 
-
 // MARK: - SegueHandler
 
 extension CalendarController: SegueHandler {
@@ -341,7 +356,7 @@ extension CalendarController: SegueHandler {
         /// Отобразить экран подробной информации о записи
         case showVisitInfo
     }
-    
+
     // Подготовиться к переходу
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
@@ -360,11 +375,10 @@ extension CalendarController: SegueHandler {
                 if let indexPath = visitsTableView.indexPathForSelectedRow {
                     // Отправить в VisitInfoController выбранную запись
                     target.visit = calendarData[pickedCell].visits[indexPath.row]
-                    
                 } else if let sender = sender as? SearchResultsController {
                     // Отправить в VisitInfoController выбранную запись из результатов поиска
                     target.visit = sender.selectedVisit
-                    
+
                     // FIXME: Если контроллер календаря не определяет контекст презентации, то для правильного отображения перехода придётся скрыть контроллер поиска вручную
                     if !definesPresentationContext {
                         searchController.dismiss(animated: true)
@@ -373,7 +387,7 @@ extension CalendarController: SegueHandler {
             }
         }
     }
-    
+
     @IBAction func unwindFromAddVisitToCalendar(segue: UIStoryboardSegue) {
         calendarData.reset()
         calendarView.reloadData()
@@ -381,14 +395,16 @@ extension CalendarController: SegueHandler {
     }
 }
 
-
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension CalendarController: UICollectionViewDelegateFlowLayout {
     // Размер ячейки календаря
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == 0 {
-            // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки положения первой видимой ячейки в зависимости от первого дня месяца.
+            // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки
+            // положения первой видимой ячейки в зависимости от первого дня месяца.
             return CGSize(
                 width: calendarView.cellSize.width * CGFloat(calendarData[indexPath.section].firstDay),
                 height: calendarView.cellSize.height)
@@ -397,7 +413,6 @@ extension CalendarController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
 
 // MARK: - UICollectionViewDelegate
 
@@ -419,28 +434,33 @@ extension CalendarController: UICollectionViewDelegate {
     }
 }
 
-
 // MARK: - UICollectionViewDataSource
 
 extension CalendarController: UICollectionViewDataSource {
     // Количество ячеек в секции календаря
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Количество ячеек в секции = 1 начальная заглушка + кол-во дней в месяце + кол-во заглушек, необходимое для того, чтобы в секции в итоге оказалось 6 строк (хотя-бы одна ячейка в шестой строке).
+        // Количество ячеек в секции = 1 начальная заглушка + кол-во дней в
+        // месяце + кол-во заглушек, необходимое для того, чтобы в секции
+        // в итоге оказалось 6 строк (хотя-бы одна ячейка в шестой строке).
         return max(calendarData[section].numberOfDays + 1, 37 - calendarData[section].firstDay)
     }
-    
+
     // Количество секций в календаре
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return calendarData.count
     }
-    
+
     // Формирование ячейки календаря
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки положения первой видимой ячейки в зависимости от первого дня месяца. Так же ячейки-заглушки могут понадобиться в конце для дополнения секции до 6 строк
+        // Первая ячейка - невидимая заглушка изменяемой ширины для корректировки
+        // положения первой видимой ячейки в зависимости от первого дня месяца.
+        // Так же ячейки-заглушки могут понадобиться в конце для дополнения секции до 6 строк
         if indexPath.item == 0 || indexPath.item > calendarData[indexPath.section].numberOfDays {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.calendarPlaceholderCell, for: indexPath)
+            return collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.calendarPlaceholderCell,
+                                                      for: indexPath)
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionCell.identifier, for: indexPath) as! CalendarCollectionCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionCell.identifier,
+                                                          for: indexPath) as! CalendarCollectionCell
             /// Данные на день, связанный с ячейкой
             let dayData = calendarData[indexPath]
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
@@ -454,9 +474,11 @@ extension CalendarController: UICollectionViewDataSource {
             return cell
         }
     }
-    
+
     // Формирование заголовка секции календаря
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CalendarCollectionHeader.identifier, for: indexPath) as! CalendarCollectionHeader
         // Текст = название месяца, связанного с секцией
         header.monthLabel.text = Month(rawValue: indexPath.section % 12 + 1)?.name
@@ -468,14 +490,13 @@ extension CalendarController: UICollectionViewDataSource {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 
 extension CalendarController: UITableViewDelegate {
     // Нажатие на элемент списка записей
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Нажатие на список записей в календаре
-        if tableView === self.visitsTableView {
+        if tableView === visitsTableView {
             tableView.deselectRow(at: indexPath, animated: true)
         // Нажатие на список результатов поиска
         } else {
@@ -483,7 +504,6 @@ extension CalendarController: UITableViewDelegate {
         }
     }
 }
-
 
 // MARK: - UITableViewDataSource
 
@@ -495,7 +515,8 @@ extension CalendarController: UITableViewDataSource {
 
     // Формирование элемента списка записей
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier, for: indexPath) as! VisitHistoryTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
+                                                 for: indexPath) as! VisitHistoryTableCell
         cell.configure(with: tableData[indexPath.row], labelStyle: .clientName)
         return cell
     }

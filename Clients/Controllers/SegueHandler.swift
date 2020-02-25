@@ -7,18 +7,18 @@
 //
 
 import UIKit
- 
+
 protocol SegueHandler {
     /// Идентификаторы переходов из данного контроллера
     associatedtype SegueIdentifier: RawRepresentable
 }
 
 extension SegueHandler where Self: UIViewController, SegueIdentifier.RawValue == String {
-    
+
     func performSegue(withIdentifier identifier: SegueIdentifier, sender: Any?) {
         performSegue(withIdentifier: identifier.rawValue, sender: sender)
     }
-    
+
     func segueIdentifier(for segue: UIStoryboardSegue) -> SegueIdentifier {
         guard
             let identifier = segue.identifier,

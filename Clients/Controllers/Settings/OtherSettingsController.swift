@@ -17,16 +17,15 @@ class OtherSettingsController: UITableViewController {
     @IBOutlet weak var isClientNotComeVisitsHiddenSwitch: UISwitch!
     @IBOutlet weak var isOvertimeAllowedSwitch: UISwitch!
     @IBOutlet weak var shouldBlockIncomingCallsSwitch: UISwitch!
-    
+
     private var isArchivingPeriodPickerShown = false {
         didSet {
             archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label
         }
     }
-    
-    
+
     // MARK: - View Life Cycle
-    
+
     override func viewWillAppear(_ animated: Bool) {
         let months = Settings.clientArchivingPeriod
         switch months {
@@ -43,14 +42,13 @@ class OtherSettingsController: UITableViewController {
         isOvertimeAllowedSwitch.isOn = Settings.isOvertimeAllowed
         shouldBlockIncomingCallsSwitch.isOn = Settings.shouldBlockIncomingCalls
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         Settings.clientArchivingPeriod = archivingPeriodPickerView.selectedRow(inComponent: 0) + 1
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     @IBAction func switchValueChanged(_ sender: UISwitch) {
         switch sender {
         case isCancelledVisitsHiddenSwitch:
@@ -66,7 +64,6 @@ class OtherSettingsController: UITableViewController {
     }
 }
 
-
 // MARK: - UIPickerViewDelegate
 
 extension OtherSettingsController: UIPickerViewDelegate {
@@ -80,20 +77,19 @@ extension OtherSettingsController: UIPickerViewDelegate {
             archivingPeriodLabel.text = "\(row + 1) " + NSLocalizedString("MONTH_PLURAL", comment: "месяцев")
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 33
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return component == 0 ? 70 : 60
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return component == 0 ? "\(row + 1)" : NSLocalizedString("MONTH_SHORT", comment: "мес")
     }
 }
-
 
 // MARK: - UIPickerViewDataSource
 
@@ -101,12 +97,11 @@ extension OtherSettingsController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return component == 0 ? 36 : 1
     }
 }
-
 
 // MARK: - UITableViewDelegate
 
@@ -115,12 +110,12 @@ extension OtherSettingsController {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 && indexPath.row == 0 {
             isArchivingPeriodPickerShown = !isArchivingPeriodPickerShown
-        } else{
+        } else {
             isArchivingPeriodPickerShown = false
         }
         tableView.performBatchUpdates(nil)
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 1 {
             return isArchivingPeriodPickerShown ? 160 : 0

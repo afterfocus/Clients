@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension AdditionalService {
     /// Стоимость
     @NSManaged public var cost: Float

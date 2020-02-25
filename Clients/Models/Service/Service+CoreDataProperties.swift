@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Service {
     /// Идентификатор цвета
     @NSManaged public var colorId: Int16

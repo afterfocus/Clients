@@ -20,7 +20,6 @@ enum TimeStyle {
     case shortDuration
 }
 
-
 // MARK: - Time
 
 /// Время
@@ -29,56 +28,72 @@ struct Time {
     private(set) var hours: Int
     /// Минуты
     private(set) var minutes: Int
-    
+
     var modulo: Time {
         Time(hours: abs(hours), minutes: abs(minutes))
     }
-    
+
+    private var durationString: String {
+        var hoursString: String
+        var minutesString: String
+
+        // FIXME: Использовать StringDict
+        switch hours {
+        case 0:
+            hoursString = ""
+        case 1:
+            hoursString = "1 " + NSLocalizedString("HOUR", comment: "час")
+        case 2...4:
+            hoursString = "\(hours) " + NSLocalizedString("HOUR_GENITIVE", comment: "часа")
+        default:
+            hoursString = "\(hours) " + NSLocalizedString("HOUR_GENITIVE_PLURAL", comment: "часов")
+        }
+
+        switch minutes {
+        case 0:
+            minutesString = ""
+        case 1, 21, 31, 41, 51:
+            minutesString = "\(minutes) " + NSLocalizedString("MINUTE", comment: "минута")
+        case 2...4, 22...24, 32...34, 42...44, 52...54:
+            minutesString = "\(minutes) " + NSLocalizedString("MINUTE_PLURAL", comment: "минуты")
+        default:
+            minutesString = "\(minutes) " + NSLocalizedString("MINUTES_GENITIVE", comment: "минут")
+        }
+
+        return hours == 0 ? minutesString : "\(hoursString) \(minutesString)"
+    }
+
     /// Получить локализованное строковое представление времени в формате `style`
     func string(style: TimeStyle) -> String {
         switch style {
         case .short:
             return "\(hours):" + (abs(minutes) < 10 ? "0" : "") + "\(minutes)"
         case .duration:
-            var hoursString: String
-            var minutesString: String
-            switch hours {
-            case 0: hoursString = ""
-            case 1: hoursString = "1 " + NSLocalizedString("HOUR", comment: "час")
-            case 2...4: hoursString = "\(hours) " + NSLocalizedString("HOUR_GENITIVE", comment: "часа")
-            default: hoursString = "\(hours) " + NSLocalizedString("HOUR_GENITIVE_PLURAL", comment: "часов")
-            }
-            switch minutes {
-            case 0: minutesString = ""
-            case 1, 21, 31, 41, 51: minutesString = "\(minutes) " + NSLocalizedString("MINUTE", comment: "минута")
-            case 2...4, 22...24, 32...34, 42...44, 52...54: minutesString = "\(minutes) " + NSLocalizedString("MINUTE_PLURAL", comment: "минуты")
-            default: minutesString = "\(minutes) " + NSLocalizedString("MINUTES_GENITIVE", comment: "минут")
-            }
-            return hours == 0 ? minutesString : "\(hoursString) \(minutesString)"
+            return durationString
         case .shortDuration:
             if hours == 0 || minutes == 0 {
-                return string(style: .duration)
+                return durationString
+            } else {
+                let hoursString = "\(hours) \(NSLocalizedString("HOUR_SHORT", comment: "ч"))"
+                let minutesString = "\(abs(minutes)) \(NSLocalizedString("MINUTES_SHORT", comment: "мин"))"
+                return "\(hoursString) \(minutesString)"
             }
-            let hoursString = "\(hours) \(NSLocalizedString("HOUR_SHORT", comment: "ч"))"
-            let minutesString = "\(abs(minutes)) \(NSLocalizedString("MINUTES_SHORT", comment: "мин"))"
-            return "\(hoursString) \(minutesString)"
         }
     }
-    
+
     // MARK: - Initializers
-    
+
     init(hours: Int = 0, minutes: Int = 0) {
         self.hours = hours
         self.minutes = minutes
     }
-    
+
     /// Извлекает значения часов и минут из экземляра класса Date каркаса Foundation
     init(foundationDate: Foundation.Date) {
         self.hours = Date.calendar.component(.hour, from: foundationDate)
         self.minutes = Date.calendar.component(.minute, from: foundationDate)
     }
 }
-
 
 // MARK: - CustomStringConvertible
 
@@ -89,7 +104,6 @@ extension Time: CustomStringConvertible {
     }
 }
 
-
 // MARK: - ExpressibleByIntegerLiteral
 
 extension Time: ExpressibleByIntegerLiteral {
@@ -97,28 +111,30 @@ extension Time: ExpressibleByIntegerLiteral {
         self.init(hours: integerLiteral)
     }
 }
-    
 
 // MARK: - Static
 
 extension Time: Comparable {
-    
+
     /// Текущее время
     static var currentTime: Time {
         Time(foundationDate: Foundation.Date())
     }
-    
-    static func +(left: Time, right: Time) -> Time {
+
+    static func + (left: Time, right: Time) -> Time {
         var result = left &+ right
-        if result.hours < 0 { result.hours += 24 }
-        else if result.hours > 23 { result.hours -= 24 }
+        if result.hours < 0 {
+            result.hours += 24
+        } else if result.hours > 23 {
+            result.hours -= 24
+        }
         return result
     }
-    
-    static func &+(left: Time, right: Time) -> Time {
+
+    static func &+ (left: Time, right: Time) -> Time {
         var hours = left.hours + right.hours
         var minutes = left.minutes + right.minutes
-        
+
         if minutes > 59 {
             hours += 1
             minutes -= 60
@@ -128,15 +144,15 @@ extension Time: Comparable {
         }
         return Time(hours: hours, minutes: minutes)
     }
-    
+
     static func == (lhs: Time, rhs: Time) -> Bool {
         return lhs.hours == rhs.hours && lhs.minutes == rhs.minutes
     }
-    
+
     static func != (lhs: Time, rhs: Time) -> Bool {
         return !(lhs == rhs)
     }
-    
+
     static func < (lhs: Time, rhs: Time) -> Bool {
         if lhs.hours != rhs.hours {
             return lhs.hours < rhs.hours
@@ -144,7 +160,7 @@ extension Time: Comparable {
             return lhs.minutes < rhs.minutes
         }
     }
-    
+
     static func > (lhs: Time, rhs: Time) -> Bool {
         if lhs.hours != rhs.hours {
             return lhs.hours > rhs.hours
@@ -152,11 +168,11 @@ extension Time: Comparable {
             return lhs.minutes > rhs.minutes
         }
     }
-    
+
     static func <= (lhs: Time, rhs: Time) -> Bool {
         return lhs < rhs || lhs == rhs
     }
-    
+
     static func >= (lhs: Time, rhs: Time) -> Bool {
         return lhs > rhs || lhs == rhs
     }

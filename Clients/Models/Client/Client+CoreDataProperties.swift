@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Client {
     /// Имя
     @NSManaged public var name: String

@@ -11,7 +11,7 @@ import CoreData
 
 class VisitRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
-    
+
     private class var sortedFetchRequest: NSFetchRequest<Visit> {
         let request = NSFetchRequest<Visit>(entityName: "Visit")
         request.sortDescriptors = [
@@ -22,7 +22,7 @@ class VisitRepository {
         ]
         return request
     }
-    
+
     /**
      Получить записи на конкретную дату `date`.
      - parameter date: Дата, на которую требуется получить записи
@@ -30,14 +30,15 @@ class VisitRepository {
      */
     class func visits(for date: Date) -> [Visit] {
         let request = sortedFetchRequest
-        request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)
+        request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i",
+                                        date.year, date.month.rawValue, date.day)
         do {
             return try context.fetch(request)
         } catch {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Получить записи на конкретную дату `date`.
      - Parameters:
@@ -48,7 +49,8 @@ class VisitRepository {
      */
     class func visits(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [Visit] {
         let request = sortedFetchRequest
-        var predicates = [NSPredicate(format: "year == %i AND month == %i AND day == %i", date.year, date.month.rawValue, date.day)]
+        var predicates = [NSPredicate(format: "year == %i AND month == %i AND day == %i",
+                                      date.year, date.month.rawValue, date.day)]
         if hideCancelled {
             predicates.append(NSPredicate(format: "isCancelled != true"))
         }
@@ -62,7 +64,7 @@ class VisitRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Получить записи, удовлетворяющие строке поиска `pattern`.
      - parameter pattern: Строка для поиска. Может содержать имя или фамилию клиента.
@@ -70,7 +72,8 @@ class VisitRepository {
      */
     class func visits(matching pattern: String) -> [Date: [Visit]] {
         let request = sortedFetchRequest
-        request.predicate = NSPredicate(format: "client.name BEGINSWITH[c] %@ OR client.surname BEGINSWITH[c] %@", pattern, pattern)
+        request.predicate = NSPredicate(format: "client.name BEGINSWITH[c] %@ OR client.surname BEGINSWITH[c] %@",
+                                        pattern, pattern)
         do {
             let matchingVisits = try context.fetch(request)
             return Dictionary(grouping: matchingVisits) { $0.date }
@@ -78,7 +81,7 @@ class VisitRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     /**
      Получить запись по ее идентификатору.
      - parameter idString: URI-представление идентификатора объекта.
@@ -86,7 +89,8 @@ class VisitRepository {
     class func visit(with idString: String) -> Visit? {
         do {
             if let objectIDURL = URL(string: idString),
-                let managedObjectID = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: objectIDURL) {
+                let managedObjectID = context.persistentStoreCoordinator?.managedObjectID(
+                    forURIRepresentation: objectIDURL) {
                 return try context.existingObject(with: managedObjectID) as? Visit
             } else {
                 return nil
@@ -95,12 +99,12 @@ class VisitRepository {
             fatalError(#function + ": \(error)")
         }
     }
-    
+
     class func visitsWithClients(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [AnyObject] {
         let visits = VisitRepository.visits(for: date, hideCancelled: hideCancelled, hideNotCome: hideNotCome)
         var result = [AnyObject]()
-        
-        var client: Client? = nil
+
+        var client: Client?
         visits.forEach {
             if $0.client != client {
                 result.append($0.client)
@@ -110,7 +114,7 @@ class VisitRepository {
         }
         return result
     }
-    
+
     /**
      Удалить запись
      - parameter visit: Запись, подлежащая удалению
@@ -118,16 +122,41 @@ class VisitRepository {
     class func remove(_ visit: Visit) {
         context.delete(visit)
     }
-    
+
     // MARK: Unoccupied Places Search
-    
+
+    private class func unoccupiedPlacesBeforeAndBetweenVisits(time: inout Time,
+                                                              requiredDuration duration: Time,
+                                                              visits: [Visit]) -> [Time] {
+        var unoccupiedPlaces = [Time]()
+        // Сначала ищем места до первой записи
+        while time &+ duration <= visits.first!.time {
+            unoccupiedPlaces.append(time)
+            time += duration
+        }
+
+        // Затем между записями (окна)
+        time = visits.first!.endTime
+        for visit in visits.dropFirst() where visit.endTime >= time {
+            while time &+ duration <= visit.time {
+                unoccupiedPlaces.append(time)
+                time += duration
+            }
+            time = visit.endTime
+        }
+
+        return unoccupiedPlaces
+    }
+
     /// Получить свободные места в интервале дат.
     /// - parameters:
     ///   - startDate: Начало интервала
     ///   - endDate: Конец интервала
     ///   - requiredDuration: Длительность услуги, для которой нужно найти свободные места.
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
-    class func unoccupiedPlaces(between startDate: Date, and endDate: Date, requiredDuration: Time) -> [Date: [Time]] {
+    class func unoccupiedPlaces(between startDate: Date,
+                                and endDate: Date,
+                                requiredDuration duration: Time) -> [Date: [Time]] {
         var result = [Date: [Time]]()
         var date = startDate
         // Проход по всем датам интервала
@@ -139,43 +168,27 @@ class VisitRepository {
             if !isWeekend {
                 var unoccupiedPlaces = [Time]()
                 var time = schedule.start
-                var visits = self.visits(for: date)
-                
-                // Если на этот день есть записи
+                let visits = self.visits(for: date)
+
+                // Если на этот день есть записи, найти свободные места до первой записи и между записями
                 if !visits.isEmpty {
-                    // Сначала ищем места до первой записи
-                    while time &+ requiredDuration <= visits.first!.time {
-                        unoccupiedPlaces.append(time)
-                        time += requiredDuration
-                    }
-                    
-                    // Затем между записями (окна)
-                    time = visits.first!.endTime
-                    visits.removeFirst()
-                    for visit in visits {
-                        if visit.endTime >= time {
-                            while time &+ requiredDuration <= visit.time {
-                                unoccupiedPlaces.append(time)
-                                time += requiredDuration
-                            }
-                            time = visit.endTime
-                        }
-                    }
+                    unoccupiedPlaces +=
+                        unoccupiedPlacesBeforeAndBetweenVisits(time: &time, requiredDuration: duration, visits: visits)
                 }
-                
+
                 // Ищем все оставшиеся места до конца рабочего дня
                 if Settings.isOvertimeAllowed {
                     while time < schedule.end {
                         unoccupiedPlaces.append(time)
-                        time += requiredDuration
+                        time += duration
                     }
                 } else {
-                    while time &+ requiredDuration <= schedule.end {
+                    while time &+ duration <= schedule.end {
                         unoccupiedPlaces.append(time)
-                        time += requiredDuration
+                        time += duration
                     }
                 }
-    
+
                 // Дату выводим в результат только если найдено хоть одно место
                 if !unoccupiedPlaces.isEmpty {
                     result[date] = unoccupiedPlaces
@@ -186,7 +199,6 @@ class VisitRepository {
         }
         return result
     }
-    
 
     /// Получить заданное количество свободных мест.
     /// - parameters:
@@ -194,8 +206,9 @@ class VisitRepository {
     ///   - requiredDuration: Длительность услуги, для которой нужно найти свободные места
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
     ///
-    /// Поиск свободных мест выполняется до достижения заданного количества найденных мест. Если по достижении года с даты начала поиска требуемое количество мест не найдено, поиск останавливается.
-    class func unoccupiedPlaces(placesCount: Int, requiredDuration: Time) -> [Date: [Time]] {
+    /// Поиск свободных мест выполняется до достижения заданного количества найденных мест.
+    /// Если по достижении года с даты начала поиска требуемое количество мест не найдено, поиск останавливается.
+    class func unoccupiedPlaces(placesCount: Int, requiredDuration duration: Time) -> [Date: [Time]] {
         var result = [Date: [Time]]()
         var date = Date.today
         let endDate = Date.today + 365
@@ -209,43 +222,27 @@ class VisitRepository {
             if !isWeekend {
                 var unoccupiedPlaces = [Time]()
                 var time = schedule.start
-                var visits = self.visits(for: date)
-                
-                // Если на этот день есть записи
+                let visits = self.visits(for: date)
+
+                // Если на этот день есть записи, найти свободные места до первой записи и между записями
                 if !visits.isEmpty {
-                    // Сначала ищем места до первой записи
-                    while time &+ requiredDuration <= visits.first!.time {
-                        unoccupiedPlaces.append(time)
-                        time += requiredDuration
-                    }
-                    
-                    // Затем между записями (окна)
-                    time = visits.first!.endTime
-                    visits.removeFirst()
-                    for visit in visits {
-                        if visit.endTime >= time {
-                            while time &+ requiredDuration <= visit.time {
-                                unoccupiedPlaces.append(time)
-                                time += requiredDuration
-                            }
-                            time = visit.endTime
-                        }
-                    }
+                    unoccupiedPlaces +=
+                        unoccupiedPlacesBeforeAndBetweenVisits(time: &time, requiredDuration: duration, visits: visits)
                 }
-                
+
                 // Ищем все оставшиеся места до конца рабочего дня
                 if Settings.isOvertimeAllowed {
                     while time < schedule.end {
                         unoccupiedPlaces.append(time)
-                        time += requiredDuration
+                        time += duration
                     }
                 } else {
-                    while time &+ requiredDuration <= schedule.end {
+                    while time &+ duration <= schedule.end {
                         unoccupiedPlaces.append(time)
-                        time += requiredDuration
+                        time += duration
                     }
                 }
-    
+
                 // Дату выводим в результат только если найдено хоть одно место
                 if !unoccupiedPlaces.isEmpty {
                     // Найдено больше мест, чем требовалось, результат обрезается

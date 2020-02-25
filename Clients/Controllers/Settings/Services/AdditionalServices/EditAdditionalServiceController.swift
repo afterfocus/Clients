@@ -9,17 +9,17 @@
 import UIKit
 
 class EditAdditionalServiceController: UITableViewController {
-    
+
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var durationSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var durationPicker: UIPickerView!
     @IBOutlet weak var costSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var costTextField: UITextField!
-    
+
     var service: Service!
     var additionalService: AdditionalService!
-    
+
     private var isDurationPickerShown = false {
         didSet {
             durationLabel.textColor = isDurationPickerShown ? .red : .label
@@ -27,36 +27,35 @@ class EditAdditionalServiceController: UITableViewController {
         }
     }
     private let nullTime = Time()
-    
-    
+
     // MARK: - View Life Cycle
-    
+
     override func viewDidLoad() {
         hideKeyboardWhenTappedAround()
-        
+
         if let additionalService = additionalService {
             nameTextField.text = additionalService.name
-    
+
             let duration = additionalService.duration
             durationSignSegmentedControl.selectedSegmentIndex = duration < nullTime ? 1 : 0
             durationLabel.text = durationSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- "
             durationLabel.text! += (duration == nullTime) ?
                 "0 \(NSLocalizedString("MINUTES_GENITIVE", comment: "минут"))" :
                 duration.modulo.string(style: .shortDuration)
-            
+
             durationPicker.selectRow(abs(duration.hours), inComponent: 0, animated: false)
             durationPicker.selectRow(abs(duration.minutes) / 5, inComponent: 2, animated: false)
-            
+
             costSignSegmentedControl.selectedSegmentIndex = additionalService.cost < 0 ? 1 : 0
-            costTextField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") + NumberFormatter.convertToCurrency(abs(additionalService.cost))
+            costTextField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") +
+                NumberFormatter.convertToCurrency(abs(additionalService.cost))
         } else {
             durationPicker.selectRow(30 / 5, inComponent: 2, animated: false)
         }
     }
-    
 
     // MARK: - IBActions
-    
+
     @IBAction func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         let sign: Character = sender.selectedSegmentIndex == 0 ? "+" : "-"
         if sender === durationSignSegmentedControl {
@@ -69,7 +68,7 @@ class EditAdditionalServiceController: UITableViewController {
             costTextField.text = "\(costText)"
         }
     }
-    
+
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         costTextField.resignFirstResponder()
         if nameTextField.text!.isEmpty || costTextField.text!.isEmpty {
@@ -101,11 +100,10 @@ class EditAdditionalServiceController: UITableViewController {
     }
 }
 
-
 // MARK: - UITextFieldDelegate
 
 extension EditAdditionalServiceController: UITextFieldDelegate {
-    
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isDurationPickerShown = false
         if textField === costTextField, !textField.text!.isEmpty {
@@ -113,17 +111,18 @@ extension EditAdditionalServiceController: UITextFieldDelegate {
             textField.text = "\(NumberFormatter.convertToFloat(text))"
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField === costTextField {
             if let cost = Float(textField.text!.replacingOccurrences(of: ",", with: ".")) {
-                textField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") + NumberFormatter.convertToCurrency(cost)
+                textField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") +
+                    NumberFormatter.convertToCurrency(cost)
             } else {
                 textField.text = ""
             }
         }
     }
-    
+
     /// Нажата кнопка Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Закрыть клавиатуру
@@ -131,7 +130,6 @@ extension EditAdditionalServiceController: UITextFieldDelegate {
         return true
     }
 }
-
 
 // MARK: - UIPickerViewDelegate
 
@@ -145,11 +143,11 @@ extension EditAdditionalServiceController: UIPickerViewDelegate {
         default: return nil
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 33
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         switch component {
         case 0: return 80
@@ -159,7 +157,7 @@ extension EditAdditionalServiceController: UIPickerViewDelegate {
         default: return 0
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         durationLabel.text = (durationSignSegmentedControl.selectedSegmentIndex == 0) ? "+ " : "- "
         let selectedTime = Time(
@@ -172,14 +170,13 @@ extension EditAdditionalServiceController: UIPickerViewDelegate {
     }
 }
 
-
 // MARK: - UIPickerViewDataSource
 
 extension EditAdditionalServiceController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 4
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch component {
         case 0: return 13
@@ -190,7 +187,6 @@ extension EditAdditionalServiceController: UIPickerViewDataSource {
         }
     }
 }
-
 
 // MARK: - UITableViewDelegate
 
@@ -205,8 +201,7 @@ extension EditAdditionalServiceController {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let deleteAction = UIAlertAction(
                 title: NSLocalizedString("REMOVE_ADDITIONAL_SERVICE", comment: "Удалить дополнительную услугу"),
-                style: .destructive) {
-                    action in
+                style: .destructive) { _ in
                     let confirmSheet = UIAlertController.confirmAdditionalServiceDeletionAlert {
                         AdditionalServiceRepository.remove(self.additionalService!)
                         CoreDataManager.instance.saveContext()
@@ -221,7 +216,7 @@ extension EditAdditionalServiceController {
             isDurationPickerShown = false
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath.section, indexPath.row) {
         case (1, 1): return isDurationPickerShown ? 160 : 0
@@ -231,7 +226,6 @@ extension EditAdditionalServiceController {
         }
     }
 }
-
 
 // MARK: - UITableViewDataSource
 

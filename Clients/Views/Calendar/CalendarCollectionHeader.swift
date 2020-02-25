@@ -14,21 +14,21 @@ class CalendarCollectionHeader: UICollectionReusableView {
     static let identifier = "CalendarCollectionHeader"
     
     // MARK: IBOutlets
-    
+
     /// Метка названия месяца
     @IBOutlet weak var monthLabel: UILabel!
     /// Горизонталньая координата центра метки названия месяца
     @IBOutlet weak var labelCenterX: NSLayoutConstraint!
     
     // MARK: -
-    
+
     /**
      Переместить центр метки названия месяца к центру ячейки дня недели с номером `weekDay`
      - Parameter weekDay: Номер дня недели, к которому требуется переместить центр метки
      - Parameter cellWidth: Ширина одной ячейки календаря
      */
     func moveCenterX(to weekDay: Int, cellWidth: CGFloat) {
-        switch(weekDay) {
+        switch weekDay {
         case 0:
             labelCenterX.constant = cellWidth * -3 + monthLabel.bounds.width / 3
             monthLabel.textAlignment = .left
@@ -42,4 +42,3 @@ class CalendarCollectionHeader: UICollectionReusableView {
         }
     }
 }
-

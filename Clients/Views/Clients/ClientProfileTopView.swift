@@ -8,11 +8,12 @@
 
 import UIKit
 
-/// Представление в верхней части профиля, содержащее фотографию клиента, его имя и фамилию, а так же кнопки для связи и создания записи
+/// Представление в верхней части профиля, содержащее фотографию клиента,
+/// его имя и фамилию, а так же кнопки для связи и создания записи
 @IBDesignable class ClientProfileTopView: UIView {
-    
+
     // MARK: - IBOutlets
-    
+
     /// Фотография клиента
     @IBOutlet weak var photoImageView: UIImageView!
     /// Метка имени и фамилии
@@ -31,24 +32,25 @@ import UIKit
     @IBOutlet weak var vkButtonLabel: UIButton!
     /// Предупреждение о том, что клиент находится в черном списке
     @IBOutlet weak var blacklistView: UIView!
-    
+
     /// Высота представления
     @IBOutlet weak var viewHeight: NSLayoutConstraint!
     /// Высота фотографии
     @IBOutlet weak var photoHeight: NSLayoutConstraint!
-    
+
     /// Минимальная высота представления
     @IBInspectable var minHeight: CGFloat = 0
     /// Максимальная высота представления
     @IBInspectable var maxHeight: CGFloat = 0
 
     // MARK: -
-    
+
     /**
      Обновить высоту представления в соответствии со смещением (`offset`) таблицы списка записей
      - Parameter tableOffset: Смещение таблицы списка записей
      
-     Изменяет высоту представления в зависимоти от текущего положения списка записей. Высота фотографии клиента так же изменяется в зависимости от высоты представления.
+     Изменяет высоту представления в зависимоти от текущего положения списка записей.
+     Высота фотографии клиента так же изменяется в зависимости от высоты представления.
      */
     func updateHeight(tableOffset: CGFloat) {
         viewHeight.constant = max(-tableOffset, minHeight)
@@ -57,12 +59,12 @@ import UIKit
         photoHeight.constant = max(viewHeight.constant * 0.6364 - 22, 45)
         photoImageView.layer.cornerRadius = photoHeight.constant / 2
     }
-    
+
     /// Заполнить представление данными о клиенте
     func configure(with client: Client) {
         photoImageView.image = client.photo ?? UIImage(named: "default_photo")
         nameLabel.text = "\(client)"
-        
+
         messageButton.isEnabled = !client.phonenumber.isEmpty
         phoneButton.isEnabled = !client.phonenumber.isEmpty
         vkButton.isEnabled = !client.vk.isEmpty

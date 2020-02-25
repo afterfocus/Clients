@@ -9,7 +9,7 @@
 import UIKit
 
 class CalendarView: UICollectionView {
-    
+
     /// Отступ календаря от NavigationBar
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     /// Высота календаря
@@ -17,26 +17,26 @@ class CalendarView: UICollectionView {
     
     var pageHeight = CGFloat()
     var cellSize = CGSize()
-    
+
     var currentSection: Int {
         return Int(round(contentOffset.y / pageHeight))
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         scrollsToTop = false
     }
-    
+
     func configurePageAndCellSize() {
         pageHeight = frame.height
         // Вычислить размер ячеек календаря (размер секции: 7 х 6 ячеек)
         cellSize = CGSize(width: frame.width / 7 - 0.00001, height: (pageHeight - 40) / 6)
     }
-    
+
     func scrollTo(section: Int, animated: Bool = true) {
         setContentOffset(CGPoint(x: 0, y: pageHeight * CGFloat(section)), animated: animated)
     }
-    
+
     func jump() {
         UIView.animate(withDuration: 0.2) {
             self.contentOffset.y -= 45
@@ -48,7 +48,7 @@ class CalendarView: UICollectionView {
             self.contentOffset.y -= 15
         })
     }
-    
+
     func updateTopAndHeightConstraints() {
         if isPagingEnabled {
             // Сдвинуть календарь вверх под NavigationBar на высоту заголовка секции календаря

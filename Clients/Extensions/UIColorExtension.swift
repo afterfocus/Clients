@@ -16,7 +16,7 @@ extension UIColor {
     static let blue = #colorLiteral(red: 0.3529411765, green: 0.7843137255, blue: 0.9803921569, alpha: 1)
     static let purple = #colorLiteral(red: 0.7490196078, green: 0.3529411765, blue: 0.9490196078, alpha: 1)
     static let brown = #colorLiteral(red: 0.6745098039, green: 0.5568627451, blue: 0.4078431373, alpha: 1)
-    
+
     var name: String {
         switch self {
         case .red: return NSLocalizedString("RED", comment: "Красный")
@@ -29,7 +29,7 @@ extension UIColor {
         default: return "Unknown Color"
         }
     }
-    
+
     var id: Int {
         switch self {
         case .red: return 0
@@ -42,7 +42,7 @@ extension UIColor {
         default: return -1
         }
     }
-    
+
     class func color(withId id: Int) -> UIColor {
         switch id {
         case 0: return red

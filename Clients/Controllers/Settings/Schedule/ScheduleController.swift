@@ -11,19 +11,19 @@ import UIKit
 // TODO: Требует документирования
 
 class ScheduleController: UITableViewController {
-    
+
     @IBOutlet var scheduleLabels: [UILabel]!
-    
+
     override func viewWillAppear(_ animated: Bool) {
         for (index, label) in scheduleLabels.enumerated() {
             let schedule = Settings.schedule(for: Weekday(rawValue: index)!)
             label.text = schedule.isWeekend ?
                 NSLocalizedString("WEEKEND", comment: "Выходной") :
-                NSLocalizedString("FROM", comment: "c") + " \(schedule.start) " + NSLocalizedString("TO", comment: "до") + " \(schedule.end)"
+                NSLocalizedString("FROM", comment: "c") +
+                " \(schedule.start) " + NSLocalizedString("TO", comment: "до") + " \(schedule.end)"
         }
     }
 }
-
 
 // MARK: - SegueHandler
 
@@ -31,7 +31,7 @@ extension ScheduleController: SegueHandler {
     enum SegueIdentifier: String {
         case showEditSchedule
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showEditSchedule:
@@ -44,7 +44,6 @@ extension ScheduleController: SegueHandler {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 
 extension ScheduleController {
@@ -52,4 +51,3 @@ extension ScheduleController {
         performSegue(withIdentifier: .showEditSchedule, sender: tableView.cellForRow(at: indexPath))
     }
 }
-

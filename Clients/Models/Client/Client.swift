@@ -22,17 +22,17 @@ public class Client: NSManagedObject {
             photoData = newValue?.jpegData(compressionQuality: 1.0)
         }
     }
-    
+
     /// Записи клиента, отсортированные по убыванию даты
     var visitsSorted: [Visit] {
         visits.sorted { $0.date > $1.date }
     }
-    
+
     /// Записи клиента, отсортированные по убыванию даты и сгруппированные по году
     var visitsByYear: [Int: [Visit]] {
         Dictionary(grouping: visitsSorted) { $0.date.year }
     }
-    
+
     /// Услуги, которыми пользовался клиент
     var usedServices: [Service] {
         let services = visits.reduce(into: Set<Service>()) {
@@ -40,21 +40,19 @@ public class Client: NSManagedObject {
         }
         return services.sorted { $0.name < $1.name }
     }
-    
+
     /// Имя и фамилия клиента
     override public var description: String {
         "\(name) \(surname)"
     }
-    
-    convenience init(
-        photo: UIImage?,
-        surname: String,
-        name: String,
-        phonenumber: String = "",
-        vk: String = "",
-        notes: String = "",
-        isBlocked: Bool = false)
-    {
+
+    convenience init(photo: UIImage?,
+                     surname: String,
+                     name: String,
+                     phonenumber: String = "",
+                     vk: String = "",
+                     notes: String = "",
+                     isBlocked: Bool = false) {
         self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
         self.photoData = photo?.jpegData(compressionQuality: 1.0)
         self.surname = surname

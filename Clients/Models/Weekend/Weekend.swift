@@ -19,7 +19,7 @@ public class Weekend: NSManagedObject {
         self.month = Int16(month)
         self.year = Int16(year)
     }
-    
+
     convenience init(date: Date) {
         self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
         self.day = Int16(date.day)

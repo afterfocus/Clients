@@ -23,7 +23,7 @@ public class Service: NSManagedObject {
             durationMinutes = Int16(newValue.minutes)
         }
     }
-    
+
     /// Цвет индикации
     var color: UIColor {
         get {
@@ -33,18 +33,23 @@ public class Service: NSManagedObject {
             colorId = Int16(newValue.id)
         }
     }
-    
+
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
         additionalServices.sorted { $0.name < $1.name }
     }
-    
+
     /// Название услуги
     override public var description: String {
         "\(name)"
     }
-    
-    convenience init(color: UIColor, name: String, cost: Float, duration: Time, isArchive: Bool = false, additionalServices: Set<AdditionalService> = []) {
+
+    convenience init(color: UIColor,
+                     name: String,
+                     cost: Float,
+                     duration: Time,
+                     isArchive: Bool = false,
+                     additionalServices: Set<AdditionalService> = []) {
         self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
         self.colorId = Int16(color.id)
         self.name = name

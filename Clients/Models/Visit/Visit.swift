@@ -24,7 +24,7 @@ public class Visit: NSManagedObject {
             year = Int16(newValue.year)
         }
     }
-    
+
     /// Время начала
     var time: Time {
         get {
@@ -35,12 +35,12 @@ public class Visit: NSManagedObject {
             timeMinutes = Int16(newValue.minutes)
         }
     }
-    
+
     /// Время окончания
     var endTime: Time {
         time + duration
     }
-    
+
     /// Продолжительность
     var duration: Time {
         get {
@@ -51,13 +51,22 @@ public class Visit: NSManagedObject {
             durationMinutes = Int16(newValue.minutes)
         }
     }
-    
+
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
         additionalServices.sorted { $0.name < $1.name }
     }
-    
-    convenience init(client: Client, date: Date, time: Time, service: Service, cost: Float, duration: Time, additionalServices: Set<AdditionalService> = [], notes: String = "", isCancelled: Bool = false, isClientNotCome: Bool = false) {
+
+    convenience init(client: Client,
+                     date: Date,
+                     time: Time,
+                     service: Service,
+                     cost: Float,
+                     duration: Time,
+                     additionalServices: Set<AdditionalService> = [],
+                     notes: String = "",
+                     isCancelled: Bool = false,
+                     isClientNotCome: Bool = false) {
         self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
         self.client = client
         self.day = Int16(date.day)

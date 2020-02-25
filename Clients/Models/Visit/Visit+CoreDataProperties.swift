@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension Visit {
     /// Стоимость
     @NSManaged public var cost: Float

@@ -19,14 +19,14 @@ class EditServiceController: UITableViewController {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var colorLabel: UILabel!
     @IBOutlet weak var archiveButtonLabel: UILabel!
-    
+
     var service: Service!
     var additionalServices = Set<AdditionalService>() {
         didSet {
             additionalServicesCountLabel.text = "\(additionalServices.count)"
         }
     }
-    
+
     private var pickedColor = UIColor.blue
     private var isDurationPickerShown = false {
         didSet {
@@ -41,10 +41,10 @@ class EditServiceController: UITableViewController {
             NSLocalizedString("ARCHIVE", comment: "Архивировать")
         }
     }
-    
+
     override func viewDidLoad() {
         hideKeyboardWhenTappedAround()
-        
+
         var duration: Time = 1
         if service != nil {
             additionalServices = service.additionalServices
@@ -59,27 +59,26 @@ class EditServiceController: UITableViewController {
         durationPicker.set(time: duration)
         durationLabel.text = duration.string(style: .shortDuration)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if service != nil {
             additionalServices = service.additionalServices
         }
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
-    
+
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         costTextField.resignFirstResponder()
         if saveService() {
             performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: sender)
         }
     }
-    
+
     private func saveService() -> Bool {
         if nameTextField.text!.isEmpty || costTextField.text!.isEmpty {
             present(UIAlertController.serviceSavingErrorAlert, animated: true)
@@ -104,23 +103,22 @@ class EditServiceController: UITableViewController {
             return true
         }
     }
-    
+
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: sender)
     }
 }
 
-
 // MARK: - SegueHandler
 
 extension EditServiceController: SegueHandler {
-    
+
     enum SegueIdentifier: String {
         case showColorPicker
         case showAdditionalServices
         case unwindFromEditServiceToServicesTable
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showColorPicker: break
@@ -131,7 +129,7 @@ extension EditServiceController: SegueHandler {
         case .unwindFromEditServiceToServicesTable: break
         }
     }
-    
+
     @IBAction func unwindFromColorPickerToEditService(segue: UIStoryboardSegue) {
         if let colorPicker = segue.source as? ColorPickerController {
             pickedColor = colorPicker.pickedColor
@@ -139,11 +137,10 @@ extension EditServiceController: SegueHandler {
             colorLabel.text = pickedColor.name
         }
     }
-    
+
     @IBAction func unwindFromAdditionalServicesToEditService(segue: UIStoryboardSegue) {
     }
 }
-
 
 // MARK: - UITextFieldDelegate
 
@@ -155,7 +152,7 @@ extension EditServiceController: UITextFieldDelegate {
             textField.text = "\(NumberFormatter.convertToFloat(textField.text!))"
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField === costTextField {
             if let cost = Float(textField.text!.replacingOccurrences(of: ",", with: ".")) {
@@ -165,7 +162,7 @@ extension EditServiceController: UITextFieldDelegate {
             }
         }
     }
-    
+
     /// Нажата кнопка Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Закрыть клавиатуру
@@ -173,7 +170,6 @@ extension EditServiceController: UITextFieldDelegate {
         return true
     }
 }
-
 
 // MARK: - UITableViewDelegate
 
@@ -202,8 +198,7 @@ extension EditServiceController {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let deleteAction = UIAlertAction(
                 title: NSLocalizedString("REMOVE_SERVICE", comment: "Удалить услугу"),
-                style: .destructive) {
-                    action in
+                style: .destructive) { _ in
                     let confirmAlert = UIAlertController.confirmServiceDeletionAlert {
                         ServiceRepository.remove(self.service!)
                         CoreDataManager.instance.saveContext()
@@ -217,7 +212,7 @@ extension EditServiceController {
         default: break
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 2 {
             return isDurationPickerShown ? 150 : 0
@@ -227,7 +222,6 @@ extension EditServiceController {
     }
 }
 
-
 // MARK: - UITableViewDataSource
 
 extension EditServiceController {
@@ -235,4 +229,3 @@ extension EditServiceController {
         return service == nil ? 2 : 3
     }
 }
-

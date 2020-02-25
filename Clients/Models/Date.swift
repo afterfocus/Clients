@@ -18,13 +18,12 @@ enum DayOfWeekStyle {
     case full
 }
 
-
 // MARK: - Weekday Enum
 
 /// День недели
 enum Weekday: Int {
     case sunday, monday, tuesday, wednesday, thursday, friday, saturday
-    
+
     /// Локализованное название дня недели
     var name: String {
         switch self {
@@ -37,7 +36,7 @@ enum Weekday: Int {
         case .saturday: return NSLocalizedString("SATURDAY", comment: "Суббота")
         }
     }
-    
+
     /// Локализованное краткое название дня недели
     var shortName: String {
         switch self {
@@ -52,13 +51,12 @@ enum Weekday: Int {
     }
 }
 
-
 // MARK: - Month Enum
 
 // Месяц
 enum Month: Int {
     case january = 1, february, march, april, may, june, july, august, september, october, november, december
-    
+
     /// Локализованное название месяца
     var name: String {
         switch self {
@@ -76,7 +74,7 @@ enum Month: Int {
         case .december: return NSLocalizedString("DECEMBER", comment: "Декабрь")
         }
     }
-    
+
     /// Локализованное название месяца в родительном падеже
     var genitiveName: String {
         switch self {
@@ -96,7 +94,6 @@ enum Month: Int {
     }
 }
 
-
 // MARK: - Date Style Enum
 
 /// Cтиль строкового представления даты `Date`
@@ -111,7 +108,6 @@ enum DateStyle {
     case monthAndYear
 }
 
-
 // MARK: - Date
 
 /// Дата
@@ -122,13 +118,13 @@ struct Date {
     let month: Month
     /// Год
     let year: Int
-    
+
     /// День недели
     var dayOfWeek: Weekday {
         let foundationDate = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
         return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
     }
-    
+
     /**
      Вычесть заданное количество месяцев из даты.
      - parameter count: Количество месяцев для вычитания
@@ -145,7 +141,7 @@ struct Date {
         }
         return Date(day: day, month: month, year: year)
     }
-    
+
     /**
      Получить локализованное строковое представление даты в формате `style`
      - parameter style: Стиль строкового представления даты
@@ -155,27 +151,27 @@ struct Date {
         case .short:
             return "\(dayOfWeek.shortName), \(day) \(month.genitiveName)"
         case .full:
-            return "\(dayOfWeek.name), \(day) \(month.genitiveName) \(year) " + NSLocalizedString("YEAR_SHORT", comment: "г.")
+            return "\(dayOfWeek.name), \(day) \(month.genitiveName) \(year) " +
+                NSLocalizedString("YEAR_SHORT", comment: "г.")
         case .dayAndMonth:
             return "\(day) \(month.genitiveName)"
         case .monthAndYear:
             return "\(month.name.lowercased()) \(year) " + NSLocalizedString("YEAR_SHORT", comment: "г.")
         }
     }
-   
-    
+
     // MARK: Initializers
-    
+
     init(day: Int, month: Month, year: Int) {
         self.day = day
         self.month = month
         self.year = year
     }
-    
+
     init(day: Int = 1, month: Int, year: Int) {
         self.init(day: day, month: Month(rawValue: month)!, year: year)
     }
-    
+
     /// Извлекает день, месяц и год из экземпляра класса Date каркаса Foundation
     init(foundationDate: Foundation.Date) {
         self.day = Date.calendar.component(.day, from: foundationDate)
@@ -183,7 +179,6 @@ struct Date {
         self.year = Date.calendar.component(.year, from: foundationDate)
     }
 }
-
 
 // MARK: - CustomStringConvertible
 
@@ -193,7 +188,6 @@ extension Date: CustomStringConvertible {
         string(style: .full)
     }
 }
-
 
 // MARK: - Hashable
 
@@ -205,24 +199,23 @@ extension Date: Hashable {
     }
 }
 
-
 // MARK: - Static
 
 extension Date {
     /// Системный календарь
     static let calendar = Calendar.current
-     
+
     // FIXME: ⚠️ Сегодняшняя дата подменена здесь ⚠️
     /// Дата, соответвующая сегодняшнему дню
     static let today = Date(day: 26, month: 3, year: 2019)
     //static let today = Date(foundationDate: Foundation.Date())
-    
+
     /// Количество дней в месяце
     static func numberOfDaysIn(_ month: Int, year: Int) -> Int {
         let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
         return Date.calendar.range(of: .day, in: .month, for: date)!.count
     }
-     
+
     static func firstDayOf(_ month: Int, year: Int) -> Int {
         let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
         let day = Date.calendar.component(.weekday, from: date) - 2
@@ -230,19 +223,18 @@ extension Date {
     }
 }
 
-
 // MARK: - Operators
 
 extension Date: Comparable {
-    
+
     static func == (lhs: Date, rhs: Date) -> Bool {
         return lhs.day == rhs.day && lhs.month == rhs.month && lhs.year == rhs.year
     }
-    
+
     static func != (lhs: Date, rhs: Date) -> Bool {
         return !(lhs == rhs)
     }
-    
+
     static func < (lhs: Date, rhs: Date) -> Bool {
         if lhs.year != rhs.year {
             return lhs.year < rhs.year
@@ -252,7 +244,7 @@ extension Date: Comparable {
             return lhs.day < rhs.day
         }
     }
-    
+
     static func > (lhs: Date, rhs: Date) -> Bool {
         if lhs.year != rhs.year {
             return lhs.year > rhs.year
@@ -262,15 +254,15 @@ extension Date: Comparable {
             return lhs.day > rhs.day
         }
     }
-    
+
     static func <= (lhs: Date, rhs: Date) -> Bool {
         return lhs < rhs || lhs == rhs
     }
-    
+
     static func >= (lhs: Date, rhs: Date) -> Bool {
         return lhs > rhs || lhs == rhs
     }
-    
+
     static func + (lhs: Date, rhs: Int) -> Date {
         var (day, month, year) = (lhs.day + rhs, lhs.month.rawValue, lhs.year)
         while day > Date.numberOfDaysIn(month, year: year) {
@@ -284,9 +276,8 @@ extension Date: Comparable {
         }
         return Date(day: day, month: month, year: year)
     }
-    
+
     static func += (lhs: inout Date, rhs: Int) {
         lhs = lhs + rhs
     }
 }
-

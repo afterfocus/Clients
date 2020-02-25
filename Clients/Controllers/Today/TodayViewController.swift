@@ -7,26 +7,26 @@
 //
 
 import UIKit
- 
+
 /// Контроллер экрана Сегодня
 class TodayViewController: UITableViewController {
-    
+
     // MARK: - Private properties
-    
+
     /// Коллекция свободных мест
     private var collectionView: UICollectionView!
     /// Высота ячейки с коллекцией свободных мест
     private var unoccupiedPlacesCellHeight: CGFloat!
     /// Размеры ячейки коллекции ближайших свободных мест
     private var collectionCellSize: CGSize!
-    
+
     /// Начало интервала поиска свободных мест
     private var startDate = Date.today
     /// Конец интервала поиска свободных мест
     private var endDate = Date.today + 7
     /// Требуемая продолжительность записи для поиска свободных мест
     private var requiredDuration: Time = 2
-    
+
     /// Данные таблицы сегодняшних записей. Содержит клиентов и их записи.
     private var tableData = [AnyObject]()
     /// Данные коллекции свободных мест, сгруппированные по дате
@@ -39,27 +39,26 @@ class TodayViewController: UITableViewController {
     }
     /// Ключи словаря данных
     private var keys = [Date]()
-    
-    
+
     // MARK: - View Life Cycle
-    
+
     override func viewDidLoad() {
         // Создание контроллера отображения результатов поиска
-        let searchResultsController = self.storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
+        let searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
         searchResultsController.tableView.delegate = self
         // Создание контроллера поиска
         navigationItem.searchController = UISearchController(searchResultsController: searchResultsController)
         navigationItem.searchController?.searchResultsUpdater = searchResultsController
         navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController?.searchBar.autocapitalizationType = .words
-        
+
         collectionCellSize = CGSize(width: UIScreen.main.scale == 3 ? 55 : 50, height: 30)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         updateTableData()
     }
-    
+
     private func updateTableData() {
         tableData = VisitRepository.visitsWithClients(
             for: Date.today,
@@ -73,21 +72,19 @@ class TodayViewController: UITableViewController {
         )
         tableView.reloadData()
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     /// Нажатие на кнопку создания записи
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: .showAddVisit, sender: sender)
     }
 }
 
-
 // MARK: - SegueHandler
 
 extension TodayViewController: SegueHandler {
-    
+
     enum SegueIdentifier: String {
         /// Отобразить экран создания записи
         case showAddVisit
@@ -98,7 +95,7 @@ extension TodayViewController: SegueHandler {
         /// Отобразить экран выбора параметров поиска
         case showSearchParameters
     }
-    
+
     // Подготовиться к переходу
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
@@ -110,8 +107,9 @@ extension TodayViewController: SegueHandler {
                 let target = destination.topViewController as? EditVisitController {
                 // После завершения редактирования вернуться обратно к экрану Сегодня
                 target.unwindSegue = .unwindFromAddVisitToToday
-                
-                // Если была нажата ячейка коллекции свободных мест, передать в EditVisitController связанные с этой ячейкой дату и время
+
+                // Если была нажата ячейка коллекции свободных мест,
+                // передать в EditVisitController связанные с этой ячейкой дату и время
                 if let cell = sender as? NearestPlacesCollectionCell,
                     let indexPath = collectionView.indexPath(for: cell) {
                     target.date = keys[indexPath.section]
@@ -140,12 +138,12 @@ extension TodayViewController: SegueHandler {
             }
         }
     }
-    
+
     /// Возврат с экрана создания записи
     @IBAction func unwindFromAddVisitToToday(segue: UIStoryboardSegue) {
         updateTableData()
     }
-    
+
     /// Возврат с экрана параметров поиска
     @IBAction func unwindFromSearchParametersToToday(segue: UIStoryboardSegue) {
         if let source = segue.source as? SearchParametersController {
@@ -153,12 +151,11 @@ extension TodayViewController: SegueHandler {
             startDate = source.startDate
             endDate = source.endDate
             requiredDuration = source.requiredDuration
-        
+
             updateTableData()
         }
     }
 }
-
 
 // MARK: - UITableViewDelegate
 
@@ -181,12 +178,13 @@ extension TodayViewController {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
-    
+
     // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Нажатие на ячейку результатов поиска
         if tableView !== self.tableView {
-            performSegue(withIdentifier: .showVisitInfo, sender: navigationItem.searchController?.searchResultsController)
+            performSegue(withIdentifier: .showVisitInfo, sender:
+                navigationItem.searchController?.searchResultsController)
         }
         // Нажатие на ячейку копирования
         else if indexPath.section == 1 && indexPath.row == 2 {
@@ -205,7 +203,6 @@ extension TodayViewController {
     }
 }
 
-
 // MARK: - UITableViewDataSource
 
 extension TodayViewController {
@@ -217,41 +214,46 @@ extension TodayViewController {
             return unoccupiedPlaces.isEmpty ? 2 : 3
         }
     }
-    
+
     // Количество секций таблицы
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-    
+
     // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let (section, row) = (indexPath.section, indexPath.row)
-        
+
         switch (section, row) {
         // Ячейка сегодняшних записей
         case (0, _):
             // Если сегодня нет записей, отобразить одну ячейку с соответствующим сообщением
             if tableData.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier, for: indexPath) as! OneLabelTableCell
-                cell.label.text = NSLocalizedString("LOOKS_LIKE_ITS_YOUR_DAY_OFF", comment: "Похоже, сегодня у Вас выходной")
+                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
+                                                         for: indexPath) as! OneLabelTableCell
+                cell.label.text = NSLocalizedString("LOOKS_LIKE_ITS_YOUR_DAY_OFF",
+                                                    comment: "Похоже, сегодня у Вас выходной")
                 return cell
             } else {
                 // Ячейка клиента
                 if let client = tableData[row] as? Client {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ClientTableCell.identifier, for: indexPath) as! ClientTableCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: ClientTableCell.identifier,
+                                                             for: indexPath) as! ClientTableCell
                     cell.configure(with: client)
                     return cell
                 // Ячейка записи
                 } else {
                     let visit = tableData[row] as! Visit
-                    let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier, for: indexPath) as! VisitHistoryTableCell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
+                                                             for: indexPath) as! VisitHistoryTableCell
                     cell.configure(with: visit, labelStyle: .service)
                     return cell
                 }
             }
         // Ячейка параметров поиска
         case (1, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: SearchIntervalTableCell.identifier, for: indexPath) as! SearchIntervalTableCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: SearchIntervalTableCell.identifier,
+                                                     for: indexPath) as! SearchIntervalTableCell
             let startDateString = (startDate.month == endDate.month && startDate.year == endDate.year) ? "\(startDate.day)" : "\(startDate.string(style: .dayAndMonth))"
             cell.intervalLabel.text =
                 "\(NSLocalizedString("FROM", comment: "с")) \(startDateString) \(NSLocalizedString("UNTIL", comment: "по")) \(endDate.string(style: .dayAndMonth)), \(requiredDuration.string(style: .duration))"
@@ -260,12 +262,15 @@ extension TodayViewController {
         case (1, 1):
             // Если свободных мест не найдено, отобразить ячейку с соответствующим сообщением
             if unoccupiedPlaces.isEmpty {
-                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier, for: indexPath) as! OneLabelTableCell
-                cell.label.text = NSLocalizedString("UNOCCUPIED_PLACES_WERE_NOT_FOUND", comment: "Свободных мест не найдено")
+                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
+                                                         for: indexPath) as! OneLabelTableCell
+                cell.label.text = NSLocalizedString("UNOCCUPIED_PLACES_WERE_NOT_FOUND",
+                                                    comment: "Свободных мест не найдено")
                 unoccupiedPlacesCellHeight = 80
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: NearestPlacesTableCell.identifier, for: indexPath) as! NearestPlacesTableCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: NearestPlacesTableCell.identifier,
+                                                         for: indexPath) as! NearestPlacesTableCell
                 collectionView = cell.collectionView
                 unoccupiedPlacesCellHeight = collectionView.collectionViewLayout.collectionViewContentSize.height + 13
                 return cell
@@ -277,7 +282,7 @@ extension TodayViewController {
             fatalError("Undefined cell")
         }
     }
-    
+
     // Заголовок секции таблицы
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ?
@@ -286,16 +291,16 @@ extension TodayViewController {
     }
 }
 
-
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension TodayViewController: UICollectionViewDelegateFlowLayout {
     // Размер ячейки коллекции свободных мест
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionCellSize
     }
 }
-
 
 // MARK: - UICollectionViewDataSource
 
@@ -304,21 +309,25 @@ extension TodayViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return unoccupiedPlaces[keys[section]]!.count
     }
-    
+
     // Количество секций коллекции
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return unoccupiedPlaces.count
     }
-    
+
     // Формирование ячейки коллекции
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NearestPlacesCollectionCell.identifier, for: indexPath) as! NearestPlacesCollectionCell
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NearestPlacesCollectionCell.identifier,
+                                                      for: indexPath) as! NearestPlacesCollectionCell
         cell.timeLabel.text = "\(unoccupiedPlaces[keys[indexPath.section]]![indexPath.row])"
         return cell
     }
-    
+
     // Формирование заголовка секции коллекции
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NearestPlacesCollectionHeader.identifier, for: indexPath) as! NearestPlacesCollectionHeader
         header.dateLabel.text = keys[indexPath.section].string(style: .dayAndMonth)
         return header

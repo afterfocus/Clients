@@ -16,13 +16,13 @@ class EditScheduleController: UITableViewController {
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var startTimePicker: UIDatePicker!
     @IBOutlet weak var endTimePicker: UIDatePicker!
-    
+
     var dayOfWeek: Weekday!
     private var isWeekendOldValue: Bool!
-    
+
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = dayOfWeek.name
-        
+
         let schedule = Settings.schedule(for: dayOfWeek)
         isWeekendSwitch.isOn = schedule.isWeekend
         isWeekendOldValue = schedule.isWeekend
@@ -31,7 +31,7 @@ class EditScheduleController: UITableViewController {
         startTimeLabel.text = "\(schedule.start)"
         endTimeLabel.text = "\(schedule.end)"
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         Settings.setSchedule(for: dayOfWeek, schedule: (
             isWeekend: isWeekendSwitch.isOn,
@@ -39,14 +39,14 @@ class EditScheduleController: UITableViewController {
             end: Time(foundationDate: endTimePicker.date)
             )
         )
-        
+
         // TODO: Убрать в репозиторий
         if isWeekendOldValue != isWeekendSwitch.isOn {
             var date = Date.today
             while date.dayOfWeek != dayOfWeek {
                 date += 1
             }
-            
+
             if isWeekendOldValue && !isWeekendSwitch.isOn {
                 for _ in stride(from: 0, through: 365, by: 7) {
                     WeekendRepository.removeWeekend(for: date)
@@ -60,32 +60,37 @@ class EditScheduleController: UITableViewController {
             }
         }
     }
-    
-    
+
     // MARK: - IBActions
-    
+
     @IBAction func weekendSwitchValueChanged(_ sender: UISwitch) {
         tableView.performBatchUpdates(nil, completion: nil)
     }
-    
-    
+
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         if sender === startTimePicker {
-            startTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date, dateStyle: .none, timeStyle: .short)
+            startTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date,
+                                                                dateStyle: .none,
+                                                                timeStyle: .short)
             if endTimePicker.date < startTimePicker.date {
-                endTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date, dateStyle: .none, timeStyle: .short)
+                endTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date,
+                                                                  dateStyle: .none,
+                                                                  timeStyle: .short)
                 endTimePicker.date = startTimePicker.date
             }
         } else {
-            endTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date, dateStyle: .none, timeStyle: .short)
+            endTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date,
+                                                              dateStyle: .none,
+                                                              timeStyle: .short)
             if startTimePicker.date > endTimePicker.date {
-                startTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date, dateStyle: .none, timeStyle: .short)
+                startTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date,
+                                                                    dateStyle: .none,
+                                                                    timeStyle: .short)
                 startTimePicker.date = endTimePicker.date
             }
         }
     }
 }
-
 
 // MARK: - UITableViewDelegate
 
@@ -98,4 +103,3 @@ extension EditScheduleController {
         }
     }
 }
-

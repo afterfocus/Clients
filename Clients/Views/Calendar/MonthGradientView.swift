@@ -16,11 +16,10 @@ class MonthGradientView: UIView {
         get { return monthLabel.text! }
         set { monthLabel.text = newValue }
     }
-    
+
     /// Градиент под названием месяца
     private var gradient = CAGradientLayer()
-    
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         // Создание градиента под надписью месяца
@@ -29,12 +28,12 @@ class MonthGradientView: UIView {
         gradient.colors = [UIColor.systemBackground.cgColor, UIColor.systemBackground.withAlphaComponent(0).cgColor]
         layer.insertSublayer(gradient, at: 0)
     }
-    
+
     // Обновить цвета градиента под названием месяца при смене темы
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         gradient.colors = [UIColor.systemBackground.cgColor, UIColor.systemBackground.withAlphaComponent(0).cgColor]
     }
-    
+
     func showAndSmoothlyDisappear() {
         alpha = 1
         monthLabel.alpha = 1

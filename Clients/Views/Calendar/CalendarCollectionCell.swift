@@ -14,16 +14,16 @@ class CalendarCollectionCell: UICollectionViewCell {
     static let identifier = "CalendarCollectionCell"
     
     // MARK: IBOutlets
-    
+
     /// Метка числа
     @IBOutlet weak var numberLabel: UILabel!
     /// Индикатор выбора ячейки
     @IBOutlet weak var circleView: UIView!
     /// Массив индикаторов записей
     @IBOutlet var visitIndicators: [UIView]!
-    
+
     // MARK: -
-    
+
     // Подготовить ячейку к переиспользованию
     override func prepareForReuse() {
         // Спрятать все индикаторы записей
@@ -38,7 +38,8 @@ class CalendarCollectionCell: UICollectionViewCell {
         - day: День месяца
         - visits: Массив записей для отображения индикаторов
         - isPicked: Является ли ячейка выбранной в данный момент (значение `true` отображает индикатор выбора ячейки)
-        - isToday: Является ли день месяца сегодняшним (значение `true` меняет цвет числа и индикатора выбора ячейки на красный)
+        - isToday: Является ли день месяца сегодняшним (значение `true` меняет цвет числа и
+        индикатора выбора ячейки на красный)
         - isWeekend: Является ли день месяца выходным (значение `true` меняет цвет числа на серый)
      
      Ячейка отображает до 6 индикаторов записей.
@@ -65,4 +66,3 @@ class CalendarCollectionCell: UICollectionViewCell {
         }
     }
 }
-

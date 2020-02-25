@@ -11,7 +11,7 @@ import CoreData
 
 class AdditionalServiceRepository {
     private static let context = CoreDataManager.instance.persistentContainer.viewContext
-    
+
     /**
      Удалить дополнительную услугу
      - parameter additionalService: Дополнительная услуга, подлежащая удалению

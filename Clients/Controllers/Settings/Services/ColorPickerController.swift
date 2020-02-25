@@ -14,7 +14,6 @@ class ColorPickerController: UITableViewController {
     var pickedColor: UIColor!
 }
 
-
 // MARK: - SegueHandler
 
 extension ColorPickerController: SegueHandler {
@@ -23,11 +22,10 @@ extension ColorPickerController: SegueHandler {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 
 extension ColorPickerController {
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0: pickedColor = .red
@@ -42,4 +40,3 @@ extension ColorPickerController {
         performSegue(withIdentifier: .unwindFromColorPickerToEditService, sender: self)
     }
 }
-

@@ -9,22 +9,22 @@
 import UIKit
 
 class ScheduleView: UIView {
-    
+
     enum ScheduleViewState {
         case weekend
         case workday(start: Time, end: Time)
     }
-    
+
     /// Представление рабочего дня
     @IBOutlet weak var workdayView: UIView!
     /// Представление выходного дня
     @IBOutlet weak var weekendView: UIView!
     /// Метка рабочего графика
     @IBOutlet weak var scheduleLabel: UILabel!
-    
+
     /// Высота представления рабочего графика
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
-    
+
     var height: CGFloat {
         get {
             return heightConstraint.constant
@@ -34,7 +34,7 @@ class ScheduleView: UIView {
             heightConstraint.constant = max(1.0 / UIScreen.main.scale, newValue)
         }
     }
-    
+
     func configure(state: ScheduleViewState) {
         switch state {
         case .weekend:
@@ -45,7 +45,8 @@ class ScheduleView: UIView {
             heightConstraint.constant = 1.0 / UIScreen.main.scale
             workdayView.isHidden = false
             weekendView.isHidden = true
-            scheduleLabel.text = NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") + " \(startTime) " + NSLocalizedString("TO", comment: "до") + " \(endTime)"
+            scheduleLabel.text = NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") +
+                " \(startTime) " + NSLocalizedString("TO", comment: "до") + " \(endTime)"
         }
     }
 }
