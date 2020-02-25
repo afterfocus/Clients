@@ -138,14 +138,15 @@ class CalendarController: UIViewController {
     @IBAction func backButtonPressed(_ sender: UIButton) {
         // Если отображаемый месяц не равен текущему, то выполняется переход к текущему месяцу
         if todayCell.section != calendarView.currentSection {
-            calendarView.scrollTo(section: todayCell.section)
+            let oldPickedCell = pickedCell
+            pickedCell = todayCell
+            calendarView.scrollTo(section: pickedCell.section)
             UIView.performWithoutAnimation {
-                self.calendarView.reloadItems(at: [todayCell, pickedCell!])
+                self.calendarView.reloadItems(at: [pickedCell, oldPickedCell!])
             }
             // Вычисление смещения нужной секции календаря
-            var targetOffset = CGPoint(x: 0, y: calendarView.pageHeight * CGFloat(todayCell.section))
+            var targetOffset = CGPoint(x: 0, y: calendarView.pageHeight * CGFloat(pickedCell.section))
             scrollViewWillEndDragging(calendarView, withVelocity: CGPoint(), targetContentOffset: withUnsafeMutablePointer(to: &targetOffset) { $0 })
-            pickedCell = todayCell
         } else {
             calendarView.jump()
         }
@@ -243,13 +244,15 @@ class CalendarController: UIViewController {
             // Высоту списка записей уменьшить на его начальную высоту (уменьшить до нуля)
             tableViewHeight.constant = -UIScreen.main.bounds.height * 0.35
         }
-        // Изменить фон календаря в зависимости от режима
-        view.backgroundColor = calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
+        
         // Анимировать изменения при необходимости
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                 self.view.layoutIfNeeded()
+                self.view.backgroundColor = self.calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
             })
+        } else {
+            view.backgroundColor = calendarView.isPagingEnabled ? UIColor(named:  "Calendar Background Color") : .systemBackground
         }
     }
 }
@@ -403,10 +406,11 @@ extension CalendarController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Отфильтровать повторные нажатия на ту же ячейку
         if indexPath != pickedCell {
-            UIView.performWithoutAnimation {
-                self.calendarView.reloadItems(at: [indexPath, pickedCell!])
-            }
+            let oldPickedCell = pickedCell
             pickedCell = indexPath
+            UIView.performWithoutAnimation {
+                self.calendarView.reloadItems(at: [pickedCell, oldPickedCell!])
+            }
         }
         // В свободном режиме нажатие на ячейку приводит к переключению в постраничный режим
         if !calendarView.isPagingEnabled {
