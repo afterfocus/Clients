@@ -43,7 +43,7 @@ class CalendarCollectionCell: UICollectionViewCell {
      
      Ячейка отображает до 6 индикаторов записей.
      */
-    func configure(day: Int, visits: [Visit], isPicked: Bool, isToday: Bool, isWeekend: Bool) {
+    func configure(day: Int, indicatorColors: [UIColor], isPicked: Bool, isToday: Bool, isWeekend: Bool) {
         numberLabel.text = String(day)
         if isPicked {
             circleView.backgroundColor = isToday ? .red : .label
@@ -59,8 +59,8 @@ class CalendarCollectionCell: UICollectionViewCell {
                 numberLabel.font = .systemFont(ofSize: 18)
             }
         }
-        for (index, visit) in visits.enumerated() where index < 6 {
-            visitIndicators[index].backgroundColor = visit.service.color
+        for (index, color) in indicatorColors.enumerated() where index < 6 {
+            visitIndicators[index].backgroundColor = color
             visitIndicators[index].isHidden = false
         }
     }

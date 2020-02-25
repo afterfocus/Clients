@@ -146,9 +146,7 @@ class CalendarController: UIViewController {
             var targetOffset = CGPoint(x: 0, y: calendarView.pageHeight * CGFloat(todayCell.section))
             scrollViewWillEndDragging(calendarView, withVelocity: CGPoint(), targetContentOffset: withUnsafeMutablePointer(to: &targetOffset) { $0 })
             pickedCell = todayCell
-        }
-        // Иначе анимация подпрыгивания календаря
-        else {
+        } else {
             calendarView.jump()
         }
     }
@@ -405,11 +403,10 @@ extension CalendarController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Отфильтровать повторные нажатия на ту же ячейку
         if indexPath != pickedCell {
-            let oldPickedCell = pickedCell;
-            pickedCell = indexPath
             UIView.performWithoutAnimation {
-                self.calendarView.reloadItems(at: [indexPath, oldPickedCell!])
+                self.calendarView.reloadItems(at: [indexPath, pickedCell!])
             }
+            pickedCell = indexPath
         }
         // В свободном режиме нажатие на ячейку приводит к переключению в постраничный режим
         if !calendarView.isPagingEnabled {
@@ -443,7 +440,13 @@ extension CalendarController: UICollectionViewDataSource {
             /// Данные на день, связанный с ячейкой
             let dayData = calendarData[indexPath]
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
-            cell.configure(day: indexPath.item, visits: dayData.visits, isPicked: pickedCell == indexPath, isToday: todayCell == indexPath, isWeekend: dayData.isWeekend)
+            cell.configure(
+                day: indexPath.item,
+                indicatorColors: dayData.visits.map { $0.service.color },
+                isPicked: pickedCell == indexPath,
+                isToday: todayCell == indexPath,
+                isWeekend: dayData.isWeekend
+            )
             return cell
         }
     }
