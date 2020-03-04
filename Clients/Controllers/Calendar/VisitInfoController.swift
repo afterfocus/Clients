@@ -136,36 +136,24 @@ extension VisitInfoController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 3 {
-            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let deleteAction = UIAlertAction(
-                title: NSLocalizedString("REMOVE_VISIT", comment: "Удалить запись"),
-                style: .destructive) { _ in
+            let actionSheet = UIAlertController.removeOrCancelVisitActionSheet(
+                isVisitCancelled: visit.isCancelled,
+                isClientNotCome: visit.isClientNotCome,
+                removeVisitHandler: {
                     VisitRepository.remove(self.visit!)
-                    CoreDataManager.instance.saveContext()
+                    CoreDataManager.shared.saveContext()
                     self.navigationController?.popViewController(animated: true)
-            }
-            let visitCancelledAction = UIAlertAction(
-                title: visit.isCancelled ?
-                    NSLocalizedString("VISIT_NOT_CANCELLED_BY_CLIENT_BUTTON", comment: "Клиент не отменил запись") :
-                    NSLocalizedString("VISIT_CANCELLED_BY_CLIENT", comment: "Клиент отменил запись"),
-                style: .default) { _ in
+                },
+                visitCancelledByClientHandler: {
                     self.visit.isCancelled = !self.visit.isCancelled
-                    CoreDataManager.instance.saveContext()
+                    CoreDataManager.shared.saveContext()
                     self.configureVisitInfo()
-            }
-            let notComeAction = UIAlertAction(
-                title: visit.isClientNotCome ?
-                    NSLocalizedString("CLIENT_IS_COME_BUTTON", comment: "Клиент явился по записи") :
-                    NSLocalizedString("CLIENT_IS_NOT_COME_BUTTON", comment: "Клиент не явился по записи"),
-                style: .default) { _ in
+                },
+                clientNotComeHandler: {
                     self.visit.isClientNotCome = !self.visit.isClientNotCome
-                    CoreDataManager.instance.saveContext()
+                    CoreDataManager.shared.saveContext()
                     self.configureVisitInfo()
-            }
-            actionSheet.addAction(notComeAction)
-            actionSheet.addAction(visitCancelledAction)
-            actionSheet.addAction(deleteAction)
-            actionSheet.addAction(UIAlertAction.cancel)
+                })
             present(actionSheet, animated: true)
         }
     }

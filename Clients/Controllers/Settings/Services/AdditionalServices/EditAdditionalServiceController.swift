@@ -94,7 +94,7 @@ class EditAdditionalServiceController: UITableViewController {
                     duration: duration
                 )
             }
-            CoreDataManager.instance.saveContext()
+            CoreDataManager.shared.saveContext()
             navigationController?.popViewController(animated: true)
         }
     }
@@ -203,7 +203,7 @@ extension EditAdditionalServiceController {
                 style: .destructive) { _ in
                     let confirmSheet = UIAlertController.confirmAdditionalServiceDeletionAlert {
                         AdditionalServiceRepository.remove(self.additionalService!)
-                        CoreDataManager.instance.saveContext()
+                        CoreDataManager.shared.saveContext()
                         self.navigationController?.popViewController(animated: true)
                     }
                     self.present(confirmSheet, animated: true)

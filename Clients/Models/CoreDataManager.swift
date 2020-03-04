@@ -21,11 +21,9 @@ class PersistentContainer: NSPersistentContainer {
 
 class CoreDataManager {
 
-    static let instance = CoreDataManager()
+    static let shared = CoreDataManager()
 
-    private init() {
-
-    }
+    private init() { }
 
     lazy var persistentContainer: NSPersistentContainer = {
         /*

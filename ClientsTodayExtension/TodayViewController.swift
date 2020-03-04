@@ -17,24 +17,25 @@ class TodayExtensionViewController: UIViewController {
     @IBOutlet weak var tableLabel: UIButton!
 
     private var tableData: [Visit]!
+    private let settings = AppSettings.shared
 
     override func viewDidLoad() {
         self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
-        Settings.sharedDefaults.register(defaults: Settings.defaultSettings)
+        settings.registerDefaults()
 
-        if Settings.isVisitsShownInWidget {
+        if settings.isVisitsShownInWidget {
             let visits = VisitRepository.visits(
                 for: Date.today,
-                hideCancelled: Settings.isCancelledVisitsHidden,
-                hideNotCome: Settings.isClientNotComeVisitsHidden
+                hideCancelled: settings.isCancelledVisitsHidden,
+                hideNotCome: settings.isClientNotComeVisitsHidden
             )
 
-            if Settings.isTomorrowVisitsShownInWidget &&
+            if settings.isTomorrowVisitsShownInWidget &&
                 Time.currentTime > visits.last?.endTime ?? Time(hours: 12) {
                 tableData = VisitRepository.visits(
                     for: Date.today + 1,
-                    hideCancelled: Settings.isCancelledVisitsHidden,
-                    hideNotCome: Settings.isClientNotComeVisitsHidden
+                    hideCancelled: settings.isCancelledVisitsHidden,
+                    hideNotCome: settings.isClientNotComeVisitsHidden
                 )
                 tableLabel.setTitle(NSLocalizedString("TOMORROWS_VISITS", comment: "Записи на завтра"), for: .normal)
             } else {
@@ -50,23 +51,23 @@ class TodayExtensionViewController: UIViewController {
 
     @IBAction func priceListButtonPressed(_ sender: UIButton) {
         animateSuccess()
-        UIPasteboard.general.string = Settings.priceListText
+        UIPasteboard.general.string = settings.priceListText
     }
 
     @IBAction func unoccupiedPlacesButtonPressed(_ sender: UIButton) {
         animateSuccess()
         let unoccupiedPlaces: [Date: [Time]]
 
-        if Settings.widgetPlacesSearchRange == .counter {
+        if settings.widgetPlacesSearchRange == .counter {
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
-                placesCount: Settings.widgetPlacesSearchCounter,
-                requiredDuration: Settings.widgetPlacesSearchRequiredLength
+                placesCount: settings.widgetPlacesSearchCounter,
+                requiredDuration: settings.widgetPlacesSearchRequiredLength
             )
         } else {
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
                 between: Date.today,
-                and: Date.today + Settings.widgetPlacesSearchRange.daysInRange,
-                requiredDuration: Settings.widgetPlacesSearchRequiredLength
+                and: Date.today + settings.widgetPlacesSearchRange.daysInRange,
+                requiredDuration: settings.widgetPlacesSearchRequiredLength
             )
         }
         let keys = unoccupiedPlaces.keys.sorted(by: <)
@@ -85,7 +86,7 @@ class TodayExtensionViewController: UIViewController {
 
     @IBAction func contactInfoButtonPressed(_ sender: UIButton) {
         animateSuccess()
-        UIPasteboard.general.string = Settings.contactInformationText
+        UIPasteboard.general.string = settings.contactInformationText
     }
 
     private func animateSuccess() {
@@ -109,13 +110,18 @@ class TodayExtensionViewController: UIViewController {
 // MARK: - NCWidgetProviding
 
 extension TodayExtensionViewController: NCWidgetProviding {
-
+    
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         completionHandler(NCUpdateResult.newData)
     }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        let height = (activeDisplayMode == .compact) ? 110 : 130 + 50 * tableData.count
+        let height: Int
+        if settings.isVisitsShownInWidget {
+            height = (activeDisplayMode == .compact) ? 110 : 130 + (50 * tableData.count)
+        } else {
+            height = 110
+        }
         preferredContentSize = CGSize(width: maxSize.width, height: CGFloat(height))
     }
 }

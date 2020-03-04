@@ -119,7 +119,7 @@ class EditServiceController: UITableViewController {
                     isArchive: isArchive
                 )
             }
-            CoreDataManager.instance.saveContext()
+            CoreDataManager.shared.saveContext()
             return true
         }
     }
@@ -218,7 +218,7 @@ extension EditServiceController {
                 style: .destructive) { _ in
                     let confirmAlert = UIAlertController.confirmServiceDeletionAlert {
                         ServiceRepository.remove(self.service!)
-                        CoreDataManager.instance.saveContext()
+                        CoreDataManager.shared.saveContext()
                         self.delegate?.editServiceController(self, hasDeleted: self.service)
                         self.dismiss(animated: true)
                     }

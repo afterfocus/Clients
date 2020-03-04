@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class VisitRepository {
-    private static let context = CoreDataManager.instance.persistentContainer.viewContext
+    private static let context = CoreDataManager.shared.persistentContainer.viewContext
 
     private class var sortedFetchRequest: NSFetchRequest<Visit> {
         let request = NSFetchRequest<Visit>(entityName: "Visit")
@@ -162,7 +162,7 @@ class VisitRepository {
         // Проход по всем датам интервала
         while date <= endDate {
             // Запрос рабочего графика на обрабатываемую дату
-            let schedule = Settings.schedule(for: date.dayOfWeek)
+            let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             let isWeekend = WeekendRepository.isWeekend(date)
             // Поиск свободных мест не выполняется, если обрабатываемая дата - выходной день
             if !isWeekend {
@@ -177,7 +177,7 @@ class VisitRepository {
                 }
 
                 // Ищем все оставшиеся места до конца рабочего дня
-                if Settings.isOvertimeAllowed {
+                if AppSettings.shared.isOvertimeAllowed {
                     while time < schedule.end {
                         unoccupiedPlaces.append(time)
                         time += duration
@@ -216,7 +216,7 @@ class VisitRepository {
         // Проход по всем датам интервала
         while count < placesCount && date <= endDate {
             // Запрос рабочего графика на обрабатываемую дату
-            let schedule = Settings.schedule(for: date.dayOfWeek)
+            let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             let isWeekend = WeekendRepository.isWeekend(date)
             // Поиск свободных мест не выполняется, если обрабатываемая дата - выходной день
             if !isWeekend {
@@ -231,7 +231,7 @@ class VisitRepository {
                 }
 
                 // Ищем все оставшиеся места до конца рабочего дня
-                if Settings.isOvertimeAllowed {
+                if AppSettings.shared.isOvertimeAllowed {
                     while time < schedule.end {
                         unoccupiedPlaces.append(time)
                         time += duration

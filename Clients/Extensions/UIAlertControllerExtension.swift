@@ -139,7 +139,7 @@ extension UIAlertController {
         alert.addAction(UIAlertAction.cancel)
         return alert
     }
-
+    
     // MARK: - Action sheets
 
     static func blockClientActionSheet(handler: @escaping () -> Void) -> UIAlertController {
@@ -170,6 +170,72 @@ extension UIAlertController {
                 handler()
             }
         actionSheet.addAction(archiveAction)
+        actionSheet.addAction(UIAlertAction.cancel)
+        return actionSheet
+    }
+    
+    static func updateIsWeekendActionSheet(currentValue isWeekend: Bool, handler: @escaping () -> Void) -> UIAlertController {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let action = UIAlertAction(
+            title: isWeekend ?
+                NSLocalizedString("CANCEL_A_DAY_OFF", comment: "Удалить выходной") :
+                NSLocalizedString("MAKE_IT_A_DAY_OFF", comment: "Сделать выходным днём"),
+            style: isWeekend ? .destructive : .default) { _ in
+                // При подтверждении действия внести изменения в данные
+                handler()
+            }
+        actionSheet.addAction(action)
+        actionSheet.addAction(UIAlertAction.cancel)
+        return actionSheet
+    }
+
+    static func removeOrCancelVisitActionSheet(isVisitCancelled: Bool,
+                                               isClientNotCome: Bool,
+                                               removeVisitHandler: @escaping () -> Void,
+                                               visitCancelledByClientHandler: @escaping () -> Void,
+                                               clientNotComeHandler: @escaping () -> Void) -> UIAlertController {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(
+            title: NSLocalizedString("REMOVE_VISIT", comment: "Удалить запись"),
+            style: .destructive) { _ in
+                removeVisitHandler()
+            }
+        let visitCancelledAction = UIAlertAction(
+            title: isVisitCancelled ?
+                NSLocalizedString("VISIT_NOT_CANCELLED_BY_CLIENT_BUTTON", comment: "Клиент не отменил запись") :
+                NSLocalizedString("VISIT_CANCELLED_BY_CLIENT", comment: "Клиент отменил запись"),
+            style: .default) { _ in
+                visitCancelledByClientHandler()
+            }
+        let notComeAction = UIAlertAction(
+            title: isClientNotCome ?
+                NSLocalizedString("CLIENT_IS_COME_BUTTON", comment: "Клиент явился по записи") :
+                NSLocalizedString("CLIENT_IS_NOT_COME_BUTTON", comment: "Клиент не явился по записи"),
+            style: .default) { _ in
+                clientNotComeHandler()
+            }
+        actionSheet.addAction(notComeAction)
+        actionSheet.addAction(visitCancelledAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(UIAlertAction.cancel)
+        return actionSheet
+    }
+    
+    static func pickOrRemovePhotoActionSheet(pickPhotoHandler: @escaping () -> Void,
+                                             removePhotoHandler: @escaping () -> Void) -> UIAlertController {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let pickAction = UIAlertAction(
+            title: NSLocalizedString("PICK_PHOTO", comment: "Выбрать фото"),
+            style: .default) { _ in
+                pickPhotoHandler()
+            }
+        let deleteAction = UIAlertAction(
+            title: NSLocalizedString("REMOVE_PHOTO", comment: "Удалить фото"),
+            style: .default) { _ in
+                removePhotoHandler()
+            }
+        actionSheet.addAction(pickAction)
+        actionSheet.addAction(deleteAction)
         actionSheet.addAction(UIAlertAction.cancel)
         return actionSheet
     }

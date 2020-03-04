@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class ClientRepository {
-    private static let context = CoreDataManager.instance.persistentContainer.viewContext
+    private static let context = CoreDataManager.shared.persistentContainer.viewContext
 
     private class var fetchRequest: NSFetchRequest<Client> {
         return NSFetchRequest<Client>(entityName: "Client")
@@ -40,7 +40,7 @@ class ClientRepository {
 
     /// Активные и архивные клиенты, сгруппированные по первой букве фамилии
     class var clients: (active: [String: [Client]], archive: [String: [Client]]) {
-        let minimumDate = Date.today.subtractMonths(Settings.clientArchivingPeriod)
+        let minimumDate = Date.today.subtractMonths(AppSettings.shared.clientArchivingPeriod)
         var activeClients = [Client]()
         var archiveClients = [Client]()
         do {

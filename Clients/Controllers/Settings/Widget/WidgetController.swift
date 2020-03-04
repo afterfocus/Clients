@@ -18,17 +18,19 @@ class WidgetController: UITableViewController {
     @IBOutlet weak var priceListTextView: UITextView!
     @IBOutlet weak var contactInfoTextView: UITextView!
 
+    private let settings = AppSettings.shared
+    
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         hideKeyboardWhenTappedAround()
-        widgetSearchLengthLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
-        widgetSearchRangeLabel.text = Settings.widgetPlacesSearchRange.string
-        shouldShowVisitsSwitch.isOn = Settings.isVisitsShownInWidget
-        shouldShowTomorrowVisitsSwitch.isOn = Settings.isTomorrowVisitsShownInWidget
-        priceListTextView.text = Settings.priceListText
-        contactInfoTextView.text = Settings.contactInformationText
+        widgetSearchLengthLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        widgetSearchRangeLabel.text = settings.widgetPlacesSearchRange.string
+        shouldShowVisitsSwitch.isOn = settings.isVisitsShownInWidget
+        shouldShowTomorrowVisitsSwitch.isOn = settings.isTomorrowVisitsShownInWidget
+        priceListTextView.text = settings.priceListText
+        contactInfoTextView.text = settings.contactInformationText
 
         if !shouldShowVisitsSwitch.isOn {
             shouldShowTomorrowVisitsSwitch.isEnabled = false
@@ -39,16 +41,16 @@ class WidgetController: UITableViewController {
 
     @IBAction func switchValueChanged(_ sender: UISwitch) {
         if sender === shouldShowVisitsSwitch {
-            Settings.isVisitsShownInWidget = shouldShowVisitsSwitch.isOn
+            settings.isVisitsShownInWidget = shouldShowVisitsSwitch.isOn
             if shouldShowVisitsSwitch.isOn {
                 shouldShowTomorrowVisitsSwitch.isEnabled = true
             } else {
                 shouldShowTomorrowVisitsSwitch.setOn(false, animated: true)
-                Settings.isTomorrowVisitsShownInWidget = false
+                settings.isTomorrowVisitsShownInWidget = false
                 shouldShowTomorrowVisitsSwitch.isEnabled = false
             }
         } else {
-            Settings.isTomorrowVisitsShownInWidget = shouldShowTomorrowVisitsSwitch.isOn
+            settings.isTomorrowVisitsShownInWidget = shouldShowTomorrowVisitsSwitch.isOn
         }
         tableView.reloadData()
     }
@@ -59,9 +61,9 @@ class WidgetController: UITableViewController {
 extension WidgetController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView === priceListTextView {
-            Settings.priceListText = priceListTextView.text
+            settings.priceListText = priceListTextView.text
         } else {
-            Settings.contactInformationText = contactInfoTextView.text
+            settings.contactInformationText = contactInfoTextView.text
         }
     }
 }

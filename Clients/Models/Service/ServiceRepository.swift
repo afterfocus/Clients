@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class ServiceRepository {
-    private static let context = CoreDataManager.instance.persistentContainer.viewContext
+    private static let context = CoreDataManager.shared.persistentContainer.viewContext
 
     private class var fetchRequest: NSFetchRequest<Service> {
         return NSFetchRequest<Service>(entityName: "Service")

@@ -141,7 +141,7 @@ class EditVisitController: UITableViewController {
         if WeekendRepository.isWeekend(date) {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
-            let schedule = Settings.schedule(for: date.dayOfWeek)
+            let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             scheduleLabel.text = "\(NSLocalizedString("FROM", comment: "c")) \(schedule.start) \(NSLocalizedString("TO", comment: "до")) \(schedule.end)"
         }
         dateLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .long, timeStyle: .none)
@@ -175,7 +175,7 @@ class EditVisitController: UITableViewController {
                 visit.notes = notesTextField.text!
                 visit.isCancelled = visitCancelledSwitch.isOn
                 visit.isClientNotCome = clientNotComeSwitch.isOn
-                CoreDataManager.instance.saveContext()
+                CoreDataManager.shared.saveContext()
                 delegate?.editVisitController(self, didFinishedEditing: visit)
             }
             // Или создать новую
@@ -192,7 +192,7 @@ class EditVisitController: UITableViewController {
                     isCancelled: visitCancelledSwitch.isOn,
                     isClientNotCome: clientNotComeSwitch.isOn
                 )
-                CoreDataManager.instance.saveContext()
+                CoreDataManager.shared.saveContext()
                 delegate?.editVisitController(self, didFinishedCreating: newVisit)
             }
             dismiss(animated: true)
@@ -320,7 +320,7 @@ extension EditVisitController: UIPickerViewDelegate {
         if WeekendRepository.isWeekend(date) {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
-            let schedule = Settings.schedule(for: date.dayOfWeek)
+            let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             scheduleLabel.text = "\(NSLocalizedString("FROM", comment: "c")) \(schedule.start) \(NSLocalizedString("TO", comment: "до")) \(schedule.end)"
         }
         dateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)

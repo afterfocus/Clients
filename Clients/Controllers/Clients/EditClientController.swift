@@ -156,7 +156,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                 client.vk = vkTextField.text!
                 client.notes = notesTextField.text!
                 client.isBlocked = isBlocked
-                CoreDataManager.instance.saveContext()
+                CoreDataManager.shared.saveContext()
                 delegate?.editClientController(self, didFinishedEditing: client)
             } else {
                 // Или создать новый
@@ -171,7 +171,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                     notes: notesTextField.text!,
                     isBlocked: isBlocked
                 )
-                CoreDataManager.instance.saveContext()
+                CoreDataManager.shared.saveContext()
                 delegate?.editClientController(self, didFinishedCreating: newClient)
             }
             dismiss(animated: true)
@@ -202,22 +202,15 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     /// Нажатие на кнопку смены/удаления фотографии
     @IBAction func changePhotoButtonPressed(_ sender: Any) {
         // Отобразить меню с возможностью выбора новой фотографии и удаления существующей
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let pickAction = UIAlertAction(
-            title: NSLocalizedString("PICK_PHOTO", comment: "Выбрать фото"),
-            style: .default) { _ in
+        let actionSheet = UIAlertController.pickOrRemovePhotoActionSheet(
+            pickPhotoHandler: {
                 self.pickPhotoButtonPressed(sender)
-        }
-        let deleteAction = UIAlertAction(
-            title: NSLocalizedString("REMOVE_PHOTO", comment: "Удалить фото"),
-            style: .default) { _ in
+            },
+            removePhotoHandler: {
                 // Заменить фотографию заглушкой
                 self.photoImageView.image = UIImage(named: "default_photo")
                 self.isPhotoPicked = false
-        }
-        actionSheet.addAction(pickAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(UIAlertAction.cancel)
+            })
         present(actionSheet, animated: true)
     }
 
@@ -305,7 +298,7 @@ extension EditClientController {
                     style: .destructive) { _ in
                         let confirmAlert = UIAlertController.confirmClientDeletionAlert {
                             ClientRepository.remove(self.client!)
-                            CoreDataManager.instance.saveContext()
+                            CoreDataManager.shared.saveContext()
                             self.delegate?.editClientController(self, hasDeleted: self.client!)
                             self.dismiss(animated: true)
                         }

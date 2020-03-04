@@ -32,7 +32,10 @@ extension ServicesController: SegueHandler {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
-        case .showAddService: break
+        case .showAddService:
+            guard let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? EditServiceController else { return }
+            target.delegate = self
         case .showEditService:
             guard let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditServiceController,

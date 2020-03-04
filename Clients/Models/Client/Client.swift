@@ -53,7 +53,7 @@ public class Client: NSManagedObject {
                      vk: String = "",
                      notes: String = "",
                      isBlocked: Bool = false) {
-        self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.photoData = photo?.jpegData(compressionQuality: 1.0)
         self.surname = surname
         self.name = name

@@ -86,8 +86,8 @@ class MonthData {
                 isWeekend: WeekendRepository.isWeekend(date),
                 visits: VisitRepository.visits(
                     for: date,
-                    hideCancelled: Settings.isCancelledVisitsHidden,
-                    hideNotCome: Settings.isClientNotComeVisitsHidden
+                    hideCancelled: AppSettings.shared.isCancelledVisitsHidden,
+                    hideNotCome: AppSettings.shared.isClientNotComeVisitsHidden
                 )
             )
         }

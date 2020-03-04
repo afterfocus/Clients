@@ -22,24 +22,24 @@ class WidgetSearchParametersController: UITableViewController {
             tableView.cellForRow(at: IndexPath(row: newValue, section: 1))?.accessoryType = .checkmark
         }
     }
-
     private var isDurationPickerShown = false {
         didSet {
             durationLabel.textColor = isDurationPickerShown ? .red : .label
             tableView.performBatchUpdates(nil)
         }
     }
+    private let settings = AppSettings.shared
 
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectedRow = Settings.widgetPlacesSearchRange.rawValue
-        placesCountLabel.text = "\(Settings.widgetPlacesSearchCounter)"
+        selectedRow = settings.widgetPlacesSearchRange.rawValue
+        placesCountLabel.text = "\(settings.widgetPlacesSearchCounter)"
 
-        durationPicker.set(time: Settings.widgetPlacesSearchRequiredLength)
-        durationLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
-        placesCountPicker.selectRow(Settings.widgetPlacesSearchCounter - 1, inComponent: 0, animated: false)
+        durationPicker.set(time: settings.widgetPlacesSearchRequiredLength)
+        durationLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        placesCountPicker.selectRow(settings.widgetPlacesSearchCounter - 1, inComponent: 0, animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -49,9 +49,9 @@ class WidgetSearchParametersController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Settings.widgetPlacesSearchRequiredLength = Time(foundationDate: durationPicker.date)
-        Settings.widgetPlacesSearchRange = Settings.WidgetPlacesSearchRange(rawValue: selectedRow)!
-        Settings.widgetPlacesSearchCounter = placesCountPicker.selectedRow(inComponent: 0) + 1
+        settings.widgetPlacesSearchRequiredLength = Time(foundationDate: durationPicker.date)
+        settings.widgetPlacesSearchRange = AppSettings.WidgetPlacesSearchRange(rawValue: selectedRow)!
+        settings.widgetPlacesSearchCounter = placesCountPicker.selectedRow(inComponent: 0) + 1
     }
 
     @IBAction func lengthPickerValueChanged(_ sender: UIDatePicker) {

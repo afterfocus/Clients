@@ -23,12 +23,13 @@ class OtherSettingsController: UITableViewController {
             archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label
         }
     }
+    private let settings = AppSettings.shared
 
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let months = Settings.clientArchivingPeriod
+        let months = settings.clientArchivingPeriod
         switch months {
         case 1, 21, 31:
             archivingPeriodLabel.text = "\(months) " + NSLocalizedString("MONTH", comment: "месяц")
@@ -38,15 +39,15 @@ class OtherSettingsController: UITableViewController {
             archivingPeriodLabel.text = "\(months) " + NSLocalizedString("MONTH_PLURAL", comment: "месяцев")
         }
         archivingPeriodPickerView.selectRow(months - 1, inComponent: 0, animated: false)
-        isCancelledVisitsHiddenSwitch.isOn = Settings.isCancelledVisitsHidden
-        isClientNotComeVisitsHiddenSwitch.isOn = Settings.isClientNotComeVisitsHidden
-        isOvertimeAllowedSwitch.isOn = Settings.isOvertimeAllowed
-        shouldBlockIncomingCallsSwitch.isOn = Settings.shouldBlockIncomingCalls
+        isCancelledVisitsHiddenSwitch.isOn = settings.isCancelledVisitsHidden
+        isClientNotComeVisitsHiddenSwitch.isOn = settings.isClientNotComeVisitsHidden
+        isOvertimeAllowedSwitch.isOn = settings.isOvertimeAllowed
+        shouldBlockIncomingCallsSwitch.isOn = settings.shouldBlockIncomingCalls
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Settings.clientArchivingPeriod = archivingPeriodPickerView.selectedRow(inComponent: 0) + 1
+        settings.clientArchivingPeriod = archivingPeriodPickerView.selectedRow(inComponent: 0) + 1
     }
 
     // MARK: - IBActions
@@ -54,13 +55,13 @@ class OtherSettingsController: UITableViewController {
     @IBAction func switchValueChanged(_ sender: UISwitch) {
         switch sender {
         case isCancelledVisitsHiddenSwitch:
-            Settings.isCancelledVisitsHidden = isCancelledVisitsHiddenSwitch.isOn
+            settings.isCancelledVisitsHidden = isCancelledVisitsHiddenSwitch.isOn
         case isClientNotComeVisitsHiddenSwitch:
-            Settings.isClientNotComeVisitsHidden = isClientNotComeVisitsHiddenSwitch.isOn
+            settings.isClientNotComeVisitsHidden = isClientNotComeVisitsHiddenSwitch.isOn
         case isOvertimeAllowedSwitch:
-            Settings.isOvertimeAllowed = isOvertimeAllowedSwitch.isOn
+            settings.isOvertimeAllowed = isOvertimeAllowedSwitch.isOn
         case shouldBlockIncomingCallsSwitch:
-            Settings.shouldBlockIncomingCalls = shouldBlockIncomingCallsSwitch.isOn
+            settings.shouldBlockIncomingCalls = shouldBlockIncomingCallsSwitch.isOn
         default: break
         }
     }

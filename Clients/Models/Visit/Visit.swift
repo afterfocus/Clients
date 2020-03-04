@@ -67,7 +67,7 @@ public class Visit: NSManagedObject {
                      notes: String = "",
                      isCancelled: Bool = false,
                      isClientNotCome: Bool = false) {
-        self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.client = client
         self.day = Int16(date.day)
         self.month = Int16(date.month.rawValue)

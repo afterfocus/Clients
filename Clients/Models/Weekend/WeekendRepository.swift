@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class WeekendRepository {
-    private static let context = CoreDataManager.instance.persistentContainer.viewContext
+    private static let context = CoreDataManager.shared.persistentContainer.viewContext
 
     private class var fetchRequest: NSFetchRequest<Weekend> {
         return NSFetchRequest<Weekend>(entityName: "Weekend")

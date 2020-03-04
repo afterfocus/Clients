@@ -162,17 +162,9 @@ class CalendarController: HidingNavigationBarViewController {
      */
     @objc private func scheduleViewPressed() {
         let isWeekend = calendarData[pickedCell].isWeekend
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action = UIAlertAction(
-            title: isWeekend ?
-                NSLocalizedString("CANCEL_A_DAY_OFF", comment: "Удалить выходной") :
-                NSLocalizedString("MAKE_IT_A_DAY_OFF", comment: "Сделать выходным днём"),
-            style: isWeekend ? .destructive : .default) { _ in
-                // При подтверждении действия внести изменения в данные
-                self.updateIsWeekend(newValue: !isWeekend)
+        let actionSheet = UIAlertController.updateIsWeekendActionSheet(currentValue: isWeekend) {
+            self.updateIsWeekend(newValue: !isWeekend)
         }
-        actionSheet.addAction(action)
-        actionSheet.addAction(UIAlertAction.cancel)
         present(actionSheet, animated: true)
     }
 
@@ -185,7 +177,7 @@ class CalendarController: HidingNavigationBarViewController {
      */
     private func updateIsWeekend(newValue: Bool) {
         WeekendRepository.setIsWeekend(newValue, for: calendarData.dateFor(pickedCell))
-        CoreDataManager.instance.saveContext()
+        CoreDataManager.shared.saveContext()
         // Внести изменения в кеш данных календаря
         calendarData[pickedCell].isWeekend = newValue
         updateScheduleView()
@@ -213,7 +205,7 @@ class CalendarController: HidingNavigationBarViewController {
         if calendarData[pickedCell].isWeekend {
             scheduleView.configure(state: .weekend)
         } else {
-            let schedule = Settings.schedule(for: calendarData.dateFor(pickedCell).dayOfWeek)
+            let schedule = AppSettings.shared.schedule(for: calendarData.dateFor(pickedCell).dayOfWeek)
             scheduleView.configure(state: .workday(start: schedule.start, end: schedule.end))
         }
         visitsTableView.contentInset.top = scheduleView.height

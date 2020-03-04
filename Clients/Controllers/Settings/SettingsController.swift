@@ -31,7 +31,8 @@ class SettingsControler: UITableViewController {
     private let offString = NSLocalizedString("OFF", comment: "выкл")
     private let allowedString = NSLocalizedString("ALLOWED", comment: "разрешены")
     private let prohibitedString = NSLocalizedString("PROHIBITED", comment: "запрещены")
-
+    private let settings = AppSettings.shared
+    
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,10 +44,10 @@ class SettingsControler: UITableViewController {
             configureScheduleLabel(label, weekday: Weekday(rawValue: index)!)
         }
 
-        widgetSearchDurationLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
-        widgetSearchRangeLabel.text = Settings.widgetPlacesSearchRange.string
+        widgetSearchDurationLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        widgetSearchRangeLabel.text = settings.widgetPlacesSearchRange.string
 
-        let months = Settings.clientArchivingPeriod
+        let months = settings.clientArchivingPeriod
         switch months {
         case 1, 21, 31:
             clientArchivingPeriodLabel.text = "\(months) " + NSLocalizedString("MONTH", comment: "месяц")
@@ -56,10 +57,10 @@ class SettingsControler: UITableViewController {
             clientArchivingPeriodLabel.text = "\(months) " + NSLocalizedString("MONTH_PLURAL", comment: "месяцев")
         }
 
-        displayingCancelledVisitsLabel.text = Settings.isCancelledVisitsHidden ? onString : offString
-        displayingClientNotComeVisitsLabel.text = Settings.isClientNotComeVisitsHidden ? onString : offString
-        overtimeAllowedLabel.text = Settings.isOvertimeAllowed ? allowedString : prohibitedString
-        shouldBlockIncomingCallsLabel.text = Settings.shouldBlockIncomingCalls ? onString : offString
+        displayingCancelledVisitsLabel.text = settings.isCancelledVisitsHidden ? onString : offString
+        displayingClientNotComeVisitsLabel.text = settings.isClientNotComeVisitsHidden ? onString : offString
+        overtimeAllowedLabel.text = settings.isOvertimeAllowed ? allowedString : prohibitedString
+        shouldBlockIncomingCallsLabel.text = settings.shouldBlockIncomingCalls ? onString : offString
     }
 
     private func configureServicesIndicators(in stackView: UIStackView, with services: [Service]) {
@@ -73,7 +74,7 @@ class SettingsControler: UITableViewController {
     }
 
     private func configureScheduleLabel(_ label: UILabel, weekday: Weekday) {
-        let schedule = Settings.schedule(for: weekday)
+        let schedule = settings.schedule(for: weekday)
         label.text = schedule.isWeekend ? "—" : "\(schedule.start) \(schedule.end)"
     }
 }

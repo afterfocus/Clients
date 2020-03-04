@@ -19,7 +19,7 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
         context.removeAllIdentificationEntries()
 
         let data = ClientRepository.identificationPhoneNumbers
-        if Settings.shouldBlockIncomingCalls {
+        if AppSettings.shared.shouldBlockIncomingCalls {
             data.forEach {
                 if let phone = Int64($0.number) {
                     $0.isBlocked ?

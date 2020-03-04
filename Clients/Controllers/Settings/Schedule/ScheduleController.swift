@@ -17,7 +17,7 @@ class ScheduleController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         for (index, label) in scheduleLabels.enumerated() {
-            let schedule = Settings.schedule(for: Weekday(rawValue: index)!)
+            let schedule = AppSettings.shared.schedule(for: Weekday(rawValue: index)!)
             label.text = schedule.isWeekend ?
                 NSLocalizedString("WEEKEND", comment: "Выходной") :
                 NSLocalizedString("FROM", comment: "c") +

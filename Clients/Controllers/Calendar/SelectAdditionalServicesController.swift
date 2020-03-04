@@ -8,11 +8,15 @@
 
 import UIKit
 
+// MARK: - SelectAdditionalServicesControllerDelegate
+
 protocol SelectAdditionalServicesControllerDelegate: class {
     func selectAdditionalServicesController(_ viewController: SelectAdditionalServicesController,
                                             didSelect additionalServices: Set<AdditionalService>,
                                             for service: Service)
 }
+
+// MARK: - SelectAdditionalServicesController
 
 /// Контроллер выбора дополнительных услуг
 class SelectAdditionalServicesController: UITableViewController {

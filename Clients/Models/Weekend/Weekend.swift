@@ -14,14 +14,14 @@ import CoreData
 @objc(Weekend)
 public class Weekend: NSManagedObject {
     convenience init(day: Int, month: Int, year: Int) {
-        self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.day = Int16(day)
         self.month = Int16(month)
         self.year = Int16(year)
     }
 
     convenience init(date: Date) {
-        self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.day = Int16(date.day)
         self.month = Int16(date.month.rawValue)
         self.year = Int16(date.year)

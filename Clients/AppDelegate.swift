@@ -17,18 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Settings.sharedDefaults.register(defaults: Settings.defaultSettings)
+        AppSettings.shared.registerDefaults()
 
         // MARK: Загрузка тестовых данных
         if ClientRepository.isEmpty {
             initializeData()
-            CoreDataManager.instance.saveContext()
+            CoreDataManager.shared.saveContext()
         }
         return true
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        CoreDataManager.instance.saveContext()
+        CoreDataManager.shared.saveContext()
         CXCallDirectoryManager.sharedInstance.reloadExtension(withIdentifier: "MaximGolov.Clients.ClientsCallExtension")
     }
 

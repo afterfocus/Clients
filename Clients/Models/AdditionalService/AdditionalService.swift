@@ -30,7 +30,7 @@ public class AdditionalService: NSManagedObject {
     }
 
     convenience init(name: String, cost: Float, duration: Time) {
-        self.init(context: CoreDataManager.instance.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.name = name
         self.cost = cost
         self.durationHours = Int16(duration.hours)
