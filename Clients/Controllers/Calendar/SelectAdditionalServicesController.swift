@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol SelectAdditionalServicesControllerDelegate: class {
+    func selectAdditionalServicesController(_ viewController: SelectAdditionalServicesController,
+                                            didSelect additionalServices: Set<AdditionalService>,
+                                            for service: Service)
+}
+
 /// Контроллер выбора дополнительных услуг
 class SelectAdditionalServicesController: UITableViewController {
 
@@ -21,29 +27,17 @@ class SelectAdditionalServicesController: UITableViewController {
     }
     /// Набор выбранных доп.услуг
     var selectedAdditionalServices: Set<AdditionalService>!
+    weak var delegate: SelectAdditionalServicesControllerDelegate?
 
     // MARK: - Private properties
 
     /// Данные таблицы доп.услуг
     private var tableData: [AdditionalService]!
-}
-
-// MARK: - SegueHandler
-
-extension SelectAdditionalServicesController: SegueHandler {
-    enum SegueIdentifier: String {
-        /// Вернуться к экрану редактирования записи
-        case unwindFromSelectAdditionalVisitsToEditVisit
-    }
-
-    // Подготовиться к переходу
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segueIdentifier(for: segue) {
-        case .unwindFromSelectAdditionalVisitsToEditVisit:
-            if let target = segue.destination as? EditVisitController {
-                target.additionalServices = selectedAdditionalServices
-            }
-        }
+    
+    // MARK: - IBActions
+    
+    @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        delegate?.selectAdditionalServicesController(self, didSelect: selectedAdditionalServices, for: service)
     }
 }
 

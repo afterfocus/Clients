@@ -9,10 +9,26 @@
 import UIKit
 import Photos
 
+// MARK: - EditClientControllerDelegate
+
+protocol EditClientControllerDelegate: class {
+    func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client)
+    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client)
+    func editClientController(_ viewController: EditClientController, hasDeleted client: Client)
+}
+
+extension EditClientControllerDelegate {
+    func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client) { }
+    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client) { }
+    func editClientController(_ viewController: EditClientController, hasDeleted client: Client) { }
+}
+
+// MARK: - EditClientController
+
 /// Контроллер редактирования клиента
 class EditClientController: UITableViewController, UINavigationControllerDelegate {
 
-    // MARK: - IBOutlets
+    // MARK: IBOutlets
 
     /// Фотография клиента
     @IBOutlet weak var photoImageView: UIImageView!
@@ -46,8 +62,9 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
 
     // MARK: - Segue properties
 
-    /// Идентификатор клиента
+    /// Редактируемый клиент
     var client: Client?
+    weak var delegate: EditClientControllerDelegate?
 
     // MARK: - Private properties
 
@@ -71,6 +88,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Добавление распознавателя изменения текста в поле номера телефона
         phoneTextField.addTarget(self, action: #selector(self.phoneTextFieldDidChange), for: .editingChanged)
         // Закрывать клавиатуру при нажатии вне полей
@@ -138,9 +156,11 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                 client.vk = vkTextField.text!
                 client.notes = notesTextField.text!
                 client.isBlocked = isBlocked
+                CoreDataManager.instance.saveContext()
+                delegate?.editClientController(self, didFinishedEditing: client)
             } else {
                 // Или создать новый
-                _ = Client(
+                let newClient = Client(
                     photo: isPhotoPicked ? photoImageView.image! : nil,
                     surname: surnameTextField.text!,
                     name: nameTextField.text!,
@@ -151,13 +171,10 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                     notes: notesTextField.text!,
                     isBlocked: isBlocked
                 )
+                CoreDataManager.instance.saveContext()
+                delegate?.editClientController(self, didFinishedCreating: newClient)
             }
-            CoreDataManager.instance.saveContext()
-            // Вернуться к списку клиентов или к экрану профиля клиента
-            performSegue(withIdentifier: client == nil ?
-                            .unwindFromAddClientToClientsTable :
-                            .unwindFromEditClientToClientProfile,
-                         sender: sender)
+            dismiss(animated: true)
         }
     }
 
@@ -189,8 +206,6 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
         let pickAction = UIAlertAction(
             title: NSLocalizedString("PICK_PHOTO", comment: "Выбрать фото"),
             style: .default) { _ in
-                // Проверить наличие доступа к медиатеке и отобразить
-                // UIImagePickerController или сообщение о запрете доступа
                 self.pickPhotoButtonPressed(sender)
         }
         let deleteAction = UIAlertAction(
@@ -264,26 +279,6 @@ extension EditClientController: UIImagePickerControllerDelegate {
     }
 }
 
-// MARK: - SegueHandler
-
-extension EditClientController: SegueHandler {
-
-    enum SegueIdentifier: String {
-        /// Вернуться к профилю клиента
-        case unwindFromEditClientToClientProfile
-        /// Вернуться к списку клиентов
-        case unwindFromAddClientToClientsTable
-    }
-
-    /// Подготовиться к переходу
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segueIdentifier(for: segue) {
-        case .unwindFromEditClientToClientProfile: break
-        case .unwindFromAddClientToClientsTable: break
-        }
-    }
-}
-
 // MARK: - UITableViewDelegate
 
 extension EditClientController {
@@ -311,7 +306,8 @@ extension EditClientController {
                         let confirmAlert = UIAlertController.confirmClientDeletionAlert {
                             ClientRepository.remove(self.client!)
                             CoreDataManager.instance.saveContext()
-                            self.performSegue(withIdentifier: .unwindFromEditClientToClientProfile, sender: self)
+                            self.delegate?.editClientController(self, hasDeleted: self.client!)
+                            self.dismiss(animated: true)
                         }
                         self.present(confirmAlert, animated: true)
                 }

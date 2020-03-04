@@ -22,6 +22,7 @@
 		B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */; };
 		B52C1F8023F0764C001CCDAB /* AdditionalServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */; };
 		B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */; };
+		B5364548240ED9AE000BA839 /* HidingNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5364547240ED9AE000BA839 /* HidingNavigationBarViewController.swift */; };
 		B541E21A23CFAEDC00FD1F3F /* EditClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541E21923CFAEDC00FD1F3F /* EditClientController.swift */; };
 		B541E21C23CFD30A00FD1F3F /* ClientProfileTableTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541E21B23CFD30A00FD1F3F /* ClientProfileTableTopView.swift */; };
 		B5465E5B23F82E1F004F0C09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */; };
@@ -179,6 +180,7 @@
 		B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtension.swift; sourceTree = "<group>"; };
 		B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceRepository.swift; sourceTree = "<group>"; };
 		B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParametersController.swift; sourceTree = "<group>"; };
+		B5364547240ED9AE000BA839 /* HidingNavigationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HidingNavigationBarViewController.swift; sourceTree = "<group>"; };
 		B541E21923CFAEDC00FD1F3F /* EditClientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClientController.swift; sourceTree = "<group>"; };
 		B541E21B23CFD30A00FD1F3F /* ClientProfileTableTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileTableTopView.swift; sourceTree = "<group>"; };
 		B5465E5C23F82E1F004F0C09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -334,7 +336,6 @@
 				B516F27E23CE1CE00087B2CB /* Extensions */,
 				B516F27D23CE1CD00087B2CB /* Resources */,
 				B516F26223CE15EA0087B2CB /* AppDelegate.swift */,
-				B516F27323CE15FB0087B2CB /* Info.plist */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -360,6 +361,8 @@
 		B516F27B23CE1CBF0087B2CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */,
+				B5465E6223F82E33004F0C09 /* Main.storyboard */,
 				B5E76F5923CE99D1009F6D99 /* ReusableViewID.swift */,
 				B5F415AD23D6438300D48319 /* HairlineConstraint.swift */,
 				B5890AF123E5BC7B00C3A50E /* Today */,
@@ -377,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				B5E76F5723CE9562009F6D99 /* SegueHandler.swift */,
+				B5364547240ED9AE000BA839 /* HidingNavigationBarViewController.swift */,
 				B51E721023DC793400C9623C /* SearchResultsController.swift */,
 				B50C937C23E6FE0800B2D2CB /* Today */,
 				B5E76F6323CFAC64009F6D99 /* Calendar */,
@@ -389,8 +393,7 @@
 		B516F27D23CE1CD00087B2CB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */,
-				B5465E6223F82E33004F0C09 /* Main.storyboard */,
+				B516F27323CE15FB0087B2CB /* Info.plist */,
 				B5465E7723F82F9F004F0C09 /* Localizable.strings */,
 				B516F26E23CE15FB0087B2CB /* Assets.xcassets */,
 			);
@@ -796,6 +799,7 @@
 				B5890AEC23E35A8000C3A50E /* AdditionalServiceTableCell.swift in Sources */,
 				B5E9745F23E861200061AB9B /* ServicesController.swift in Sources */,
 				B5E76F5023CE7B9D009F6D99 /* UIButtonExtension.swift in Sources */,
+				B5364548240ED9AE000BA839 /* HidingNavigationBarViewController.swift in Sources */,
 				B5E939D623EC5C58008112D4 /* Service.swift in Sources */,
 				B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */,
 				B5E939DE23EC5CBB008112D4 /* Client.swift in Sources */,
@@ -1061,7 +1065,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clients/Clients.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TA67UG9J4;
-				INFOPLIST_FILE = Clients/Info.plist;
+				INFOPLIST_FILE = Clients/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1082,7 +1086,7 @@
 				CODE_SIGN_ENTITLEMENTS = Clients/Clients.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TA67UG9J4;
-				INFOPLIST_FILE = Clients/Info.plist;
+				INFOPLIST_FILE = Clients/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

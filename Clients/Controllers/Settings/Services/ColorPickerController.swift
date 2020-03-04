@@ -8,35 +8,18 @@
 
 import UIKit
 
-// TODO: Требует документирования
+// MARK: - ColorPickerControllerDelegate
+
+protocol ColorPickerControllerDelegate: class {
+    func colorPickerController(_ viewController: ColorPickerController, didSelect color: UIColor)
+}
+
+// MARK: - ColorPickerController
 
 class ColorPickerController: UITableViewController {
-    var pickedColor: UIColor!
-}
-
-// MARK: - SegueHandler
-
-extension ColorPickerController: SegueHandler {
-    enum SegueIdentifier: String {
-        case unwindFromColorPickerToEditService
-    }
-}
-
-// MARK: - UITableViewDelegate
-
-extension ColorPickerController {
-
+    weak var delegate: ColorPickerControllerDelegate?
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0: pickedColor = .red
-        case 1: pickedColor = .orange
-        case 2: pickedColor = .yellow
-        case 3: pickedColor = .green
-        case 4: pickedColor = .blue
-        case 5: pickedColor = .purple
-        case 6: pickedColor = .brown
-        default: pickedColor = .black
-        }
-        performSegue(withIdentifier: .unwindFromColorPickerToEditService, sender: self)
+        delegate?.colorPickerController(self, didSelect: UIColor.color(withId: indexPath.row))
     }
 }

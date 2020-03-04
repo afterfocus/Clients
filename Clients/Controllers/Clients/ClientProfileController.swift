@@ -9,7 +9,7 @@
 import UIKit
 
 /// Контроллер профиля клиента
-class ClientProfileController: UIViewController {
+class ClientProfileController: HidingNavigationBarViewController {
 
     // MARK: - IBOutlets
 
@@ -57,16 +57,14 @@ class ClientProfileController: UIViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Установить начальные значения отступов списка записей
         visitHistoryTable.contentInset.top = topView.maxHeight
         visitHistoryTable.contentOffset.y = -topView.maxHeight
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        // Скрыть фон NavigationBar
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-
+        super.viewWillAppear(animated)
         // Если клиент не был удалён
         if client?.managedObjectContext != nil {
             // Получить из БД записи клиента
@@ -79,12 +77,6 @@ class ClientProfileController: UIViewController {
             // Закрыть экран, если клиент удалён с другого экрана
             navigationController?.popViewController(animated: true)
         }
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        // Вернуть фон NavigationBar
-        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        navigationController?.navigationBar.shadowImage = nil
     }
 
     // MARK: - IBActions
@@ -204,42 +196,47 @@ extension ClientProfileController: SegueHandler {
             // Перейти к созданию услуги можно только если создана хотя-бы одна услуга
             if ServiceRepository.activeServices.isEmpty {
                 present(UIAlertController.servicesNotSpecifiedAlert, animated: true)
-            } else if let destination = segue.destination as? UINavigationController,
-                let target = destination.topViewController as? EditVisitController {
+            } else {
+                guard let destination = segue.destination as? UINavigationController,
+                    let target = destination.topViewController as? EditVisitController else { return }
                 // Отправить клиента в EditVisitController
                 target.client = client
-                target.unwindSegue = .unwindFromAddVisitToClientProfile
+                target.delegate = self
             }
         case .showVisitInfo:
-            if let target = segue.destination as? VisitInfoController,
-                let indexPath = visitHistoryTable.indexPathForSelectedRow {
-                // Отправить в VisitInfoController выбранную запись
-                target.visit = tableData[keys[indexPath.section]]![indexPath.row]
-                // Запретить циклический переход в профиль клиента из экрана информации о записи
-                target.canSegueToClientProfile = false
-            }
+            guard let target = segue.destination as? VisitInfoController,
+                let indexPath = visitHistoryTable.indexPathForSelectedRow else { return }
+            // Отправить в VisitInfoController выбранную запись
+            target.visit = tableData[keys[indexPath.section]]![indexPath.row]
+            // Запретить циклический переход в профиль клиента из экрана информации о записи
+            target.canSegueToClientProfile = false
         case .showEditClient:
-            if let destination = segue.destination as? UINavigationController,
-                let target = destination.topViewController as? EditClientController {
-                // Отправить в EditClientController редактируемого клиента
-                target.client = client
-            }
+            guard let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? EditClientController else { return }
+            target.client = client
+            target.delegate = self
         }
     }
+}
 
-    /// Возврат к профилю клиента с экрана редактирования клиента
-    @IBAction func unwindFromEditClientToClientProfile(segue: UIStoryboardSegue) {
-        // Если клиент не был удален, обновить дочерние представления
-        if client.managedObjectContext != nil {
-            topView.configure(with: client)
-            tableTopView.configure(with: client)
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
+// MARK: - EditClientControllerDelegate
+
+extension ClientProfileController: EditClientControllerDelegate {
+    func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client) {
+        topView.configure(with: client)
+        tableTopView.configure(with: client)
+        visitHistoryTable.reloadData()
     }
+    
+    func editClientController(_ viewController: EditClientController, hasDeleted client: Client) {
+        navigationController?.popViewController(animated: true)
+    }
+}
 
-    /// Возврат к профилю клиента с экрана создания записи
-    @IBAction func unwindFromAddVisitToClientProfile(segue: UIStoryboardSegue) {
+// MARK: - EditVisitControllerDelegate
+
+extension ClientProfileController: EditVisitControllerDelegate {
+    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) {
         visits = client.visitsByYear
         services = client.usedServices
         configureSegmentedControl()

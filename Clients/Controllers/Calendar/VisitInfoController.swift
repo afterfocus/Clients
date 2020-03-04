@@ -47,12 +47,14 @@ class VisitInfoController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Отключить возможность перехода к профилю клиента, если установлен запрет на переход
         clientTableCell.accessoryType = canSegueToClientProfile ? .disclosureIndicator : .none
         clientTableCell.isUserInteractionEnabled = canSegueToClientProfile
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Отобразить данные если запись не была удалена
         if visit.managedObjectContext != nil {
             configureVisitInfo()
@@ -105,23 +107,23 @@ extension VisitInfoController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showEditVisit:
-            if let destination = segue.destination as? UINavigationController,
-                let target = destination.topViewController as? EditVisitController {
-                // Отправить запись в EditVisitController
-                target.visit = visit
-                target.unwindSegue = .unwindFromEditVisitToVisitInfo
-            }
+            guard let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? EditVisitController else { return }
+            // Отправить запись в EditVisitController
+            target.visit = visit
+            target.delegate = self
         case .showClientProfile:
-            if let target = segue.destination as? ClientProfileController {
-                // Отправить клиента в ClientProfileController
-                target.client = visit.client
-            }
+            guard let target = segue.destination as? ClientProfileController else { return }
+            // Отправить клиента в ClientProfileController
+            target.client = visit.client
         }
     }
+}
 
-    /// Возврат с экрана редактирования записи
-    @IBAction func unwindFromEditVisitToVisitInfo(segue: UIStoryboardSegue) {
-        // Перезагрузить информацию о записи
+// MARK: - EditVisitControllerDelegate
+
+extension VisitInfoController: EditVisitControllerDelegate {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing visit: Visit) {
         configureVisitInfo()
         tableView.reloadData()
     }

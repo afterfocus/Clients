@@ -19,7 +19,8 @@ class CalendarView: UICollectionView {
     var cellSize = CGSize()
 
     var currentSection: Int {
-        return Int(round(contentOffset.y / pageHeight))
+        let section = Int(round(contentOffset.y / pageHeight))
+        return section < 0 ? 0 : section
     }
 
     required init?(coder: NSCoder) {
@@ -35,6 +36,12 @@ class CalendarView: UICollectionView {
 
     func scrollTo(section: Int, animated: Bool = true) {
         setContentOffset(CGPoint(x: 0, y: pageHeight * CGFloat(section)), animated: animated)
+    }
+    
+    func reloadItemsWithoutAnimation(at indexPaths: [IndexPath]) {
+        UIView.performWithoutAnimation {
+            self.reloadItems(at: indexPaths)
+        }
     }
 
     func jump() {

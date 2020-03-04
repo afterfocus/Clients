@@ -8,16 +8,14 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class ServicesController: UITableViewController {
-
-    private var activeServices: [Service]!
-    private var archiveServices: [Service]!
+    private var activeServices = [Service]()
+    private var archiveServices = [Service]()
 
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         activeServices = ServiceRepository.activeServices
         archiveServices = ServiceRepository.archiveServices
         tableView.reloadData()
@@ -36,17 +34,28 @@ extension ServicesController: SegueHandler {
         switch segueIdentifier(for: segue) {
         case .showAddService: break
         case .showEditService:
-            if let destination = segue.destination as? UINavigationController,
+            guard let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditServiceController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                tableView.deselectRow(at: indexPath, animated: true)
-                target.service = (indexPath.section == 1 || activeServices.isEmpty) ?
-                    archiveServices[indexPath.row] : activeServices[indexPath.row]
-            }
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            tableView.deselectRow(at: indexPath, animated: true)
+            target.service = (indexPath.section == 1 || activeServices.isEmpty) ?
+                archiveServices[indexPath.row] :
+                activeServices[indexPath.row]
+            target.delegate = self
         }
     }
+}
 
-    @IBAction func unwindFromEditServiceToServicesTable(segue: UIStoryboardSegue) {
+// MARK: - UITableViewDataSource
+
+extension ServicesController: EditServiceControllerDelegate {
+    func editServiceController(_ viewController: EditServiceController, didFinishedEditing service: Service) {
+        activeServices = ServiceRepository.activeServices
+        archiveServices = ServiceRepository.archiveServices
+        tableView.reloadData()
+    }
+    
+    func editServiceController(_ viewController: EditServiceController, hasDeleted service: Service) {
         activeServices = ServiceRepository.activeServices
         archiveServices = ServiceRepository.archiveServices
         tableView.reloadData()

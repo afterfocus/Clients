@@ -43,6 +43,7 @@ class TodayViewController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Создание контроллера отображения результатов поиска
         let searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
         searchResultsController.tableView.delegate = self
@@ -56,6 +57,7 @@ class TodayViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         updateTableData()
     }
 
@@ -103,11 +105,10 @@ extension TodayViewController: SegueHandler {
             // Перейти к созданию услуги можно только если создана хотя-бы одна активная услуга
             if ServiceRepository.activeServices.isEmpty {
                 present(UIAlertController.servicesNotSpecifiedAlert, animated: true)
-            } else if let destination = segue.destination as? UINavigationController,
-                let target = destination.topViewController as? EditVisitController {
-                // После завершения редактирования вернуться обратно к экрану Сегодня
-                target.unwindSegue = .unwindFromAddVisitToToday
-
+            } else {
+                guard let destination = segue.destination as? UINavigationController,
+                    let target = destination.topViewController as? EditVisitController else { return }
+                target.delegate = self
                 // Если была нажата ячейка коллекции свободных мест,
                 // передать в EditVisitController связанные с этой ячейкой дату и время
                 if let cell = sender as? NearestPlacesCollectionCell,
@@ -117,43 +118,45 @@ extension TodayViewController: SegueHandler {
                 }
             }
         case .showClientProfile:
-            if let target = segue.destination as? ClientProfileController {
-                target.client = tableData[tableView.indexPathForSelectedRow!.row] as? Client
-            }
+            guard let target = segue.destination as? ClientProfileController else { return }
+            target.client = tableData[tableView.indexPathForSelectedRow!.row] as? Client
         case .showVisitInfo:
-            if let target = segue.destination as? VisitInfoController {
-                if let indexPath = tableView.indexPathForSelectedRow {
-                    target.visit = tableData[indexPath.row] as? Visit
-                } else if let sender = sender as? SearchResultsController {
-                    target.visit = sender.selectedVisit
-                }
+            guard let target = segue.destination as? VisitInfoController else { return }
+            if let indexPath = tableView.indexPathForSelectedRow {
+                target.visit = tableData[indexPath.row] as? Visit
+            } else if let sender = sender as? SearchResultsController {
+                target.visit = sender.selectedVisit
             }
         case .showSearchParameters:
-            if let destination = segue.destination as? UINavigationController,
-                let target = destination.topViewController as? SearchParametersController {
-                // Отправить в SearchParametersController текущие выбранные параметры поиска
-                target.startDate = startDate
-                target.endDate = endDate
-                target.requiredDuration = requiredDuration
-            }
+            guard let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? SearchParametersController else { return }
+            // Отправить в SearchParametersController текущие выбранные параметры поиска
+            target.startDate = startDate
+            target.endDate = endDate
+            target.requiredDuration = requiredDuration
+            target.delegate = self
         }
     }
+}
 
-    /// Возврат с экрана создания записи
-    @IBAction func unwindFromAddVisitToToday(segue: UIStoryboardSegue) {
+// MARK: - EditVisitControllerDelegate
+
+extension TodayViewController: EditVisitControllerDelegate {
+    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) {
         updateTableData()
     }
+}
 
-    /// Возврат с экрана параметров поиска
-    @IBAction func unwindFromSearchParametersToToday(segue: UIStoryboardSegue) {
-        if let source = segue.source as? SearchParametersController {
-            // Принять новые параметры поиска
-            startDate = source.startDate
-            endDate = source.endDate
-            requiredDuration = source.requiredDuration
+// MARK: - SearchParametersControllerDelegate
 
-            updateTableData()
-        }
+extension TodayViewController: SearchParametersControllerDelegate {
+    func searchParametersController(_ viewController: SearchParametersController,
+                                    didSelect searchParameters: (startDate: Date, endDate: Date, requiredDuration: Time)) {
+        // Принять новые параметры поиска
+        startDate = searchParameters.startDate
+        endDate = searchParameters.endDate
+        requiredDuration = searchParameters.requiredDuration
+        updateTableData()
     }
 }
 

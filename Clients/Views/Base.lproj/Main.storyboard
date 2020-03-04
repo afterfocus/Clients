@@ -703,12 +703,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="filterSegmentedControl" destination="MfU-Tu-oFh" id="gAl-uC-4eA"/>
-                        <segue destination="2UV-dg-UcE" kind="unwind" identifier="unwindFromClientsTableToEditVisit" unwindAction="unwindFromClientTableToEditVisitWithSegue:" id="96f-ax-d1I"/>
                         <segue destination="N5y-Es-BII" kind="show" identifier="showClientProfile" id="N9p-jc-n5u"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aub-hC-RQP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="2UV-dg-UcE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1193" y="433"/>
         </scene>
@@ -2210,12 +2208,9 @@
                         <outlet property="surnameTextField" destination="W6s-9d-kGc" id="cQS-3x-2yD"/>
                         <outlet property="vkIcon" destination="tui-X5-pqF" id="h1F-EJ-coc"/>
                         <outlet property="vkTextField" destination="1JL-bA-BOe" id="qpl-Ea-2g2"/>
-                        <segue destination="Al5-P2-hCy" kind="unwind" identifier="unwindFromEditClientToClientProfile" unwindAction="unwindFromEditClientToClientProfileWithSegue:" id="r6h-ug-r7g"/>
-                        <segue destination="Al5-P2-hCy" kind="unwind" identifier="unwindFromAddClientToClientsTable" unwindAction="unwindFromAddClientToClientsTableWithSegue:" id="zzm-Zu-WDP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5t-ES-Fg6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="Al5-P2-hCy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3678" y="435"/>
         </scene>
@@ -3117,7 +3112,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="f1N-C0-8Kw" userLabel="Cancelling Cell">
+                                    <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="f1N-C0-8Kw" userLabel="Cancelling Cell">
                                         <rect key="frame" x="0.0" y="1026.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="f1N-C0-8Kw" id="u1j-eu-neD">
@@ -3143,7 +3138,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="VLO-jq-kdy" userLabel="Not Come Cell">
+                                    <tableViewCell clearsContextBeforeDrawing="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="VLO-jq-kdy" userLabel="Not Come Cell">
                                         <rect key="frame" x="0.0" y="1070.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VLO-jq-kdy" id="1xb-0r-cu6">
@@ -3202,14 +3197,9 @@
                         <outlet property="servicePicker" destination="vvl-LQ-oec" id="PRB-f4-cOK"/>
                         <outlet property="timeLabel" destination="28w-hk-eeb" id="ri4-SB-rW3"/>
                         <outlet property="visitCancelledSwitch" destination="IbA-Sv-jjS" id="mo4-Ea-zLO"/>
-                        <segue destination="uJz-kX-gQc" kind="unwind" identifier="unwindFromEditVisitToVisitInfo" unwindAction="unwindFromEditVisitToVisitInfoWithSegue:" id="8kN-aQ-r7F"/>
-                        <segue destination="uJz-kX-gQc" kind="unwind" identifier="unwindFromAddVisitToClientProfile" unwindAction="unwindFromAddVisitToClientProfileWithSegue:" id="gtw-r5-eu4"/>
-                        <segue destination="uJz-kX-gQc" kind="unwind" identifier="unwindFromAddVisitToCalendar" unwindAction="unwindFromAddVisitToCalendarWithSegue:" id="dvS-cb-rgH"/>
-                        <segue destination="uJz-kX-gQc" kind="unwind" identifier="unwindFromAddVisitToToday" unwindAction="unwindFromAddVisitToTodayWithSegue:" id="oWS-2c-qlR"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIH-VW-lgC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="uJz-kX-gQc" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3677.5999999999999" y="-322.48875562218893"/>
         </scene>
@@ -3282,13 +3272,12 @@
                     <navigationItem key="navigationItem" title="Дополнительные услуги" largeTitleDisplayMode="never" id="dpJ-pq-zIp">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="mN2-l4-SA3">
                             <connections>
-                                <segue destination="90g-Mx-R2F" kind="unwind" identifier="unwindFromSelectAdditionalVisitsToEditVisit" unwindAction="unwindFromSelectAdditionalVisitsToEditVisitWithSegue:" id="UJ3-ox-uHw"/>
+                                <action selector="doneButtonPressed:" destination="mjB-dh-weI" id="woS-Jb-foE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xsp-GU-UU3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="90g-Mx-R2F" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4514" y="-322"/>
         </scene>
@@ -3489,11 +3478,9 @@
                         <outlet property="endDatePicker" destination="SvZ-0J-yrd" id="4Jy-NH-rUZ"/>
                         <outlet property="startDateLabel" destination="WxF-UB-tdh" id="mzX-HM-CJD"/>
                         <outlet property="startDatePicker" destination="0BW-eI-JIt" id="U2K-RN-foT"/>
-                        <segue destination="HKe-vx-jB5" kind="unwind" identifier="unwindFromSearchSettingsToToday" unwindAction="unwindFromSearchParametersToTodayWithSegue:" id="eoW-cF-Eku"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GkA-tS-Opf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="HKe-vx-jB5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2838" y="-1096"/>
         </scene>
@@ -4368,12 +4355,8 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="nC9-ND-b9g" kind="unwind" identifier="Unwind From Services Table To Spaces Selection" unwindAction="unwindToSpacesSelectionWithSegue:" id="FLU-Cl-MUF"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FpY-lF-dvc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="nC9-ND-b9g" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1192.8" y="1200.4497751124438"/>
         </scene>
@@ -4644,12 +4627,10 @@
                         <outlet property="durationLabel" destination="d0l-Bv-OoN" id="G7k-Vb-RvB"/>
                         <outlet property="durationPicker" destination="22M-vy-WEE" id="Yfw-dj-wci"/>
                         <outlet property="nameTextField" destination="qIE-SI-Kga" id="tlb-5Q-CFo"/>
-                        <segue destination="sTj-aB-0G5" kind="unwind" identifier="unwindFromEditServiceToServicesTable" unwindAction="unwindFromEditServiceToServicesTableWithSegue:" id="h4Y-tE-mrF"/>
                         <segue destination="YLN-um-cw7" kind="show" identifier="showAdditionalServices" id="Iwf-JR-Jex"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aPE-S6-fF7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="sTj-aB-0G5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2837.5999999999999" y="1200.4497751124438"/>
         </scene>
@@ -5229,12 +5210,8 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Цвет" id="Rnq-is-35F"/>
-                    <connections>
-                        <segue destination="DIe-hr-DfH" kind="unwind" identifier="unwindFromColorPickerToEditService" unwindAction="unwindFromColorPickerToEditServiceWithSegue:" id="d9j-UV-XFI"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Bv-8x-yIL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="DIe-hr-DfH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2838" y="1960"/>
         </scene>

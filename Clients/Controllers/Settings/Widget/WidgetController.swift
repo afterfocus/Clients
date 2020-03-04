@@ -21,6 +21,7 @@ class WidgetController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         hideKeyboardWhenTappedAround()
         widgetSearchLengthLabel.text = Settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
         widgetSearchRangeLabel.text = Settings.widgetPlacesSearchRange.string

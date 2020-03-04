@@ -35,6 +35,7 @@ class SettingsControler: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureServicesIndicators(in: activeServiceIndicatorsStackView, with: ServiceRepository.activeServices)
         configureServicesIndicators(in: archiveServiceIndicatorsStackView, with: ServiceRepository.archiveServices)
 

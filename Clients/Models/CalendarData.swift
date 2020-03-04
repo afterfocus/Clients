@@ -42,6 +42,11 @@ class MonthData {
     var numberOfDays: Int {
         days.count
     }
+    
+    /// Количество строк в секции = (кол-во дней в месяце + первый день месяца) div 7
+    var numberOfWeeks: Int {
+        return Int(ceil(Double(firstDay + numberOfDays) / 7))
+    }
 
     var monthAndYear: Date {
         Date(month: month, year: year)

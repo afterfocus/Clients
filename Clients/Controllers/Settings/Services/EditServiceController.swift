@@ -8,9 +8,19 @@
 
 import UIKit
 
-// TODO: Требует документирования
+// MARK: - EditServiceControllerDelegate
+
+protocol EditServiceControllerDelegate: class {
+    func editServiceController(_ viewController: EditServiceController, didFinishedEditing service: Service)
+    func editServiceController(_ viewController: EditServiceController, hasDeleted service: Service)
+}
+
+// MARK: - EditServiceController
 
 class EditServiceController: UITableViewController {
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var costTextField: UITextField!
     @IBOutlet weak var durationLabel: UILabel!
@@ -20,12 +30,17 @@ class EditServiceController: UITableViewController {
     @IBOutlet weak var colorLabel: UILabel!
     @IBOutlet weak var archiveButtonLabel: UILabel!
 
+    // MARK: - Segue properties
+    
     var service: Service!
     var additionalServices = Set<AdditionalService>() {
         didSet {
             additionalServicesCountLabel.text = "\(additionalServices.count)"
         }
     }
+    weak var delegate: EditServiceControllerDelegate?
+    
+    // MARK: - Private properties
 
     private var pickedColor = UIColor.blue
     private var isDurationPickerShown = false {
@@ -37,12 +52,15 @@ class EditServiceController: UITableViewController {
     private var isArchive = false {
         didSet {
             archiveButtonLabel.text = isArchive ?
-            NSLocalizedString("MAKE_ACTIVE", comment: "Внести в список актуальных") :
-            NSLocalizedString("ARCHIVE", comment: "Архивировать")
+                NSLocalizedString("MAKE_ACTIVE", comment: "Внести в список актуальных") :
+                NSLocalizedString("ARCHIVE", comment: "Архивировать")
         }
     }
 
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
+        super.viewDidLoad()
         hideKeyboardWhenTappedAround()
 
         var duration: Time = 1
@@ -61,6 +79,7 @@ class EditServiceController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if service != nil {
             additionalServices = service.additionalServices
         }
@@ -75,7 +94,8 @@ class EditServiceController: UITableViewController {
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         costTextField.resignFirstResponder()
         if saveService() {
-            performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: sender)
+            delegate?.editServiceController(self, didFinishedEditing: service)
+            dismiss(animated: true)
         }
     }
 
@@ -105,40 +125,37 @@ class EditServiceController: UITableViewController {
     }
 
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: sender)
+        dismiss(animated: true)
     }
 }
 
 // MARK: - SegueHandler
 
 extension EditServiceController: SegueHandler {
-
     enum SegueIdentifier: String {
         case showColorPicker
         case showAdditionalServices
-        case unwindFromEditServiceToServicesTable
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
-        case .showColorPicker: break
+        case .showColorPicker:
+            guard let target = segue.destination as? ColorPickerController else { return }
+            target.delegate = self
         case .showAdditionalServices:
-            if let target = segue.destination as? AdditionalServicesController {
-                target.service = service
-            }
-        case .unwindFromEditServiceToServicesTable: break
+            guard let target = segue.destination as? AdditionalServicesController else { return }
+            target.service = service
         }
     }
+}
 
-    @IBAction func unwindFromColorPickerToEditService(segue: UIStoryboardSegue) {
-        if let colorPicker = segue.source as? ColorPickerController {
-            pickedColor = colorPicker.pickedColor
-            colorView.backgroundColor = pickedColor
-            colorLabel.text = pickedColor.name
-        }
-    }
+// MARK: - ColorPickerControllerDelegate
 
-    @IBAction func unwindFromAdditionalServicesToEditService(segue: UIStoryboardSegue) {
+extension EditServiceController: ColorPickerControllerDelegate {
+    func colorPickerController(_ viewController: ColorPickerController, didSelect color: UIColor) {
+        pickedColor = color
+        colorView.backgroundColor = color
+        colorLabel.text = color.name
     }
 }
 
@@ -202,7 +219,8 @@ extension EditServiceController {
                     let confirmAlert = UIAlertController.confirmServiceDeletionAlert {
                         ServiceRepository.remove(self.service!)
                         CoreDataManager.instance.saveContext()
-                        self.performSegue(withIdentifier: .unwindFromEditServiceToServicesTable, sender: self)
+                        self.delegate?.editServiceController(self, hasDeleted: self.service)
+                        self.dismiss(animated: true)
                     }
                     self.present(confirmAlert, animated: true)
             }

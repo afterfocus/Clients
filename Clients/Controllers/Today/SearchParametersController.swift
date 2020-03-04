@@ -8,6 +8,15 @@
 
 import UIKit
 
+// MARK: - SearchParametersControllerDelegate
+
+protocol SearchParametersControllerDelegate: class {
+    func searchParametersController(_ viewController: SearchParametersController,
+                                    didSelect searchParameters: (startDate: Date, endDate: Date, requiredDuration: Time))
+}
+
+// MARK: - SearchParametersController
+
 /// Контроллер выбора параметров поиска
 class SearchParametersController: UITableViewController {
     @IBOutlet weak var durationLabel: UILabel!
@@ -25,6 +34,7 @@ class SearchParametersController: UITableViewController {
     var endDate: Date!
     /// Требуемая продолжительность
     var requiredDuration: Time!
+    weak var delegate: SearchParametersControllerDelegate?
 
     // MARK: - Private properties
 
@@ -48,6 +58,7 @@ class SearchParametersController: UITableViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Установка начальных значений
         durationPicker.set(time: requiredDuration)
         startDatePicker.set(date: startDate, time: nil)
@@ -96,14 +107,10 @@ class SearchParametersController: UITableViewController {
     }
 
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: .unwindFromSearchSettingsToToday, sender: sender)
-    }
-}
-
-// MARK: - SegueHandler
-extension SearchParametersController: SegueHandler {
-    enum SegueIdentifier: String {
-        case unwindFromSearchSettingsToToday
+        delegate?.searchParametersController(self, didSelect: (startDate: startDate,
+                                                              endDate: endDate,
+                                                              requiredDuration: requiredDuration))
+        dismiss(animated: true)
     }
 }
 

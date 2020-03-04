@@ -9,7 +9,6 @@
 import UIKit
 
 class EditAdditionalServiceController: UITableViewController {
-
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var durationSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var durationLabel: UILabel!
@@ -31,6 +30,7 @@ class EditAdditionalServiceController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         hideKeyboardWhenTappedAround()
 
         if let additionalService = additionalService {
@@ -103,7 +103,6 @@ class EditAdditionalServiceController: UITableViewController {
 // MARK: - UITextFieldDelegate
 
 extension EditAdditionalServiceController: UITextFieldDelegate {
-
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isDurationPickerShown = false
         if textField === costTextField, !textField.text!.isEmpty {

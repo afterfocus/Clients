@@ -8,6 +8,14 @@
 
 import UIKit
 
+// MARK: - ClientsTableViewControllerDelegate
+
+protocol ClientsTableViewControllerDelegate: class {
+    func clientsTableViewController(_ viewController: ClientsTableViewController, didSelect client: Client)
+}
+
+// MARK: - ClientsTableViewController
+
 /// Контроллер списка клиентов
 class ClientsTableViewController: UITableViewController {
 
@@ -20,6 +28,7 @@ class ClientsTableViewController: UITableViewController {
 
     /// Находится ли в режиме выбора клиента для записи
     var inSelectionMode = false
+    weak var delegate: ClientsTableViewControllerDelegate?
 
     // MARK: - Private properties
 
@@ -39,6 +48,7 @@ class ClientsTableViewController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Создание контроллера поиска.
         navigationItem.searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController?.searchResultsUpdater = self
@@ -48,6 +58,7 @@ class ClientsTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         clients = ClientRepository.clients
         // Заполнить данные таблицы из словаря активных или архивных клиентов
         tableData = filterSegmentedControl.selectedSegmentIndex == 0 ? clients.active : clients.archive
@@ -90,33 +101,31 @@ extension ClientsTableViewController: SegueHandler {
         case showClientProfile
         /// Отобразить экран создания нового профиля клиента
         case showAddClient
-        /// Вернуться к экрану создания/редактирования записи
-        case unwindFromClientsTableToEditVisit
     }
 
     // Подготовиться к переходу
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showClientProfile:
-            if let target = segue.destination as? ClientProfileController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                // Отправить в ClientProfileController выбранного клиента
-                target.client = tableData[keys[indexPath.section]]![indexPath.row]
-            }
-        case .unwindFromClientsTableToEditVisit:
-            if let target = segue.destination as? EditVisitController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                // Отправить в EditVisitController выбранного клиента
-                target.client = tableData[keys[indexPath.section]]![indexPath.row]
-            }
-        case .showAddClient: break
+            guard let target = segue.destination as? ClientProfileController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            // Отправить в ClientProfileController выбранного клиента
+            target.client = tableData[keys[indexPath.section]]![indexPath.row]
+        case .showAddClient:
+            guard let destination = segue.destination as? UINavigationController,
+                let target = destination.topViewController as? EditClientController else { return }
+            target.delegate = self
         }
     }
+}
 
-    /// Возврат к списку клиентов после создания нового профиля клиента
-    @IBAction func unwindFromAddClientToClientsTable(segue: UIStoryboardSegue) {
-        // Обновить данные таблицы
-        clients = ClientRepository.clients
+// MARK: - EditClientControllerDelegate
+
+extension ClientsTableViewController: EditClientControllerDelegate {
+    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client) {
+        // Дополнить словарь клиентов
+        let dictionary = [String(newClient.surname.first!): [newClient]]
+        clients.archive.merge(dictionary) { $0 + $1 }
         tableData = filterSegmentedControl.selectedSegmentIndex == 0 ? clients.active : clients.archive
     }
 }
@@ -128,14 +137,13 @@ extension ClientsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Если контроллер находится в режиме выбора клиента для записи
         if inSelectionMode {
+            let client = tableData[keys[indexPath.section]]![indexPath.row]
             // И если выбранный клиент находится в черном списке, отобразить сообщение о недопустимости выбора
-            if tableData[keys[indexPath.section]]![indexPath.row].isBlocked {
+            if client.isBlocked {
                 tableView.deselectRow(at: indexPath, animated: true)
                 present(UIAlertController.clientInBlacklistAlert, animated: true)
-            // Иначе вернуться к экрану создания/редактирования записи
             } else {
-                performSegue(withIdentifier: .unwindFromClientsTableToEditVisit,
-                             sender: tableView.cellForRow(at: indexPath))
+                delegate?.clientsTableViewController(self, didSelect: client)
             }
         // Иначе открыть профиль клиента
         } else {

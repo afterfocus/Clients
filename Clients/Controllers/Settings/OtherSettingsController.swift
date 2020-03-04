@@ -27,6 +27,7 @@ class OtherSettingsController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let months = Settings.clientArchivingPeriod
         switch months {
         case 1, 21, 31:
@@ -44,6 +45,7 @@ class OtherSettingsController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         Settings.clientArchivingPeriod = archivingPeriodPickerView.selectedRow(inComponent: 0) + 1
     }
 

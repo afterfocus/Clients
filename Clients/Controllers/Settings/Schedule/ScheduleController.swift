@@ -15,6 +15,7 @@ class ScheduleController: UITableViewController {
     @IBOutlet var scheduleLabels: [UILabel]!
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         for (index, label) in scheduleLabels.enumerated() {
             let schedule = Settings.schedule(for: Weekday(rawValue: index)!)
             label.text = schedule.isWeekend ?
@@ -35,11 +36,10 @@ extension ScheduleController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showEditSchedule:
-            if let target = segue.destination as? EditScheduleController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                tableView.deselectRow(at: indexPath, animated: true)
-                target.dayOfWeek = Weekday(rawValue: indexPath.row + 1 == 7 ? 0 : indexPath.row + 1)
-            }
+            guard let target = segue.destination as? EditScheduleController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            tableView.deselectRow(at: indexPath, animated: true)
+            target.dayOfWeek = Weekday(rawValue: indexPath.row + 1 == 7 ? 0 : indexPath.row + 1)
         }
     }
 }

@@ -33,6 +33,7 @@ class WidgetSearchParametersController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         selectedRow = Settings.widgetPlacesSearchRange.rawValue
         placesCountLabel.text = "\(Settings.widgetPlacesSearchCounter)"
 
@@ -42,10 +43,12 @@ class WidgetSearchParametersController: UITableViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         tableView.cellForRow(at: IndexPath(row: selectedRow, section: 1))?.accessoryType = .checkmark
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         Settings.widgetPlacesSearchRequiredLength = Time(foundationDate: durationPicker.date)
         Settings.widgetPlacesSearchRange = Settings.WidgetPlacesSearchRange(rawValue: selectedRow)!
         Settings.widgetPlacesSearchCounter = placesCountPicker.selectedRow(inComponent: 0) + 1

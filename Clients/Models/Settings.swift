@@ -8,8 +8,6 @@
 
 import Foundation
 
-// TODO: Требует документирования
-
 class Settings {
 
     enum WidgetPlacesSearchRange: Int {

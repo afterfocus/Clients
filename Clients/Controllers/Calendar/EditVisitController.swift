@@ -8,6 +8,20 @@
 
 import UIKit
 
+// MARK: - EditVisitControllerDelegate
+
+protocol EditVisitControllerDelegate: class {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing visit: Visit)
+    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit)
+}
+
+extension EditVisitControllerDelegate {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing visit: Visit) { }
+    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) { }
+}
+
+// MARK: - EditVisitController
+
 /// Контроллер редактирования записи
 class EditVisitController: UITableViewController {
 
@@ -63,8 +77,7 @@ class EditVisitController: UITableViewController {
             NSLocalizedString("Unspecified", comment: "Не указаны") : "\(additionalServices.count)"
         }
     }
-    /// Куда возвращаться после завершения редактирования
-    var unwindSegue: SegueIdentifier!
+    weak var delegate: EditVisitControllerDelegate?
 
     // MARK: - Private properties
 
@@ -93,6 +106,7 @@ class EditVisitController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         // Закрывать клавиатуру при нажатии вне полей
         hideKeyboardWhenTappedAround()
 
@@ -109,7 +123,6 @@ class EditVisitController: UITableViewController {
                 serviceLabel.text = servicePickerData[row].name
                 serviceColorView.backgroundColor = servicePickerData[row].color
             }
-
             costTextField.text = NumberFormatter.convertToCurrency(visit.cost)
             notesTextField.text = visit.notes
 
@@ -120,7 +133,7 @@ class EditVisitController: UITableViewController {
             datePicker.set(date: date, time: time, animated: false)
             pickerView(servicePicker, didSelectRow: 0, inComponent: 0)
         }
-
+        
         if let client = client {
             configureClientInfo(with: client)
         }
@@ -162,10 +175,12 @@ class EditVisitController: UITableViewController {
                 visit.notes = notesTextField.text!
                 visit.isCancelled = visitCancelledSwitch.isOn
                 visit.isClientNotCome = clientNotComeSwitch.isOn
+                CoreDataManager.instance.saveContext()
+                delegate?.editVisitController(self, didFinishedEditing: visit)
             }
             // Или создать новую
             else {
-                _ = Visit(
+                let newVisit = Visit(
                     client: client!,
                     date: Date(foundationDate: datePicker.date),
                     time: Time(foundationDate: datePicker.date),
@@ -177,9 +192,10 @@ class EditVisitController: UITableViewController {
                     isCancelled: visitCancelledSwitch.isOn,
                     isClientNotCome: clientNotComeSwitch.isOn
                 )
+                CoreDataManager.instance.saveContext()
+                delegate?.editVisitController(self, didFinishedCreating: newVisit)
             }
-            CoreDataManager.instance.saveContext()
-            performSegue(withIdentifier: unwindSegue, sender: sender)
+            dismiss(animated: true)
         }
     }
 
@@ -196,14 +212,6 @@ extension EditVisitController: SegueHandler {
         case showSelectClient
         /// Перейти к выбору доп.услуг
         case showSelectAdditionalServices
-        /// Вернуться к экрану Сегодня
-        case unwindFromAddVisitToToday
-        /// Вернуться к профилю клиента
-        case unwindFromAddVisitToClientProfile
-        /// Вернуться к календарю
-        case unwindFromAddVisitToCalendar
-        /// Вернуться к информации о записи
-        case unwindFromEditVisitToVisitInfo
     }
 
     // Подготовиться к переходу
@@ -212,36 +220,43 @@ extension EditVisitController: SegueHandler {
         case .showSelectClient:
             if let target = segue.destination as? ClientsTableViewController {
                 target.inSelectionMode = true
+                target.delegate = self
             }
         case .showSelectAdditionalServices:
             if let target = segue.destination as? SelectAdditionalServicesController {
                 target.service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
                 target.selectedAdditionalServices = additionalServices
+                target.delegate = self
             }
-        case .unwindFromAddVisitToToday: break
-        case .unwindFromAddVisitToClientProfile: break
-        case .unwindFromAddVisitToCalendar: break
-        case .unwindFromEditVisitToVisitInfo: break
         }
     }
+}
 
-    /// Возврат с экрана выбора клиента
-    @IBAction func unwindFromClientTableToEditVisit(segue: UIStoryboardSegue) {
-        configureClientInfo(with: client!)
+// MARK: - ClientsTableViewControllerDelegate
+
+extension EditVisitController: ClientsTableViewControllerDelegate {
+    func clientsTableViewController(_ viewController: ClientsTableViewController, didSelect client: Client) {
+        navigationController?.popToViewController(self, animated: true)
+        self.client = client
+        configureClientInfo(with: client)
     }
+}
 
-    /// Возврат с экрана выбора доп.услуг
-    @IBAction func unwindFromSelectAdditionalVisitsToEditVisit(segue: UIStoryboardSegue) {
-        // Обновить стоимость и продолжительность
-        let selectedService = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
-        var cost = selectedService.cost
-        var duration = selectedService.duration
+// MARK: - SelectAdditionalServicesControllerDelegate
+
+extension EditVisitController: SelectAdditionalServicesControllerDelegate {
+    func selectAdditionalServicesController(_ viewController: SelectAdditionalServicesController,
+                                            didSelect additionalServices: Set<AdditionalService>,
+                                            for service: Service) {
+        navigationController?.popToViewController(self, animated: true)
+        self.additionalServices = additionalServices
+        var cost = service.cost
+        var duration = service.duration
 
         additionalServices.forEach {
             cost += $0.cost
             duration += $0.duration
         }
-
         costTextField.text = NumberFormatter.convertToCurrency((cost < 0) ? 0 : cost)
         durationPicker.set(time: (duration < 0) ? Time(minutes: 5) : duration)
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
@@ -292,9 +307,8 @@ extension EditVisitController: UIPickerViewDelegate {
         serviceColorView.backgroundColor = service.color
         // Очистить выбранные доп.услуги
         additionalServices = []
-        // Установить стоимость по умолчанию
+        // Установить стоимость и продолжительность по умолчанию
         costTextField.text = NumberFormatter.convertToCurrency(service.cost)
-        // Установить продолжительность по умолчанию
         durationPicker.set(time: service.duration)
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }

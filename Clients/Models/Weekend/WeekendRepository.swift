@@ -32,6 +32,14 @@ class WeekendRepository {
             fatalError(#function + ": \(error)")
         }
     }
+    
+    class func setIsWeekend(_ newValue: Bool, for date: Date) {
+        if newValue {
+            _ = Weekend(date: date)
+        } else {
+            removeWeekend(for: date)
+        }
+    }
 
     /// Сделать дату `date` рабочим днём
     class func removeWeekend(for date: Date) {

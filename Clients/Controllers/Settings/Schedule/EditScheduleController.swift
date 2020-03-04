@@ -21,6 +21,7 @@ class EditScheduleController: UITableViewController {
     private var isWeekendOldValue: Bool!
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationItem.title = dayOfWeek.name
 
         let schedule = Settings.schedule(for: dayOfWeek)
@@ -33,6 +34,7 @@ class EditScheduleController: UITableViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         Settings.setSchedule(for: dayOfWeek, schedule: (
             isWeekend: isWeekendSwitch.isOn,
             start: Time(foundationDate: startTimePicker.date),

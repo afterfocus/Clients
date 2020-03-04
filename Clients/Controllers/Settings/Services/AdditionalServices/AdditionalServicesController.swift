@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class AdditionalServicesController: UITableViewController {
     var service: Service!
     private var additionalServices: [AdditionalService]!
@@ -17,6 +15,7 @@ class AdditionalServicesController: UITableViewController {
     // MARK: - View Life Cycle
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         additionalServices = service.additionalServicesSorted
         tableView.reloadData()
     }
@@ -33,15 +32,13 @@ extension AdditionalServicesController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showAddAdditionalService:
-            if let target = segue.destination as? EditAdditionalServiceController {
-                target.service = service
-            }
+            guard let target = segue.destination as? EditAdditionalServiceController else { return }
+            target.service = service
         case .showEditAdditionalService:
-            if let target = segue.destination as? EditAdditionalServiceController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                target.service = service
-                target.additionalService = additionalServices[indexPath.row]
-            }
+            guard let target = segue.destination as? EditAdditionalServiceController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            target.service = service
+            target.additionalService = additionalServices[indexPath.row]
         }
     }
 }
