@@ -1,0 +1,327 @@
+
+/* Class = "UILabel"; text = "ПН"; ObjectID = "0Is-Rx-fvD"; */
+"0Is-Rx-fvD.text" = "Mon";
+
+/* Class = "UILabel"; text = "Среда"; ObjectID = "1Gq-F4-dkS"; */
+"1Gq-F4-dkS.text" = "Wednesday";
+
+/* Class = "UILabel"; text = "разрешены"; ObjectID = "2fp-mv-iUV"; */
+"2fp-mv-iUV.text" = "allowed";
+
+/* Class = "UINavigationItem"; title = "Услуга"; ObjectID = "2yy-zM-0Nw"; */
+"2yy-zM-0Nw.title" = "Service";
+
+/* Class = "UILabel"; text = "Коричневый"; ObjectID = "4Eb-u3-2xl"; */
+"4Eb-u3-2xl.text" = "Brown";
+
+/* Class = "UILabel"; text = "Суббота"; ObjectID = "4d1-ho-a79"; */
+"4d1-ho-a79.text" = "Saturday";
+
+/* Class = "UILabel"; text = "Поиск свободных мест"; ObjectID = "5M9-dC-d9z"; */
+"5M9-dC-d9z.text" = "Search for unoccupied places";
+
+/* Class = "UILabel"; text = "Архивация клиентов:"; ObjectID = "6k7-SM-0vt"; */
+"6k7-SM-0vt.text" = "Archiving clients:";
+
+/* Class = "UILabel"; text = "ПТ"; ObjectID = "71d-Ze-ZMe"; */
+"71d-Ze-ZMe.text" = "Fri";
+
+/* Class = "UILabel"; text = "Архивировать через"; ObjectID = "7NI-bl-NcM"; */
+"7NI-bl-NcM.text" = "Archive via";
+
+/* Class = "UILabel"; text = "Прочее"; ObjectID = "C9U-be-CLl"; */
+"C9U-be-CLl.text" = "Other";
+
+/* Class = "UILabel"; text = "Дополнительная услуга"; ObjectID = "CMv-Rr-DiN"; */
+"CMv-Rr-DiN.text" = "Additional service";
+
+/* Class = "UILabel"; text = "Скрыть отменённые клиентом записи:"; ObjectID = "CSM-Id-RVl"; */
+"CSM-Id-RVl.text" = "Hide visits canceled by client:";
+
+/* Class = "UINavigationItem"; title = "Услуги"; ObjectID = "D3T-XI-bAj"; */
+"D3T-XI-bAj.title" = "Services";
+
+/* Class = "UILabel"; text = "Дополнительные услуги"; ObjectID = "DS8-Wl-Fyc"; */
+"DS8-Wl-Fyc.text" = "Additional services";
+
+/* Class = "UILabel"; text = "Блокировать входящие звонки:"; ObjectID = "EB8-U2-9zM"; */
+"EB8-U2-9zM.text" = "Block incoming calls:";
+
+/* Class = "UILabel"; text = "Вторник"; ObjectID = "Ecd-8g-vdq"; */
+"Ecd-8g-vdq.text" = "Tuesday";
+
+/* Class = "UILabel"; text = "Зелёный"; ObjectID = "Faa-Zq-EIu"; */
+"Faa-Zq-EIu.text" = "Green";
+
+/* Class = "UILabel"; text = "Лиловый"; ObjectID = "FqE-bA-uY5"; */
+"FqE-bA-uY5.text" = "Purple";
+
+/* Class = "UILabel"; text = "Диапазон:"; ObjectID = "FzK-Du-DlG"; */
+"FzK-Du-DlG.text" = "Range:";
+
+/* Class = "UILabel"; text = "Неделя"; ObjectID = "G6c-oK-QwO"; */
+"G6c-oK-QwO.text" = "Week";
+
+/* Class = "UILabel"; text = "Воскресенье"; ObjectID = "I8W-li-Yi0"; */
+"I8W-li-Yi0.text" = "Sunday";
+
+/* Class = "UILabel"; text = "По количеству мест"; ObjectID = "JFh-oB-gKY"; */
+"JFh-oB-gKY.text" = "By number of places";
+
+/* Class = "UILabel"; text = "ЧТ"; ObjectID = "Kk1-7u-1T8"; */
+"Kk1-7u-1T8.text" = "Thu";
+
+/* Class = "UITabBarItem"; title = "Настройки"; ObjectID = "LD6-qb-lDU"; */
+"LD6-qb-lDU.title" = "Settings";
+
+/* Class = "UILabel"; text = "Пятница"; ObjectID = "LDk-ff-oKk"; */
+"LDk-ff-oKk.text" = "Friday";
+
+/* Class = "UILabel"; text = "Понедельник"; ObjectID = "Lc6-gf-66P"; */
+"Lc6-gf-66P.text" = "Monday";
+
+/* Class = "UILabel"; text = "Виджет"; ObjectID = "M1r-jH-t3f"; */
+"M1r-jH-t3f.text" = "Widget";
+
+/* Class = "UILabel"; text = "Разрешить переработки"; ObjectID = "MZQ-9T-BiY"; */
+"MZQ-9T-BiY.text" = "Overtime allowed";
+
+/* Class = "UINavigationItem"; title = "Поиск свободных мест"; ObjectID = "Mhw-cC-eiO"; */
+"Mhw-cC-eiO.title" = "Search for unoccupied places";
+
+/* Class = "UILabel"; text = "Переработки:"; ObjectID = "NQ1-38-gCN"; */
+"NQ1-38-gCN.text" = "Overtime:";
+
+/* Class = "UILabel"; text = "Отображать записи"; ObjectID = "OMu-nq-7YT"; */
+"OMu-nq-7YT.text" = "Display visits";
+
+/* Class = "UITableViewSection"; footerTitle = "Текст контактной информации будет использован для быстрого копирования в буфер обмена из виджета"; ObjectID = "OOc-Xp-082"; */
+"OOc-Xp-082.footerTitle" = "The contact information text will be used for quick copying to the clipboard from the widget";
+
+/* Class = "UITableViewSection"; headerTitle = "Контактная информация"; ObjectID = "OOc-Xp-082"; */
+"OOc-Xp-082.headerTitle" = "Contact information";
+
+/* Class = "UILabel"; text = "Выходной"; ObjectID = "OV6-b6-y7E"; */
+"OV6-b6-y7E.text" = "Weekend";
+
+/* Class = "UILabel"; text = "Начало"; ObjectID = "PIH-Ov-KQB"; */
+"PIH-Ov-KQB.text" = "Beginning";
+
+/* Class = "UILabel"; text = "Неделя"; ObjectID = "PIj-kr-fCc"; */
+"PIj-kr-fCc.text" = "Week";
+
+/* Class = "UITableViewSection"; footerTitle = "Выберите цвет индикации услуги"; ObjectID = "PMF-lO-ulD"; */
+"PMF-lO-ulD.footerTitle" = "Select the service display color";
+
+/* Class = "UINavigationItem"; title = "Дополнительные услуги"; ObjectID = "Pwr-B1-QQW"; */
+"Pwr-B1-QQW.title" = "Additional services";
+
+/* Class = "UILabel"; text = "День"; ObjectID = "Q1H-Jh-NAX"; */
+"Q1H-Jh-NAX.text" = "Day";
+
+/* Class = "UITextField"; placeholder = "Название"; ObjectID = "RLu-xL-9QI"; */
+"RLu-xL-9QI.placeholder" = "Name";
+
+/* Class = "UINavigationItem"; title = "Понедельник"; ObjectID = "Rd0-AB-tGB"; */
+"Rd0-AB-tGB.title" = "Monday";
+
+/* Class = "UINavigationItem"; title = "Цвет"; ObjectID = "Rnq-is-35F"; */
+"Rnq-is-35F.title" = "Color";
+
+/* Class = "UILabel"; text = "Продолжительность:"; ObjectID = "Rxv-Ia-X89"; */
+"Rxv-Ia-X89.text" = "Duration:";
+
+/* Class = "UILabel"; text = "Скрыть запись, если клиент не явился:"; ObjectID = "SNl-Yp-Ed4"; */
+"SNl-Yp-Ed4.text" = "Hide a visit if the client did not come:";
+
+/* Class = "UINavigationItem"; title = "Рабочий график"; ObjectID = "SqG-qq-fyw"; */
+"SqG-qq-fyw.title" = "Work schedule";
+
+/* Class = "UILabel"; text = "Жёлтый"; ObjectID = "Tnz-yV-YAW"; */
+"Tnz-yV-YAW.text" = "Yellow";
+
+/* Class = "UITextField"; placeholder = "Стоимость"; ObjectID = "U5x-Y7-keG"; */
+"U5x-Y7-keG.placeholder" = "Cost";
+
+/* Class = "UILabel"; text = "Удалить услугу"; ObjectID = "UCd-MD-rOT"; */
+"UCd-MD-rOT.text" = "Delete service";
+
+/* Class = "UILabel"; text = "/ Диапазон:"; ObjectID = "Ua4-DF-yaW"; */
+"Ua4-DF-yaW.text" = "/ Range:";
+
+/* Class = "UITableViewSection"; footerTitle = "Текст прайс-листа будет использован для быстрого копирования в буфер обмена из виджета"; ObjectID = "Ug7-4I-qEX"; */
+"Ug7-4I-qEX.footerTitle" = "The price list text will be used for quick copying to the clipboard from the widget";
+
+/* Class = "UITableViewSection"; headerTitle = "Прайс-лист"; ObjectID = "Ug7-4I-qEX"; */
+"Ug7-4I-qEX.headerTitle" = "Price list";
+
+/* Class = "UILabel"; text = "Скрывать, если клиент не явился"; ObjectID = "V6u-Z4-Dk4"; */
+"V6u-Z4-Dk4.text" = "Hide if the client didn't come";
+
+/* Class = "UILabel"; text = "Выходной"; ObjectID = "VEb-rW-7Kc"; */
+"VEb-rW-7Kc.text" = "Weekend";
+
+/* Class = "UINavigationItem"; title = "Настройки"; ObjectID = "VKk-g5-z87"; */
+"VKk-g5-z87.title" = "Settings";
+
+/* Class = "UILabel"; text = "Количество мест"; ObjectID = "VTj-D3-l21"; */
+"VTj-D3-l21.text" = "Number of places";
+
+/* Class = "UILabel"; text = "Выходной"; ObjectID = "Vn2-AP-pNp"; */
+"Vn2-AP-pNp.text" = "Weekend";
+
+/* Class = "UILabel"; text = "Название"; ObjectID = "WQC-MC-SPT"; */
+"WQC-MC-SPT.text" = "Name";
+
+/* Class = "UITableViewSection"; footerTitle = "Задайте рабочий график по дням недели"; ObjectID = "WZ1-8a-Rvw"; */
+"WZ1-8a-Rvw.footerTitle" = "Set the work schedule by day of the week";
+
+/* Class = "UITableViewSection"; footerTitle = "Клиент будет перенесён в список архивных при отсутствии записей в течение указанного срока"; ObjectID = "Wtm-BD-oIE"; */
+"Wtm-BD-oIE.footerTitle" = "The client will be moved to the archive list if there are no visits within the specified period";
+
+/* Class = "UITableViewSection"; headerTitle = "Архивация клиентов"; ObjectID = "Wtm-BD-oIE"; */
+"Wtm-BD-oIE.headerTitle" = "Archiving clients";
+
+/* Class = "UILabel"; text = "СР"; ObjectID = "XzW-T0-PIk"; */
+"XzW-T0-PIk.text" = "Wed";
+
+/* Class = "UILabel"; text = "Записи на завтра"; ObjectID = "YaO-qX-TbY"; */
+"YaO-qX-TbY.text" = "Tomorrow's visits";
+
+/* Class = "UILabel"; text = "Стоимость"; ObjectID = "YeA-nc-kQ0"; */
+"YeA-nc-kQ0.text" = "Cost";
+
+/* Class = "UILabel"; text = "Быстрый поиск свободных мест"; ObjectID = "a1k-HH-xJd"; */
+"a1k-HH-xJd.text" = "Quick search for unoccupied places";
+
+/* Class = "UITableViewSection"; footerTitle = "При запрете свободные места будут подбираться так, чтобы последняя запись заканчивалась до окончания рабочего дня"; ObjectID = "a9e-RD-6qv"; */
+"a9e-RD-6qv.footerTitle" = "If overtime is prohibited, unoccupied places will be searched so that the last visit ends before the end of the working day";
+
+/* Class = "UITableViewSection"; headerTitle = " Поиск свободных мест"; ObjectID = "a9e-RD-6qv"; */
+"a9e-RD-6qv.headerTitle" = " Search for unoccupied places";
+
+/* Class = "UITableViewSection"; headerTitle = "Диапазон поиска"; ObjectID = "at8-YT-Xt3"; */
+"at8-YT-Xt3.headerTitle" = "Search range";
+
+/* Class = "UILabel"; text = "Красный"; ObjectID = "b6C-hh-i16"; */
+"b6C-hh-i16.text" = "Red";
+
+/* Class = "UITableViewSection"; footerTitle = "Поиск мест будет продолжаться до достижения заданного количества найденных мест"; ObjectID = "bgE-7Z-maD"; */
+"bgE-7Z-maD.footerTitle" = "The search for places will continue until the specified number of found places is reached";
+
+/* Class = "UILabel"; text = "Продолжительность записи"; ObjectID = "bqA-pV-xwK"; */
+"bqA-pV-xwK.text" = "Visit duration";
+
+/* Class = "UITableViewSection"; headerTitle = "Управление"; ObjectID = "c79-bV-S6n"; */
+"c79-bV-S6n.headerTitle" = "Management";
+
+/* Class = "UITableViewSection"; headerTitle = "Влияние на продолжительность услуги"; ObjectID = "cLp-C0-BeP"; */
+"cLp-C0-BeP.headerTitle" = "Influence on the duration of the service";
+
+/* Class = "UILabel"; text = "Архивировать"; ObjectID = "d65-bo-jPA"; */
+"d65-bo-jPA.text" = "Archive";
+
+/* Class = "UILabel"; text = "Продолжительность"; ObjectID = "e39-v3-duC"; */
+"e39-v3-duC.text" = "Duration";
+
+/* Class = "UILabel"; text = "СБ"; ObjectID = "eCx-99-iNN"; */
+"eCx-99-iNN.text" = "Sat";
+
+/* Class = "UILabel"; text = "Услуги"; ObjectID = "eOR-Or-tNX"; */
+"eOR-Or-tNX.text" = "Services";
+
+/* Class = "UITableViewSection"; footerTitle = "Виджет будет выполнять поиск свободных мест для заданной продолжительности"; ObjectID = "fUi-C1-Kdq"; */
+"fUi-C1-Kdq.footerTitle" = "The widget will search for unoccupied places for the specified duration";
+
+/* Class = "UITableViewSection"; headerTitle = "Влияние на стоимость услуги"; ObjectID = "gbN-H5-ERb"; */
+"gbN-H5-ERb.headerTitle" = "Impact on the cost of the service";
+
+/* Class = "UILabel"; text = "Оранжевый"; ObjectID = "iGR-hX-rbb"; */
+"iGR-hX-rbb.text" = "Orange";
+
+/* Class = "UILabel"; text = "Удалить дополнительную услугу"; ObjectID = "iKC-Om-y6l"; */
+"iKC-Om-y6l.text" = "Delete additional service";
+
+/* Class = "UITableViewSection"; headerTitle = "Управление"; ObjectID = "io6-W0-5vg"; */
+"io6-W0-5vg.headerTitle" = "Management";
+
+/* Class = "UITableViewSection"; footerTitle = "Скрытые записи не будут отображаться в календаре, но останутся видны в профиле клиента"; ObjectID = "jAT-rj-3Rq"; */
+"jAT-rj-3Rq.footerTitle" = "Hidden visits will not be displayed in the calendar, but will remain visible in the client profile";
+
+/* Class = "UITableViewSection"; headerTitle = "Скрытие записей"; ObjectID = "jAT-rj-3Rq"; */
+"jAT-rj-3Rq.headerTitle" = "Hiding visits";
+
+/* Class = "UINavigationItem"; title = "Прочее"; ObjectID = "jKB-YD-kUX"; */
+"jKB-YD-kUX.title" = "Other";
+
+/* Class = "UILabel"; text = "ВС"; ObjectID = "jib-oZ-DU4"; */
+"jib-oZ-DU4.text" = "Sun";
+
+/* Class = "UILabel"; text = "Четверг"; ObjectID = "l9G-Po-ecy"; */
+"l9G-Po-ecy.text" = "Thursday";
+
+/* Class = "UILabel"; text = "Месяц"; ObjectID = "meU-66-x8u"; */
+"meU-66-x8u.text" = "Month";
+
+/* Class = "UITableViewSection"; headerTitle = "Основная информация"; ObjectID = "mgs-VW-OrD"; */
+"mgs-VW-OrD.headerTitle" = "Main information";
+
+/* Class = "UILabel"; text = "Название"; ObjectID = "mkY-q0-ZRq"; */
+"mkY-q0-ZRq.text" = "Name";
+
+/* Class = "UILabel"; text = "Блокировать входящие звонки"; ObjectID = "mrX-Ga-r3H"; */
+"mrX-Ga-r3H.text" = "Block incoming calls";
+
+/* Class = "UITableViewSection"; footerTitle = "Настроить отображение записей на следующий день после окончания рабочего дня"; ObjectID = "n3h-bW-q7Z"; */
+"n3h-bW-q7Z.footerTitle" = "Configure the display of tomorrow's visits after the end of the working day";
+
+/* Class = "UILabel"; text = "Продолжительность:"; ObjectID = "nLg-L3-2Mw"; */
+"nLg-L3-2Mw.text" = "Duration:";
+
+/* Class = "UILabel"; text = "ВТ"; ObjectID = "oje-ek-0Yg"; */
+"oje-ek-0Yg.text" = "Tue";
+
+/* Class = "UITableViewSection"; footerTitle = "Настроить отображение записей на текущий день в виджете"; ObjectID = "po0-2a-kQ4"; */
+"po0-2a-kQ4.footerTitle" = "Configure the display of today's visits in the widget";
+
+/* Class = "UITextField"; placeholder = "Название"; ObjectID = "qIE-SI-Kga"; */
+"qIE-SI-Kga.placeholder" = "Name";
+
+/* Class = "UILabel"; text = "Синий"; ObjectID = "qJp-ym-kOU"; */
+"qJp-ym-kOU.text" = "Blue";
+
+/* Class = "UITableViewSection"; headerTitle = "Цвет"; ObjectID = "rIh-ic-Gbx"; */
+"rIh-ic-Gbx.headerTitle" = "Color";
+
+/* Class = "UILabel"; text = "Неделя"; ObjectID = "svS-rw-cKB"; */
+"svS-rw-cKB.text" = "Week";
+
+/* Class = "UILabel"; text = "Рабочий график"; ObjectID = "tEj-AB-yVi"; */
+"tEj-AB-yVi.text" = "Work schedule";
+
+/* Class = "UITableViewSection"; footerTitle = "При активации входящие звонки от клиентов, находящихся в черном списке, будут заглушены.  Чтобы включить определитель номера, перейдите в Настройки устройства - Телефон - Блокировка и идентификация вызова и переключите тумблер напротив иконки Clients"; ObjectID = "tGc-Su-8Sy"; */
+"tGc-Su-8Sy.footerTitle" = "When activated, incoming calls from clients in the black list will be silenced.  To enable number detection, go to device Settings - Phone - Call blocking and identification and turn on the toggle switch next to the Clients icon";
+
+/* Class = "UITableViewSection"; headerTitle = "Блокировка и идентификация вызова"; ObjectID = "tGc-Su-8Sy"; */
+"tGc-Su-8Sy.headerTitle" = "Blocking and identifying a call";
+
+/* Class = "UINavigationItem"; title = "Виджет"; ObjectID = "teh-fl-pHq"; */
+"teh-fl-pHq.title" = "Widget";
+
+/* Class = "UITextField"; placeholder = "Влияние на стоимость"; ObjectID = "v1f-mc-fwE"; */
+"v1f-mc-fwE.placeholder" = "Impact on the cost of the service";
+
+/* Class = "UILabel"; text = "Архивные:"; ObjectID = "xZ8-bU-ZRd"; */
+"xZ8-bU-ZRd.text" = "Archived:";
+
+/* Class = "UILabel"; text = "Окончание"; ObjectID = "y1D-mO-v1Y"; */
+"y1D-mO-v1Y.text" = "Ending";
+
+/* Class = "UILabel"; text = "Предоставляемые:"; ObjectID = "z1b-Vz-dZV"; */
+"z1b-Vz-dZV.text" = "Active:";
+
+/* Class = "UILabel"; text = "Красный"; ObjectID = "zSu-1I-keq"; */
+"zSu-1I-keq.text" = "Red";
+
+/* Class = "UILabel"; text = "Скрывать отменённые записи"; ObjectID = "zVR-pa-OJy"; */
+"zVR-pa-OJy.text" = "Hide canceled visits";
