@@ -25,9 +25,7 @@ class SelectAdditionalServicesController: UITableViewController {
 
     /// Родительская услуга
     var service: Service! {
-        didSet {
-            tableData = service.additionalServicesSorted
-        }
+        didSet { tableData = service.additionalServicesSorted }
     }
     /// Набор выбранных доп.услуг
     var selectedAdditionalServices: Set<AdditionalService>!

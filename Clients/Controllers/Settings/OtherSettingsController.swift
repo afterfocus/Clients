@@ -19,9 +19,7 @@ class OtherSettingsController: UITableViewController {
     @IBOutlet weak var shouldBlockIncomingCallsSwitch: UISwitch!
 
     private var isArchivingPeriodPickerShown = false {
-        didSet {
-            archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label
-        }
+        didSet { archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label }
     }
     private let settings = AppSettings.shared
 

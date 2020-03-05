@@ -34,9 +34,7 @@ class EditServiceController: UITableViewController {
     
     var service: Service!
     var additionalServices = Set<AdditionalService>() {
-        didSet {
-            additionalServicesCountLabel.text = "\(additionalServices.count)"
-        }
+        didSet { additionalServicesCountLabel.text = "\(additionalServices.count)" }
     }
     weak var delegate: EditServiceControllerDelegate?
     

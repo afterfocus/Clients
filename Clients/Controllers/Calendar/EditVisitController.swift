@@ -92,15 +92,11 @@ class EditVisitController: UITableViewController {
     }
     /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
-        didSet {
-            durationLabel.textColor = isDurationPickerShown ? .red : .label
-        }
+        didSet { durationLabel.textColor = isDurationPickerShown ? .red : .label }
     }
     /// Открыт ли селектор услуг
     private var isServicePickerShown = false {
-        didSet {
-            serviceLabel.textColor = isServicePickerShown ? .red : .label
-        }
+        didSet { serviceLabel.textColor = isServicePickerShown ? .red : .label }
     }
 
     // MARK: - View Life Cycle

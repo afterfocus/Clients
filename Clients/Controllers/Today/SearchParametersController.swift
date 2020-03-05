@@ -40,21 +40,15 @@ class SearchParametersController: UITableViewController {
 
     /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
-        didSet {
-            durationLabel.textColor = isDurationPickerShown ? .red : .label
-        }
+        didSet { durationLabel.textColor = isDurationPickerShown ? .red : .label }
     }
     /// Открыт ли селектор начала интервала
     private var isStartDatePickerShown = false {
-        didSet {
-            startDateLabel.textColor = isStartDatePickerShown ? .red : .label
-        }
+        didSet { startDateLabel.textColor = isStartDatePickerShown ? .red : .label }
     }
     /// Открыт ли селектор конца интервала
     private var isEndDatePickerShown = false {
-        didSet {
-            endDateLabel.textColor = isEndDatePickerShown ? .red : .label
-        }
+        didSet { endDateLabel.textColor = isEndDatePickerShown ? .red : .label }
     }
 
     override func viewDidLoad() {
