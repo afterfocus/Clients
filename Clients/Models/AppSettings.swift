@@ -67,108 +67,108 @@ class AppSettings {
     
     static let shared = AppSettings()
     
-    let sharedDefaults: UserDefaults
+    let userDefaults: UserDefaults
     
     private init() {
-        sharedDefaults = UserDefaults(suiteName: "group.MaximGolov.Clients")!
+        userDefaults = UserDefaults(suiteName: "group.MaximGolov.Clients")!
     }
 
     // MARK: - Properties Access
 
     /// Определяет отображать ли записи на сегодняшний день в виджете
     var isVisitsShownInWidget: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.isVisitsShownInWidget) }
-        get { return sharedDefaults.bool(forKey: Keys.isVisitsShownInWidget) }
+        set { userDefaults.set(newValue, forKey: Keys.isVisitsShownInWidget) }
+        get { return userDefaults.bool(forKey: Keys.isVisitsShownInWidget) }
     }
 
     /// Определяет, отображать ли записи на завтрашний день в виджете
     var isTomorrowVisitsShownInWidget: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.isTomorrowVisitsShownInWidget) }
-        get { return sharedDefaults.bool(forKey: Keys.isTomorrowVisitsShownInWidget) }
+        set { userDefaults.set(newValue, forKey: Keys.isTomorrowVisitsShownInWidget) }
+        get { return userDefaults.bool(forKey: Keys.isTomorrowVisitsShownInWidget) }
     }
 
     /// Текст прайс-листа для быстрого копирования из виджета
     var priceListText: String {
-        set { sharedDefaults.set(newValue, forKey: Keys.priceListText) }
-        get { return sharedDefaults.string(forKey: Keys.priceListText)! }
+        set { userDefaults.set(newValue, forKey: Keys.priceListText) }
+        get { return userDefaults.string(forKey: Keys.priceListText)! }
     }
 
     /// Текст контактной информации для быстрого копирования из виджета
     var contactInformationText: String {
-        set { sharedDefaults.set(newValue, forKey: Keys.contactInformationText) }
-        get { return sharedDefaults.string(forKey: Keys.contactInformationText)! }
+        set { userDefaults.set(newValue, forKey: Keys.contactInformationText) }
+        get { return userDefaults.string(forKey: Keys.contactInformationText)! }
     }
 
     var widgetPlacesSearchRequiredLength: Time {
         set {
-            sharedDefaults.set(newValue.hours, forKey: Keys.widgetPlacesSearchRequiredLengthHours)
-            sharedDefaults.set(newValue.minutes, forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
+            userDefaults.set(newValue.hours, forKey: Keys.widgetPlacesSearchRequiredLengthHours)
+            userDefaults.set(newValue.minutes, forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
         }
         get {
             return Time(
-                hours: sharedDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthHours),
-                minutes: sharedDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
+                hours: userDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthHours),
+                minutes: userDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
             )
         }
     }
 
     /// Интервал дат для быстрого поиска свободных мест из виджета
     var widgetPlacesSearchRange: WidgetPlacesSearchRange {
-        set { sharedDefaults.set(newValue.rawValue, forKey: Keys.widgetPlacesSearchRange) }
-        get { return WidgetPlacesSearchRange(rawValue: sharedDefaults.integer(forKey: Keys.widgetPlacesSearchRange))! }
+        set { userDefaults.set(newValue.rawValue, forKey: Keys.widgetPlacesSearchRange) }
+        get { return WidgetPlacesSearchRange(rawValue: userDefaults.integer(forKey: Keys.widgetPlacesSearchRange))! }
     }
 
     /// Ограничение на максимальное количество находимых мест быстрым поиском из виджета
     var widgetPlacesSearchCounter: Int {
-        set { sharedDefaults.set(newValue, forKey: Keys.widgetPlacesSearchCounter) }
-        get { return sharedDefaults.integer(forKey: Keys.widgetPlacesSearchCounter) }
+        set { userDefaults.set(newValue, forKey: Keys.widgetPlacesSearchCounter) }
+        get { return userDefaults.integer(forKey: Keys.widgetPlacesSearchCounter) }
     }
 
     var clientArchivingPeriod: Int {
-        set { sharedDefaults.set(newValue, forKey: Keys.clientArchivingPeriod) }
-        get { return sharedDefaults.integer(forKey: Keys.clientArchivingPeriod) }
+        set { userDefaults.set(newValue, forKey: Keys.clientArchivingPeriod) }
+        get { return userDefaults.integer(forKey: Keys.clientArchivingPeriod) }
     }
 
     var isCancelledVisitsHidden: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.isCancelledVisitsHidden) }
-        get { return sharedDefaults.bool(forKey: Keys.isCancelledVisitsHidden) }
+        set { userDefaults.set(newValue, forKey: Keys.isCancelledVisitsHidden) }
+        get { return userDefaults.bool(forKey: Keys.isCancelledVisitsHidden) }
     }
 
     var isClientNotComeVisitsHidden: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.isClientNotComeVisitsHidden) }
-        get { return sharedDefaults.bool(forKey: Keys.isClientNotComeVisitsHidden) }
+        set { userDefaults.set(newValue, forKey: Keys.isClientNotComeVisitsHidden) }
+        get { return userDefaults.bool(forKey: Keys.isClientNotComeVisitsHidden) }
     }
 
     var isOvertimeAllowed: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.isOvertimeAllowed) }
-        get { return sharedDefaults.bool(forKey: Keys.isOvertimeAllowed) }
+        set { userDefaults.set(newValue, forKey: Keys.isOvertimeAllowed) }
+        get { return userDefaults.bool(forKey: Keys.isOvertimeAllowed) }
     }
 
     var shouldBlockIncomingCalls: Bool {
-        set { sharedDefaults.set(newValue, forKey: Keys.shouldBlockIncomingCalls) }
-        get { return sharedDefaults.bool(forKey: Keys.shouldBlockIncomingCalls) }
+        set { userDefaults.set(newValue, forKey: Keys.shouldBlockIncomingCalls) }
+        get { return userDefaults.bool(forKey: Keys.shouldBlockIncomingCalls) }
     }
 
     /// Получить рабочий график на день недели `dayOfWeek`
     func schedule(for dayOfWeek: Weekday) -> (isWeekend: Bool, start: Time, end: Time) {
         let day = String(dayOfWeek.rawValue)
         return (
-            isWeekend: sharedDefaults.bool(forKey: day + Keys.isWeekend),
-            start: Time(hours: sharedDefaults.integer(forKey: day + Keys.startHours),
-                        minutes: sharedDefaults.integer(forKey: day + Keys.startMinutes)),
-            end: Time(hours: sharedDefaults.integer(forKey: day + Keys.endHours),
-                      minutes: sharedDefaults.integer(forKey: day + Keys.endMinutes))
+            isWeekend: userDefaults.bool(forKey: day + Keys.isWeekend),
+            start: Time(hours: userDefaults.integer(forKey: day + Keys.startHours),
+                        minutes: userDefaults.integer(forKey: day + Keys.startMinutes)),
+            end: Time(hours: userDefaults.integer(forKey: day + Keys.endHours),
+                      minutes: userDefaults.integer(forKey: day + Keys.endMinutes))
         )
     }
 
     /// Установить рабочий график на день недели `dayOfWeek`
     func setSchedule(for dayOfWeek: Weekday, schedule: (isWeekend: Bool, start: Time, end: Time)) {
         let day = String(dayOfWeek.rawValue)
-        sharedDefaults.set(schedule.isWeekend, forKey: day + Keys.isWeekend)
-        sharedDefaults.set(schedule.start.hours, forKey: day + Keys.startHours)
-        sharedDefaults.set(schedule.start.minutes, forKey: day + Keys.startMinutes)
-        sharedDefaults.set(schedule.end.hours, forKey: day + Keys.endHours)
-        sharedDefaults.set(schedule.end.minutes, forKey: day + Keys.endMinutes)
+        userDefaults.set(schedule.isWeekend, forKey: day + Keys.isWeekend)
+        userDefaults.set(schedule.start.hours, forKey: day + Keys.startHours)
+        userDefaults.set(schedule.start.minutes, forKey: day + Keys.startMinutes)
+        userDefaults.set(schedule.end.hours, forKey: day + Keys.endHours)
+        userDefaults.set(schedule.end.minutes, forKey: day + Keys.endMinutes)
     }
 
     // MARK: - Default Settings
@@ -200,6 +200,6 @@ class AppSettings {
     }
     
     func registerDefaults() {
-        sharedDefaults.register(defaults: defaultSettings)
+        userDefaults.register(defaults: defaultSettings)
     }
 }
