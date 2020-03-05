@@ -175,7 +175,7 @@ class AppSettings {
 
     /// Настройки по умолчанию
     private var defaultSettings: [String: String] {
-        var sharedDefaults = [
+        var defaults = [
             Keys.isVisitsShownInWidget: "YES",
             Keys.isTomorrowVisitsShownInWidget: "YES",
             Keys.priceListText: NSLocalizedString("DEFAULT_PRICE_LIST", comment: "Прайс-лист"),
@@ -190,13 +190,13 @@ class AppSettings {
             Keys.isOvertimeAllowed: "NO"
         ]
         for day in 0...6 {
-            sharedDefaults[String(day) + Keys.isWeekend] = ([0, 1].contains(day) ? "YES" : "NO")
-            sharedDefaults[String(day) + Keys.startHours] = "9"
-            sharedDefaults[String(day) + Keys.startMinutes] = "0"
-            sharedDefaults[String(day) + Keys.endHours] = "18"
-            sharedDefaults[String(day) + Keys.endMinutes] = "0"
+            defaults[String(day) + Keys.isWeekend] = ([0, 1].contains(day) ? "YES" : "NO")
+            defaults[String(day) + Keys.startHours] = "9"
+            defaults[String(day) + Keys.startMinutes] = "0"
+            defaults[String(day) + Keys.endHours] = "18"
+            defaults[String(day) + Keys.endMinutes] = "0"
         }
-        return sharedDefaults
+        return defaults
     }
     
     func registerDefaults() {
