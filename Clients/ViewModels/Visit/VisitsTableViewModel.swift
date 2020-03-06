@@ -26,7 +26,7 @@ class VisitsTableViewModel {
         return keys.count
     }
     
-    func numberOfRowsIn(section: Int) -> Int {
+    func numberOfItemsIn(section: Int) -> Int {
         return visits[keys[section]]!.count
     }
     

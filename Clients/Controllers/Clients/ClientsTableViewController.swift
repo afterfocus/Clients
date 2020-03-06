@@ -149,7 +149,7 @@ extension ClientsTableViewController {
 extension ClientsTableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentViewModel.numberOfRowsIn(section: section)
+        return currentViewModel.numberOfItemsIn(section: section)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

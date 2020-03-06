@@ -30,7 +30,7 @@ class ClientsTableViewModel {
         return keys
     }
     
-    func numberOfRowsIn(section: Int) -> Int {
+    func numberOfItemsIn(section: Int) -> Int {
         return clients[keys[section]]!.count
     }
     

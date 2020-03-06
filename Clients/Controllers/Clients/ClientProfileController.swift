@@ -238,7 +238,7 @@ extension ClientProfileController: UIScrollViewDelegate {
 extension ClientProfileController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return visitsHistoryViewModel.numberOfRowsIn(section: section)
+        return visitsHistoryViewModel.numberOfItemsIn(section: section)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

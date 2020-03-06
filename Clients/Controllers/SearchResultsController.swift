@@ -54,7 +54,7 @@ extension SearchResultsController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return visitsViewModel.numberOfRowsIn(section: section)
+        return visitsViewModel.numberOfItemsIn(section: section)
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

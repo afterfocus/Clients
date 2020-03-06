@@ -51,7 +51,7 @@ class VisitsHistoryViewModel {
         return keys.count
     }
     
-    func numberOfRowsIn(section: Int) -> Int {
+    func numberOfItemsIn(section: Int) -> Int {
         return filteredVisits[keys[section]]!.count
     }
     
