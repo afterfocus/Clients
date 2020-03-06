@@ -225,9 +225,6 @@
 /* ближайшие 7 дн. */
 "NEXT_7_DAYS" = "the next 7 days.";
 
-/* Дополнительные услуги не заданы */
-"NO_ADDITIONAL_SERVICES_FOUND" = "Additional services are not specified";
-
 /* Ноябрь */
 "NOVEMBER" = "November";
 

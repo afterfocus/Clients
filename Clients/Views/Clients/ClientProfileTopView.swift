@@ -60,17 +60,19 @@ import UIKit
         photoImageView.layer.cornerRadius = photoHeight.constant / 2
     }
 
-    /// Заполнить представление данными о клиенте
-    func configure(with client: Client) {
-        photoImageView.image = client.photo ?? UIImage(named: "default_photo")
-        nameLabel.text = "\(client)"
-
-        messageButton.isEnabled = !client.phonenumber.isEmpty
-        phoneButton.isEnabled = !client.phonenumber.isEmpty
-        vkButton.isEnabled = !client.vk.isEmpty
-        messageButtonLabel.alpha = client.phonenumber.isEmpty ? 0.45 : 1
-        phoneButtonLabel.alpha = client.phonenumber.isEmpty ? 0.45 : 1
-        vkButtonLabel.alpha = client.vk.isEmpty ? 0.45 : 1
-        blacklistView.isHidden = !client.isBlocked
+    func configure(with viewModel: ClientViewModel) {
+        photoImageView.image = viewModel.photoImage
+        nameLabel.text = viewModel.nameText
+        
+        messageButton.isEnabled = viewModel.hasPhonenumber
+        messageButtonLabel.alpha = viewModel.hasPhonenumber ? 1 : 0.45
+        
+        phoneButton.isEnabled = viewModel.hasPhonenumber
+        phoneButtonLabel.alpha = viewModel.hasPhonenumber ? 1 : 0.45
+        
+        vkButton.isEnabled = viewModel.hasVkUrl
+        vkButtonLabel.alpha = viewModel.hasVkUrl ? 1 : 0.45
+        
+        blacklistView.isHidden = !viewModel.isBlocked
     }
 }

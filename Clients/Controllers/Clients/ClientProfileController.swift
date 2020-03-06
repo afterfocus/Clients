@@ -24,29 +24,28 @@ class ClientProfileController: HidingNavigationBarViewController {
     /// Фильтр списка записей по услугам
     @IBOutlet weak var segmentedControl: UISegmentedControl!
 
-    // MARK: - Segue properties
+    // MARK: - Segue Properties
 
     /// Клиент
-    var client: Client!
+    var client: Client! {
+        didSet { clientViewModel = ClientViewModel(client: client) }
+    }
 
-    // MARK: - Private properties
+    // MARK: - Private Properties
+    
+    private var clientViewModel: ClientViewModel!
 
     /// Словарь всех записей клиента, сгруппированных по году
     private var visits = [Int: [Visit]]() {
         didSet {
-            tableData = visits
-            keys = visits.keys.sorted(by: >)
+            visitsHistoryViewModel = VisitsHistoryViewModel(visits: visits)
             if let service = previousServiceFilter {
-                keys.forEach {
-                    tableData[$0]?.removeAll { $0.service != service }
-                }
+                _ = visitsHistoryViewModel.filterVisits(newFilterValue: service)
             }
         }
     }
-    /// Данные списка записей, сгруппированные по году
-    private var tableData = [Int: [Visit]]()
-    /// Ключи к словарю данных списка записей
-    private var keys = [Int]()
+    
+    private var visitsHistoryViewModel: VisitsHistoryViewModel!
 
     private var services: [Service]!
     /// Строка для метки первой секции фильтра списка записей
@@ -65,7 +64,7 @@ class ClientProfileController: HidingNavigationBarViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Если клиент не был удалён
+        // Если клиент не был удалён c другого экрана
         if client?.managedObjectContext != nil {
             // Получить из БД записи клиента
             visits = client.visitsByYear
@@ -74,7 +73,6 @@ class ClientProfileController: HidingNavigationBarViewController {
             // Отобразить данные в дочерних представлениях
             configureSubviews()
         } else {
-            // Закрыть экран, если клиент удалён с другого экрана
             navigationController?.popViewController(animated: true)
         }
     }
@@ -98,45 +96,27 @@ class ClientProfileController: HidingNavigationBarViewController {
 
     /// Изменение значения фильтра списка записей
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        /// Список индексов строк, требующих обновления
-        var indexes = [IndexPath]()
         /// Новое значение фильтра
         let newServiceFilter = sender.selectedSegmentIndex == 0 ? nil : services[sender.selectedSegmentIndex - 1]
 
-        // Если фильтр сброшен на начальное значение
-        if newServiceFilter == nil && previousServiceFilter != nil {
-            // Перебрать словарь всех записей и запомнить индексы тех,
-            // что требуется вернуть в ранее отфильтрованный список
-            for (section, key) in keys.enumerated() {
-                for (row, visit) in visits[key]!.enumerated() where visit.service != previousServiceFilter {
-                    tableData[key]!.insert(visit, at: row)
-                    indexes.append(IndexPath(row: row, section: section))
-                }
-            }
-            // Вставить возвращенные строки в нужные места
-            visitHistoryTable.insertRows(at: indexes, with: .top)
-        } else {
+        switch (previousServiceFilter == nil, newServiceFilter == nil) {
+        case (true, false):
             // Если фильтр переключен из начального значения
-            if previousServiceFilter == nil {
-                // Перебрать словарь всех записей и запомнить индексы тех, что требуется отфильтровать из списка
-                for (section, key) in keys.enumerated() {
-                    for (row, visit) in visits[key]!.enumerated() where visit.service != newServiceFilter {
-                        indexes.append(IndexPath(row: row, section: section))
-                    }
-                    tableData[key]!.removeAll { $0.service != newServiceFilter }
-                }
-                // Удалить отфильтрованные строки
-                visitHistoryTable.deleteRows(at: indexes, with: .top)
-            }
-            // Если фильтр переключен НЕ из начального значения
-            else if newServiceFilter != nil {
-                // Перебрать словарь всех записей и заменить старые отфильтрованные данные новыми
-                keys.forEach {
-                    tableData[$0] = visits[$0]!.filter { $0.service == newServiceFilter }
-                }
-                // Перезагрузить полностью все секции
-                visitHistoryTable.reloadSections(IndexSet(0..<keys.count), with: .none)
-            }
+            // Отфильтровать словарь записей и убрать из таблицы ячейки отфильтрованных записей
+            let removedIndexes = visitsHistoryViewModel.filterVisits(newFilterValue: newServiceFilter!)
+            visitHistoryTable.deleteRows(at: removedIndexes, with: .top)
+        case (false, true):
+            // Если фильтр сброшен на начальное значение
+            // Сбросить фильтр и вернуть в таблицу ячейки возращенных записей
+            let returnedIndexes = visitsHistoryViewModel.clearFilter(oldFilterValue: previousServiceFilter!)
+            visitHistoryTable.insertRows(at: returnedIndexes, with: .top)
+        case (false, false):
+            // Если один фильтр заменён другим
+            // Отфильтровать заново словарь всех записей и перезагрузить полностью все секции
+            _ = visitsHistoryViewModel.filterVisits(newFilterValue: newServiceFilter!)
+            visitHistoryTable.reloadSections(IndexSet(0..<visits.keys.count), with: .none)
+        case (true, true):
+            break
         }
         // Запомнить текущее значение фильтра
         previousServiceFilter = newServiceFilter
@@ -146,8 +126,8 @@ class ClientProfileController: HidingNavigationBarViewController {
 
     /// Заполнить данными дочерние представления контроллера (информацию о клиенте, фильтр и список записей)
     private func configureSubviews() {
-        topView.configure(with: client)
-        tableTopView.configure(with: client)
+        topView.configure(with: clientViewModel)
+        tableTopView.configure(with: clientViewModel)
         configureSegmentedControl()
         visitHistoryTable.reloadData()
     }
@@ -189,7 +169,6 @@ extension ClientProfileController: SegueHandler {
         case showEditClient
     }
 
-    /// Подготовиться к переходу
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showAddVisit:
@@ -199,15 +178,13 @@ extension ClientProfileController: SegueHandler {
             } else {
                 guard let destination = segue.destination as? UINavigationController,
                     let target = destination.topViewController as? EditVisitController else { return }
-                // Отправить клиента в EditVisitController
                 target.client = client
                 target.delegate = self
             }
         case .showVisitInfo:
             guard let target = segue.destination as? VisitInfoController,
                 let indexPath = visitHistoryTable.indexPathForSelectedRow else { return }
-            // Отправить в VisitInfoController выбранную запись
-            target.visit = tableData[keys[indexPath.section]]![indexPath.row]
+            target.visit = visitsHistoryViewModel.visitFor(indexPath: indexPath)
             // Запретить циклический переход в профиль клиента из экрана информации о записи
             target.canSegueToClientProfile = false
         case .showEditClient:
@@ -223,8 +200,8 @@ extension ClientProfileController: SegueHandler {
 
 extension ClientProfileController: EditClientControllerDelegate {
     func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client) {
-        topView.configure(with: client)
-        tableTopView.configure(with: client)
+        topView.configure(with: clientViewModel)
+        tableTopView.configure(with: clientViewModel)
         visitHistoryTable.reloadData()
     }
     
@@ -247,9 +224,8 @@ extension ClientProfileController: EditVisitControllerDelegate {
 // MARK: - UIScrollViewDelegate
 
 extension ClientProfileController: UIScrollViewDelegate {
-    // Скроллинг списка записей масштабирует верхнее представление
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Обновить высоту верхнего представления
+        // Скроллинг списка записей масштабирует верхнее представление
         topView.updateHeight(tableOffset: scrollView.contentOffset.y)
         // Обновить верхний отступ содержимого таблицы на величину
         // не больше максимально допустимой высоты верхнего представления
@@ -260,26 +236,24 @@ extension ClientProfileController: UIScrollViewDelegate {
 // MARK: - UITableViewDataSource
 
 extension ClientProfileController: UITableViewDataSource {
-    // Количество строк в таблице
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData[keys[section]]!.count
+        return visitsHistoryViewModel.numberOfRowsIn(section: section)
     }
 
-    // Количество секций таблицы
     func numberOfSections(in tableView: UITableView) -> Int {
-        return keys.count
+        return visitsHistoryViewModel.numberOfSections
     }
 
-    // Формирование элемента таблицы
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
                                                  for: indexPath) as! VisitHistoryTableCell
-        cell.configure(with: tableData[keys[indexPath.section]]![indexPath.row], labelStyle: .date)
+        let viewModel = VisitViewModel(visit: visitsHistoryViewModel.visitFor(indexPath: indexPath))
+        cell.configure(with: viewModel, labelStyle: .date)
         return cell
     }
 
-    // Заголовок секции таблицы
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(keys[section])
+        return visitsHistoryViewModel.titleFor(section: section)
     }
 }

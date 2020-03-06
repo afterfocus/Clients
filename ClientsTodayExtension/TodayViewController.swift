@@ -153,7 +153,8 @@ extension TodayExtensionViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
                                                  for: indexPath) as! VisitHistoryTableCell
-        cell.configure(with: tableData[indexPath.row], labelStyle: .clientName)
+        let viewModel = VisitViewModel(visit: tableData[indexPath.row])
+        cell.configure(with: viewModel, labelStyle: .clientName)
         return cell
     }
 }

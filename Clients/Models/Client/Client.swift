@@ -7,22 +7,13 @@
 //
 //
 
-import UIKit
+import Foundation
 import CoreData
 
 /// Клиент
 @objc(Client)
 public class Client: NSManagedObject {
-    /// Фотография клиента
-    var photo: UIImage? {
-        get {
-            return photoData != nil ? UIImage(data: photoData!) : nil
-        }
-        set {
-            photoData = newValue?.jpegData(compressionQuality: 1.0)
-        }
-    }
-
+    
     /// Записи клиента, отсортированные по убыванию даты
     var visitsSorted: [Visit] {
         visits.sorted { $0.date > $1.date }
@@ -46,7 +37,7 @@ public class Client: NSManagedObject {
         "\(name) \(surname)"
     }
 
-    convenience init(photo: UIImage?,
+    convenience init(photoData: Data?,
                      surname: String,
                      name: String,
                      phonenumber: String = "",
@@ -54,7 +45,8 @@ public class Client: NSManagedObject {
                      notes: String = "",
                      isBlocked: Bool = false) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        self.photoData = photo?.jpegData(compressionQuality: 1.0)
+        //self.photoData = photo?.jpegData(compressionQuality: 1.0)
+        self.photoData = photoData
         self.surname = surname
         self.name = name
         self.phonenumber = phonenumber

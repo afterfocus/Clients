@@ -80,14 +80,13 @@ extension SelectAdditionalServicesController {
         if tableData.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
                                                      for: indexPath) as! OneLabelTableCell
-            cell.label.text = NSLocalizedString("ADDITIONAL_SERVICES_ARE_NOT_SPECIFIED",
-                                                comment: "Дополнительные услуги не заданы")
+            cell.style = .additionalServicesNotSpecified
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: AdditionalServiceTableCell.identifier,
                                                      for: indexPath) as! AdditionalServiceTableCell
             let additionalService = tableData[indexPath.row]
-            cell.configure(with: additionalService)
+            cell.configure(with: AdditionalServiceViewModel(additionalService: additionalService))
             cell.accessoryType = selectedAdditionalServices.contains(additionalService) ? .checkmark : .none
             return cell
         }

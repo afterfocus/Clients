@@ -34,6 +34,7 @@ class SearchParametersController: UITableViewController {
     var endDate: Date!
     /// Требуемая продолжительность
     var requiredDuration: Time!
+    
     weak var delegate: SearchParametersControllerDelegate?
 
     // MARK: - Private properties
@@ -59,9 +60,7 @@ class SearchParametersController: UITableViewController {
         endDatePicker.set(date: endDate, time: nil)
 
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
-        startDateLabel.text = DateFormatter.localizedString(from: startDatePicker.date,
-                                                            dateStyle: .long,
-                                                            timeStyle: .none)
+        startDateLabel.text = DateFormatter.localizedString(from: startDatePicker.date, dateStyle: .long, timeStyle: .none)
         endDateLabel.text = DateFormatter.localizedString(from: endDatePicker.date, dateStyle: .long, timeStyle: .none)
     }
 

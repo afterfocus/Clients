@@ -11,11 +11,16 @@ import UIKit
 // TODO: Требует документирования
 
 class WidgetSearchParametersController: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var durationPicker: UIDatePicker!
     @IBOutlet weak var placesCountLabel: UILabel!
     @IBOutlet weak var placesCountPicker: UIPickerView!
 
+    // MARK: Private Properties
+    
     private var selectedRow = 0 {
         willSet {
             tableView.cellForRow(at: IndexPath(row: selectedRow, section: 1))?.accessoryType = .none

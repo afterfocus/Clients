@@ -54,13 +54,13 @@ extension AdditionalServicesController {
         if additionalServices.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
                                                      for: indexPath) as! OneLabelTableCell
-            cell.label.text = NSLocalizedString("NO_ADDITIONAL_SERVICES_FOUND",
-                                                comment: "Дополнительные услуги не заданы")
+            cell.style = .additionalServicesNotSpecified
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: AdditionalServiceTableCell.identifier,
                                                      for: indexPath) as! AdditionalServiceTableCell
-            cell.configure(with: additionalServices[indexPath.row])
+            let viewModel = AdditionalServiceViewModel(additionalService: additionalServices[indexPath.row])
+            cell.configure(with: viewModel)
             return cell
         }
     }

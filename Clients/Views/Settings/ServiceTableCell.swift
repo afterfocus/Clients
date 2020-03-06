@@ -28,26 +28,11 @@ class ServiceTableCell: UITableViewCell {
 
     // MARK: -
 
-    /**
-    Заполнить ячейку данными
-    - parameter service: Услуга для отображения в ячейке
-    */
-    func configure(with service: Service) {
-        nameLabel.text = service.name
-        colorView.backgroundColor = service.color
-        durationLabel.text = "\(service.duration.string(style: .shortDuration))"
-        costLabel.text = NumberFormatter.convertToCurrency(service.cost)
-
-        switch service.additionalServices.count {
-        case 1:
-            additionalServicesLabel.text = "1 " +
-                NSLocalizedString("ADDITIONAL_SERVICE", comment: "доп. услуга")
-        case 2...4:
-            additionalServicesLabel.text = "\(service.additionalServices.count) " +
-                NSLocalizedString("ADDITIONAL_SERVICE_PLURAL", comment: "доп. услуги")
-        default:
-            additionalServicesLabel.text = "\(service.additionalServices.count) " +
-                NSLocalizedString("ADDITIONAL_SERVICE_PLURAL_GENITIVE", comment: "доп. услуг")
-        }
+    func configure(with viewModel: ServiceViewModel) {
+        nameLabel.text = viewModel.nameText
+        colorView.backgroundColor = viewModel.color
+        durationLabel.text = viewModel.durationText
+        costLabel.text = viewModel.costText
+        additionalServicesLabel.text = viewModel.additionalServicesText
     }
 }

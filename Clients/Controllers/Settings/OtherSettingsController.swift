@@ -8,9 +8,10 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class OtherSettingsController: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var archivingPeriodLabel: UILabel!
     @IBOutlet weak var archivingPeriodPickerView: UIPickerView!
     @IBOutlet weak var isCancelledVisitsHiddenSwitch: UISwitch!
@@ -18,6 +19,8 @@ class OtherSettingsController: UITableViewController {
     @IBOutlet weak var isOvertimeAllowedSwitch: UISwitch!
     @IBOutlet weak var shouldBlockIncomingCallsSwitch: UISwitch!
 
+    // MARK: Private Properties
+    
     private var isArchivingPeriodPickerShown = false {
         didSet { archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label }
     }

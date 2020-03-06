@@ -10,11 +10,10 @@ import UIKit
 
 /// Ячейка записи
 class VisitHistoryTableCell: UITableViewCell {
-
-    static let identifier = "VisitHistoryTableCell"
-
-    // MARK: - Main label style enum
     
+    static let identifier = "VisitHistoryTableCell"
+    
+    // MARK: - Main label style enum
     /// Стиль главной метки ячейки
     enum VisitCellLabelStyle {
         /// Главная метка отображает дату записи
@@ -44,38 +43,28 @@ class VisitHistoryTableCell: UITableViewCell {
 
     // MARK: -
 
-    /**
-     Заполнить ячейку данными
-     - Parameter visit: Запись для отображения в ячейке
-     - Parameter labelStyle: Стиль отображения главной ячейки
-     */
-    func configure(with visit: Visit, labelStyle: VisitCellLabelStyle) {
+    func configure(with viewModel: VisitViewModel, labelStyle: VisitCellLabelStyle) {
         switch labelStyle {
-        case .date: mainLabel.text = "\(visit.date.string(style: .short))"
-        case .clientName: mainLabel.text = "\(visit.client)"
-        case .service: mainLabel.text = "\(visit.service)"
+        case .date:
+            mainLabel.text = viewModel.shortDateText
+        case .clientName:
+            mainLabel.text = viewModel.clientNameText
+        case .service:
+            mainLabel.text = viewModel.serviceText
         }
-        startLabel.text = "\(visit.time)"
-        endLabel.text = "\(visit.time + visit.duration)"
-        colorView.backgroundColor = visit.service.color
+        startLabel.text = viewModel.startTimeText
+        endLabel.text = viewModel.endTimeText
+        colorView.backgroundColor = viewModel.serviceColor
 
-        if visit.isCancelled || visit.isClientNotCome {
+        if viewModel.isCancelledOrNotCome {
             costLabel.textColor = .red
             costLabel.alpha = 1
-            costLabel.text = visit.isCancelled ?
-                NSLocalizedString("VISIT_CANCELLED_BY_CLIENT", comment: "Клиент отменил запись") :
-                NSLocalizedString("IS_NOT_COME", comment: "Не явился по записи")
         } else {
             costLabel.textColor = .label
             costLabel.alpha = 0.5
-            costLabel.text = NumberFormatter.convertToCurrency(visit.cost)
         }
-        servicesLabel.text = " "
-        for service in visit.additionalServicesSorted {
-            servicesLabel.text! += "\(service)\n"
-        }
-        let currentTime = Time.currentTime
-        nowIndicatorView.isHidden = !(visit.date == Date.today && visit.time < currentTime && visit.endTime > currentTime)
-        servicesLabel.text!.removeLast()
+        costLabel.text = viewModel.costText
+        servicesLabel.text = viewModel.additionalServicesText
+        nowIndicatorView.isHidden = !viewModel.isOnNow
     }
 }

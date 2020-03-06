@@ -14,3 +14,9 @@
 
 /* Записи на сегодня */
 "TODAYS_VISITS" = "Today's visits";
+
+/* Не явился по записи */
+"IS_NOT_COME" = "Not come";
+
+/* Клиент отменил запись */
+"VISIT_CANCELLED_BY_CLIENT" = "Visit cancelled by client";

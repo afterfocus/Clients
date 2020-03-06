@@ -65,10 +65,12 @@ class EditServiceController: UITableViewController {
         if service != nil {
             additionalServices = service.additionalServices
             duration = service.duration
-            pickedColor = service.color
-            nameTextField.text = service.name
-            costTextField.text = NumberFormatter.convertToCurrency(service.cost)
-            isArchive = service.isArchive
+            
+            let viewModel = ServiceViewModel(service: service)
+            pickedColor = viewModel.color
+            nameTextField.text = viewModel.nameText
+            costTextField.text = viewModel.costText
+            isArchive = viewModel.isArchive
         }
         colorView.backgroundColor = pickedColor
         colorLabel.text = pickedColor.name
@@ -103,14 +105,14 @@ class EditServiceController: UITableViewController {
             return false
         } else {
             if let service = service {
-                service.color = pickedColor
+                service.colorId = Int16(pickedColor.id)
                 service.name = nameTextField.text!
                 service.cost = NumberFormatter.convertToFloat(costTextField.text!)
                 service.duration = Time(foundationDate: durationPicker.date)
                 service.isArchive = isArchive
             } else {
                 service = Service(
-                    color: pickedColor,
+                    colorId: pickedColor.id,
                     name: nameTextField.text!,
                     cost: NumberFormatter.convertToFloat(costTextField.text!),
                     duration: Time(foundationDate: durationPicker.date),

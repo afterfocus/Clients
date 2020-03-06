@@ -431,7 +431,7 @@ extension CalendarController: UICollectionViewDataSource {
         // положения первой видимой ячейки в зависимости от первого дня месяца.
         // Так же ячейки-заглушки могут понадобиться в конце для дополнения секции до 6 строк
         if indexPath.item == 0 || indexPath.item > calendarData[indexPath.section].numberOfDays {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: ReusableViewID.calendarPlaceholderCell,
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "CalendarPlaceholderCell",
                                                       for: indexPath)
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionCell.identifier,
@@ -441,7 +441,7 @@ extension CalendarController: UICollectionViewDataSource {
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
             cell.configure(
                 day: indexPath.item,
-                indicatorColors: dayData.visits.map { $0.service.color },
+                indicatorColors: dayData.visits.map { UIColor.color(withId: Int($0.service.colorId)) },
                 isPicked: pickedCell == indexPath,
                 isToday: todayCell == indexPath,
                 isWeekend: dayData.isWeekend
@@ -485,7 +485,8 @@ extension CalendarController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
                                                  for: indexPath) as! VisitHistoryTableCell
-        cell.configure(with: tableData[indexPath.row], labelStyle: .clientName)
+        let viewModel = VisitViewModel(visit: tableData[indexPath.row])
+        cell.configure(with: viewModel, labelStyle: .clientName)
         return cell
     }
 }

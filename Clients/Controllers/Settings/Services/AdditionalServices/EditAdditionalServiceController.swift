@@ -25,7 +25,6 @@ class EditAdditionalServiceController: UITableViewController {
             tableView.performBatchUpdates(nil)
         }
     }
-    private let nullTime = Time()
 
     // MARK: - View Life Cycle
 
@@ -34,21 +33,16 @@ class EditAdditionalServiceController: UITableViewController {
         hideKeyboardWhenTappedAround()
 
         if let additionalService = additionalService {
-            nameTextField.text = additionalService.name
-
+            let viewModel = AdditionalServiceViewModel(additionalService: additionalService)
+            nameTextField.text = viewModel.nameText
+            durationLabel.text = viewModel.durationText
+            costTextField.text = viewModel.costText
+            
             let duration = additionalService.duration
-            durationSignSegmentedControl.selectedSegmentIndex = duration < nullTime ? 1 : 0
-            durationLabel.text = durationSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- "
-            durationLabel.text! += (duration == nullTime) ?
-                "0 \(NSLocalizedString("MINUTES_GENITIVE", comment: "минут"))" :
-                duration.modulo.string(style: .shortDuration)
-
+            durationSignSegmentedControl.selectedSegmentIndex = (duration < 0) ? 1 : 0
             durationPicker.selectRow(abs(duration.hours), inComponent: 0, animated: false)
             durationPicker.selectRow(abs(duration.minutes) / 5, inComponent: 2, animated: false)
-
-            costSignSegmentedControl.selectedSegmentIndex = additionalService.cost < 0 ? 1 : 0
-            costTextField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") +
-                NumberFormatter.convertToCurrency(abs(additionalService.cost))
+            costSignSegmentedControl.selectedSegmentIndex = (additionalService.cost) < 0 ? 1 : 0
         } else {
             durationPicker.selectRow(30 / 5, inComponent: 2, animated: false)
         }
@@ -114,8 +108,8 @@ extension EditAdditionalServiceController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField === costTextField {
             if let cost = Float(textField.text!.replacingOccurrences(of: ",", with: ".")) {
-                textField.text = (costSignSegmentedControl.selectedSegmentIndex == 0 ? "+ " : "- ") +
-                    NumberFormatter.convertToCurrency(cost)
+                let sign = (costSignSegmentedControl.selectedSegmentIndex == 0) ? "+ " : "- "
+                textField.text = sign + NumberFormatter.convertToCurrency(cost)
             } else {
                 textField.text = ""
             }
@@ -163,9 +157,11 @@ extension EditAdditionalServiceController: UIPickerViewDelegate {
             hours: durationPicker.selectedRow(inComponent: 0),
             minutes: durationPicker.selectedRow(inComponent: 2) * 5
         )
-        durationLabel.text! += (selectedTime == nullTime) ?
-            "0 \(NSLocalizedString("MINUTES_GENITIVE", comment: "минут"))" :
-            selectedTime.string(style: .shortDuration)
+        if selectedTime == 0 {
+            durationLabel.text! += "0 \(NSLocalizedString("MINUTES_GENITIVE", comment: "минут"))"
+        } else {
+            durationLabel.text! += selectedTime.string(style: .shortDuration)
+        }
     }
 }
 

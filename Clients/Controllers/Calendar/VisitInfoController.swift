@@ -30,19 +30,25 @@ class VisitInfoController: UITableViewController {
     /// Метка стоимости
     @IBOutlet weak var costLabel: UILabel!
     /// Метка продолжительности записи
-    @IBOutlet weak var lengthLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
     /// Метка заметок
     @IBOutlet weak var notesLabel: UILabel!
     /// Массив меток названий дополнительных услуг
     @IBOutlet var additionalServiceLabels: [UILabel]!
 
-    // MARK: - Segue properties
+    // MARK: - Segue Properties
 
     /// Запись
-    var visit: Visit!
+    var visit: Visit! {
+        didSet { visitViewModel = VisitViewModel(visit: visit) }
+    }
     // Для защиты от циклических переходов [профиль клиента -> запись -> профиль клеинта -> запись...]
     /// Определяет, возможен ли переход к профилю клиента (`true` по умолчанию)
     var canSegueToClientProfile: Bool = true
+    
+    // MARK: - View Model
+    
+    var visitViewModel: VisitViewModel!
 
     // MARK: - View Life Cycle
 
@@ -55,11 +61,10 @@ class VisitInfoController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Отобразить данные если запись не была удалена
+        // Отобразить данные если запись не была удалена c другого экрана
         if visit.managedObjectContext != nil {
             configureVisitInfo()
         } else {
-            // Закрыть экран, если запись удалена с другого экрана)
             navigationController?.popViewController(animated: true)
         }
     }
@@ -68,26 +73,17 @@ class VisitInfoController: UITableViewController {
 
     /// Заполнить контроллер данными о записи
     private func configureVisitInfo() {
-        photoImageView.image = visit.client.photo ?? UIImage(named: "default_photo")
-        nameLabel.text = "\(visit.client)"
-        dateLabel.text = visit.date.string(style: .full)
-        timeLabel.text = NSLocalizedString("FROM", comment: "с") + " \(visit.time) " +
-            NSLocalizedString("TO", comment: "до") + " \(visit.time + visit.duration)"
-        serviceLabel.text = visit.service.name
-        serviceColorView.backgroundColor = visit.service.color
-        lengthLabel.text = visit.duration.string(style: .duration)
-        notesLabel.text = visit.notes
-
-        if visit.isClientNotCome {
-            costLabel.text = NSLocalizedString("CLIENT_IS_NOT_COME", comment: "Клиент не явился")
-        } else if visit.isCancelled {
-            costLabel.text = NSLocalizedString("VISIT_CANCELLED", comment: "Запись отменена")
-        } else {
-            costLabel.text = NumberFormatter.convertToCurrency(visit.cost)
-        }
-
-        for (index, service) in visit.additionalServicesSorted.enumerated() where index < 10 {
-            additionalServiceLabels[index].text = service.name
+        photoImageView.image = visitViewModel.clientPhotoImage
+        nameLabel.text = visitViewModel.clientNameText
+        dateLabel.text = visitViewModel.dateText
+        timeLabel.text = visitViewModel.fullTimeText
+        serviceLabel.text = visitViewModel.serviceText
+        serviceColorView.backgroundColor = visitViewModel.serviceColor
+        durationLabel.text = visitViewModel.durationText
+        notesLabel.text = visitViewModel.notesText
+        costLabel.text = visitViewModel.shortCostText
+        for (index, name) in visitViewModel!.additionalServiceNames.enumerated() where index < 10 {
+            additionalServiceLabels[index].text = name
         }
     }
 }
@@ -109,12 +105,10 @@ extension VisitInfoController: SegueHandler {
         case .showEditVisit:
             guard let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? EditVisitController else { return }
-            // Отправить запись в EditVisitController
             target.visit = visit
             target.delegate = self
         case .showClientProfile:
             guard let target = segue.destination as? ClientProfileController else { return }
-            // Отправить клиента в ClientProfileController
             target.client = visit.client
         }
     }
@@ -132,7 +126,7 @@ extension VisitInfoController: EditVisitControllerDelegate {
 // MARK: - UITableViewDelegate
 
 extension VisitInfoController {
-    // Нажатие на кнопку отмены/удаления записи
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 3 {
@@ -158,22 +152,18 @@ extension VisitInfoController {
         }
     }
 
-    // Подготовка к отображению заголовка секции
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         // Скрыть заголовок секции при необходимости
-        if shouldHideSection(section: section),
-            let headerView = view as? UITableViewHeaderFooterView {
+        if shouldHideSection(section: section), let headerView = view as? UITableViewHeaderFooterView {
             headerView.textLabel!.textColor = .clear
         }
     }
 
-    // Высота заголовка секции
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Скрыть заголовок секции при необходимости
         return shouldHideSection(section: section) ? 0.1 : super.tableView(tableView, heightForHeaderInSection: section)
     }
 
-    // Высота футера секции
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         // Скрыть футер секции при необходимости
         return shouldHideSection(section: section) ? 0.1 : super.tableView(tableView, heightForFooterInSection: section)
@@ -201,7 +191,6 @@ extension VisitInfoController {
 
 extension VisitInfoController {
 
-    // Количество ячеек в секции
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 1:

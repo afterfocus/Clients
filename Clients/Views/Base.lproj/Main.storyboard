@@ -616,7 +616,7 @@
         <!--Clients Table Controller-->
         <scene sceneID="9ts-y3-O8D">
             <objects>
-                <tableViewController title="Клиенты" id="r4i-Bs-fdj" userLabel="Clients Table Controller" customClass="ClientsTableViewController" customModule="Clients" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Клиенты" definesPresentationContext="YES" id="r4i-Bs-fdj" userLabel="Clients Table Controller" customClass="ClientsTableViewController" customModule="Clients" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" id="kKW-6l-rKR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2056,7 +2056,7 @@
                         <outlet property="clientTableCell" destination="t8K-U8-jVq" id="85J-5Y-vZo"/>
                         <outlet property="costLabel" destination="tuu-E5-Wyn" id="k07-pA-icz"/>
                         <outlet property="dateLabel" destination="t81-QF-H68" id="xDj-Zm-adH"/>
-                        <outlet property="lengthLabel" destination="YdY-ks-Efh" id="lTc-SY-nge"/>
+                        <outlet property="durationLabel" destination="YdY-ks-Efh" id="kOk-fP-E8z"/>
                         <outlet property="nameLabel" destination="YUW-xr-wBn" id="5kJ-gd-j7X"/>
                         <outlet property="notesLabel" destination="IWA-qX-CNR" id="2Bl-4R-Rge"/>
                         <outlet property="photoImageView" destination="bUM-o4-W8k" id="aMP-F0-4he"/>
@@ -3318,10 +3318,10 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KII-3d-wr3"/>
-        <segue reference="611-hg-MTs"/>
-        <segue reference="2No-Ee-I6G"/>
-        <segue reference="TVg-Ae-W9g"/>
+        <segue reference="6hq-I8-qT2"/>
+        <segue reference="Cka-vv-6IM"/>
+        <segue reference="8cD-A2-ipJ"/>
+        <segue reference="dO1-wj-83w"/>
         <segue reference="uDz-xN-nKQ"/>
     </inferredMetricsTieBreakers>
 </document>

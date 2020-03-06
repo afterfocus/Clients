@@ -39,25 +39,22 @@ class ClientProfileTableTopView: UIView {
 
     // MARK: -
 
-    /// Заполнить представление данными о клиенте
-    func configure(with client: Client) {
-        phoneViewHeight.constant = client.phonenumber.isEmpty ? 0 : 55
-        phoneView.isHidden = client.phonenumber.isEmpty
-        phoneNumberButton.setTitle(client.phonenumber.formattedPhoneNumber, for: .normal)
+    func configure(with viewModel: ClientViewModel) {
+        phoneViewHeight.constant = viewModel.hasPhonenumber ? 55 : 0
+        phoneView.isHidden = !viewModel.hasPhonenumber
+        phoneNumberButton.setTitle(viewModel.phonenumberText, for: .normal)
 
-        vkViewHeight.constant = client.vk.isEmpty ? 0 : 55
-        vkView.isHidden = client.vk.isEmpty
-        vkHairlineHeight.constant = client.phonenumber.isEmpty ? 0 : 1.0 / UIScreen.main.scale
-        vkUrlButton.setTitle(client.vk, for: .normal)
+        vkViewHeight.constant = viewModel.hasVkUrl ? 55 : 0
+        vkView.isHidden = !viewModel.hasVkUrl
+        vkHairlineHeight.constant = viewModel.hasPhonenumber ? 1.0 / UIScreen.main.scale : 0
+        vkUrlButton.setTitle(viewModel.vkUrlText, for: .normal)
 
-        notesViewHeight.constant = client.notes.isEmpty ? 0 : 65
-        notesView.isHidden = client.notes.isEmpty
-        notesHairlineHeight.constant = (client.phonenumber.isEmpty && client.vk.isEmpty) ? 0 : 1.0 / UIScreen.main.scale
-        notesLabel.text = client.notes.isEmpty ? "" : "«\(client.notes)»"
+        notesViewHeight.constant = viewModel.hasNotes ? 65 : 0
+        notesView.isHidden = !viewModel.hasNotes
+        notesHairlineHeight.constant = (viewModel.hasPhonenumber || viewModel.hasVkUrl) ? 1.0 / UIScreen.main.scale : 0
+        notesLabel.text = viewModel.notesText
 
-        frame = CGRect(x: 0,
-                       y: 0,
-                       width: frame.width,
-                       height: phoneViewHeight.constant + vkViewHeight.constant + notesViewHeight.constant + 50)
+        let height = phoneViewHeight.constant + vkViewHeight.constant + notesViewHeight.constant + 50
+        frame = CGRect(x: 0, y: 0, width: frame.width, height: height)
     }
 }

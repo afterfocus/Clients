@@ -91,14 +91,14 @@ extension ServicesController {
         if activeServices.isEmpty && archiveServices.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
                                                      for: indexPath) as! OneLabelTableCell
-            cell.label.text = NSLocalizedString("SERVICES_NOT_SPECIFIED", comment: "Не задано ни одной услуги")
+            cell.style = .servicesNotSpecified
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ServiceTableCell.identifier,
                                                      for: indexPath) as! ServiceTableCell
             let service = (indexPath.section == 1 || activeServices.isEmpty) ?
                 archiveServices[indexPath.row] : activeServices[indexPath.row]
-            cell.configure(with: service)
+            cell.configure(with: ServiceViewModel(service: service))
             return cell
         }
     }

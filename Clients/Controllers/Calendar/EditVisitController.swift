@@ -117,7 +117,7 @@ class EditVisitController: UITableViewController {
             if let row = servicePickerData.firstIndex(of: visit.service) {
                 servicePicker.selectRow(row, inComponent: 0, animated: false)
                 serviceLabel.text = servicePickerData[row].name
-                serviceColorView.backgroundColor = servicePickerData[row].color
+                serviceColorView.backgroundColor = UIColor.color(withId: Int(servicePickerData[row].colorId))
             }
             costTextField.text = NumberFormatter.convertToCurrency(visit.cost)
             notesTextField.text = visit.notes
@@ -127,27 +127,19 @@ class EditVisitController: UITableViewController {
             clientNotComeSwitch.isOn = visit.isClientNotCome
         } else {
             datePicker.set(date: date, time: time, animated: false)
-            pickerView(servicePicker, didSelectRow: 0, inComponent: 0)
+            updateServiceLabels(with: servicePickerData[0])
         }
         
         if let client = client {
-            configureClientInfo(with: client)
+            configureClientInfo(with: ClientViewModel(client: client))
         }
-
-        if WeekendRepository.isWeekend(date) {
-            scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
-        } else {
-            let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
-            scheduleLabel.text = "\(NSLocalizedString("FROM", comment: "c")) \(schedule.start) \(NSLocalizedString("TO", comment: "до")) \(schedule.end)"
-        }
-        dateLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .long, timeStyle: .none)
-        timeLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .none, timeStyle: .short)
+        updateDateLabels(with: date)
         durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
 
-    private func configureClientInfo(with client: Client) {
-        photoImageView.image = client.photo ?? UIImage(named: "default_photo")
-        nameLabel.text = "\(client)"
+    private func configureClientInfo(with viewModel: ClientViewModel) {
+        photoImageView.image = viewModel.photoImage
+        nameLabel.text = viewModel.nameText
     }
 
     // MARK: - IBActions
@@ -214,16 +206,14 @@ extension EditVisitController: SegueHandler {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showSelectClient:
-            if let target = segue.destination as? ClientsTableViewController {
-                target.inSelectionMode = true
-                target.delegate = self
-            }
+            guard let target = segue.destination as? ClientsTableViewController else { return }
+            target.inSelectionMode = true
+            target.delegate = self
         case .showSelectAdditionalServices:
-            if let target = segue.destination as? SelectAdditionalServicesController {
-                target.service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
-                target.selectedAdditionalServices = additionalServices
-                target.delegate = self
-            }
+            guard let target = segue.destination as? SelectAdditionalServicesController else { return }
+            target.service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
+            target.selectedAdditionalServices = additionalServices
+            target.delegate = self
         }
     }
 }
@@ -234,7 +224,7 @@ extension EditVisitController: ClientsTableViewControllerDelegate {
     func clientsTableViewController(_ viewController: ClientsTableViewController, didSelect client: Client) {
         navigationController?.popToViewController(self, animated: true)
         self.client = client
-        configureClientInfo(with: client)
+        configureClientInfo(with: ClientViewModel(client: client))
     }
 }
 
@@ -298,20 +288,27 @@ extension EditVisitController: UIPickerViewDelegate {
 
     // Изменено значение селектора услуг
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let service = servicePickerData[row]
-        serviceLabel.text = service.name
-        serviceColorView.backgroundColor = service.color
+        updateServiceLabels(with: servicePickerData[row])
+    }
+    
+    private func updateServiceLabels(with service: Service) {
+        let viewModel = ServiceViewModel(service: service)
+        serviceLabel.text = viewModel.nameText
+        serviceColorView.backgroundColor = viewModel.color
+        // Установить стоимость и продолжительность по умолчанию
+        costTextField.text = viewModel.costText
+        durationLabel.text = viewModel.durationText
+        durationPicker.set(time: service.duration)
         // Очистить выбранные доп.услуги
         additionalServices = []
-        // Установить стоимость и продолжительность по умолчанию
-        costTextField.text = NumberFormatter.convertToCurrency(service.cost)
-        durationPicker.set(time: service.duration)
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
     }
 
     // Изменено значение селектора даты и времени
     @IBAction func dateValueChanged(_ sender: UIDatePicker) {
-        let date = Date(foundationDate: sender.date)
+        updateDateLabels(with: Date(foundationDate: sender.date))
+    }
+    
+    private func updateDateLabels(with date: Date) {
         // Обновить текст метки рабочего графика
         if WeekendRepository.isWeekend(date) {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
@@ -319,8 +316,8 @@ extension EditVisitController: UIPickerViewDelegate {
             let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             scheduleLabel.text = "\(NSLocalizedString("FROM", comment: "c")) \(schedule.start) \(NSLocalizedString("TO", comment: "до")) \(schedule.end)"
         }
-        dateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
-        timeLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .none, timeStyle: .short)
+        dateLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .long, timeStyle: .none)
+        timeLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .none, timeStyle: .short)
     }
 
     // Изменено значение селектора продолжительности

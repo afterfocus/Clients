@@ -7,7 +7,7 @@
 //
 //
 
-import UIKit
+import Foundation
 import CoreData
 
 /// Услуга
@@ -24,16 +24,6 @@ public class Service: NSManagedObject {
         }
     }
 
-    /// Цвет индикации
-    var color: UIColor {
-        get {
-            UIColor.color(withId: Int(colorId))
-        }
-        set {
-            colorId = Int16(newValue.id)
-        }
-    }
-
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
         additionalServices.sorted { $0.name < $1.name }
@@ -44,14 +34,14 @@ public class Service: NSManagedObject {
         "\(name)"
     }
 
-    convenience init(color: UIColor,
+    convenience init(colorId: Int,
                      name: String,
                      cost: Float,
                      duration: Time,
                      isArchive: Bool = false,
                      additionalServices: Set<AdditionalService> = []) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        self.colorId = Int16(color.id)
+        self.colorId = Int16(colorId)
         self.name = name
         self.cost = cost
         self.durationHours = Int16(duration.hours)

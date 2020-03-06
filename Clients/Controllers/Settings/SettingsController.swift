@@ -10,6 +10,9 @@ import UIKit
 
 /// Контроллер экрана Настройки
 class SettingsControler: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     /// Индикаторы предоставляемых услуг
     @IBOutlet weak var activeServiceIndicatorsStackView: UIStackView!
     /// Индикаторы архивных услуг
@@ -27,6 +30,8 @@ class SettingsControler: UITableViewController {
     @IBOutlet weak var overtimeAllowedLabel: UILabel!
     @IBOutlet weak var shouldBlockIncomingCallsLabel: UILabel!
 
+    // MARK: - Private Properties
+    
     private let onString = NSLocalizedString("ON", comment: "вкл")
     private let offString = NSLocalizedString("OFF", comment: "выкл")
     private let allowedString = NSLocalizedString("ALLOWED", comment: "разрешены")
@@ -68,7 +73,7 @@ class SettingsControler: UITableViewController {
         for (index, service) in services.enumerated() {
             let indicator = UIView(frame: CGRect(x: 18 * index, y: 0, width: 12, height: 12))
             indicator.layer.cornerRadius = 6
-            indicator.backgroundColor = service.color
+            indicator.backgroundColor = UIColor.color(withId: Int(service.colorId))
             stackView.insertSubview(indicator, at: stackView.subviews.count)
         }
     }
