@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SearchResultsControllerDelegate: class {
+    func searchResultsController(_ viewController: SearchResultsController, userDidSelectCellWith visit: Visit)
+}
+
 /// Контроллер результатов поиска
 class SearchResultsController: UITableViewController {
 
@@ -15,12 +19,10 @@ class SearchResultsController: UITableViewController {
 
     /// Выбранная запись
     var selectedVisit: Visit? {
-        if let indexPath = tableView.indexPathForSelectedRow {
-            return tableData[keys[indexPath.section]]?[indexPath.row]
-        } else {
-            return nil
-        }
+        guard let indexPath =  tableView.indexPathForSelectedRow else { return nil }
+        return tableData[keys[indexPath.section]]?[indexPath.row]
     }
+    weak var delegate: SearchResultsControllerDelegate?
 
     // MARK: - Private properties
 
@@ -34,25 +36,34 @@ class SearchResultsController: UITableViewController {
     }
     /// Ключи словаря данных
     private var keys = [Date]()
+}
 
-    // MARK: - UITableViewDataSource
+// MARK: - UITableViewDelegate
 
-    // Количество секций в таблице
+extension SearchResultsController {
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.searchResultsController(self, userDidSelectCellWith: (tableData[keys[indexPath.section]]![indexPath.row]))
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension SearchResultsController {
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return keys.count
     }
 
-    // Количество строк в секции
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData[keys[section]]!.count
     }
 
-    // Заголовок секции
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return String(keys[section].string(style: .short))
     }
 
-    // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
                                                  for: indexPath) as! VisitHistoryTableCell

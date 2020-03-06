@@ -267,7 +267,7 @@ extension EditClientController: UIImagePickerControllerDelegate {
             // Масштабировать фотографию до 500х500 px
             photoImageView.image = image.resize(toWidthAndHeight: 500)
             isPhotoPicked = true
-            dismiss(animated: true)
+            picker.dismiss(animated: true)
         }
     }
 }

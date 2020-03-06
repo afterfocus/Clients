@@ -38,8 +38,6 @@ class CalendarController: HidingNavigationBarViewController {
 
     /// Контроллер поиска записей по имени и фамилии клиента
     private var searchController: UISearchController!
-    /// Контроллер отображения результатов поиска записей
-    private var searchResultsController: SearchResultsController!
 
     // MARK: - Data
     /**
@@ -76,16 +74,16 @@ class CalendarController: HidingNavigationBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Создание контроллеров поиска и отображения результатов поиска
-        searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as? SearchResultsController
-        searchResultsController.tableView.delegate = self
+        let searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
+        searchResultsController.delegate = self
         searchController = UISearchController(searchResultsController: searchResultsController)
         searchController.searchResultsUpdater = searchResultsController
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.autocapitalizationType = .words
-
-        // FIXME: Для правильного отображения переходов из SearchResultsController необходимо, чтобы презентующий контроллер определял контекст презентации, но его определение приводит к неверному размещению SearchBar под NavigationItem.....
+        
+        // FIXME: Для правильного отображения переходов из SearchResultsController необходимо, чтобы презентующий контроллер определял контекст презентации, но его определение приводит к неверному размещению SearchBar под NavigationItem...
         //definesPresentationContext = true
-
+        
         tabBarController?.delegate = self
         // Добавление распознавателя нажатия на представление рабочего графика
         scheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scheduleViewPressed)))
@@ -370,6 +368,15 @@ extension CalendarController: EditVisitControllerDelegate {
     }
 }
 
+// MARK: - SearchResultsControllerDelegate
+
+extension CalendarController: SearchResultsControllerDelegate {
+    func searchResultsController(_ viewController: SearchResultsController,
+                                 userDidSelectCellWith visit: Visit) {
+        performSegue(withIdentifier: .showVisitInfo, sender: viewController)
+    }
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension CalendarController: UICollectionViewDelegateFlowLayout {
@@ -461,27 +468,20 @@ extension CalendarController: UICollectionViewDataSource {
 // MARK: - UITableViewDelegate
 
 extension CalendarController: UITableViewDelegate {
-    // Нажатие на элемент списка записей
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Нажатие на список записей в календаре
-        if tableView === visitsTableView {
-            tableView.deselectRow(at: indexPath, animated: true)
-        // Нажатие на список результатов поиска
-        } else {
-            performSegue(withIdentifier: .showVisitInfo, sender: searchResultsController)
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 // MARK: - UITableViewDataSource
 
 extension CalendarController: UITableViewDataSource {
-    // Количество строк в списке записей
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableData.count
     }
 
-    // Формирование элемента списка записей
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
                                                  for: indexPath) as! VisitHistoryTableCell

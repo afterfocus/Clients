@@ -17,8 +17,6 @@ class TodayViewController: UITableViewController {
     private var collectionView: UICollectionView!
     /// Высота ячейки с коллекцией свободных мест
     private var unoccupiedPlacesCellHeight: CGFloat!
-    /// Размеры ячейки коллекции ближайших свободных мест
-    private var collectionCellSize: CGSize!
 
     /// Начало интервала поиска свободных мест
     private var startDate = Date.today
@@ -46,14 +44,12 @@ class TodayViewController: UITableViewController {
         super.viewDidLoad()
         // Создание контроллера отображения результатов поиска
         let searchResultsController = storyboard?.instantiateViewController(withIdentifier: "SearchResultsController") as! SearchResultsController
-        searchResultsController.tableView.delegate = self
+        searchResultsController.delegate = self
         // Создание контроллера поиска
         navigationItem.searchController = UISearchController(searchResultsController: searchResultsController)
         navigationItem.searchController?.searchResultsUpdater = searchResultsController
         navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController?.searchBar.autocapitalizationType = .words
-
-        collectionCellSize = CGSize(width: UIScreen.main.scale == 3 ? 55 : 50, height: 30)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -147,6 +143,14 @@ extension TodayViewController: EditVisitControllerDelegate {
     }
 }
 
+// MARK: - SearchResultsControllerDelegate
+
+extension TodayViewController: SearchResultsControllerDelegate {
+    func searchResultsController(_ viewController: SearchResultsController, userDidSelectCellWith visit: Visit) {
+        performSegue(withIdentifier: .showVisitInfo, sender: viewController)
+    }
+}
+
 // MARK: - SearchParametersControllerDelegate
 
 extension TodayViewController: SearchParametersControllerDelegate {
@@ -163,34 +167,24 @@ extension TodayViewController: SearchParametersControllerDelegate {
 // MARK: - UITableViewDelegate
 
 extension TodayViewController {
-    // Высота ячейки таблицы
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView === self.tableView {
-            let (section, row) = (indexPath.section, indexPath.row)
-            // Ячейка коллекции свободных мест
-            if section == 1 && row == 1, let height = unoccupiedPlacesCellHeight {
-                return height
-            }
-            // Ячейка кнопки копирования
-            else if section == 1 && row == 2 {
-                return 44
-            } else {
-                return super.tableView(tableView, heightForRowAt: indexPath)
-            }
+        let (section, row) = (indexPath.section, indexPath.row)
+        // Ячейка коллекции свободных мест
+        if section == 1 && row == 1, let height = unoccupiedPlacesCellHeight {
+            return height
+        }
+        // Ячейка кнопки копирования
+        else if section == 1 && row == 2 {
+            return 44
         } else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
 
-    // Нажатие на ячейку таблицы
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Нажатие на ячейку результатов поиска
-        if tableView !== self.tableView {
-            performSegue(withIdentifier: .showVisitInfo, sender:
-                navigationItem.searchController?.searchResultsController)
-        }
         // Нажатие на ячейку копирования
-        else if indexPath.section == 1 && indexPath.row == 2 {
+        if indexPath.section == 1 && indexPath.row == 2 {
             var string = ""
             for date in keys {
                 string += "\(date.string(style: .dayAndMonth)):"
@@ -209,7 +203,7 @@ extension TodayViewController {
 // MARK: - UITableViewDataSource
 
 extension TodayViewController {
-    // Количество ячеек в секции таблицы
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return tableData.isEmpty ? 1 : tableData.count
@@ -218,12 +212,10 @@ extension TodayViewController {
         }
     }
 
-    // Количество секций таблицы
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    // Формирование ячейки таблицы
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let (section, row) = (indexPath.section, indexPath.row)
 
@@ -286,7 +278,6 @@ extension TodayViewController {
         }
     }
 
-    // Заголовок секции таблицы
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ?
             NSLocalizedString("VISITS", comment: "Записи") :
@@ -294,31 +285,18 @@ extension TodayViewController {
     }
 }
 
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension TodayViewController: UICollectionViewDelegateFlowLayout {
-    // Размер ячейки коллекции свободных мест
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionCellSize
-    }
-}
-
 // MARK: - UICollectionViewDataSource
 
 extension TodayViewController: UICollectionViewDataSource {
-    // Количество ячеек в секции коллекции
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return unoccupiedPlaces[keys[section]]!.count
     }
 
-    // Количество секций коллекции
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return unoccupiedPlaces.count
     }
 
-    // Формирование ячейки коллекции
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NearestPlacesCollectionCell.identifier,
@@ -327,7 +305,6 @@ extension TodayViewController: UICollectionViewDataSource {
         return cell
     }
 
-    // Формирование заголовка секции коллекции
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
