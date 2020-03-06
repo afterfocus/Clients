@@ -27,6 +27,14 @@ class ClientViewModel {
         return "\(client)"
     }
     
+    var attributedNameText: NSMutableAttributedString {
+        // Выделить жирным шрифтом фамилию
+        let attributedText = NSMutableAttributedString(string: "\(client)")
+        attributedText.addAttributes([.font: UIFont.systemFont(ofSize: 17, weight: .semibold)],
+                                     range: NSRange(location: client.name.count + 1, length: client.surname.count))
+        return attributedText
+    }
+    
     var phonenumberText: String {
         return client.phonenumber.formattedPhoneNumber
     }

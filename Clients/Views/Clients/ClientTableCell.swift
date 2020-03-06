@@ -24,6 +24,8 @@ class ClientTableCell: UITableViewCell {
     
     func configure(with viewModel: ClientViewModel) {
         photoImageView.image = viewModel.photoImage
-        nameLabel.text = viewModel.nameText
+        photoImageView.alpha = viewModel.isBlocked ? 0.6 : 1
+        nameLabel.attributedText = viewModel.attributedNameText
+        nameLabel.textColor = viewModel.isBlocked ? .gray : .label
     }
 }
