@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class WidgetSearchParametersController: UITableViewController {
     
     // MARK: IBOutlets

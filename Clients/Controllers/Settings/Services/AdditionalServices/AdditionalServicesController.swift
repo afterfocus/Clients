@@ -9,7 +9,13 @@
 import UIKit
 
 class AdditionalServicesController: UITableViewController {
+    
+    // MARK: Segue Properties
+    
     var service: Service!
+    
+    // MARK: Private Properties
+    
     private var additionalServices: [AdditionalService]!
 
     // MARK: - View Life Cycle

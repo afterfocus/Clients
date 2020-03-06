@@ -8,18 +8,26 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class EditScheduleController: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var isWeekendSwitch: UISwitch!
     @IBOutlet weak var startTimeLabel: UILabel!
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var startTimePicker: UIDatePicker!
     @IBOutlet weak var endTimePicker: UIDatePicker!
 
+    // MARK: Segue Properties
+    
     var dayOfWeek: Weekday!
+    
+    // MARK: Private Properties
+    
     private var isWeekendOldValue: Bool!
 
+    // MARK: View Life Cycle
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = dayOfWeek.name

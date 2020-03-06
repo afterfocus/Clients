@@ -10,15 +10,22 @@ import UIKit
 import NotificationCenter
 
 class TodayExtensionViewController: UIViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var priceListButton: UIButton!
     @IBOutlet weak var unoccupiedPlacesButton: UIButton!
     @IBOutlet weak var contactInfoButton: UIButton!
     @IBOutlet weak var successLabel: UIButton!
     @IBOutlet weak var tableLabel: UIButton!
 
+    // MARK: Private Properties
+    
     private var tableData: [Visit]!
     private let settings = AppSettings.shared
 
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         settings.registerDefaults()
@@ -70,18 +77,8 @@ class TodayExtensionViewController: UIViewController {
                 requiredDuration: settings.widgetPlacesSearchRequiredLength
             )
         }
-        let keys = unoccupiedPlaces.keys.sorted(by: <)
-        var string = ""
-        for date in keys {
-            string += "\(date.string(style: .dayAndMonth)):"
-            unoccupiedPlaces[date]!.forEach {
-                string += " \($0),"
-            }
-            string.removeLast()
-            string += "\n"
-        }
-        UIPasteboard.general.string = (string != "") ?
-            string : NSLocalizedString("UNOCCUPIED_PLACES_WERE_NOT_FOUND", comment: "Свободных мест не найдено")
+        let unoccupiedPlacesViewModel = UnoccupiedPlacesViewModel(unoccupiedPlaces: unoccupiedPlaces)
+        UIPasteboard.general.string = unoccupiedPlacesViewModel.allUnoccupiedPlacesText
     }
 
     @IBAction func contactInfoButtonPressed(_ sender: UIButton) {

@@ -9,6 +9,9 @@
 import UIKit
 
 class EditAdditionalServiceController: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var durationSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var durationLabel: UILabel!
@@ -16,9 +19,13 @@ class EditAdditionalServiceController: UITableViewController {
     @IBOutlet weak var costSignSegmentedControl: UISegmentedControl!
     @IBOutlet weak var costTextField: UITextField!
 
+    // MARK: Segue Properties
+    
     var service: Service!
     var additionalService: AdditionalService!
 
+    // MARK: Private Properties
+    
     private var isDurationPickerShown = false {
         didSet {
             durationLabel.textColor = isDurationPickerShown ? .red : .label

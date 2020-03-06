@@ -9,6 +9,9 @@
 import UIKit
 
 class ServicesController: UITableViewController {
+    
+    // MARK: Private Properties
+    
     private var activeServices = [Service]()
     private var archiveServices = [Service]()
 

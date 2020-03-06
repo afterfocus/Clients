@@ -26,6 +26,7 @@
 		B51AE46A2412B8D600EE167B /* ServicesTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE4692412B8D600EE167B /* ServicesTableViewModel.swift */; };
 		B51AE46C2412C2F500EE167B /* VisitsHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */; };
 		B51E721123DC793500C9623C /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E721023DC793400C9623C /* SearchResultsController.swift */; };
+		B5206E542412D7AB00B05ED9 /* UnoccupiedPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459992412A5B5000C96E7 /* UnoccupiedPlacesViewModel.swift */; };
 		B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */; };
 		B52C1F8023F0764C001CCDAB /* AdditionalServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */; };
 		B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */; };
@@ -918,6 +919,7 @@
 				B56A273923F6971F005D8DBE /* Visit.swift in Sources */,
 				B56A273C23F6979F005D8DBE /* CoreDataManager.swift in Sources */,
 				B56A274323F69969005D8DBE /* Visit+CoreDataProperties.swift in Sources */,
+				B5206E542412D7AB00B05ED9 /* UnoccupiedPlacesViewModel.swift in Sources */,
 				B56A274423F6996F005D8DBE /* Service+CoreDataProperties.swift in Sources */,
 				B56A273723F6970F005D8DBE /* VisitHistoryTableCell.swift in Sources */,
 			);

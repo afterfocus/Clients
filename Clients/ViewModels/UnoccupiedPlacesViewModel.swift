@@ -32,7 +32,8 @@ class UnoccupiedPlacesViewModel {
             string.removeLast()
             string += "\n"
         }
-        return string
+        return (string != "") ? string : NSLocalizedString("UNOCCUPIED_PLACES_WERE_NOT_FOUND",
+                                                           comment: "Свободных мест не найдено")
     }
     
     var numberOfSections: Int {

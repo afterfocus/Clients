@@ -8,12 +8,14 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class ScheduleController: UITableViewController {
 
+    // MARK: IBOutlets
+    
     @IBOutlet var scheduleLabels: [UILabel]!
 
+    // MARK: View Life Cycle
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         for (index, label) in scheduleLabels.enumerated() {

@@ -8,9 +8,10 @@
 
 import UIKit
 
-// TODO: Требует документирования
-
 class WidgetController: UITableViewController {
+    
+    // MARK: IBOutlets
+    
     @IBOutlet weak var widgetSearchLengthLabel: UILabel!
     @IBOutlet weak var widgetSearchRangeLabel: UILabel!
     @IBOutlet weak var shouldShowVisitsSwitch: UISwitch!
@@ -18,6 +19,8 @@ class WidgetController: UITableViewController {
     @IBOutlet weak var priceListTextView: UITextView!
     @IBOutlet weak var contactInfoTextView: UITextView!
 
+    // MARK: Private Properties
+    
     private let settings = AppSettings.shared
     
     // MARK: - View Life Cycle
