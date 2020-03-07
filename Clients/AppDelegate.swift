@@ -10,7 +10,16 @@ import UIKit
 import CoreData
 import CallKit
 
-// swiftlint:disable all
+/*
+ TODO: LIST
+    1. Убрать собственную реализацию Date. Использовать Foundation.Date.
+    2. Переработать "репозитории"
+    3. Закончить переход на MVVM
+    4. Использовать Combine / RxSwift
+    5. ...
+ */
+
+// swiftlint: disable all
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

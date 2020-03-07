@@ -156,6 +156,7 @@ extension EditServiceController: ColorPickerControllerDelegate {
         pickedColor = color
         colorView.backgroundColor = color
         colorLabel.text = color.name
+        navigationController?.popToViewController(self, animated: true)
     }
 }
 
