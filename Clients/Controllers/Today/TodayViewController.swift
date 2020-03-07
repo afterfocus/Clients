@@ -193,45 +193,38 @@ extension TodayViewController {
         // Ячейка сегодняшних записей
         case (0, _):
             // Если сегодня нет записей, отобразить одну ячейку с соответствующим сообщением
-            if clientsAndVisits.count == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
-                                                         for: indexPath) as! OneLabelTableCell
+            guard clientsAndVisits.count > 0 else {
+                let cell: OneLabelTableCell = tableView.dequeueReusableCell(for: indexPath)
                 cell.style = .looksLikeItsYourDayOff
                 return cell
+            }
+            // Ячейка клиента
+            if let client = clientsAndVisits[row] as? Client {
+                let cell: ClientTableCell = tableView.dequeueReusableCell(for: indexPath)
+                cell.configure(with: ClientViewModel(client: client))
+                return cell
+            // Ячейка записи
             } else {
-                // Ячейка клиента
-                if let client = clientsAndVisits[row] as? Client {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: ClientTableCell.identifier,
-                                                             for: indexPath) as! ClientTableCell
-                    cell.configure(with: ClientViewModel(client: client))
-                    return cell
-                // Ячейка записи
-                } else {
-                    let visit = clientsAndVisits[row] as! Visit
-                    let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
-                                                             for: indexPath) as! VisitHistoryTableCell
-                    cell.configure(with: VisitViewModel(visit: visit), labelStyle: .service)
-                    return cell
-                }
+                let visit = clientsAndVisits[row] as! Visit
+                let cell: VisitHistoryTableCell = tableView.dequeueReusableCell(for: indexPath)
+                cell.configure(with: VisitViewModel(visit: visit), labelStyle: .service)
+                return cell
             }
         // Ячейка параметров поиска
         case (1, 0):
-            let cell = tableView.dequeueReusableCell(withIdentifier: SearchIntervalTableCell.identifier,
-                                                     for: indexPath) as! SearchIntervalTableCell
+            let cell: SearchIntervalTableCell = tableView.dequeueReusableCell(for: indexPath)
             cell.intervalLabel.text = searchParameters.searchParametersText
             return cell
         // Ячейка коллекции свободных мест
         case (1, 1):
             // Если свободных мест не найдено, отобразить ячейку с соответствующим сообщением
             if unoccupiedPlacesViewModel.isEmpty {
-                let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
-                                                         for: indexPath) as! OneLabelTableCell
+                let cell: OneLabelTableCell = tableView.dequeueReusableCell(for: indexPath)
                 cell.style = .unoccupiedPlacesNotFound
                 unoccupiedPlacesCellHeight = 80
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: NearestPlacesTableCell.identifier,
-                                                         for: indexPath) as! NearestPlacesTableCell
+                let cell: NearestPlacesTableCell = tableView.dequeueReusableCell(for: indexPath)
                 collectionView = cell.collectionView
                 unoccupiedPlacesCellHeight = collectionView.collectionViewLayout.collectionViewContentSize.height + 13
                 return cell
@@ -265,8 +258,7 @@ extension TodayViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NearestPlacesCollectionCell.identifier,
-                                                      for: indexPath) as! NearestPlacesCollectionCell
+        let cell: NearestPlacesCollectionCell = collectionView.dequeueReusableCell(for: indexPath)
         cell.timeLabel.text = unoccupiedPlacesViewModel.timeText(for: indexPath)
         return cell
     }
@@ -274,7 +266,8 @@ extension TodayViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: NearestPlacesCollectionHeader.identifier, for: indexPath) as! NearestPlacesCollectionHeader
+        let header: NearestPlacesCollectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                                    for: indexPath)
         header.dateLabel.text = unoccupiedPlacesViewModel.dateTextFor(section: indexPath.section)
         return header
     }

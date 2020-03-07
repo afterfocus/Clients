@@ -99,7 +99,6 @@ extension VisitInfoController: SegueHandler {
         case showClientProfile
     }
 
-    // Подготовиться к переходу
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segueIdentifier(for: segue) {
         case .showEditVisit:

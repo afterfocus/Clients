@@ -11,8 +11,6 @@ import UIKit
 /// Ячейка услуги
 class ServiceTableCell: UITableViewCell {
 
-    static let identifier = "ServiceTableCell"
-
     // MARK: - IBOutlets
 
     /// Метка названия услуги

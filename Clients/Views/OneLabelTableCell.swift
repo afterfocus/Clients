@@ -11,8 +11,6 @@ import UIKit
 /// Ячейка с одной меткой
 class OneLabelTableCell: UITableViewCell {
     
-    static let identifier = "OneLabelTableCell"
-    
     enum OneLabelTableCellStyle {
         case looksLikeItsYourDayOff
         case unoccupiedPlacesNotFound

@@ -62,8 +62,7 @@ extension SearchResultsController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
-                                                 for: indexPath) as! VisitHistoryTableCell
+        let cell: VisitHistoryTableCell = tableView.dequeueReusableCell(for: indexPath)
         let viewModel = VisitViewModel(visit: visitsViewModel.visitFor(indexPath: indexPath))
         cell.configure(with: viewModel, labelStyle: .clientName)
         return cell

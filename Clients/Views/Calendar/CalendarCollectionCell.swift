@@ -11,8 +11,6 @@ import UIKit
 /// Ячейка календаря
 class CalendarCollectionCell: UICollectionViewCell {
     
-    static let identifier = "CalendarCollectionCell"
-    
     // MARK: IBOutlets
 
     /// Метка числа
@@ -26,9 +24,12 @@ class CalendarCollectionCell: UICollectionViewCell {
 
     // Подготовить ячейку к переиспользованию
     override func prepareForReuse() {
+        super.prepareForReuse()
+        circleView.backgroundColor = nil
         // Спрятать все индикаторы записей
-        for circle in visitIndicators {
-            circle.isHidden = true
+        visitIndicators.forEach {
+            $0.isHidden = true
+            $0.backgroundColor = nil
         }
     }
     
@@ -51,7 +52,6 @@ class CalendarCollectionCell: UICollectionViewCell {
             numberLabel.textColor = isToday ? .white : .systemBackground
             numberLabel.font = .boldSystemFont(ofSize: 18)
         } else {
-            circleView.backgroundColor = .none
             if isToday {
                 numberLabel.textColor = .red
                 numberLabel.font = .boldSystemFont(ofSize: 18)

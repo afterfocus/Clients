@@ -11,8 +11,6 @@ import UIKit
 /// Ячейка дополнительной услуги
 class AdditionalServiceTableCell: UITableViewCell {
     
-    static let identifier = "AdditionalServiceTableCell"
-    
     // MARK: - IBOutlets
 
     /// Название дополнительной услуги

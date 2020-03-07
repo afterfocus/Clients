@@ -52,7 +52,7 @@ extension ServicesController: SegueHandler {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - EditServiceControllerDelegate
 
 extension ServicesController: EditServiceControllerDelegate {
     func editServiceController(_ viewController: EditServiceController, didFinishedEditing service: Service) {
@@ -92,13 +92,11 @@ extension ServicesController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if activeServices.isEmpty && archiveServices.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
-                                                     for: indexPath) as! OneLabelTableCell
+            let cell: OneLabelTableCell = tableView.dequeueReusableCell(for: indexPath)
             cell.style = .servicesNotSpecified
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ServiceTableCell.identifier,
-                                                     for: indexPath) as! ServiceTableCell
+            let cell: ServiceTableCell = tableView.dequeueReusableCell(for: indexPath)
             let service = (indexPath.section == 1 || activeServices.isEmpty) ?
                 archiveServices[indexPath.row] : activeServices[indexPath.row]
             cell.configure(with: ServiceViewModel(service: service))

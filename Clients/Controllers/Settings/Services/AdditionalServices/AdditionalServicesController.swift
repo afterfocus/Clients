@@ -58,13 +58,11 @@ extension AdditionalServicesController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if additionalServices.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: OneLabelTableCell.identifier,
-                                                     for: indexPath) as! OneLabelTableCell
+            let cell: OneLabelTableCell = tableView.dequeueReusableCell(for: indexPath)
             cell.style = .additionalServicesNotSpecified
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: AdditionalServiceTableCell.identifier,
-                                                     for: indexPath) as! AdditionalServiceTableCell
+            let cell: AdditionalServiceTableCell = tableView.dequeueReusableCell(for: indexPath)
             let viewModel = AdditionalServiceViewModel(additionalService: additionalServices[indexPath.row])
             cell.configure(with: viewModel)
             return cell

@@ -10,8 +10,5 @@ import UIKit
 
 /// Ячейка ближайших свободных мест
 class NearestPlacesTableCell: UITableViewCell {
-
-    static let identifier = "NearestPlacesTableCell"
-
     @IBOutlet weak var collectionView: UICollectionView!
 }

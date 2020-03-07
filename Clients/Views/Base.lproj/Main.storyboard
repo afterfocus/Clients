@@ -72,7 +72,6 @@
                                                 </view>
                                                 <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7EB-ls-ZO7">
                                                     <rect key="frame" x="9.5" y="5.5" width="31" height="31"/>
-                                                    <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="31" id="J5n-7e-JMN"/>
                                                         <constraint firstAttribute="height" constant="31" id="QkC-sZ-8yq"/>
@@ -3318,8 +3317,8 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6hq-I8-qT2"/>
-        <segue reference="Cka-vv-6IM"/>
+        <segue reference="KII-3d-wr3"/>
+        <segue reference="611-hg-MTs"/>
         <segue reference="8cD-A2-ipJ"/>
         <segue reference="dO1-wj-83w"/>
         <segue reference="uDz-xN-nKQ"/>

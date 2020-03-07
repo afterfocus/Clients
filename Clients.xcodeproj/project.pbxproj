@@ -29,6 +29,8 @@
 		B5206E542412D7AB00B05ED9 /* UnoccupiedPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459992412A5B5000C96E7 /* UnoccupiedPlacesViewModel.swift */; };
 		B5206E562413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */; };
 		B5206E572413D79D00B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */; };
+		B5206E5C2414287B00B05ED9 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E5B2414287B00B05ED9 /* ReusableView.swift */; };
+		B5206E5F2414313500B05ED9 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E5B2414287B00B05ED9 /* ReusableView.swift */; };
 		B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */; };
 		B52C1F8023F0764C001CCDAB /* AdditionalServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */; };
 		B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */; };
@@ -195,6 +197,7 @@
 		B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsHistoryViewModel.swift; sourceTree = "<group>"; };
 		B51E721023DC793400C9623C /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
 		B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnoccupiedPlacesSearchParameters.swift; sourceTree = "<group>"; };
+		B5206E5B2414287B00B05ED9 /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtension.swift; sourceTree = "<group>"; };
 		B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceRepository.swift; sourceTree = "<group>"; };
 		B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParametersController.swift; sourceTree = "<group>"; };
@@ -418,6 +421,7 @@
 				B5465E5D23F82E1F004F0C09 /* LaunchScreen.storyboard */,
 				B5465E6223F82E33004F0C09 /* Main.storyboard */,
 				B58127152411B76800116FAC /* Settings.storyboard */,
+				B5206E5B2414287B00B05ED9 /* ReusableView.swift */,
 				B5F415AD23D6438300D48319 /* HairlineConstraint.swift */,
 				B5890AF123E5BC7B00C3A50E /* Today */,
 				B5F415B123D732E200D48319 /* Calendar */,
@@ -843,6 +847,7 @@
 				B5F0CF3E23EC0CC60057C23A /* AdditionalServicesController.swift in Sources */,
 				B552D69823D2651000DF1CB9 /* StringExtension.swift in Sources */,
 				B5E76F6523CFAC74009F6D99 /* EditVisitController.swift in Sources */,
+				B5206E5C2414287B00B05ED9 /* ReusableView.swift in Sources */,
 				B5777F6823D0011600FB96D3 /* ClientProfileTopView.swift in Sources */,
 				B504598F2412999F000C96E7 /* VisitViewModel.swift in Sources */,
 				B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */,
@@ -910,6 +915,7 @@
 				B56A274223F69966005D8DBE /* Client+CoreDataProperties.swift in Sources */,
 				B56A273D23F697A8005D8DBE /* WeekendRepository.swift in Sources */,
 				B56A274023F69951005D8DBE /* Client.swift in Sources */,
+				B5206E5F2414313500B05ED9 /* ReusableView.swift in Sources */,
 				B56A273B23F69790005D8DBE /* VisitRepository.swift in Sources */,
 				B56A274823F69984005D8DBE /* UIColorExtension.swift in Sources */,
 				B56A274723F69981005D8DBE /* AdditionalService+CoreDataProperties.swift in Sources */,

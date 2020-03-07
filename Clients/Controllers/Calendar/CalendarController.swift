@@ -226,6 +226,8 @@ class CalendarController: HidingNavigationBarViewController {
                 self.view.layoutIfNeeded()
                 self.view.backgroundColor = self.isPagingEnabled ?
                     UIColor(named: "Calendar Background Color") : .systemBackground
+            }, completion: { _ in
+                self.calendarView.reloadData()
             })
         } else {
             view.backgroundColor = isPagingEnabled ?
@@ -428,8 +430,7 @@ extension CalendarController: UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withReuseIdentifier: "CalendarPlaceholderCell",
                                                       for: indexPath)
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionCell.identifier,
-                                                          for: indexPath) as! CalendarCollectionCell
+            let cell: CalendarCollectionCell = collectionView.dequeueReusableCell(for: indexPath)
             /// Данные на день, связанный с ячейкой
             let dayData = calendarData[indexPath]
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
@@ -448,7 +449,8 @@ extension CalendarController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CalendarCollectionHeader.identifier, for: indexPath) as! CalendarCollectionHeader
+        let header: CalendarCollectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                               for: indexPath)
         // Текст = название месяца, связанного с секцией
         header.monthLabel.text = Month(rawValue: indexPath.section % 12 + 1)?.name
         // Цвет текста красный, если связанный месяц - текущий
@@ -477,8 +479,7 @@ extension CalendarController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VisitHistoryTableCell.identifier,
-                                                 for: indexPath) as! VisitHistoryTableCell
+        let cell: VisitHistoryTableCell = tableView.dequeueReusableCell(for: indexPath)
         let viewModel = VisitViewModel(visit: tableData[indexPath.row])
         cell.configure(with: viewModel, labelStyle: .clientName)
         return cell

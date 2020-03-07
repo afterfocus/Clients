@@ -157,8 +157,7 @@ extension ClientsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ClientTableCell.identifier,
-                                                 for: indexPath) as! ClientTableCell
+        let cell: ClientTableCell = tableView.dequeueReusableCell(for: indexPath)
         let viewModel = ClientViewModel(client: currentViewModel.clientFor(indexPath: indexPath))
         cell.configure(with: viewModel)
         return cell
