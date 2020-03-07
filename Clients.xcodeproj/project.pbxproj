@@ -27,6 +27,8 @@
 		B51AE46C2412C2F500EE167B /* VisitsHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */; };
 		B51E721123DC793500C9623C /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E721023DC793400C9623C /* SearchResultsController.swift */; };
 		B5206E542412D7AB00B05ED9 /* UnoccupiedPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459992412A5B5000C96E7 /* UnoccupiedPlacesViewModel.swift */; };
+		B5206E562413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */; };
+		B5206E572413D79D00B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */; };
 		B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */; };
 		B52C1F8023F0764C001CCDAB /* AdditionalServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */; };
 		B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */; };
@@ -192,6 +194,7 @@
 		B51AE4692412B8D600EE167B /* ServicesTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTableViewModel.swift; sourceTree = "<group>"; };
 		B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsHistoryViewModel.swift; sourceTree = "<group>"; };
 		B51E721023DC793400C9623C /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
+		B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnoccupiedPlacesSearchParameters.swift; sourceTree = "<group>"; };
 		B5249FDF23DC6FA1005EFC00 /* NumberFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtension.swift; sourceTree = "<group>"; };
 		B52C1F7F23F0764C001CCDAB /* AdditionalServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceRepository.swift; sourceTree = "<group>"; };
 		B52C1F8123F15C7E001CCDAB /* SearchParametersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParametersController.swift; sourceTree = "<group>"; };
@@ -404,6 +407,7 @@
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
 				B516F28D23CE501D0087B2CB /* AppSettings.swift */,
 				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
+				B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -855,6 +859,7 @@
 				B516F28823CE1F830087B2CB /* Date.swift in Sources */,
 				B5768A0123F17E0600506953 /* UIDatePickerExtension.swift in Sources */,
 				B5121A8923EC54E900D27926 /* CoreDataManager.swift in Sources */,
+				B5206E562413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */,
 				B5E9746223E8620D0061AB9B /* ServiceTableCell.swift in Sources */,
 				B5890AF323E5BC9000C3A50E /* SearchIntervalTableCell.swift in Sources */,
 				B5F8955423ECA1C800938FA7 /* Weekend+CoreDataProperties.swift in Sources */,
@@ -915,6 +920,7 @@
 				B56A274523F69976005D8DBE /* Weekend+CoreDataProperties.swift in Sources */,
 				B56A274E23F69F81005D8DBE /* Clients.xcdatamodeld in Sources */,
 				B56A273623F69697005D8DBE /* HairlineConstraint.swift in Sources */,
+				B5206E572413D79D00B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */,
 				B56A272A23F69573005D8DBE /* TodayViewController.swift in Sources */,
 				B56A273923F6971F005D8DBE /* Visit.swift in Sources */,
 				B56A273C23F6979F005D8DBE /* CoreDataManager.swift in Sources */,

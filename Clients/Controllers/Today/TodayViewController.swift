@@ -12,18 +12,14 @@ import UIKit
 class TodayViewController: UITableViewController {
 
     // MARK: - Private properties
-
     /// Коллекция свободных мест
     private var collectionView: UICollectionView!
     /// Высота ячейки с коллекцией свободных мест
     private var unoccupiedPlacesCellHeight: CGFloat!
-
-    /// Начало интервала поиска свободных мест
-    private var startDate = Date.today
-    /// Конец интервала поиска свободных мест
-    private var endDate = Date.today + 7
-    /// Требуемая продолжительность записи для поиска свободных мест
-    private var requiredDuration: Time = 1
+    
+    private var searchParameters = UnoccupiedPlacesSearchParameters(startDate: Date.today,
+                                                                    endDate: Date.today + 7,
+                                                                    requiredDuration: 1)
 
     private var clientsAndVisits = [AnyObject]()
     
@@ -54,9 +50,7 @@ class TodayViewController: UITableViewController {
         clientsAndVisits = VisitRepository.visitsWithClients(for: Date.today,
                                                       hideCancelled: AppSettings.shared.isCancelledVisitsHidden,
                                                       hideNotCome: AppSettings.shared.isClientNotComeVisitsHidden)
-        let unoccupiedPlaces = VisitRepository.unoccupiedPlaces(between: startDate,
-                                                                and: endDate,
-                                                                requiredDuration: requiredDuration)
+        let unoccupiedPlaces = VisitRepository.unoccupiedPlaces(for: searchParameters)
         unoccupiedPlacesViewModel = UnoccupiedPlacesViewModel(unoccupiedPlaces: unoccupiedPlaces)
         tableView.reloadData()
     }
@@ -118,9 +112,7 @@ extension TodayViewController: SegueHandler {
             guard let destination = segue.destination as? UINavigationController,
                 let target = destination.topViewController as? SearchParametersController else { return }
             // Отправить в SearchParametersController текущие выбранные параметры поиска
-            target.startDate = startDate
-            target.endDate = endDate
-            target.requiredDuration = requiredDuration
+            target.searchParameters = searchParameters
             target.delegate = self
         }
     }
@@ -146,11 +138,8 @@ extension TodayViewController: SearchResultsControllerDelegate {
 
 extension TodayViewController: SearchParametersControllerDelegate {
     func searchParametersController(_ viewController: SearchParametersController,
-                                    didSelect searchParameters: (startDate: Date, endDate: Date, requiredDuration: Time)) {
-        // Принять новые параметры поиска
-        startDate = searchParameters.startDate
-        endDate = searchParameters.endDate
-        requiredDuration = searchParameters.requiredDuration
+                                    didSelect searchParameters: UnoccupiedPlacesSearchParameters) {
+        self.searchParameters = searchParameters
         updateTableData()
     }
 }
@@ -164,9 +153,8 @@ extension TodayViewController {
         // Ячейка коллекции свободных мест
         if section == 1 && row == 1, let height = unoccupiedPlacesCellHeight {
             return height
-        }
-        // Ячейка кнопки копирования
-        else if section == 1 && row == 2 {
+        } else if section == 1 && row == 2 {
+            // Ячейка кнопки копирования
             return 44
         } else {
             return super.tableView(tableView, heightForRowAt: indexPath)
@@ -230,9 +218,7 @@ extension TodayViewController {
         case (1, 0):
             let cell = tableView.dequeueReusableCell(withIdentifier: SearchIntervalTableCell.identifier,
                                                      for: indexPath) as! SearchIntervalTableCell
-            let startDateString = (startDate.month == endDate.month && startDate.year == endDate.year) ? "\(startDate.day)" : "\(startDate.string(style: .dayAndMonth))"
-            cell.intervalLabel.text =
-                "\(NSLocalizedString("FROM", comment: "с")) \(startDateString) \(NSLocalizedString("UNTIL", comment: "по")) \(endDate.string(style: .dayAndMonth)), \(requiredDuration.string(style: .duration))"
+            cell.intervalLabel.text = searchParameters.searchParametersText
             return cell
         // Ячейка коллекции свободных мест
         case (1, 1):

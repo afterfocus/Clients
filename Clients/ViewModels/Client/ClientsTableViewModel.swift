@@ -6,7 +6,7 @@
 //  Copyright © 2020 Максим Голов. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class ClientsTableViewModel {
     private var clients: [String: [Client]]

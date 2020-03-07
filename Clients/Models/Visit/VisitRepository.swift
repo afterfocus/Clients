@@ -154,9 +154,11 @@ class VisitRepository {
     ///   - endDate: Конец интервала
     ///   - requiredDuration: Длительность услуги, для которой нужно найти свободные места.
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
-    class func unoccupiedPlaces(between startDate: Date,
-                                and endDate: Date,
-                                requiredDuration duration: Time) -> [Date: [Time]] {
+    class func unoccupiedPlaces(for searchParameters: UnoccupiedPlacesSearchParameters) -> [Date: [Time]] {
+        let startDate = searchParameters.startDate
+        let endDate = searchParameters.endDate
+        let duration = searchParameters.requiredDuration
+        
         var result = [Date: [Time]]()
         var date = startDate
         // Проход по всем датам интервала

@@ -71,11 +71,11 @@ class TodayExtensionViewController: UIViewController {
                 requiredDuration: settings.widgetPlacesSearchRequiredLength
             )
         } else {
-            unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
-                between: Date.today,
-                and: Date.today + settings.widgetPlacesSearchRange.daysInRange,
-                requiredDuration: settings.widgetPlacesSearchRequiredLength
-            )
+            let searchParameters = UnoccupiedPlacesSearchParameters(
+                    startDate: Date.today,
+                    endDate: Date.today + settings.widgetPlacesSearchRange.daysInRange,
+                    requiredDuration: settings.widgetPlacesSearchRequiredLength)
+            unoccupiedPlaces = VisitRepository.unoccupiedPlaces(for: searchParameters)
         }
         let unoccupiedPlacesViewModel = UnoccupiedPlacesViewModel(unoccupiedPlaces: unoccupiedPlaces)
         UIPasteboard.general.string = unoccupiedPlacesViewModel.allUnoccupiedPlacesText
