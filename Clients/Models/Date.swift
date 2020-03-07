@@ -8,16 +8,6 @@
 
 import Foundation
 
-// MARK: - Day Of Week Style Enum
-
-/// Cтиль строкового представления названия дня недели `DayOfWeek`
-enum DayOfWeekStyle {
-    /// Представление названия в формате "пн"
-    case short
-    /// Представление названия в формате "понедельник"
-    case full
-}
-
 // MARK: - Weekday Enum
 
 /// День недели
@@ -94,20 +84,6 @@ enum Month: Int {
     }
 }
 
-// MARK: - Date Style Enum
-
-/// Cтиль строкового представления даты `Date`
-enum DateStyle {
-    /// Представление даты в формате "пн, 13 января"
-    case short
-    /// Представление даты в формате "понедельник, 13 января 2020 г."
-    case full
-    /// Представление даты в формате "13 января"
-    case dayAndMonth
-    /// Представление даты в формате "Январь 2020 г."
-    case monthAndYear
-}
-
 // MARK: - Date
 
 /// Дата
@@ -123,6 +99,23 @@ struct Date {
     var dayOfWeek: Weekday {
         let foundationDate = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
         return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
+    }
+    /// Представление даты в формате "пн, 13 января"
+    var shortString: String {
+        return "\(dayOfWeek.shortName), \(day) \(month.genitiveName)"
+    }
+    /// Представление даты в формате "понедельник, 13 января 2020 г."
+    var fullString: String {
+        return "\(dayOfWeek.name), \(day) \(month.genitiveName) \(year) " +
+            NSLocalizedString("YEAR_SHORT", comment: "г.")
+    }
+    /// Представление даты в формате "13 января"
+    var dayAndMonthString: String {
+        return "\(day) \(month.genitiveName)"
+    }
+    /// Представление даты в формате "Январь 2020 г."
+    var monthAndYearString: String {
+        return "\(month.name.lowercased()) \(year) " + NSLocalizedString("YEAR_SHORT", comment: "г.")
     }
 
     /**
@@ -140,24 +133,6 @@ struct Date {
             day = numberOfDays
         }
         return Date(day: day, month: month, year: year)
-    }
-
-    /**
-     Получить локализованное строковое представление даты в формате `style`
-     - parameter style: Стиль строкового представления даты
-     */
-    func string(style: DateStyle) -> String {
-        switch style {
-        case .short:
-            return "\(dayOfWeek.shortName), \(day) \(month.genitiveName)"
-        case .full:
-            return "\(dayOfWeek.name), \(day) \(month.genitiveName) \(year) " +
-                NSLocalizedString("YEAR_SHORT", comment: "г.")
-        case .dayAndMonth:
-            return "\(day) \(month.genitiveName)"
-        case .monthAndYear:
-            return "\(month.name.lowercased()) \(year) " + NSLocalizedString("YEAR_SHORT", comment: "г.")
-        }
     }
 
     // MARK: Initializers
@@ -185,7 +160,7 @@ struct Date {
 extension Date: CustomStringConvertible {
     /// Локализованное строковое представление даты в формате "понедельник, 13 января 2020 г."
     var description: String {
-        string(style: .full)
+        return fullString
     }
 }
 

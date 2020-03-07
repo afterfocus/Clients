@@ -21,8 +21,8 @@ struct UnoccupiedPlacesSearchParameters {
     }
     
     var searchParametersText: String {
-        let startDateString = isStartAndEndMonthsEqual ? "\(startDate.day)" : "\(startDate.string(style: .dayAndMonth))"
-        let endDateString = "\(NSLocalizedString("UNTIL", comment: "по")) \(endDate.string(style: .dayAndMonth))"
+        let startDateString = isStartAndEndMonthsEqual ? "\(startDate.day)" : "\(startDate.dayAndMonthString)"
+        let endDateString = "\(NSLocalizedString("UNTIL", comment: "по")) \(endDate.dayAndMonthString)"
         return NSLocalizedString("FROM", comment: "с") +
             " \(startDateString) \(endDateString), \(requiredDuration.string(style: .duration))"
     }

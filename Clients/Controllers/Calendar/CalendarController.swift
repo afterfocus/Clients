@@ -12,7 +12,6 @@ import UIKit
 class CalendarController: HidingNavigationBarViewController {
 
     // MARK: - IBOutlets
-
     /// Кнопка возврата к текущему месяцу
     @IBOutlet weak var backButton: UIButton!
     /// Календарь
@@ -24,21 +23,22 @@ class CalendarController: HidingNavigationBarViewController {
     @IBOutlet weak var scheduleView: ScheduleView!
     /// Список записей на выбранный день
     @IBOutlet weak var visitsTableView: UITableView!
-
     /// Высота списка записей
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
 
     // MARK: - Private properties
-
     /// Инициализированы ли высота секции и размеры ячейки календаря
     private var isConfigured = false
-
     /// Генератор обратной связи (для щелчков при пролистывании календаря)
     private let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-
     /// Контроллер поиска записей по имени и фамилии клиента
     private var searchController: UISearchController!
-
+    /// Находится ли календарь в постраничном режиме
+    private var isPagingEnabled: Bool {
+        get { return calendarView.isPagingEnabled }
+        set { calendarView.isPagingEnabled = newValue }
+    }
+    
     // MARK: - Data
     /**
      Данные календаря.
@@ -97,8 +97,7 @@ class CalendarController: HidingNavigationBarViewController {
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits
         updateScheduleView()
-        // Обновить кнопку "назад"
-        backButton.setTitleWithoutAnimation(Date.today.string(style: .monthAndYear))
+        updateBackButtonTitle(section: pickedCell.section)
     }
 
     // При первом запуске контроллера, как только была завершена расстановка дочерних
@@ -119,14 +118,10 @@ class CalendarController: HidingNavigationBarViewController {
 
     /// Нажатие на кнопку смены режима календаря (свободный / постраничный)
     @IBAction func calendarModeButtonPressed(_ sender: UIBarButtonItem) {
-        // Переключить режим календарпя
         switchPagingMode()
     }
 
-    /**
-     Нажатие на "кнопку возврата". Пролистывает календарь обратно к текущему месяцу или
-     воспроизводит анимацию подпрыгивания, если в календаре уже отображается текущий месяц.
-     */
+    /// Нажатие на кнопку возврата
     @IBAction func backButtonPressed(_ sender: UIButton) {
         returnToTodayCell()
     }
@@ -152,6 +147,8 @@ class CalendarController: HidingNavigationBarViewController {
 
     // MARK: - Private Methods
 
+    /// Пролистывает календарь обратно к текущему месяцу или воспроизводит анимацию
+    /// подпрыгивания, если в календаре уже отображается текущий месяц.
     private func returnToTodayCell() {
         // Если отображаемый месяц не равен текущему, то выполняется переход к текущему месяцу
         if todayCell.section != calendarView.currentSection {
@@ -160,6 +157,17 @@ class CalendarController: HidingNavigationBarViewController {
             calendarViewWillEndDragging(calendarView, targetSection: todayCell.section)
         } else {
             calendarView.jump()
+        }
+    }
+    
+    /// Переключить режим пролисытвания календаря (свободный / постраничный)
+    private func switchPagingMode() {
+        isPagingEnabled = !isPagingEnabled
+        updateConstraints(section: pickedCell.section)
+        updateBackButtonTitle(section: pickedCell.section)
+        // Корректировать положение календаря, если включен постраничный режим
+        if isPagingEnabled {
+            calendarView.scrollTo(section: pickedCell.section)
         }
     }
     
@@ -176,21 +184,11 @@ class CalendarController: HidingNavigationBarViewController {
         updateScheduleView()
     }
     
-    /// Переключить режим пролисытвания календаря (свободный / постраничный)
-    private func switchPagingMode() {
-        calendarView.isPagingEnabled = !calendarView.isPagingEnabled
-        updateConstraints(section: pickedCell.section)
-
-        // Обновить текст на кнопке "назад"
-        let date = calendarData.dateFor(pickedCell.section)
-        backButton.setTitleWithoutAnimation(
-            // "апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме
-            calendarView.isPagingEnabled ? date.string(style: .monthAndYear) : "\(date.year)"
-        )
-        // Корректировать положение календаря, если включен постраничный режим
-        if calendarView.isPagingEnabled {
-            calendarView.scrollTo(section: pickedCell.section)
-        }
+    private func updateBackButtonTitle(section: Int) {
+        let date = calendarData.dateFor(section)
+        // "апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме
+        let title = isPagingEnabled ? date.monthAndYearString : "\(date.year)"
+        backButton.setTitleWithoutAnimation(title)
     }
 
     private func updateScheduleView() {
@@ -215,7 +213,7 @@ class CalendarController: HidingNavigationBarViewController {
     private func updateConstraints(section: Int, animated: Bool = true) {
         calendarView.updateTopAndHeightConstraints()
         // В постраничном режиме высота списка записей изменяется в соответствии с количеством строк в секции календаря
-        if calendarView.isPagingEnabled {
+        if isPagingEnabled {
             // 23 - высота панели с пиктограммами дней недели
             tableViewHeight.constant = 23 + calendarView.cellSize.height * CGFloat(6 - calendarData[section].numberOfWeeks)
         } else {
@@ -226,11 +224,11 @@ class CalendarController: HidingNavigationBarViewController {
         if animated {
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
                 self.view.layoutIfNeeded()
-                self.view.backgroundColor = self.calendarView.isPagingEnabled ?
+                self.view.backgroundColor = self.isPagingEnabled ?
                     UIColor(named: "Calendar Background Color") : .systemBackground
             })
         } else {
-            view.backgroundColor = calendarView.isPagingEnabled ?
+            view.backgroundColor = isPagingEnabled ?
                 UIColor(named: "Calendar Background Color") : .systemBackground
         }
     }
@@ -259,9 +257,10 @@ extension CalendarController: UIScrollViewDelegate {
         // Скроллинг списка записей открывает или закрывает панель рабочего графика
         if scrollView === visitsTableView {
             scheduleView.height = -scrollView.contentOffset.y
+        }
         // Скроллинг календаря в свободном режиме обновляет текст метки названия месяца
-        } else if scrollView === calendarView && !calendarView.isPagingEnabled {
-            monthGradientView.text = calendarData.dateFor(calendarView.currentSection).string(style: .monthAndYear)
+        else if scrollView === calendarView && !isPagingEnabled {
+            monthGradientView.text = calendarData.dateFor(calendarView.currentSection).monthAndYearString
         }
     }
 
@@ -274,7 +273,7 @@ extension CalendarController: UIScrollViewDelegate {
             let section = Int(round(targetContentOffset.pointee.y / calendarView.pageHeight))
             calendarViewWillEndDragging(calendarView, targetSection: section)
 
-            if calendarView.isPagingEnabled {
+            if isPagingEnabled {
                 // Щёлк
                 impactFeedbackGenerator.impactOccurred()
             } else if velocity.y.magnitude > 1 {
@@ -285,16 +284,12 @@ extension CalendarController: UIScrollViewDelegate {
     }
     
     private func calendarViewWillEndDragging(_ calendarView: CalendarView, targetSection: Int) {
-        /// Дата (месяц и год), связанная с отображаемой секцией
-        let targetMonth = calendarData.dateFor(targetSection)
-        // Обновить текст на кнопке возврата ("апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме)
-        let title = calendarView.isPagingEnabled ?
-            "\(targetMonth.string(style: .monthAndYear))" : "\(targetMonth.year)"
-        backButton.setTitleWithoutAnimation(title)
-
-        if calendarView.isPagingEnabled {
+        updateBackButtonTitle(section: targetSection)
+        if isPagingEnabled {
             // В постраничном режиме по окончании скроллинга обновить положение календаря и списка записей
             updateConstraints(section: targetSection)
+            /// Дата (месяц и год), связанная с отображаемой секцией
+            let targetMonth = calendarData.dateFor(targetSection)
             // Выбрать первый день отображаемого месяца или сегодняшний день, если отображается текущий месяц
             var pickedItem = 1
             if targetMonth.month == Date.today.month && targetMonth.year == Date.today.year {
@@ -402,7 +397,7 @@ extension CalendarController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         pickedCell = indexPath
         // В свободном режиме нажатие на ячейку приводит к переключению в постраничный режим
-        if !calendarView.isPagingEnabled {
+        if !isPagingEnabled {
             switchPagingMode()
         }
     }

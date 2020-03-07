@@ -28,11 +28,11 @@ class VisitViewModel {
     }
 
     var dateText: String {
-        return visit.date.string(style: .full)
+        return visit.date.fullString
     }
     
     var shortDateText: String {
-        return visit.date.string(style: .short)
+        return visit.date.shortString
     }
     
     var fullTimeText: String {

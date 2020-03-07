@@ -31,7 +31,7 @@ class VisitsTableViewModel {
     }
     
     func titleFor(section: Int) -> String {
-        return keys[section].string(style: .short)
+        return keys[section].shortString
     }
     
     func visitFor(indexPath: IndexPath) -> Visit {

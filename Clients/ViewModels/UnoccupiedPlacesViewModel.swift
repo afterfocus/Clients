@@ -25,7 +25,7 @@ class UnoccupiedPlacesViewModel {
     var allUnoccupiedPlacesText: String {
         var string = ""
         for date in keys {
-            string += "\(date.string(style: .dayAndMonth)):"
+            string += "\(date.dayAndMonthString):"
             unoccupiedPlaces[date]!.forEach {
                 string += " \($0),"
             }
@@ -57,6 +57,6 @@ class UnoccupiedPlacesViewModel {
     }
     
     func dateTextFor(section: Int) -> String {
-        return keys[section].string(style: .dayAndMonth)
+        return keys[section].dayAndMonthString
     }
 }
