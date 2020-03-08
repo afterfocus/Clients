@@ -86,7 +86,7 @@ class VisitRepository {
      Получить запись по ее идентификатору.
      - parameter idString: URI-представление идентификатора объекта.
      */
-    class func visit(with idString: String) -> Visit? {
+    class func visit(withId idString: String) -> Visit? {
         do {
             if let objectIDURL = URL(string: idString),
                 let managedObjectID = context.persistentStoreCoordinator?.managedObjectID(

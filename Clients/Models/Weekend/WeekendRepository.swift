@@ -56,4 +56,23 @@ class WeekendRepository {
             fatalError(#function + ": \(error)")
         }
     }
+    
+    class func setIsWeekendForYearAhead(_ isWeekend: Bool, for dayOfWeek: Weekday) {
+        var date = Date.today
+        while date.dayOfWeek != dayOfWeek {
+            date += 1
+        }
+
+        if isWeekend {
+            for _ in stride(from: 0, through: 365, by: 7) {
+                _ = Weekend(date: date)
+                date += 7
+            }
+        } else {
+            for _ in stride(from: 0, through: 365, by: 7) {
+                removeWeekend(for: date)
+                date += 7
+            }
+        }
+    }
 }

@@ -49,25 +49,8 @@ class EditScheduleController: UITableViewController {
             end: Time(foundationDate: endTimePicker.date)
             )
         )
-
-        // TODO: Убрать в репозиторий
         if isWeekendOldValue != isWeekendSwitch.isOn {
-            var date = Date.today
-            while date.dayOfWeek != dayOfWeek {
-                date += 1
-            }
-
-            if isWeekendOldValue && !isWeekendSwitch.isOn {
-                for _ in stride(from: 0, through: 365, by: 7) {
-                    WeekendRepository.removeWeekend(for: date)
-                    date += 7
-                }
-            } else {
-                for _ in stride(from: 0, through: 365, by: 7) {
-                    _ = Weekend(date: date)
-                    date += 7
-                }
-            }
+            WeekendRepository.setIsWeekendForYearAhead(isWeekendSwitch.isOn, for: dayOfWeek)
         }
     }
 

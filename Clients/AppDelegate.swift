@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         if url.scheme == "clients" && url.host == "todayExtension" {
             let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
-            let visit = VisitRepository.visit(with: urlComponents!.queryItems!.first!.value!)!
+            let visit = VisitRepository.visit(withId: urlComponents!.queryItems!.first!.value!)!
 
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let visitInfoController = storyboard.instantiateViewController(withIdentifier: "VisitInfoController") as! VisitInfoController
