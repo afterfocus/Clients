@@ -199,6 +199,7 @@ class CalendarController: HidingNavigationBarViewController {
             scheduleView.configure(state: .workday(start: schedule.start, end: schedule.end))
         }
         visitsTableView.contentInset.top = scheduleView.height
+        visitsTableView.contentOffset.y = -scheduleView.height
     }
 
     /**
