@@ -26,4 +26,8 @@ extension String {
         }
         return result
     }
+    
+    var cleanPhoneNumber: String {
+        return self.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+    }
 }

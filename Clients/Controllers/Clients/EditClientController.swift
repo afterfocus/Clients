@@ -150,9 +150,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                 client.photoData = isPhotoPicked ? photoImageView.image!.jpegData(compressionQuality: 1.0) : nil
                 client.surname = surnameTextField.text!
                 client.name = nameTextField.text!
-                client.phonenumber = phoneTextField.text!.replacingOccurrences(of: "[^0-9]",
-                                                                               with: "",
-                                                                               options: .regularExpression)
+                client.phonenumber = phoneTextField.text!.cleanPhoneNumber
                 client.vk = vkTextField.text!
                 client.notes = notesTextField.text!
                 client.isBlocked = isBlocked
@@ -164,9 +162,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
                     photoData: isPhotoPicked ? photoImageView.image!.jpegData(compressionQuality: 1.0) : nil,
                     surname: surnameTextField.text!,
                     name: nameTextField.text!,
-                    phonenumber: phoneTextField.text!.replacingOccurrences(of: "[^0-9]",
-                                                                           with: "",
-                                                                           options: .regularExpression),
+                    phonenumber: phoneTextField.text!.cleanPhoneNumber,
                     vk: vkTextField.text!,
                     notes: notesTextField.text!,
                     isBlocked: isBlocked

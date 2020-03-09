@@ -453,7 +453,7 @@ extension CalendarController: UICollectionViewDataSource {
         let header: CalendarCollectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                                for: indexPath)
         // Текст = название месяца, связанного с секцией
-        header.monthLabel.text = Month(rawValue: indexPath.section % 12 + 1)?.name
+        header.monthLabel.text = calendarData.dateFor(indexPath.section).month.name
         // Цвет текста красный, если связанный месяц - текущий
         header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .red : .label
         // Горизонатальный центр метки совпадает с центром первой видимой ячейки секции

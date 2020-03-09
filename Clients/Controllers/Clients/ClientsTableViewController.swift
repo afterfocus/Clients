@@ -119,6 +119,7 @@ extension ClientsTableViewController: EditClientControllerDelegate {
     func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client) {
         archiveClientsViewModel.add(client: newClient)
         currentViewModel = archiveClientsViewModel
+        filterSegmentedControl.selectedSegmentIndex = 1
     }
 }
 

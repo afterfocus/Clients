@@ -57,6 +57,7 @@ class WeekendRepository {
         }
     }
     
+    /// Сделать день недели `dayOfWeek` выходным или рабочим днём на год вперёд
     class func setIsWeekendForYearAhead(_ isWeekend: Bool, for dayOfWeek: Weekday) {
         var date = Date.today
         while date.dayOfWeek != dayOfWeek {
