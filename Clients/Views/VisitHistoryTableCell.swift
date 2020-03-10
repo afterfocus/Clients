@@ -56,7 +56,7 @@ class VisitHistoryTableCell: UITableViewCell {
         colorView.backgroundColor = viewModel.serviceColor
 
         if viewModel.isCancelledOrNotCome {
-            costLabel.textColor = .red
+            costLabel.textColor = .systemRed
             costLabel.alpha = 1
         } else {
             costLabel.textColor = .label

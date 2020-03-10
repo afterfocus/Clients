@@ -455,7 +455,7 @@ extension CalendarController: UICollectionViewDataSource {
         // Текст = название месяца, связанного с секцией
         header.monthLabel.text = calendarData.dateFor(indexPath.section).month.name
         // Цвет текста красный, если связанный месяц - текущий
-        header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .red : .label
+        header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .systemRed : .label
         // Горизонатальный центр метки совпадает с центром первой видимой ячейки секции
         header.moveCenterX(to: calendarData[indexPath.section].firstDay, cellWidth: calendarView.cellSize.width)
         return header

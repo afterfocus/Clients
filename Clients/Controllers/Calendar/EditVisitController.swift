@@ -86,17 +86,17 @@ class EditVisitController: UITableViewController {
     /// Открыт ли селектор даты
     private var isDatePickerShown = false {
         didSet {
-            dateLabel.textColor = isDatePickerShown ? .red : .label
-            timeLabel.textColor = isDatePickerShown ? .red : .label
+            dateLabel.textColor = isDatePickerShown ? .systemRed : .label
+            timeLabel.textColor = isDatePickerShown ? .systemRed : .label
         }
     }
     /// Открыт ли селектор продолжительности
     private var isDurationPickerShown = false {
-        didSet { durationLabel.textColor = isDurationPickerShown ? .red : .label }
+        didSet { durationLabel.textColor = isDurationPickerShown ? .systemRed : .label }
     }
     /// Открыт ли селектор услуг
     private var isServicePickerShown = false {
-        didSet { serviceLabel.textColor = isServicePickerShown ? .red : .label }
+        didSet { serviceLabel.textColor = isServicePickerShown ? .systemRed : .label }
     }
 
     // MARK: - View Life Cycle

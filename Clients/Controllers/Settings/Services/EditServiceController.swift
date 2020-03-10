@@ -40,10 +40,10 @@ class EditServiceController: UITableViewController {
     
     // MARK: - Private properties
 
-    private var pickedColor = UIColor.blue
+    private var pickedColor = UIColor.systemTeal
     private var isDurationPickerShown = false {
         didSet {
-            durationLabel.textColor = isDurationPickerShown ? .red : .label
+            durationLabel.textColor = isDurationPickerShown ? .systemRed : .label
             tableView.performBatchUpdates(nil)
         }
     }

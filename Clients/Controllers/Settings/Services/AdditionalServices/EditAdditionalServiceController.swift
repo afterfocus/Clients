@@ -28,7 +28,7 @@ class EditAdditionalServiceController: UITableViewController {
     
     private var isDurationPickerShown = false {
         didSet {
-            durationLabel.textColor = isDurationPickerShown ? .red : .label
+            durationLabel.textColor = isDurationPickerShown ? .systemRed : .label
             tableView.performBatchUpdates(nil)
         }
     }

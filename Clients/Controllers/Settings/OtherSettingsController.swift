@@ -22,7 +22,7 @@ class OtherSettingsController: UITableViewController {
     // MARK: Private Properties
     
     private var isArchivingPeriodPickerShown = false {
-        didSet { archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .red : .label }
+        didSet { archivingPeriodLabel.textColor = isArchivingPeriodPickerShown ? .systemRed : .label }
     }
     private let settings = AppSettings.shared
 

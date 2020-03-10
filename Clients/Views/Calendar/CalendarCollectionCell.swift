@@ -48,12 +48,12 @@ class CalendarCollectionCell: UICollectionViewCell {
     func configure(day: Int, indicatorColors: [UIColor], isPicked: Bool, isToday: Bool, isWeekend: Bool) {
         numberLabel.text = String(day)
         if isPicked {
-            circleView.backgroundColor = isToday ? .red : .label
+            circleView.backgroundColor = isToday ? .systemRed : .label
             numberLabel.textColor = isToday ? .white : .systemBackground
             numberLabel.font = .boldSystemFont(ofSize: 18)
         } else {
             if isToday {
-                numberLabel.textColor = .red
+                numberLabel.textColor = .systemRed
                 numberLabel.font = .boldSystemFont(ofSize: 18)
             } else {
                 numberLabel.textColor = isWeekend ? .gray : .label
