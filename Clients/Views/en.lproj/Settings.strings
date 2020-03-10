@@ -1,4 +1,3 @@
-
 /* Class = "UILabel"; text = "ПН"; ObjectID = "0Is-Rx-fvD"; */
 "0Is-Rx-fvD.text" = "Mon";
 
@@ -10,9 +9,6 @@
 
 /* Class = "UINavigationItem"; title = "Услуга"; ObjectID = "2yy-zM-0Nw"; */
 "2yy-zM-0Nw.title" = "Service";
-
-/* Class = "UILabel"; text = "Коричневый"; ObjectID = "4Eb-u3-2xl"; */
-"4Eb-u3-2xl.text" = "Brown";
 
 /* Class = "UILabel"; text = "Суббота"; ObjectID = "4d1-ho-a79"; */
 "4d1-ho-a79.text" = "Saturday";
@@ -52,9 +48,6 @@
 
 /* Class = "UILabel"; text = "Зелёный"; ObjectID = "Faa-Zq-EIu"; */
 "Faa-Zq-EIu.text" = "Green";
-
-/* Class = "UILabel"; text = "Лиловый"; ObjectID = "FqE-bA-uY5"; */
-"FqE-bA-uY5.text" = "Purple";
 
 /* Class = "UILabel"; text = "Диапазон:"; ObjectID = "FzK-Du-DlG"; */
 "FzK-Du-DlG.text" = "Range:";
@@ -287,9 +280,6 @@
 /* Class = "UITextField"; placeholder = "Название"; ObjectID = "qIE-SI-Kga"; */
 "qIE-SI-Kga.placeholder" = "Name";
 
-/* Class = "UILabel"; text = "Синий"; ObjectID = "qJp-ym-kOU"; */
-"qJp-ym-kOU.text" = "Blue";
-
 /* Class = "UITableViewSection"; headerTitle = "Цвет"; ObjectID = "rIh-ic-Gbx"; */
 "rIh-ic-Gbx.headerTitle" = "Color";
 
@@ -325,3 +315,15 @@
 
 /* Class = "UILabel"; text = "Скрывать отменённые записи"; ObjectID = "zVR-pa-OJy"; */
 "zVR-pa-OJy.text" = "Hide canceled visits";
+
+/* Class = "UILabel"; text = "Синий"; ObjectID = "FqE-bA-uY5"; */
+"FqE-bA-uY5.text" = "Blue";
+
+/* Class = "UILabel"; text = "Коричневый"; ObjectID = "JcT-3M-eV7"; */
+"JcT-3M-eV7.text" = "Brown";
+
+/* Class = "UILabel"; text = "Лиловый"; ObjectID = "eCy-DQ-YXS"; */
+"eCy-DQ-YXS.text" = "Purple";
+
+/* Class = "UILabel"; text = "Голубой"; ObjectID = "qJp-ym-kOU"; */
+"qJp-ym-kOU.text" = "Teal Blue";

@@ -23,7 +23,6 @@
 		B516F28823CE1F830087B2CB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28723CE1F830087B2CB /* Date.swift */; };
 		B516F28A23CE1F8A0087B2CB /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28923CE1F8A0087B2CB /* Time.swift */; };
 		B516F28E23CE501D0087B2CB /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28D23CE501D0087B2CB /* AppSettings.swift */; };
-		B51AE46A2412B8D600EE167B /* ServicesTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE4692412B8D600EE167B /* ServicesTableViewModel.swift */; };
 		B51AE46C2412C2F500EE167B /* VisitsHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */; };
 		B51E721123DC793500C9623C /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E721023DC793400C9623C /* SearchResultsController.swift */; };
 		B5206E542412D7AB00B05ED9 /* UnoccupiedPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50459992412A5B5000C96E7 /* UnoccupiedPlacesViewModel.swift */; };
@@ -180,6 +179,7 @@
 		B504599224129E15000C96E7 /* ServiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewModel.swift; sourceTree = "<group>"; };
 		B504599424129F99000C96E7 /* AdditionalServiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceViewModel.swift; sourceTree = "<group>"; };
 		B50459992412A5B5000C96E7 /* UnoccupiedPlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnoccupiedPlacesViewModel.swift; sourceTree = "<group>"; };
+		B506196A241807F8000AEF9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Settings.strings; sourceTree = "<group>"; };
 		B50C937D23E6FE4C00B2D2CB /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		B510584A23E8975C00546D8D /* WidgetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetController.swift; sourceTree = "<group>"; };
 		B510584C23E8A1EF00546D8D /* WidgetSearchParametersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSearchParametersController.swift; sourceTree = "<group>"; };
@@ -193,7 +193,6 @@
 		B516F28723CE1F830087B2CB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		B516F28923CE1F8A0087B2CB /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		B516F28D23CE501D0087B2CB /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		B51AE4692412B8D600EE167B /* ServicesTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesTableViewModel.swift; sourceTree = "<group>"; };
 		B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsHistoryViewModel.swift; sourceTree = "<group>"; };
 		B51E721023DC793400C9623C /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
 		B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnoccupiedPlacesSearchParameters.swift; sourceTree = "<group>"; };
@@ -228,7 +227,6 @@
 		B5777F6723D0011600FB96D3 /* ClientProfileTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileTopView.swift; sourceTree = "<group>"; };
 		B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		B58127142411B76800116FAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
-		B58127172411B77100116FAC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Settings.strings; sourceTree = "<group>"; };
 		B58127192411B79600116FAC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		B5890AE923E3585500C3A50E /* SelectAdditionalServicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAdditionalServicesController.swift; sourceTree = "<group>"; };
 		B5890AEB23E35A8000C3A50E /* AdditionalServiceTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceTableCell.swift; sourceTree = "<group>"; };
@@ -333,7 +331,6 @@
 			isa = PBXGroup;
 			children = (
 				B504599224129E15000C96E7 /* ServiceViewModel.swift */,
-				B51AE4692412B8D600EE167B /* ServicesTableViewModel.swift */,
 				B504599424129F99000C96E7 /* AdditionalServiceViewModel.swift */,
 			);
 			path = Service;
@@ -882,7 +879,6 @@
 				B5E939D623EC5C58008112D4 /* Service.swift in Sources */,
 				B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */,
 				B5E939DE23EC5CBB008112D4 /* Client.swift in Sources */,
-				B51AE46A2412B8D600EE167B /* ServicesTableViewModel.swift in Sources */,
 				B541E21C23CFD30A00FD1F3F /* ClientProfileTableTopView.swift in Sources */,
 				B516F28E23CE501D0087B2CB /* AppSettings.swift in Sources */,
 				B5890AEE23E35A9100C3A50E /* OneLabelTableCell.swift in Sources */,
@@ -1025,7 +1021,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B58127142411B76800116FAC /* Base */,
-				B58127172411B77100116FAC /* en */,
+				B506196A241807F8000AEF9B /* en */,
 			);
 			name = Settings.storyboard;
 			sourceTree = "<group>";

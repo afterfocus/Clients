@@ -117,7 +117,7 @@ class EditVisitController: UITableViewController {
             if let row = servicePickerData.firstIndex(of: visit.service) {
                 servicePicker.selectRow(row, inComponent: 0, animated: false)
                 serviceLabel.text = servicePickerData[row].name
-                serviceColorView.backgroundColor = UIColor.color(withId: Int(servicePickerData[row].colorId))
+                serviceColorView.backgroundColor = servicePickerData[row].color
             }
             costTextField.text = NumberFormatter.convertToCurrency(visit.cost)
             notesTextField.text = visit.notes

@@ -7,7 +7,7 @@
 //
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 /// Клиент
@@ -37,7 +37,7 @@ public class Client: NSManagedObject {
         "\(name) \(surname)"
     }
 
-    convenience init(photoData: Data?,
+    convenience init(photo: UIImage?,
                      surname: String,
                      name: String,
                      phonenumber: String = "",
@@ -46,7 +46,7 @@ public class Client: NSManagedObject {
                      isBlocked: Bool = false) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         //self.photoData = photo?.jpegData(compressionQuality: 1.0)
-        self.photoData = photoData
+        self.photo = photo
         self.surname = surname
         self.name = name
         self.phonenumber = phonenumber

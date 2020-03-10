@@ -16,11 +16,7 @@ class VisitViewModel {
     }
     
     var clientPhotoImage: UIImage {
-        if let data = visit.client.photoData {
-            return UIImage(data: data)!
-        } else {
-            return UIImage(named: "default_photo")!
-        }
+        return visit.client.photo ?? UIImage(named: "default_photo")!
     }
     
     var clientNameText: String {
@@ -53,7 +49,7 @@ class VisitViewModel {
     }
     
     var serviceColor: UIColor {
-        return UIColor.color(withId: Int(visit.service.colorId))
+        return visit.service.color 
     }
     
     var durationText: String {

@@ -404,3 +404,6 @@
 
 /* мес */
 "MONTH_SHORT" = "months";
+
+/* Голубой */
+"TEAL_BLUE" = "Teal blue";

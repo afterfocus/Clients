@@ -105,14 +105,14 @@ class EditServiceController: UITableViewController {
             return false
         } else {
             if let service = service {
-                service.colorId = Int16(pickedColor.id)
+                service.color = pickedColor
                 service.name = nameTextField.text!
                 service.cost = NumberFormatter.convertToFloat(costTextField.text!)
                 service.duration = Time(foundationDate: durationPicker.date)
                 service.isArchive = isArchive
             } else {
                 service = Service(
-                    colorId: pickedColor.id,
+                    color: pickedColor,
                     name: nameTextField.text!,
                     cost: NumberFormatter.convertToFloat(costTextField.text!),
                     duration: Time(foundationDate: durationPicker.date),

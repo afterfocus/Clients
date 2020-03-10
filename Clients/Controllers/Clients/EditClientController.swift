@@ -104,8 +104,8 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     /// Заполняет поля данными клиента `client`
     private func configureClientInfo(_ client: Client) {
         // Отобразить фотографию при наличии
-        if let data = client.photoData {
-            photoImageView.image = UIImage(data: data)
+        if let photo = client.photo {
+            photoImageView.image = photo
             isPhotoPicked = true
         }
         nameTextField.text = client.name
@@ -147,7 +147,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
         } else {
             /// Обновить существующий профиль клиента
             if let client = client {
-                client.photoData = isPhotoPicked ? photoImageView.image!.jpegData(compressionQuality: 1.0) : nil
+                client.photo = isPhotoPicked ? photoImageView.image : nil
                 client.surname = surnameTextField.text!
                 client.name = nameTextField.text!
                 client.phonenumber = phoneTextField.text!.cleanPhoneNumber
@@ -159,7 +159,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
             } else {
                 // Или создать новый
                 let newClient = Client(
-                    photoData: isPhotoPicked ? photoImageView.image!.jpegData(compressionQuality: 1.0) : nil,
+                    photo: isPhotoPicked ? photoImageView.image : nil,
                     surname: surnameTextField.text!,
                     name: nameTextField.text!,
                     phonenumber: phoneTextField.text!.cleanPhoneNumber,

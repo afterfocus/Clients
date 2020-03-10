@@ -13,13 +13,13 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="phonenumber" optional="YES" attributeType="String"/>
-        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="photo" optional="YES" attributeType="Transformable" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="surname" attributeType="String"/>
         <attribute name="vk" optional="YES" attributeType="String"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="client" inverseEntity="Visit"/>
     </entity>
     <entity name="Service" representedClassName=".Service" syncable="YES">
-        <attribute name="colorId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="color" attributeType="Transformable"/>
         <attribute name="cost" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="durationHours" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="durationMinutes" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

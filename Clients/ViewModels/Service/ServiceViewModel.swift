@@ -20,7 +20,7 @@ class ServiceViewModel {
     }
     
     var color: UIColor {
-        return UIColor.color(withId: Int(service.colorId))
+        return service.color
     }
     
     var durationText: String {

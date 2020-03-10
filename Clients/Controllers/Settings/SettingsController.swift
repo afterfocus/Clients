@@ -73,7 +73,7 @@ class SettingsControler: UITableViewController {
         for (index, service) in services.enumerated() {
             let indicator = UIView(frame: CGRect(x: 18 * index, y: 0, width: 12, height: 12))
             indicator.layer.cornerRadius = 6
-            indicator.backgroundColor = UIColor.color(withId: Int(service.colorId))
+            indicator.backgroundColor = service.color
             stackView.insertSubview(indicator, at: stackView.subviews.count)
         }
     }

@@ -7,7 +7,7 @@
 //
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 /// Услуга
@@ -34,14 +34,14 @@ public class Service: NSManagedObject {
         "\(name)"
     }
 
-    convenience init(colorId: Int,
+    convenience init(color: UIColor,
                      name: String,
                      cost: Float,
                      duration: Time,
                      isArchive: Bool = false,
                      additionalServices: Set<AdditionalService> = []) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        self.colorId = Int16(colorId)
+        self.color = color
         self.name = name
         self.cost = cost
         self.durationHours = Int16(duration.hours)

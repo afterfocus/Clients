@@ -437,7 +437,7 @@ extension CalendarController: UICollectionViewDataSource {
             // В ячейке отображаются номер дня месяца и индикаторы записей на этот день.
             cell.configure(
                 day: indexPath.item,
-                indicatorColors: dayData.visits.map { UIColor.color(withId: Int($0.service.colorId)) },
+                indicatorColors: dayData.visits.map { $0.service.color },
                 isPicked: pickedCell == indexPath,
                 isToday: todayCell == indexPath,
                 isWeekend: dayData.isWeekend
