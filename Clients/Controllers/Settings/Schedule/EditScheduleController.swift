@@ -43,12 +43,10 @@ class EditScheduleController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        AppSettings.shared.setSchedule(for: dayOfWeek, schedule: (
-            isWeekend: isWeekendSwitch.isOn,
-            start: Time(foundationDate: startTimePicker.date),
-            end: Time(foundationDate: endTimePicker.date)
-            )
-        )
+        let schedule = WorkdaySchedule(isWeekend: isWeekendSwitch.isOn,
+                                       start: Time(foundationDate: startTimePicker.date),
+                                       end: Time(foundationDate: endTimePicker.date))
+        AppSettings.shared.setSchedule(for: dayOfWeek, schedule: schedule)
         if isWeekendOldValue != isWeekendSwitch.isOn {
             WeekendRepository.setIsWeekendForYearAhead(isWeekendSwitch.isOn, for: dayOfWeek)
         }

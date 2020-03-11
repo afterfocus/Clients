@@ -20,10 +20,7 @@ class ScheduleController: UITableViewController {
         super.viewWillAppear(animated)
         for (index, label) in scheduleLabels.enumerated() {
             let schedule = AppSettings.shared.schedule(for: Weekday(rawValue: index)!)
-            label.text = schedule.isWeekend ?
-                NSLocalizedString("WEEKEND", comment: "Выходной") :
-                NSLocalizedString("FROM", comment: "c") +
-                " \(schedule.start) " + NSLocalizedString("TO", comment: "до") + " \(schedule.end)"
+            label.text = schedule.scheduleText
         }
     }
 }

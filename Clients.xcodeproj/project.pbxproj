@@ -101,6 +101,9 @@
 		B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */; };
 		B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */; };
 		B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE5124019448008CA7BF /* MonthGradientView.swift */; };
+		B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
+		B5BB473E241924CC00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
+		B5BB473F2419251000714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
 		B5E2269023D119AA0024C0AF /* VisitInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */; };
 		B5E4219B23EC77AD00476480 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219A23EC77AD00476480 /* ClientRepository.swift */; };
 		B5E4219D23EC7B3700476480 /* VisitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219C23EC7B3700476480 /* VisitRepository.swift */; };
@@ -238,6 +241,7 @@
 		B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesTableCell.swift; sourceTree = "<group>"; };
 		B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B5B3BE5124019448008CA7BF /* MonthGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGradientView.swift; sourceTree = "<group>"; };
+		B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkdaySchedule.swift; sourceTree = "<group>"; };
 		B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitInfoController.swift; sourceTree = "<group>"; };
 		B5E4219A23EC77AD00476480 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
 		B5E4219C23EC7B3700476480 /* VisitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitRepository.swift; sourceTree = "<group>"; };
@@ -396,6 +400,7 @@
 		B516F27A23CE177C0087B2CB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B516F28D23CE501D0087B2CB /* AppSettings.swift */,
 				B5121A8823EC54E900D27926 /* CoreDataManager.swift */,
 				B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */,
 				B5E3E4D423ED524500E61B9D /* Client */,
@@ -405,9 +410,9 @@
 				B5E3E4D823ED529100E61B9D /* Weekend */,
 				B516F28723CE1F830087B2CB /* Date.swift */,
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
-				B516F28D23CE501D0087B2CB /* AppSettings.swift */,
 				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
 				B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */,
+				B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -885,6 +890,7 @@
 				B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */,
 				B50C937E23E6FE4C00B2D2CB /* SettingsController.swift in Sources */,
 				B5FB89A92402C6CD005A31B0 /* CalendarData.swift in Sources */,
+				B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */,
 				B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */,
 				B5E939D423EC5C58008112D4 /* Visit.swift in Sources */,
 				B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */,
@@ -918,6 +924,7 @@
 				B5045991241299A5000C96E7 /* VisitViewModel.swift in Sources */,
 				B56A273A23F69724005D8DBE /* Date.swift in Sources */,
 				B56A273E23F697AF005D8DBE /* AppSettings.swift in Sources */,
+				B5BB473E241924CC00714ED8 /* WorkdaySchedule.swift in Sources */,
 				B56A273F23F697BC005D8DBE /* Weekend.swift in Sources */,
 				B56A274523F69976005D8DBE /* Weekend+CoreDataProperties.swift in Sources */,
 				B56A274E23F69F81005D8DBE /* Clients.xcdatamodeld in Sources */,
@@ -943,6 +950,7 @@
 				B569305523F92E2800853B9E /* AppSettings.swift in Sources */,
 				B569305323F92E0A00853B9E /* CoreDataManager.swift in Sources */,
 				B569304F23F92D6000853B9E /* AdditionalService+CoreDataProperties.swift in Sources */,
+				B5BB473F2419251000714ED8 /* WorkdaySchedule.swift in Sources */,
 				B569304C23F92D5C00853B9E /* Service.swift in Sources */,
 				B569304B23F92D5500853B9E /* Visit+CoreDataProperties.swift in Sources */,
 				B569304723F92D4A00853B9E /* ClientRepository.swift in Sources */,

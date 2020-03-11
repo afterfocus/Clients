@@ -314,7 +314,7 @@ extension EditVisitController: UIPickerViewDelegate {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
             let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
-            scheduleLabel.text = "\(NSLocalizedString("FROM", comment: "c")) \(schedule.start) \(NSLocalizedString("TO", comment: "до")) \(schedule.end)"
+            scheduleLabel.text = schedule.scheduleText
         }
         dateLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .long, timeStyle: .none)
         timeLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .none, timeStyle: .short)

@@ -68,6 +68,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
 
     // MARK: - Private properties
 
+    private var textFieldIcons = [UITextField: UIImageView]()
     /// Определяет, выбрана ли фотография
     private var isPhotoPicked = false {
         didSet {
@@ -89,6 +90,11 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldIcons[surnameTextField] = surnameIcon
+        textFieldIcons[nameTextField] = nameIcon
+        textFieldIcons[phoneTextField] = phoneIcon
+        textFieldIcons[vkTextField] = vkIcon
+        textFieldIcons[notesTextField] = notesIcon
         // Добавление распознавателя изменения текста в поле номера телефона
         phoneTextField.addTarget(self, action: #selector(self.phoneTextFieldDidChange), for: .editingChanged)
         // Закрывать клавиатуру при нажатии вне полей
@@ -114,27 +120,6 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
         vkTextField.text = client.vk
         notesTextField.text = client.notes
         isBlocked = client.isBlocked
-    }
-
-    /**
-     Изменить цвет  иконки, связанной с `textField` на новое значение `color`
-     - Parameter textField: поле, цвет иконки которого требуется обновить
-     - Parameter color: новое значение цвета заливки иконки
-     */
-    private func setIconTint(for textField: UITextField, color: UIColor) {
-        /// Иконка, связанная с `textField`
-        var icon: UIImageView
-        switch textField {
-        case nameTextField: icon = nameIcon
-        case surnameTextField: icon = surnameIcon
-        case phoneTextField: icon = phoneIcon
-        case vkTextField: icon = vkIcon
-        case notesTextField: icon = notesIcon
-        default: fatalError("Cannot find the icon associated with field \(textField)")
-        }
-        UIView.animate(withDuration: 0.2) {
-            icon.tintColor = color
-        }
     }
 
     // MARK: - IBActions
@@ -235,12 +220,16 @@ extension EditClientController: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         // Выделить иконку, связанную с активным textField
-        setIconTint(for: textField, color: .systemBlue)
+        UIView.animate(withDuration: 0.2) {
+            self.textFieldIcons[textField]?.tintColor = .systemBlue
+        }
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         // Снять выделение с иконки, связанной с textField
-        setIconTint(for: textField, color: .gray)
+        UIView.animate(withDuration: 0.2) {
+            self.textFieldIcons[textField]?.tintColor = .gray
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

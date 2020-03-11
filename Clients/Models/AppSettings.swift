@@ -150,9 +150,9 @@ class AppSettings {
     }
 
     /// Получить рабочий график на день недели `dayOfWeek`
-    func schedule(for dayOfWeek: Weekday) -> (isWeekend: Bool, start: Time, end: Time) {
+    func schedule(for dayOfWeek: Weekday) -> WorkdaySchedule {
         let day = String(dayOfWeek.rawValue)
-        return (
+        return WorkdaySchedule(
             isWeekend: userDefaults.bool(forKey: day + Keys.isWeekend),
             start: Time(hours: userDefaults.integer(forKey: day + Keys.startHours),
                         minutes: userDefaults.integer(forKey: day + Keys.startMinutes)),
@@ -162,7 +162,7 @@ class AppSettings {
     }
 
     /// Установить рабочий график на день недели `dayOfWeek`
-    func setSchedule(for dayOfWeek: Weekday, schedule: (isWeekend: Bool, start: Time, end: Time)) {
+    func setSchedule(for dayOfWeek: Weekday, schedule: WorkdaySchedule) {
         let day = String(dayOfWeek.rawValue)
         userDefaults.set(schedule.isWeekend, forKey: day + Keys.isWeekend)
         userDefaults.set(schedule.start.hours, forKey: day + Keys.startHours)
