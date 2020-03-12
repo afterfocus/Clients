@@ -28,7 +28,7 @@ class WidgetController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         hideKeyboardWhenTappedAround()
-        widgetSearchLengthLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        widgetSearchLengthLabel.text = settings.widgetPlacesSearchRequiredDuration.string(style: .shortDuration)
         widgetSearchRangeLabel.text = settings.widgetPlacesSearchRange.string
         shouldShowVisitsSwitch.isOn = settings.isVisitsShownInWidget
         shouldShowTomorrowVisitsSwitch.isOn = settings.isTomorrowVisitsShownInWidget

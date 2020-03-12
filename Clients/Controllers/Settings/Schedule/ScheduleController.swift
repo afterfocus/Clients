@@ -20,7 +20,7 @@ class ScheduleController: UITableViewController {
         super.viewWillAppear(animated)
         for (index, label) in scheduleLabels.enumerated() {
             let schedule = AppSettings.shared.schedule(for: Weekday(rawValue: index)!)
-            label.text = schedule.scheduleText
+            label.text = schedule.scheduleString
         }
     }
 }

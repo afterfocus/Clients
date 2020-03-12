@@ -40,8 +40,8 @@ class WidgetSearchParametersController: UITableViewController {
         selectedRow = settings.widgetPlacesSearchRange.rawValue
         placesCountLabel.text = "\(settings.widgetPlacesSearchCounter)"
 
-        durationPicker.set(time: settings.widgetPlacesSearchRequiredLength)
-        durationLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        durationPicker.countDownDuration = settings.widgetPlacesSearchRequiredDuration
+        durationLabel.text = settings.widgetPlacesSearchRequiredDuration.string(style: .shortDuration)
         placesCountPicker.selectRow(settings.widgetPlacesSearchCounter - 1, inComponent: 0, animated: false)
     }
 
@@ -52,13 +52,13 @@ class WidgetSearchParametersController: UITableViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        settings.widgetPlacesSearchRequiredLength = Time(foundationDate: durationPicker.date)
+        settings.widgetPlacesSearchRequiredDuration = durationPicker.countDownDuration
         settings.widgetPlacesSearchRange = AppSettings.WidgetPlacesSearchRange(rawValue: selectedRow)!
         settings.widgetPlacesSearchCounter = placesCountPicker.selectedRow(inComponent: 0) + 1
     }
 
     @IBAction func lengthPickerValueChanged(_ sender: UIDatePicker) {
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
+        durationLabel.text = sender.countDownDuration.string(style: .shortDuration)
     }
 }
 

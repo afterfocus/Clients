@@ -29,7 +29,6 @@ class SearchParametersController: UITableViewController {
     // MARK: - Segue properties
 
     var searchParameters: UnoccupiedPlacesSearchParameters!
-    
     weak var delegate: SearchParametersControllerDelegate?
 
     // MARK: - Private properties
@@ -50,13 +49,13 @@ class SearchParametersController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Установка начальных значений
-        durationPicker.set(time: searchParameters.requiredDuration)
-        startDatePicker.set(date: searchParameters.startDate, time: nil)
-        endDatePicker.set(date: searchParameters.endDate, time: nil)
+        durationPicker.countDownDuration = searchParameters.requiredDuration
+        startDatePicker.setDate(searchParameters.startDate, animated: false)
+        endDatePicker.setDate(searchParameters.endDate, animated: false)
 
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
-        startDateLabel.text = DateFormatter.localizedString(from: startDatePicker.date, dateStyle: .long, timeStyle: .none)
-        endDateLabel.text = DateFormatter.localizedString(from: endDatePicker.date, dateStyle: .long, timeStyle: .none)
+        durationLabel.text = durationPicker.countDownDuration.string(style: .shortDuration)
+        startDateLabel.text = startDatePicker.date.fullWithoutWeekdayString
+        endDateLabel.text = endDatePicker.date.fullWithoutWeekdayString
     }
 
     // MARK: - IBActions
@@ -64,20 +63,20 @@ class SearchParametersController: UITableViewController {
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         switch sender {
         case durationPicker:
-            durationLabel.text = Time(foundationDate: sender.date).string(style: .shortDuration)
+            durationLabel.text = sender.countDownDuration.string(style: .shortDuration)
         case startDatePicker:
-            startDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+            startDateLabel.text = sender.date.fullWithoutWeekdayString
             // Если конец интервала меньше начала интервала, изменить значение селектора конца интервала
             if endDatePicker.date < sender.date {
                 endDatePicker.date = sender.date
-                endDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+                endDateLabel.text = sender.date.fullWithoutWeekdayString
             }
         case endDatePicker:
-            endDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+            endDateLabel.text = sender.date.fullWithoutWeekdayString
             // Если начало интервала больше конца интервала, изменить значение селектора начала интервала
             if startDatePicker.date > sender.date {
                 startDatePicker.date = sender.date
-                startDateLabel.text = DateFormatter.localizedString(from: sender.date, dateStyle: .long, timeStyle: .none)
+                startDateLabel.text = sender.date.fullWithoutWeekdayString
             }
         default: break
         }
@@ -88,10 +87,10 @@ class SearchParametersController: UITableViewController {
     }
 
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        let newParameters = UnoccupiedPlacesSearchParameters(startDate: Date(foundationDate: startDatePicker.date),
-                                                             endDate: Date(foundationDate: endDatePicker.date),
-                                                             requiredDuration: Time(foundationDate: durationPicker.date))
-        delegate?.searchParametersController(self, didSelect: newParameters)
+        let parameters = UnoccupiedPlacesSearchParameters(startDate: startDatePicker.date,
+                                                          endDate: endDatePicker.date,
+                                                          requiredDuration: durationPicker.countDownDuration)
+        delegate?.searchParametersController(self, didSelect: parameters)
         dismiss(animated: true)
     }
 }

@@ -10,15 +10,30 @@ import Foundation
 
 struct WorkdaySchedule {
     let isWeekend: Bool
-    let start: Time
-    let end: Time
+    /// Время начала рабочего дня
+    let start: Date
+    /// Время окончания рабочего дня
+    let end: Date
     
-    var scheduleText: String {
+    var scheduleString: String {
         if isWeekend {
             return NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
-            return "\(NSLocalizedString("FROM", comment: "c")) \(start) " +
-                    "\(NSLocalizedString("TO", comment: "до")) \(end)"
+            return "\(NSLocalizedString("FROM", comment: "c")) \(start.timeString) " +
+                    "\(NSLocalizedString("TO", comment: "до")) \(end.timeString)"
+        }
+    }
+    
+    var shortScheduleString: String {
+        return isWeekend ? "—" : "\(start.timeString)\n\(end.timeString)"
+    }
+    
+    var extendedScheduleString: String {
+        if isWeekend {
+            return NSLocalizedString("WEEKEND", comment: "Выходной")
+        } else {
+            return "\(NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c")) " +
+                    "\(start.timeString) \(NSLocalizedString("TO", comment: "до")) \(end.timeString)"
         }
     }
 }

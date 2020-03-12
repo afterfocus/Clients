@@ -15,10 +15,8 @@ class VisitRepository {
     private class var sortedFetchRequest: NSFetchRequest<Visit> {
         let request = NSFetchRequest<Visit>(entityName: "Visit")
         request.sortDescriptors = [
-            NSSortDescriptor(key: "timeHours", ascending: true),
-            NSSortDescriptor(key: "timeMinutes", ascending: true),
-            NSSortDescriptor(key: "durationHours", ascending: true),
-            NSSortDescriptor(key: "durationMinutes", ascending: true)
+            NSSortDescriptor(key: "dateTime", ascending: true),
+            NSSortDescriptor(key: "duration", ascending: true),
         ]
         return request
     }
@@ -29,9 +27,11 @@ class VisitRepository {
      - returns: Массив записей, отсортированный по возрастанию времени начала и времени окончания
      */
     class func visits(for date: Date) -> [Visit] {
+        let startOfDate = Calendar.current.startOfDay(for: date)
+        let endOfDate = Calendar.current.date(byAdding: .day, value: 1, to: startOfDate)!
+        
         let request = sortedFetchRequest
-        request.predicate = NSPredicate(format: "year == %i AND month == %i AND day == %i",
-                                        date.year, date.month.rawValue, date.day)
+        request.predicate = NSPredicate(format: "dateTime >= %@ && dateTime < %@", startOfDate as NSDate, endOfDate as NSDate)
         do {
             return try context.fetch(request)
         } catch {
@@ -48,9 +48,11 @@ class VisitRepository {
      - returns: Массив записей, отсортированный по возрастанию времени начала и времени окончания.
      */
     class func visits(for date: Date, hideCancelled: Bool, hideNotCome: Bool) -> [Visit] {
+        let startOfDate = Calendar.current.startOfDay(for: date)
+        let endOfDate = Calendar.current.date(byAdding: .day, value: 1, to: startOfDate)!
+        
         let request = sortedFetchRequest
-        var predicates = [NSPredicate(format: "year == %i AND month == %i AND day == %i",
-                                      date.year, date.month.rawValue, date.day)]
+        var predicates = [NSPredicate(format: "dateTime >= %@ && dateTime < %@", startOfDate as NSDate, endOfDate as NSDate)]
         if hideCancelled {
             predicates.append(NSPredicate(format: "isCancelled != true"))
         }
@@ -76,7 +78,7 @@ class VisitRepository {
                                         pattern, pattern)
         do {
             let matchingVisits = try context.fetch(request)
-            return Dictionary(grouping: matchingVisits) { $0.date }
+            return Dictionary(grouping: matchingVisits) { $0.dateTime }
         } catch {
             fatalError(#function + ": \(error)")
         }
@@ -125,10 +127,12 @@ class VisitRepository {
 
     // MARK: Unoccupied Places Search
 
-    private class func unoccupiedPlacesBeforeAndBetweenVisits(time: inout Time,
-                                                              requiredDuration duration: Time,
-                                                              visits: [Visit]) -> [Time] {
-        var unoccupiedPlaces = [Time]()
+    private class func unoccupiedPlacesBeforeAndBetweenVisits(time: inout TimeInterval,
+                                                              requiredDuration duration: TimeInterval,
+                                                              visits: [Visit]) -> [TimeInterval] {
+        let unoccupiedPlaces = [TimeInterval]()
+        // FIXME: Will be rewrited in the next commit
+        /*
         // Сначала ищем места до первой записи
         while time &+ duration <= visits.first!.time {
             unoccupiedPlaces.append(time)
@@ -143,7 +147,7 @@ class VisitRepository {
                 time += duration
             }
             time = visit.endTime
-        }
+        }*/
 
         return unoccupiedPlaces
     }
@@ -154,12 +158,14 @@ class VisitRepository {
     ///   - endDate: Конец интервала
     ///   - requiredDuration: Длительность услуги, для которой нужно найти свободные места.
     /// - returns: Свободные места (время) для записи, сгруппированные по дате.
-    class func unoccupiedPlaces(for searchParameters: UnoccupiedPlacesSearchParameters) -> [Date: [Time]] {
-        let startDate = searchParameters.startDate
-        let endDate = searchParameters.endDate
-        let duration = searchParameters.requiredDuration
+    class func unoccupiedPlaces(for searchParameters: UnoccupiedPlacesSearchParameters) -> [Date: [TimeInterval]] {
+        //let startDate = searchParameters.startDate
+        //let endDate = searchParameters.endDate
+        //let duration = searchParameters.requiredDuration
         
-        var result = [Date: [Time]]()
+        let result = [Date: [TimeInterval]]()
+        // FIXME: Will be rewrited in the next commit
+        /*
         var date = startDate
         // Проход по всем датам интервала
         while date <= endDate {
@@ -198,7 +204,7 @@ class VisitRepository {
             }
             // Переходим к следующему дню
             date += 1
-        }
+        }*/
         return result
     }
 
@@ -210,8 +216,10 @@ class VisitRepository {
     ///
     /// Поиск свободных мест выполняется до достижения заданного количества найденных мест.
     /// Если по достижении года с даты начала поиска требуемое количество мест не найдено, поиск останавливается.
-    class func unoccupiedPlaces(placesCount: Int, requiredDuration duration: Time) -> [Date: [Time]] {
-        var result = [Date: [Time]]()
+    class func unoccupiedPlaces(placesCount: Int, requiredDuration duration: TimeInterval) -> [Date: [TimeInterval]] {
+        let result = [Date: [TimeInterval]]()
+        // FIXME: Will be rewrited in the next commit
+        /*
         var date = Date.today
         let endDate = Date.today + 365
         var count = 0
@@ -260,6 +268,7 @@ class VisitRepository {
             // Переходим к следующему дню
             date += 1
         }
+ */
         return result
     }
 }

@@ -2,8 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19B88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AdditionalService" representedClassName=".AdditionalService" syncable="YES">
         <attribute name="cost" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="durationHours" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="durationMinutes" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="service" maxCount="1" deletionRule="Nullify" destinationEntity="Service" inverseName="additionalServices" inverseEntity="Service"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Visit" inverseName="additionalServices" inverseEntity="Visit"/>
@@ -21,8 +20,7 @@
     <entity name="Service" representedClassName=".Service" syncable="YES">
         <attribute name="color" attributeType="Transformable"/>
         <attribute name="cost" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="durationHours" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="durationMinutes" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="isArchive" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <relationship name="additionalServices" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AdditionalService" inverseName="service" inverseEntity="AdditionalService"/>
@@ -30,30 +28,23 @@
     </entity>
     <entity name="Visit" representedClassName=".Visit" syncable="YES">
         <attribute name="cost" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="day" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="durationHours" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="durationMinutes" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="dateTime" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="isCancelled" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isClientNotCome" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="month" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="timeHours" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="timeMinutes" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="year" attributeType="Integer 16" usesScalarValueType="YES"/>
         <relationship name="additionalServices" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdditionalService" inverseName="visits" inverseEntity="AdditionalService"/>
         <relationship name="client" maxCount="1" deletionRule="Nullify" destinationEntity="Client" inverseName="visits" inverseEntity="Client"/>
         <relationship name="service" maxCount="1" deletionRule="Nullify" destinationEntity="Service" inverseName="visits" inverseEntity="Service"/>
     </entity>
     <entity name="Weekend" representedClassName="Weekend" syncable="YES">
-        <attribute name="day" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="month" attributeType="Integer 16" usesScalarValueType="YES"/>
-        <attribute name="year" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="AdditionalService" positionX="323.2265625" positionY="-226.54296875" width="128" height="133"/>
+        <element name="AdditionalService" positionX="323.2265625" positionY="-226.54296875" width="128" height="118"/>
         <element name="Client" positionX="-46.8984375" positionY="-61.90234375" width="151.69140625" height="163"/>
-        <element name="Service" positionX="78.1875" positionY="-226.96875" width="128" height="163"/>
-        <element name="Visit" positionX="200.29296875" positionY="-61.1875" width="128" height="253"/>
-        <element name="Weekend" positionX="135" positionY="-72" width="128" height="88"/>
+        <element name="Service" positionX="78.1875" positionY="-226.96875" width="128" height="148"/>
+        <element name="Visit" positionX="200.29296875" positionY="-61.1875" width="128" height="178"/>
+        <element name="Weekend" positionX="135" positionY="-72" width="128" height="58"/>
     </elements>
 </model>

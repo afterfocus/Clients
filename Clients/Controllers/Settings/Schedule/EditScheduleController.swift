@@ -35,17 +35,17 @@ class EditScheduleController: UITableViewController {
         let schedule = AppSettings.shared.schedule(for: dayOfWeek)
         isWeekendSwitch.isOn = schedule.isWeekend
         isWeekendOldValue = schedule.isWeekend
-        startTimePicker.set(time: schedule.start)
-        endTimePicker.set(time: schedule.end)
-        startTimeLabel.text = "\(schedule.start)"
-        endTimeLabel.text = "\(schedule.end)"
+        startTimePicker.date = schedule.start
+        endTimePicker.date = schedule.end
+        startTimeLabel.text = schedule.start.timeString
+        endTimeLabel.text = schedule.end.timeString
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         let schedule = WorkdaySchedule(isWeekend: isWeekendSwitch.isOn,
-                                       start: Time(foundationDate: startTimePicker.date),
-                                       end: Time(foundationDate: endTimePicker.date))
+                                       start: startTimePicker.date,
+                                       end: endTimePicker.date)
         AppSettings.shared.setSchedule(for: dayOfWeek, schedule: schedule)
         if isWeekendOldValue != isWeekendSwitch.isOn {
             WeekendRepository.setIsWeekendForYearAhead(isWeekendSwitch.isOn, for: dayOfWeek)
@@ -60,24 +60,16 @@ class EditScheduleController: UITableViewController {
 
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         if sender === startTimePicker {
-            startTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date,
-                                                                dateStyle: .none,
-                                                                timeStyle: .short)
-            if endTimePicker.date < startTimePicker.date {
-                endTimeLabel.text = DateFormatter.localizedString(from: startTimePicker.date,
-                                                                  dateStyle: .none,
-                                                                  timeStyle: .short)
-                endTimePicker.date = startTimePicker.date
+            startTimeLabel.text = sender.date.timeString
+            if endTimePicker.date < sender.date {
+                endTimeLabel.text = sender.date.timeString
+                endTimePicker.date = sender.date
             }
         } else {
-            endTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date,
-                                                              dateStyle: .none,
-                                                              timeStyle: .short)
-            if startTimePicker.date > endTimePicker.date {
-                startTimeLabel.text = DateFormatter.localizedString(from: endTimePicker.date,
-                                                                    dateStyle: .none,
-                                                                    timeStyle: .short)
-                startTimePicker.date = endTimePicker.date
+            endTimeLabel.text = sender.date.timeString
+            if startTimePicker.date > sender.date {
+                startTimeLabel.text = sender.date.timeString
+                startTimePicker.date = sender.date
             }
         }
     }

@@ -13,71 +13,36 @@ import CoreData
 /// Запись клиента
 @objc(Visit)
 public class Visit: NSManagedObject {
-    /// Дата
-    var date: Date {
-        get {
-            Date(day: Int(day), month: Month(rawValue: Int(month))!, year: Int(year))
-        }
-        set {
-            day = Int16(newValue.day)
-            month = Int16(newValue.month.rawValue)
-            year = Int16(newValue.year)
-        }
+    /// Дата и время окончания
+    var endDateTime: Date {
+        return Date(timeInterval: duration, since: dateTime)
     }
-
-    /// Время начала
-    var time: Time {
-        get {
-            Time(hours: Int(timeHours), minutes: Int(timeMinutes))
-        }
-        set {
-            timeHours = Int16(newValue.hours)
-            timeMinutes = Int16(newValue.minutes)
-        }
-    }
-
     /// Время окончания
-    var endTime: Time {
-        time + duration
+    var endTime: TimeInterval {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: endDateTime)
+        return TimeInterval(hours: components.hour!, minutes: components.minute!)
     }
-
-    /// Продолжительность
-    var duration: Time {
-        get {
-            Time(hours: Int(durationHours), minutes: Int(durationMinutes))
-        }
-        set {
-            durationHours = Int16(newValue.hours)
-            durationMinutes = Int16(newValue.minutes)
-        }
-    }
-
+    
     /// Дополнительные услуги, отсортированные по названию
     var additionalServicesSorted: [AdditionalService] {
         additionalServices.sorted { $0.name < $1.name }
     }
 
     convenience init(client: Client,
-                     date: Date,
-                     time: Time,
+                     dateTime: Date,
                      service: Service,
                      cost: Float,
-                     duration: Time,
+                     duration: TimeInterval,
                      additionalServices: Set<AdditionalService> = [],
                      notes: String = "",
                      isCancelled: Bool = false,
                      isClientNotCome: Bool = false) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.client = client
-        self.day = Int16(date.day)
-        self.month = Int16(date.month.rawValue)
-        self.year = Int16(date.year)
-        self.timeHours = Int16(time.hours)
-        self.timeMinutes = Int16(time.minutes)
+        self.dateTime = dateTime
+        self.duration = duration
         self.service = service
         self.cost = cost
-        self.durationHours = Int16(duration.hours)
-        self.durationMinutes = Int16(duration.minutes)
         self.additionalServices = additionalServices
         self.notes = notes
         self.isCancelled = isCancelled

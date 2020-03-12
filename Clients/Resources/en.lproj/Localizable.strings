@@ -27,23 +27,11 @@
 /* разрешены */
 "ALLOWED" = "allowed";
 
-/* Апрель */
-"APRIL" = "April";
-
-/* апреля */
-"APRIL_GENITIVE" = "April";
-
 /* Архивировать */
 "ARCHIVE" = "Archive";
 
 /* Архивные услуги */
 "ARCHIVE_SERVICES" = "Archive services";
-
-/* Август */
-"AUGUST" = "August";
-
-/* августа */
-"AUGUST_GENITIVE" = "August";
 
 /* Внести в чёрный список */
 "BLOCK_CLIENT" = "Add to blacklist";
@@ -99,12 +87,6 @@
 /* День */
 "DAY" = "Day";
 
-/* Декабрь */
-"DECEMBER" = "December";
-
-/* декабря */
-"DECEMBER_GENITIVE" = "December";
-
 /* Контактная информация */
 "DEFAULT_CONTACT_INFO" = "Contact information";
 
@@ -114,56 +96,14 @@
 /* Отображение записей в виджете отключено */
 "DISPLAYING_VISITS_IN_WIDGET_IS_DISABLED" = "Displaying visits in the widget is disabled";
 
-/* Февраль */
-"FEBRUARY" = "February";
-
-/* февраля */
-"FEBRUARY_GENITIVE" = "February";
-
-/* Пятница */
-"FRIDAY" = "Friday";
-
-/* пт */
-"FRIDAY_SHORT" = "Fri";
-
 /* с */
 "FROM" = "from";
 
 /* Зелёный */
 "GREEN" = "Green";
 
-/* час */
-"HOUR" = "hour";
-
-/* часа */
-"HOUR_GENITIVE" = "hours";
-
-/* часов */
-"HOUR_GENITIVE_PLURAL" = "hours";
-
-/* ч */
-"HOUR_SHORT" = "h";
-
 /* Не явился по записи */
 "IS_NOT_COME" = "Not come";
-
-/* Январь */
-"JANUARY" = "January";
-
-/* января */
-"JANUARY_GENITIVE" = "January";
-
-/* Июль */
-"JULY" = "July";
-
-/* июля */
-"JULY_GENITIVE" = "July";
-
-/* Июнь */
-"JUNE" = "June";
-
-/* июня */
-"JUNE_GENITIVE" = "June";
 
 /* Похоже, сегодня у Вас выходной */
 "LOOKS_LIKE_ITS_YOUR_DAY_OFF" = "Looks like it's your day off";
@@ -174,38 +114,8 @@
 /* Сделать выходным днём */
 "MAKE_IT_A_DAY_OFF" = "Make a day off";
 
-/* Март */
-"MARCH" = "March";
-
-/* марта */
-"MARCH_GENITIVE" = "March";
-
 /* Выбрано максимальное количество дополнительных услуг */
 "MAXIMUM_NUMBER_OF_ADDITIONAL_SERVICES_IS_SELECTED" = "The maximum number of additional services is selected";
-
-/* Май */
-"MAY" = "May";
-
-/* мая */
-"MAY_GENITIVE" = "May";
-
-/* минута */
-"MINUTE" = "minute";
-
-/* минуты */
-"MINUTE_PLURAL" = "minutes";
-
-/* минут */
-"MINUTES_GENITIVE" = "minutes";
-
-/* мин */
-"MINUTES_SHORT" = "min";
-
-/* Понедельник */
-"MONDAY" = "Monday";
-
-/* пн */
-"MONDAY_SHORT" = "Mon";
 
 /* месяц */
 "MONTH" = "month";
@@ -224,18 +134,6 @@
 
 /* ближайшие 7 дн. */
 "NEXT_7_DAYS" = "the next 7 days.";
-
-/* Ноябрь */
-"NOVEMBER" = "November";
-
-/* ноября */
-"NOVEMBER_GENITIVE" = "November";
-
-/* Октябрь */
-"OCTOBER" = "October";
-
-/* октября */
-"OCTOBER_GENITIVE" = "October";
 
 /* выкл */
 "OFF" = "off";
@@ -279,12 +177,6 @@
 /* Удалить запись */
 "REMOVE_VISIT" = "Delete visit";
 
-/* Суббота */
-"SATURDAY" = "Saturday";
-
-/* сб */
-"SATURDAY_SHORT" = "Sat";
-
 /* Необходимо указать имя и фамилию клиента */
 "SAVE_CLIENT_ERROR_DESCRIPTION" = "You must specify the client's first and last name";
 
@@ -309,12 +201,6 @@
 /* Выберите дополнительные услуги */
 "SELECT_ADDITIONAL_SERVICES" = "Select additional services";
 
-/* Сентябрь */
-"SEPTEMBER" = "September";
-
-/* сентября */
-"SEPTEMBER_GENITIVE" = "September";
-
 /* Вы не сможете создавать записи для архивированных услуг */
 "SERVICE_ARCHIVING_ALERT" = "You will not be able to create records for archived services";
 
@@ -324,29 +210,11 @@
 /* Задайте список предоставляемых услуг во вкладке «‎Настройки»‎ */
 "SERVICES_NOT_SPECIFIED_DETAILS" = "Set the list of services provided in the Settings tab";
 
-/* Воскресенье */
-"SUNDAY" = "Sunday";
-
-/* вс */
-"SUNDAY_SHORT" = "Sun";
-
-/* Четверг */
-"THURSDAY" = "Thursday";
-
-/* чт */
-"THURSDAY_SHORT" = "Thu";
-
 /* до */
 "TO" = "to";
 
 /* завтра */
 "TOMORROW" = "tomorrow";
-
-/* Вторник */
-"TUESDAY" = "Tuesday";
-
-/* вт */
-"TUESDAY_SHORT" = "Tue";
 
 /* Извлечь из чёрного списка */
 "UNBLOCK_CLIENT" = "Remove from the blacklist";
@@ -375,12 +243,6 @@
 /* Записи */
 "VISITS" = "Visits";
 
-/* Среда */
-"WEDNESDAY" = "Wednesday";
-
-/* ср */
-"WEDNESDAY_SHORT" = "Wed";
-
 /* Неделя */
 "WEEK" = "Week";
 
@@ -395,9 +257,6 @@
 
 /* Рабочий день c */
 "WORKDAY_LABEL_START" = "Working day from";
-
-/* г. */
-"YEAR_SHORT" = "";
 
 /* Жёлтый */
 "YELLOW" = "Yellow";

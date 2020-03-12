@@ -24,7 +24,7 @@ class AdditionalServiceViewModel {
         if additionalService.duration == 0 {
             return sign + "0 \(NSLocalizedString("MINUTES_GENITIVE", comment: "минут"))"
         } else {
-            return sign + additionalService.duration.modulo.string(style: .shortDuration)
+            return sign + additionalService.duration.magnitude.string(style: .shortDuration)
         }
     }
     
@@ -46,7 +46,7 @@ class AdditionalServiceViewModel {
             costString = sign + NumberFormatter.convertToCurrency(additionalService.cost)
         }
         
-        let divider = (additionalService.duration != Time() && additionalService.cost != 0) ? ", " : ""
+        let divider = (additionalService.duration != TimeInterval.zero && additionalService.cost != 0) ? ", " : ""
         return durationString + divider + costString
     }
 }

@@ -11,10 +11,6 @@ import Foundation
 import CoreData
 
 extension Weekend {
-    /// День
-    @NSManaged public var day: Int16
-    /// Месяц
-    @NSManaged public var month: Int16
-    /// Год
-    @NSManaged public var year: Int16
+    /// Дата
+    @NSManaged public var date: Date
 }

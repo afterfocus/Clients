@@ -49,7 +49,7 @@ class SettingsControler: UITableViewController {
             configureScheduleLabel(label, weekday: Weekday(rawValue: index)!)
         }
 
-        widgetSearchDurationLabel.text = settings.widgetPlacesSearchRequiredLength.string(style: .shortDuration)
+        widgetSearchDurationLabel.text = settings.widgetPlacesSearchRequiredDuration.string(style: .shortDuration)
         widgetSearchRangeLabel.text = settings.widgetPlacesSearchRange.string
 
         let months = settings.clientArchivingPeriod
@@ -80,7 +80,7 @@ class SettingsControler: UITableViewController {
 
     private func configureScheduleLabel(_ label: UILabel, weekday: Weekday) {
         let schedule = settings.schedule(for: weekday)
-        label.text = schedule.isWeekend ? "—" : "\(schedule.start) \(schedule.end)"
+        label.text = schedule.isWeekend ? "—" : schedule.shortScheduleString
     }
 }
 

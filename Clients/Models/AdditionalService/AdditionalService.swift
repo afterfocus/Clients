@@ -13,31 +13,19 @@ import CoreData
 /// Дополнительная услуга
 @objc(AdditionalService)
 public class AdditionalService: NSManagedObject {
-    /// Продолжительность
-    var duration: Time {
-        get {
-            Time(hours: Int(durationHours), minutes: Int(durationMinutes))
-        }
-        set {
-            durationHours = Int16(newValue.hours)
-            durationMinutes = Int16(newValue.minutes)
-        }
-    }
-
     /// Название дополнительной услуги
     override public var description: String {
         "\(name)"
     }
 
-    convenience init(name: String, cost: Float, duration: Time) {
+    convenience init(name: String, cost: Float, duration: TimeInterval) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
         self.name = name
         self.cost = cost
-        self.durationHours = Int16(duration.hours)
-        self.durationMinutes = Int16(duration.minutes)
+        self.duration = duration
     }
 
-    convenience init(service: Service, name: String, cost: Float, duration: Time) {
+    convenience init(service: Service, name: String, cost: Float, duration: TimeInterval) {
         self.init(name: name, cost: cost, duration: duration)
         self.service = service
     }

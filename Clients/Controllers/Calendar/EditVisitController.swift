@@ -68,8 +68,8 @@ class EditVisitController: UITableViewController {
     var visit: Visit?
     /// Дата записи
     var date = Date.today
-    /// Время начала записи
-    var time: Time = 9
+    /// Время записи
+    var time = TimeInterval(hours: 9)
     /// Выбранные дополнительные услуги
     var additionalServices = Set<AdditionalService>() {
         didSet {
@@ -81,6 +81,7 @@ class EditVisitController: UITableViewController {
 
     // MARK: - Private properties
 
+    private var dateTime: Date!
     /// Данные селектора услуг
     private var servicePickerData: [Service]!
     /// Открыт ли селектор даты
@@ -109,10 +110,9 @@ class EditVisitController: UITableViewController {
         servicePickerData = ServiceRepository.activeServices
         if let visit = visit {
             client = visit.client
-            date = visit.date
+            dateTime = visit.dateTime
 
-            datePicker.set(date: visit.date, time: visit.time)
-            durationPicker.set(time: visit.duration)
+            durationPicker.countDownDuration = visit.duration
 
             if let row = servicePickerData.firstIndex(of: visit.service) {
                 servicePicker.selectRow(row, inComponent: 0, animated: false)
@@ -126,15 +126,18 @@ class EditVisitController: UITableViewController {
             visitCancelledSwitch.isOn = visit.isCancelled
             clientNotComeSwitch.isOn = visit.isClientNotCome
         } else {
-            datePicker.set(date: date, time: time, animated: false)
+            let components = DateComponents(year: date.year, month: date.month, day: date.day,
+                                            hour: time.hours, minute: time.minutes)
+            dateTime = Calendar.current.date(from: components)!
             updateServiceLabels(with: servicePickerData[0])
         }
         
         if let client = client {
             configureClientInfo(with: ClientViewModel(client: client))
         }
-        updateDateLabels(with: date)
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
+        datePicker.setDate(dateTime, animated: false)
+        updateDateLabels(with: datePicker.date)
+        durationLabel.text = durationPicker.countDownDuration.string(style: .shortDuration)
     }
 
     private func configureClientInfo(with viewModel: ClientViewModel) {
@@ -154,11 +157,10 @@ class EditVisitController: UITableViewController {
             // Обновить существующую запись
             if let visit = visit {
                 visit.client = client!
-                visit.date = Date(foundationDate: datePicker.date)
-                visit.time = Time(foundationDate: datePicker.date)
+                visit.dateTime = datePicker.date
                 visit.service = service
                 visit.cost = NumberFormatter.convertToFloat(costTextField.text!)
-                visit.duration = Time(foundationDate: durationPicker.date)
+                visit.duration = durationPicker.countDownDuration
                 visit.additionalServices = additionalServices
                 visit.notes = notesTextField.text!
                 visit.isCancelled = visitCancelledSwitch.isOn
@@ -170,11 +172,10 @@ class EditVisitController: UITableViewController {
             else {
                 let newVisit = Visit(
                     client: client!,
-                    date: Date(foundationDate: datePicker.date),
-                    time: Time(foundationDate: datePicker.date),
+                    dateTime: datePicker.date,
                     service: service,
                     cost: NumberFormatter.convertToFloat(costTextField.text!),
-                    duration: Time(foundationDate: durationPicker.date),
+                    duration: durationPicker.countDownDuration,
                     additionalServices: additionalServices,
                     notes: notesTextField.text!,
                     isCancelled: visitCancelledSwitch.isOn,
@@ -243,9 +244,10 @@ extension EditVisitController: SelectAdditionalServicesControllerDelegate {
             cost += $0.cost
             duration += $0.duration
         }
+        if duration <= 0 { duration = 300 }
         costTextField.text = NumberFormatter.convertToCurrency((cost < 0) ? 0 : cost)
-        durationPicker.set(time: (duration < 0) ? Time(minutes: 5) : duration)
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
+        durationPicker.countDownDuration = duration
+        durationLabel.text = duration.string(style: .shortDuration)
     }
 }
 
@@ -298,14 +300,14 @@ extension EditVisitController: UIPickerViewDelegate {
         // Установить стоимость и продолжительность по умолчанию
         costTextField.text = viewModel.costText
         durationLabel.text = viewModel.durationText
-        durationPicker.set(time: service.duration)
+        durationPicker.countDownDuration = service.duration
         // Очистить выбранные доп.услуги
         additionalServices = []
     }
 
     // Изменено значение селектора даты и времени
     @IBAction func dateValueChanged(_ sender: UIDatePicker) {
-        updateDateLabels(with: Date(foundationDate: sender.date))
+        updateDateLabels(with: sender.date)
     }
     
     private func updateDateLabels(with date: Date) {
@@ -314,15 +316,15 @@ extension EditVisitController: UIPickerViewDelegate {
             scheduleLabel.text = NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
             let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
-            scheduleLabel.text = schedule.scheduleText
+            scheduleLabel.text = schedule.extendedScheduleString
         }
-        dateLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .long, timeStyle: .none)
-        timeLabel.text = DateFormatter.localizedString(from: datePicker.date, dateStyle: .none, timeStyle: .short)
+        dateLabel.text = datePicker.date.fullWithoutWeekdayString
+        timeLabel.text = datePicker.date.timeString
     }
 
     // Изменено значение селектора продолжительности
     @IBAction func durationValueChanged(_ sender: UIDatePicker) {
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
+        durationLabel.text = durationPicker.countDownDuration.string(style: .shortDuration)
     }
 }
 

@@ -16,12 +16,12 @@ public class Client: NSManagedObject {
     
     /// Записи клиента, отсортированные по убыванию даты
     var visitsSorted: [Visit] {
-        visits.sorted { $0.date > $1.date }
+        visits.sorted { $0.dateTime > $1.dateTime }
     }
 
     /// Записи клиента, отсортированные по убыванию даты и сгруппированные по году
     var visitsByYear: [Int: [Visit]] {
-        Dictionary(grouping: visitsSorted) { $0.date.year }
+        Dictionary(grouping: visitsSorted) { $0.dateTime.year }
     }
 
     /// Услуги, которыми пользовался клиент
@@ -45,7 +45,6 @@ public class Client: NSManagedObject {
                      notes: String = "",
                      isBlocked: Bool = false) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        //self.photoData = photo?.jpegData(compressionQuality: 1.0)
         self.photo = photo
         self.surname = surname
         self.name = name

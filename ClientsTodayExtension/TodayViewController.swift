@@ -36,11 +36,10 @@ class TodayExtensionViewController: UIViewController {
                 hideCancelled: settings.isCancelledVisitsHidden,
                 hideNotCome: settings.isClientNotComeVisitsHidden
             )
-
             if settings.isTomorrowVisitsShownInWidget &&
-                Time.currentTime > visits.last?.endTime ?? Time(hours: 12) {
+                TimeInterval.currentTime > visits.last?.endTime ?? TimeInterval(hours: 12) {
                 tableData = VisitRepository.visits(
-                    for: Date.today + 1,
+                    for: Date.today.addDays(1),
                     hideCancelled: settings.isCancelledVisitsHidden,
                     hideNotCome: settings.isClientNotComeVisitsHidden
                 )
@@ -63,18 +62,17 @@ class TodayExtensionViewController: UIViewController {
 
     @IBAction func unoccupiedPlacesButtonPressed(_ sender: UIButton) {
         animateSuccess()
-        let unoccupiedPlaces: [Date: [Time]]
-
+        let unoccupiedPlaces: [Date: [TimeInterval]]
         if settings.widgetPlacesSearchRange == .counter {
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
                 placesCount: settings.widgetPlacesSearchCounter,
-                requiredDuration: settings.widgetPlacesSearchRequiredLength
+                requiredDuration: settings.widgetPlacesSearchRequiredDuration
             )
         } else {
             let searchParameters = UnoccupiedPlacesSearchParameters(
                     startDate: Date.today,
-                    endDate: Date.today + settings.widgetPlacesSearchRange.daysInRange,
-                    requiredDuration: settings.widgetPlacesSearchRequiredLength)
+                    endDate: Date.today.addDays(settings.widgetPlacesSearchRange.daysInRange),
+                    requiredDuration: settings.widgetPlacesSearchRequiredDuration)
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(for: searchParameters)
         }
         let unoccupiedPlacesViewModel = UnoccupiedPlacesViewModel(unoccupiedPlaces: unoccupiedPlaces)

@@ -14,108 +14,67 @@ import Foundation
 enum Weekday: Int {
     case sunday, monday, tuesday, wednesday, thursday, friday, saturday
 
-    /// Локализованное название дня недели
     var name: String {
-        switch self {
-        case .sunday: return NSLocalizedString("SUNDAY", comment: "Воскресенье")
-        case .monday: return NSLocalizedString("MONDAY", comment: "Понедельник")
-        case .tuesday: return NSLocalizedString("TUESDAY", comment: "Вторник")
-        case .wednesday: return NSLocalizedString("WEDNESDAY", comment: "Среда")
-        case .thursday: return NSLocalizedString("THURSDAY", comment: "Четверг")
-        case .friday: return NSLocalizedString("FRIDAY", comment: "Пятница")
-        case .saturday: return NSLocalizedString("SATURDAY", comment: "Суббота")
-        }
-    }
-
-    /// Локализованное краткое название дня недели
-    var shortName: String {
-        switch self {
-        case .sunday: return NSLocalizedString("SUNDAY_SHORT", comment: "вс")
-        case .monday: return NSLocalizedString("MONDAY_SHORT", comment: "пн")
-        case .tuesday: return NSLocalizedString("TUESDAY_SHORT", comment: "вт")
-        case .wednesday: return NSLocalizedString("WEDNESDAY_SHORT", comment: "ср")
-        case .thursday: return NSLocalizedString("THURSDAY_SHORT", comment: "чт")
-        case .friday: return NSLocalizedString("FRIDAY_SHORT", comment: "пт")
-        case .saturday: return NSLocalizedString("SATURDAY_SHORT", comment: "сб")
-        }
+        return Calendar.current.weekdaySymbols[rawValue].firstCapitalized
     }
 }
 
-// MARK: - Month Enum
-
-// Месяц
-enum Month: Int {
-    case january = 1, february, march, april, may, june, july, august, september, october, november, december
-
-    /// Локализованное название месяца
-    var name: String {
-        switch self {
-        case .january: return NSLocalizedString("JANUARY", comment: "Январь")
-        case .february: return NSLocalizedString("FEBRUARY", comment: "Февраль")
-        case .march: return NSLocalizedString("MARCH", comment: "Март")
-        case .april: return NSLocalizedString("APRIL", comment: "Апрель")
-        case .may: return NSLocalizedString("MAY", comment: "Май")
-        case .june: return NSLocalizedString("JUNE", comment: "Июнь")
-        case .july: return NSLocalizedString("JULY", comment: "Июль")
-        case .august: return NSLocalizedString("AUGUST", comment: "Август")
-        case .september: return NSLocalizedString("SEPTEMBER", comment: "Сентябрь")
-        case .october: return NSLocalizedString("OCTOBER", comment: "Октябрь")
-        case .november: return NSLocalizedString("NOVEMBER", comment: "Ноябрь")
-        case .december: return NSLocalizedString("DECEMBER", comment: "Декабрь")
-        }
-    }
-
-    /// Локализованное название месяца в родительном падеже
-    var genitiveName: String {
-        switch self {
-        case .january: return NSLocalizedString("JANUARY_GENITIVE", comment: "января")
-        case .february: return NSLocalizedString("FEBRUARY_GENITIVE", comment: "февраля")
-        case .march: return NSLocalizedString("MARCH_GENITIVE", comment: "марта")
-        case .april: return NSLocalizedString("APRIL_GENITIVE", comment: "апреля")
-        case .may: return NSLocalizedString("MAY_GENITIVE", comment: "мая")
-        case .june: return NSLocalizedString("JUNE_GENITIVE", comment: "июня")
-        case .july: return NSLocalizedString("JULY_GENITIVE", comment: "июля")
-        case .august: return NSLocalizedString("AUGUST_GENITIVE", comment: "августа")
-        case .september: return NSLocalizedString("SEPTEMBER_GENITIVE", comment: "сентября")
-        case .october: return NSLocalizedString("OCTOBER_GENITIVE", comment: "октября")
-        case .november: return NSLocalizedString("NOVEMBER_GENITIVE", comment: "ноября")
-        case .december: return NSLocalizedString("DECEMBER_GENITIVE", comment: "декабря")
-        }
-    }
-}
-
-// MARK: - Date
-
-/// Дата
-struct Date {
+extension Date {
     /// День
-    let day: Int
+    var day: Int {
+        return Calendar.current.component(.day, from: self)
+    }
     /// Месяц
-    let month: Month
+    var month: Int {
+        return Calendar.current.component(.month, from: self)
+    }
     /// Год
-    let year: Int
-
+    var year: Int {
+        return Calendar.current.component(.year, from: self)
+    }
     /// День недели
     var dayOfWeek: Weekday {
-        let foundationDate = Date.calendar.date(from: DateComponents(year: year, month: month.rawValue, day: day))!
-        return Weekday(rawValue: Date.calendar.component(.weekday, from: foundationDate) - 1)!
+        return Weekday(rawValue: Calendar.current.component(.weekday, from: self) - 1)!
     }
-    /// Представление даты в формате "пн, 13 января"
+    
+    var isToday: Bool {
+        Calendar.current.isDateInToday(self)
+    }
+    
+    // FIXME: Date formaters will be Flyweight in the next commit
+    /// Строковое представление даты в формате "пн, 13 января"
     var shortString: String {
-        return "\(dayOfWeek.shortName), \(day) \(month.genitiveName)"
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("EdMMMM")
+        return dateFormatter.string(from: self)
     }
-    /// Представление даты в формате "понедельник, 13 января 2020 г."
-    var fullString: String {
-        return "\(dayOfWeek.name), \(day) \(month.genitiveName) \(year) " +
-            NSLocalizedString("YEAR_SHORT", comment: "г.")
+    /// Строковое представление даты в формате "понедельник, 13 января 2020 г."
+    var fullWithWeekdayString: String {
+        return DateFormatter.localizedString(from: self, dateStyle: .full, timeStyle: .none)
     }
-    /// Представление даты в формате "13 января"
+    /// Строковое представление даты в формате "13 января 2020 г."
+    var fullWithoutWeekdayString: String {
+        return DateFormatter.localizedString(from: self, dateStyle: .long, timeStyle: .none)
+    }
+    /// Строковое представление даты в формате "13 января"
     var dayAndMonthString: String {
-        return "\(day) \(month.genitiveName)"
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("dMMMM")
+        return dateFormatter.string(from: self)
     }
-    /// Представление даты в формате "Январь 2020 г."
+    /// Строковое представление даты в формате "Январь 2020 г."
     var monthAndYearString: String {
-        return "\(month.name.lowercased()) \(year) " + NSLocalizedString("YEAR_SHORT", comment: "г.")
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("LLLLyyyy")
+        return dateFormatter.string(from: self)
+    }
+    /// Название месяца
+    var monthNameStirng: String {
+        return Calendar.current.standaloneMonthSymbols[month - 1].firstCapitalized
+    }
+    /// Строковое представление времени
+    var timeString: String {
+        return DateFormatter.localizedString(from: self, dateStyle: .none, timeStyle: .short)
     }
 
     /**
@@ -123,136 +82,50 @@ struct Date {
      - parameter count: Количество месяцев для вычитания
      */
     func subtractMonths(_ count: Int) -> Date {
-        var (day, month, year) = (self.day + 1, self.month.rawValue - count, self.year)
-        while month < 1 {
-            month += 12
-            year -= 1
-        }
-        let numberOfDays = Date.numberOfDaysIn(month, year: year)
-        if day > numberOfDays {
-            day = numberOfDays
-        }
-        return Date(day: day, month: month, year: year)
+        return Calendar.current.date(byAdding: .month, value: -count, to: self)!
+    }
+    /**
+     Добавить заданное количество дней к дате.
+     - parameter count: Количество дней для добавления
+     */
+    func addDays(_ count: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: count, to: self)!
     }
 
     // MARK: Initializers
 
-    init(day: Int, month: Month, year: Int) {
-        self.day = day
-        self.month = month
-        self.year = year
-    }
-
     init(day: Int = 1, month: Int, year: Int) {
-        self.init(day: day, month: Month(rawValue: month)!, year: year)
+        let components = DateComponents(year: year, month: month, day: day)
+        let date = Calendar.current.date(from: components)!
+        self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
     }
-
-    /// Извлекает день, месяц и год из экземпляра класса Date каркаса Foundation
-    init(foundationDate: Foundation.Date) {
-        self.day = Date.calendar.component(.day, from: foundationDate)
-        self.month = Month(rawValue: Date.calendar.component(.month, from: foundationDate))!
-        self.year = Date.calendar.component(.year, from: foundationDate)
-    }
-}
-
-// MARK: - CustomStringConvertible
-
-extension Date: CustomStringConvertible {
-    /// Локализованное строковое представление даты в формате "понедельник, 13 января 2020 г."
-    var description: String {
-        return fullString
+    
+    init(day: Int, month: Int, year: Int, hours: Int = 0, minutes: Int = 0) {
+        let components = DateComponents(year: year, month: month, day: day, hour: hours, minute: minutes)
+        let date = Calendar.current.date(from: components)!
+        self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
     }
 }
-
-// MARK: - Hashable
-
-extension Date: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(day)
-        hasher.combine(month)
-        hasher.combine(year)
-    }
-}
-
-// MARK: - Static
 
 extension Date {
-    /// Системный календарь
-    static let calendar = Calendar.current
-
     // FIXME: ⚠️ Сегодняшняя дата подменена здесь ⚠️
     /// Дата, соответвующая сегодняшнему дню
-    static let today = Date(day: 26, month: 3, year: 2019)
-    //static let today = Date(foundationDate: Foundation.Date())
-
+    static var today: Date {
+        return Date(day: 26, month: 3, year: 2019,
+                    hours: TimeInterval.currentTime.hours,
+                    minutes: TimeInterval.currentTime.minutes)
+        // return Date()
+    }
+    
     /// Количество дней в месяце
     static func numberOfDaysIn(_ month: Int, year: Int) -> Int {
-        let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
-        return Date.calendar.range(of: .day, in: .month, for: date)!.count
+        let date = Calendar.current.date(from: DateComponents(year: year, month: month))!
+        return Calendar.current.range(of: .day, in: .month, for: date)!.count
     }
 
     static func firstDayOf(_ month: Int, year: Int) -> Int {
-        let date = Date.calendar.date(from: DateComponents(year: year, month: month))!
-        let day = Date.calendar.component(.weekday, from: date) - 2
+        let date = Calendar.current.date(from: DateComponents(year: year, month: month))!
+        let day = Calendar.current.component(.weekday, from: date) - 2
         return day == -1 ? 6 : day
-    }
-}
-
-// MARK: - Operators
-
-extension Date: Comparable {
-
-    static func == (lhs: Date, rhs: Date) -> Bool {
-        return lhs.day == rhs.day && lhs.month == rhs.month && lhs.year == rhs.year
-    }
-
-    static func != (lhs: Date, rhs: Date) -> Bool {
-        return !(lhs == rhs)
-    }
-
-    static func < (lhs: Date, rhs: Date) -> Bool {
-        if lhs.year != rhs.year {
-            return lhs.year < rhs.year
-        } else if lhs.month != rhs.month {
-            return lhs.month.rawValue < rhs.month.rawValue
-        } else {
-            return lhs.day < rhs.day
-        }
-    }
-
-    static func > (lhs: Date, rhs: Date) -> Bool {
-        if lhs.year != rhs.year {
-            return lhs.year > rhs.year
-        } else if lhs.month != rhs.month {
-            return lhs.month.rawValue > rhs.month.rawValue
-        } else {
-            return lhs.day > rhs.day
-        }
-    }
-
-    static func <= (lhs: Date, rhs: Date) -> Bool {
-        return lhs < rhs || lhs == rhs
-    }
-
-    static func >= (lhs: Date, rhs: Date) -> Bool {
-        return lhs > rhs || lhs == rhs
-    }
-
-    static func + (lhs: Date, rhs: Int) -> Date {
-        var (day, month, year) = (lhs.day + rhs, lhs.month.rawValue, lhs.year)
-        while day > Date.numberOfDaysIn(month, year: year) {
-            day -= Date.numberOfDaysIn(month, year: year)
-            if month == 12 {
-                month = 1
-                year += 1
-            } else {
-                month += 1
-            }
-        }
-        return Date(day: day, month: month, year: year)
-    }
-
-    static func += (lhs: inout Date, rhs: Int) {
-        lhs = lhs + rhs
     }
 }

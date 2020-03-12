@@ -10,10 +10,10 @@ import Foundation
 
 class UnoccupiedPlacesViewModel {
     /// Свободные места, сгруппированные по дате
-    private let unoccupiedPlaces: [Date: [Time]]
+    private let unoccupiedPlaces: [Date: [TimeInterval]]
     private let keys: [Date]
     
-    init(unoccupiedPlaces: [Date: [Time]]) {
+    init(unoccupiedPlaces: [Date: [TimeInterval]]) {
         self.unoccupiedPlaces = unoccupiedPlaces
         keys = unoccupiedPlaces.keys.sorted(by: <)
     }
@@ -27,7 +27,7 @@ class UnoccupiedPlacesViewModel {
         for date in keys {
             string += "\(date.dayAndMonthString):"
             unoccupiedPlaces[date]!.forEach {
-                string += " \($0),"
+                string += " \($0.string(style: .short)),"
             }
             string.removeLast()
             string += "\n"
@@ -48,7 +48,7 @@ class UnoccupiedPlacesViewModel {
         return keys[section]
     }
     
-    func unoccupiedPlace(for indexPath: IndexPath) -> Time {
+    func unoccupiedPlace(for indexPath: IndexPath) -> TimeInterval {
         return unoccupiedPlaces[keys[indexPath.section]]![indexPath.item]
     }
     

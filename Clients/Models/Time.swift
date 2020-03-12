@@ -8,36 +8,12 @@
 
 import Foundation
 
-// MARK: - Time Style Enum
-
-/// Стиль строкового представления времени `Time`
-enum TimeStyle {
-    /// Краткий стиль (HH:mm)
-    case short
-    /// Стиль длительности (например, 3 часа 35 минут)
-    case duration
-    /// Стиль длительности краткий (например, 3 ч 35 мин (без минут - 3 часа))
-    case shortDuration
-}
-
-// MARK: - Time
-
-/// Время
-struct Time {
-    /// Часы
-    private(set) var hours: Int
-    /// Минуты
-    private(set) var minutes: Int
-
-    var modulo: Time {
-        Time(hours: abs(hours), minutes: abs(minutes))
-    }
-
+// TODO: Will be removed at the next commit
+/*
     private var durationString: String {
         var hoursString: String
         var minutesString: String
 
-        // FIXME: Использовать StringDict
         switch hours {
         case 0:
             hoursString = ""
@@ -80,46 +56,12 @@ struct Time {
             }
         }
     }
-
-    // MARK: - Initializers
-
-    init(hours: Int = 0, minutes: Int = 0) {
-        self.hours = hours
-        self.minutes = minutes
-    }
-
-    /// Извлекает значения часов и минут из экземляра класса Date каркаса Foundation
-    init(foundationDate: Foundation.Date) {
-        self.hours = Date.calendar.component(.hour, from: foundationDate)
-        self.minutes = Date.calendar.component(.minute, from: foundationDate)
-    }
 }
-
-// MARK: - CustomStringConvertible
-
-extension Time: CustomStringConvertible {
-    /// Строкове представление времени в кратком стиле (HH:mm)
-    var description: String {
-        string(style: .short)
-    }
-}
-
-// MARK: - ExpressibleByIntegerLiteral
-
-extension Time: ExpressibleByIntegerLiteral {
-    init(integerLiteral: Int) {
-        self.init(hours: integerLiteral)
-    }
-}
+ 
 
 // MARK: - Static
 
 extension Time: Comparable {
-
-    /// Текущее время
-    static var currentTime: Time {
-        Time(foundationDate: Foundation.Date())
-    }
 
     static func + (left: Time, right: Time) -> Time {
         var result = left &+ right
@@ -180,4 +122,5 @@ extension Time: Comparable {
     static func += (lhs: inout Time, rhs: Time) {
         lhs = lhs &+ rhs
     }
-}
+ }*/
+

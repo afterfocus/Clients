@@ -12,6 +12,7 @@ class AppSettings {
 
     // MARK: - WidgetPlacesSearchRange
     
+    // FIXME: Rewrite to TimeInterval
     enum WidgetPlacesSearchRange: Int {
         case month
         case week
@@ -49,8 +50,7 @@ class AppSettings {
         static let isTomorrowVisitsShownInWidget = "Is Tomorrow Visits Shown In Widget"
         static let priceListText = "Price List Text"
         static let contactInformationText = "Contact Information Text"
-        static let widgetPlacesSearchRequiredLengthHours = "Widget Places Search Required Length Hours"
-        static let widgetPlacesSearchRequiredLengthMinutes = "Widget Places Search Required Length Minutes"
+        static let widgetPlacesSearchRequiredDuration = "Widget Places Search Required Duration"
         static let widgetPlacesSearchRange = "Widget Places Search Range"
         static let widgetPlacesSearchCounter = "Widget Places Search Counter"
         static let clientArchivingPeriod = "Client Archiving Period"
@@ -59,10 +59,8 @@ class AppSettings {
         static let isOvertimeAllowed = "Is Overtime Allowed"
         static let shouldBlockIncomingCalls = "Should Block Incoming Calls"
         static let isWeekend = " Is Weekend"
-        static let startHours = " Start Hours"
-        static let endHours = " End Hours"
-        static let startMinutes = " Start Minutes"
-        static let endMinutes = " End Minutes"
+        static let workdayStart = " Start"
+        static let workdayEnd = " End"
     }
     
     static let shared = AppSettings()
@@ -99,17 +97,9 @@ class AppSettings {
         get { return userDefaults.string(forKey: Keys.contactInformationText)! }
     }
 
-    var widgetPlacesSearchRequiredLength: Time {
-        set {
-            userDefaults.set(newValue.hours, forKey: Keys.widgetPlacesSearchRequiredLengthHours)
-            userDefaults.set(newValue.minutes, forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
-        }
-        get {
-            return Time(
-                hours: userDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthHours),
-                minutes: userDefaults.integer(forKey: Keys.widgetPlacesSearchRequiredLengthMinutes)
-            )
-        }
+    var widgetPlacesSearchRequiredDuration: TimeInterval {
+        set { userDefaults.set(newValue, forKey: Keys.widgetPlacesSearchRequiredDuration) }
+        get { userDefaults.double(forKey: Keys.widgetPlacesSearchRequiredDuration) }
     }
 
     /// Интервал дат для быстрого поиска свободных мест из виджета
@@ -149,15 +139,14 @@ class AppSettings {
         get { return userDefaults.bool(forKey: Keys.shouldBlockIncomingCalls) }
     }
 
+    // FIXME: Время начала и окончания не получается извлечь после регистрации начальных значений
     /// Получить рабочий график на день недели `dayOfWeek`
     func schedule(for dayOfWeek: Weekday) -> WorkdaySchedule {
         let day = String(dayOfWeek.rawValue)
         return WorkdaySchedule(
             isWeekend: userDefaults.bool(forKey: day + Keys.isWeekend),
-            start: Time(hours: userDefaults.integer(forKey: day + Keys.startHours),
-                        minutes: userDefaults.integer(forKey: day + Keys.startMinutes)),
-            end: Time(hours: userDefaults.integer(forKey: day + Keys.endHours),
-                      minutes: userDefaults.integer(forKey: day + Keys.endMinutes))
+            start: userDefaults.object(forKey: day + Keys.workdayStart) as? Date ?? Date(),
+            end: userDefaults.object(forKey: day + Keys.workdayEnd) as? Date ?? Date()
         )
     }
 
@@ -165,10 +154,8 @@ class AppSettings {
     func setSchedule(for dayOfWeek: Weekday, schedule: WorkdaySchedule) {
         let day = String(dayOfWeek.rawValue)
         userDefaults.set(schedule.isWeekend, forKey: day + Keys.isWeekend)
-        userDefaults.set(schedule.start.hours, forKey: day + Keys.startHours)
-        userDefaults.set(schedule.start.minutes, forKey: day + Keys.startMinutes)
-        userDefaults.set(schedule.end.hours, forKey: day + Keys.endHours)
-        userDefaults.set(schedule.end.minutes, forKey: day + Keys.endMinutes)
+        userDefaults.set(schedule.start, forKey: day + Keys.workdayStart)
+        userDefaults.set(schedule.end, forKey: day + Keys.workdayEnd)
     }
 
     // MARK: - Default Settings
@@ -180,8 +167,7 @@ class AppSettings {
             Keys.isTomorrowVisitsShownInWidget: "YES",
             Keys.priceListText: NSLocalizedString("DEFAULT_PRICE_LIST", comment: "Прайс-лист"),
             Keys.contactInformationText: NSLocalizedString("DEFAULT_CONTACT_INFO", comment: "Контактная информация"),
-            Keys.widgetPlacesSearchRequiredLengthHours: "1",
-            Keys.widgetPlacesSearchRequiredLengthMinutes: "0",
+            Keys.widgetPlacesSearchRequiredDuration: "3600",
             Keys.widgetPlacesSearchRange: "\(WidgetPlacesSearchRange.week.rawValue)",
             Keys.widgetPlacesSearchCounter: "30",
             Keys.clientArchivingPeriod: "3",
@@ -191,10 +177,8 @@ class AppSettings {
         ]
         for day in 0...6 {
             defaults[String(day) + Keys.isWeekend] = ([0, 1].contains(day) ? "YES" : "NO")
-            defaults[String(day) + Keys.startHours] = "9"
-            defaults[String(day) + Keys.startMinutes] = "0"
-            defaults[String(day) + Keys.endHours] = "18"
-            defaults[String(day) + Keys.endMinutes] = "0"
+            defaults[String(day) + Keys.workdayStart] = "2020-03-12T05:00:00Z"
+            defaults[String(day) + Keys.workdayEnd] = "2020-03-12T14:00:09Z"
         }
         return defaults
     }

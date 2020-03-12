@@ -12,7 +12,7 @@ class ScheduleView: UIView {
 
     enum ScheduleViewState {
         case weekend
-        case workday(start: Time, end: Time)
+        case workday(start: Date, end: Date)
     }
 
     /// Представление рабочего дня
@@ -45,8 +45,9 @@ class ScheduleView: UIView {
             heightConstraint.constant = 1.0 / UIScreen.main.scale
             workdayView.isHidden = false
             weekendView.isHidden = true
-            scheduleLabel.text = NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") +
-                " \(startTime) " + NSLocalizedString("TO", comment: "до") + " \(endTime)"
+            let text = "\(NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c")) " +
+                        "\(startTime.timeString) \(NSLocalizedString("TO", comment: "до")) \(endTime.timeString)"
+            scheduleLabel.text = text
         }
     }
 }

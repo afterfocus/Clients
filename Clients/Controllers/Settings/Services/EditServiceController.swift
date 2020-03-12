@@ -61,7 +61,7 @@ class EditServiceController: UITableViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
 
-        var duration: Time = 1
+        var duration = TimeInterval(hours: 1)
         if service != nil {
             additionalServices = service.additionalServices
             duration = service.duration
@@ -74,7 +74,7 @@ class EditServiceController: UITableViewController {
         }
         colorView.backgroundColor = pickedColor
         colorLabel.text = pickedColor.name
-        durationPicker.set(time: duration)
+        durationPicker.countDownDuration = duration
         durationLabel.text = duration.string(style: .shortDuration)
     }
 
@@ -88,7 +88,7 @@ class EditServiceController: UITableViewController {
     // MARK: - IBActions
 
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
-        durationLabel.text = Time(foundationDate: durationPicker.date).string(style: .shortDuration)
+        durationLabel.text = durationPicker.countDownDuration.string(style: .shortDuration)
     }
 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
@@ -108,14 +108,14 @@ class EditServiceController: UITableViewController {
                 service.color = pickedColor
                 service.name = nameTextField.text!
                 service.cost = NumberFormatter.convertToFloat(costTextField.text!)
-                service.duration = Time(foundationDate: durationPicker.date)
+                service.duration = durationPicker.countDownDuration
                 service.isArchive = isArchive
             } else {
                 service = Service(
                     color: pickedColor,
                     name: nameTextField.text!,
                     cost: NumberFormatter.convertToFloat(costTextField.text!),
-                    duration: Time(foundationDate: durationPicker.date),
+                    duration: durationPicker.countDownDuration,
                     isArchive: isArchive
                 )
             }

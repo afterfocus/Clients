@@ -15,15 +15,11 @@ import CoreData
 public class Weekend: NSManagedObject {
     convenience init(day: Int, month: Int, year: Int) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        self.day = Int16(day)
-        self.month = Int16(month)
-        self.year = Int16(year)
+        self.date = Date(day: day, month: month, year: year)
     }
 
     convenience init(date: Date) {
         self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
-        self.day = Int16(date.day)
-        self.month = Int16(date.month.rawValue)
-        self.year = Int16(date.year)
+        self.date = date
     }
 }

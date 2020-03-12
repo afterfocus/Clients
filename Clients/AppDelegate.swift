@@ -12,8 +12,8 @@ import CallKit
 
 /*
  TODO: LIST
-    1. Убрать собственную реализацию Date. Использовать Foundation.Date.
-    2. Переработать "репозитории"
+    1. Завершить переход на Foundation.Date
+    2. Переписать код, связанный с Core Data
     3. Закончить переход на MVVM
     4. Использовать Combine / RxSwift
     5. ...
@@ -60,18 +60,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func initializeData() {
-        let strengthening = AdditionalService(name: "Укрепление", cost: 200, duration: Time())
-        let nailExtension = AdditionalService(name: "Наращивание", cost: 400, duration: Time(hours: 1))
-        let withoutDesign = AdditionalService(name: "Без дизайна", cost: -200, duration: Time(minutes: -30))
-        let removal = AdditionalService(name: "Снятие", cost: 50, duration: Time())
-        let withoutCoating = AdditionalService(name: "Без покрытия", cost: -900, duration: Time(hours: -1, minutes: -30))
-        let lashes2D = AdditionalService(name: "2D", cost: 200, duration: Time())
-        let lashes3D = AdditionalService(name: "3D", cost: 400, duration: Time(hours: 1))
-        let lashes4D = AdditionalService(name: "4D", cost: 600, duration: Time(hours: 2))
+        let strengthening = AdditionalService(name: "Укрепление", cost: 200, duration: TimeInterval.zero)
+        let nailExtension = AdditionalService(name: "Наращивание", cost: 400, duration: TimeInterval(hours: 1))
+        let withoutDesign = AdditionalService(name: "Без дизайна", cost: -200, duration: TimeInterval(minutes: -30))
+        let removal = AdditionalService(name: "Снятие", cost: 50, duration: TimeInterval.zero)
+        let withoutCoating = AdditionalService(name: "Без покрытия", cost: -900, duration: TimeInterval(hours: -1, minutes: -30))
+        let lashes2D = AdditionalService(name: "2D", cost: 200, duration: TimeInterval.zero)
+        let lashes3D = AdditionalService(name: "3D", cost: 400, duration: TimeInterval(hours: 1))
+        let lashes4D = AdditionalService(name: "4D", cost: 600, duration: TimeInterval(hours: 2))
 
-        let manicure = Service(color: .systemTeal, name: "Маникюр", cost: 1400, duration: Time(hours: 3), additionalServices: [strengthening, nailExtension, withoutDesign, removal, withoutCoating])
-        let brows = Service(color: .systemGreen, name: "Брови", cost: 700, duration: Time(hours: 1))
-        _ = Service(color: .systemRed, name: "Ресницы", cost: 1000, duration: Time(hours: 2, minutes: 30), isArchive: true, additionalServices: [lashes2D, lashes3D, lashes4D])
+        let manicure = Service(color: .systemTeal, name: "Маникюр", cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [strengthening, nailExtension, withoutDesign, removal, withoutCoating])
+        let brows = Service(color: .systemGreen, name: "Брови", cost: 700, duration: TimeInterval(hours: 1))
+        _ = Service(color: .systemRed, name: "Ресницы", cost: 1000, duration: TimeInterval(hours: 2, minutes: 30), isArchive: true, additionalServices: [lashes2D, lashes3D, lashes4D])
 
         let golova = Client(photo: UIImage(named: "golova")!, surname: "Голова", name: "Мария", phonenumber: "79272105059", vk: "https://vk.com/mariyagolova", notes: "Мария Костюшкина", isBlocked: true)
         _ = Client(photo: UIImage(named: "dulikov")!, surname: "Дуликов", name: "Григорий", phonenumber: "79272155559", vk: "", notes: "Ветеренар. Учился в Самарском Государственном Аграрном Университете. Любит кастрировать котов.")
@@ -102,13 +102,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var date = Date(day: 04, month: 11, year: 2018)
         for _ in stride(from: 0, through: 365, by: 7) {
             _ = Weekend(date: date)
-            date += 7
+            date = Calendar.current.date(byAdding: .day, value: 7, to: date)!
         }
 
         date = Date(day: 05, month: 11, year: 2018)
         for _ in stride(from: 0, through: 365, by: 7) {
             _ = Weekend(date: date)
-            date += 7
+            date = Calendar.current.date(byAdding: .day, value: 7, to: date)!
         }
 
         _ = Weekend(day: 01, month: 01, year: 2019)
@@ -117,318 +117,318 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //  Мария Голова
 
-        _ = Visit(client: golova, date: Date(day: 1, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1200, duration: Time(hours: 3, minutes: 30), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 1, month: 11, year: 2018, hours: 12), service: manicure, cost: 1200, duration: TimeInterval(hours: 3, minutes: 30), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 25, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 25, month: 11, year: 2018, hours: 9), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 25, month: 11, year: 2018), time: Time(hours: 12), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: golova, dateTime: Date(day: 25, month: 11, year: 2018, hours: 12), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: golova, date: Date(day: 17, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 17, month: 12, year: 2018, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 10, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 10, month: 1, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 12, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1500, duration: Time(hours: 4), additionalServices: [nailExtension])
+        _ = Visit(client: golova, dateTime: Date(day: 12, month: 2, year: 2019, hours: 12), service: manicure, cost: 1500, duration: TimeInterval(hours: 4), additionalServices: [nailExtension])
 
-        _ = Visit(client: golova, date: Date(day: 20, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 20, month: 2, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 20, month: 2, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: golova, dateTime: Date(day: 20, month: 2, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: golova, date: Date(day: 7, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1500, duration: Time(hours: 4), additionalServices: [nailExtension], isClientNotCome: true)
+        _ = Visit(client: golova, dateTime: Date(day: 7, month: 3, year: 2019, hours: 12), service: manicure, cost: 1500, duration: TimeInterval(hours: 4), additionalServices: [nailExtension], isClientNotCome: true)
 
-        _ = Visit(client: golova, date: Date(day: 20, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [withoutDesign])
+        _ = Visit(client: golova, dateTime: Date(day: 20, month: 3, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign])
 
-        _ = Visit(client: golova, date: Date(day: 20, month: 3, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: golova, dateTime: Date(day: 20, month: 3, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: golova, date: Date(day: 18, month: 04, year: 2019), time: Time(hours: 10), service: manicure, cost: 1500, duration: Time(hours: 4), additionalServices: [strengthening])
+        _ = Visit(client: golova, dateTime: Date(day: 18, month: 04, year: 2019, hours: 10), service: manicure, cost: 1500, duration: TimeInterval(hours: 4), additionalServices: [strengthening])
 
-        _ = Visit(client: golova, date: Date(day: 18, month: 04, year: 2019), time: Time(hours: 9), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: golova, dateTime: Date(day: 18, month: 04, year: 2019, hours: 9), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
         //  Мария Костюшкина
 
-        _ = Visit(client: kostyushkina, date: Date(day: 02, month: 11, year: 2018), time: Time(hours: 19), service: manicure, cost: 1100, duration: Time(hours: 3))
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 02, month: 11, year: 2018, hours: 19), service: manicure, cost: 1100, duration: TimeInterval(hours: 3))
 
-        _ = Visit(client: kostyushkina, date: Date(day: 1, month: 11, year: 2018), time: Time(hours: 18), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 1, month: 11, year: 2018, hours: 18), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: kostyushkina, date: Date(day: 22, month: 11, year: 2018), time: Time(hours: 18), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 22, month: 11, year: 2018, hours: 18), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: kostyushkina, date: Date(day: 22, month: 11, year: 2018), time: Time(hours: 21), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 22, month: 11, year: 2018, hours: 21), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: kostyushkina, date: Date(day: 14, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign])
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 14, month: 12, year: 2018, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign])
 
-        _ = Visit(client: kostyushkina, date: Date(day: 4, month: 1, year: 2019), time: Time(hours: 15), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign], notes: "Может опоздать\nТелефон сломан")
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 4, month: 1, year: 2019, hours: 15), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign], notes: "Может опоздать\nТелефон сломан")
 
-        _ = Visit(client: kostyushkina, date: Date(day: 2, month: 2, year: 2019), time: Time(hours: 19), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, nailExtension, withoutDesign, withoutCoating, removal], notes: "Может опоздать")
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 2, month: 2, year: 2019, hours: 19), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, nailExtension, withoutDesign, withoutCoating, removal], notes: "Может опоздать")
 
-        _ = Visit(client: kostyushkina, date: Date(day: 8, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign], isCancelled: true)
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 8, month: 3, year: 2019, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign], isCancelled: true)
 
-        _ = Visit(client: kostyushkina, date: Date(day: 22, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, withoutDesign], notes: "Телефон сломан")
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 22, month: 3, year: 2019, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, withoutDesign], notes: "Телефон сломан")
 
-        _ = Visit(client: kostyushkina, date: Date(day: 10, month: 04, year: 2019), time: Time(hours: 18), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [withoutDesign])
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 10, month: 04, year: 2019, hours: 18), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign])
 
-        _ = Visit(client: kostyushkina, date: Date(day: 10, month: 04, year: 2019), time: Time(hours: 21), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: kostyushkina, dateTime: Date(day: 10, month: 04, year: 2019, hours: 21), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
         // Настасья Александровна
 
-        _ = Visit(client: egorova, date: Date(day: 8, month: 11, year: 2018), time: Time(hours: 12),service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 8, month: 11, year: 2018, hours: 12),service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 20, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 20, month: 11, year: 2018, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 4, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 4, month: 12, year: 2018, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 20, month: 12, year: 2018), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 20, month: 12, year: 2018, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: egorova, date: Date(day: 9, month: 1, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 9, month: 1, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 31, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 31, month: 1, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: egorova, date: Date(day: 14, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 14, month: 2, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 27, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 27, month: 2, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 12, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 12, month: 3, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: egorova, date: Date(day: 26, month: 3, year: 2019), time: Time(hours: 16), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: egorova, dateTime: Date(day: 26, month: 3, year: 2019, hours: 16), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
         // Ирина Петрова
 
-        _ = Visit(client: petrova, date: Date(day: 02, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1350, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 02, month: 11, year: 2018, hours: 12), service: manicure, cost: 1350, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 29, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1500, duration: Time(hours: 3), additionalServices: [nailExtension, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 29, month: 11, year: 2018, hours: 12), service: manicure, cost: 1500, duration: TimeInterval(hours: 3), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 24, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3, minutes: 30), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 24, month: 11, year: 2018, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3, minutes: 30), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 12, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3, minutes: 30), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 12, month: 12, year: 2018, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3, minutes: 30), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 19, month: 1, year: 2019), time: Time(hours: 15), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 19, month: 1, year: 2019, hours: 15), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 16, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 16, month: 2, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 9, month: 3, year: 2019), time: Time(hours: 15), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 9, month: 3, year: 2019, hours: 15), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: petrova, date: Date(day: 30, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: petrova, dateTime: Date(day: 30, month: 3, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
         // Екатерина Кириллова
 
-        _ = Visit(client: kirillova, date: Date(day: 28, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1450, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 28, month: 12, year: 2018, hours: 12), service: manicure, cost: 1450, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: kirillova, date: Date(day: 8, month: 1, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 8, month: 1, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: kirillova, date: Date(day: 7, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 7, month: 2, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: kirillova, date: Date(day: 27, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 27, month: 2, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: kirillova, date: Date(day: 8, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 8, month: 3, year: 2019, hours: 12), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: kirillova, date: Date(day: 28, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: kirillova, dateTime: Date(day: 28, month: 3, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
         // Кристина Ильичёва
 
-        _ = Visit(client: ilicheva, date: Date(day: 5, month: 12, year: 2018), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 5, month: 12, year: 2018, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 27, month: 12, year: 2018), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 27, month: 12, year: 2018, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 23, month: 1, year: 2019), time: Time(hours: 12), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 23, month: 1, year: 2019, hours: 12), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 20, month: 2, year: 2019), time: Time(hours: 13), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 20, month: 2, year: 2019, hours: 13), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 20, month: 2, year: 2019), time: Time(hours: 16), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: ilicheva, dateTime: Date(day: 20, month: 2, year: 2019, hours: 16), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: ilicheva, date: Date(day: 5, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 5, month: 3, year: 2019, hours: 12), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 26, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: ilicheva, dateTime: Date(day: 26, month: 3, year: 2019, hours: 12), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: ilicheva, date: Date(day: 26, month: 3, year: 2019), time: Time(hours: 15), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: ilicheva, dateTime: Date(day: 26, month: 3, year: 2019, hours: 15), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
         // Наталья Вечкилёва
 
-        _ = Visit(client: vechkileva, date: Date(day: 13, month: 11, year: 2018), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 13, month: 11, year: 2018, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 5, month: 12, year: 2018), time: Time(hours: 16), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 5, month: 12, year: 2018, hours: 16), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 27, month: 12, year: 2018), time: Time(hours: 16), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 27, month: 12, year: 2018, hours: 16), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 15, month: 1, year: 2019), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 15, month: 1, year: 2019, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 6, month: 2, year: 2019), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 6, month: 2, year: 2019, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 21, month: 2, year: 2019), time: Time(hours: 17), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 21, month: 2, year: 2019, hours: 17), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 1, month: 3, year: 2019), time: Time(hours: 19), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 1, month: 3, year: 2019, hours: 19), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: vechkileva, date: Date(day: 21, month: 3, year: 2019), time: Time(hours: 17), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: vechkileva, dateTime: Date(day: 21, month: 3, year: 2019, hours: 17), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
         // Надежда Бойко
 
-        _ = Visit(client: boiko, date: Date(day: 14, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 14, month: 11, year: 2018, hours: 9), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 4, month: 12, year: 2018), time: Time(hours: 9),service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 4, month: 12, year: 2018, hours: 9),service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 26, month: 12, year: 2018), time: Time(hours: 9), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 26, month: 12, year: 2018, hours: 9), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 16, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 16, month: 1, year: 2019, hours: 9), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 6, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 6, month: 2, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 20, month: 2, year: 2019), time: Time(hours: 20), service: manicure, cost: 50.5, duration: Time(hours: 1), additionalServices: [withoutCoating], notes: "Только снятие")
+        _ = Visit(client: boiko, dateTime: Date(day: 20, month: 2, year: 2019, hours: 20), service: manicure, cost: 50.5, duration: TimeInterval(hours: 1), additionalServices: [withoutCoating], notes: "Только снятие")
 
-        _ = Visit(client: boiko, date: Date(day: 5, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 5, month: 3, year: 2019, hours: 9), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: boiko, date: Date(day: 19, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: boiko, dateTime: Date(day: 19, month: 3, year: 2019, hours: 9), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
         // Надежда Мелихова
 
-        _ = Visit(client: melihova, date: Date(day: 10, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 10, month: 11, year: 2018, hours: 9), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 10, month: 11, year: 2018), time: Time(hours: 13), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 10, month: 11, year: 2018, hours: 13), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 12, month: 12, year: 2018), time: Time(hours: 18), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 12, month: 12, year: 2018, hours: 18), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 12, month: 12, year: 2018), time: Time(hours: 21), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 12, month: 12, year: 2018, hours: 21), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 29, month: 12, year: 2018), time: Time(hours: 9), service: manicure, cost: 1800, duration: Time(hours: 3), additionalServices: [nailExtension, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 29, month: 12, year: 2018, hours: 9), service: manicure, cost: 1800, duration: TimeInterval(hours: 3), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 29, month: 12, year: 2018), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 29, month: 12, year: 2018, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 26, month: 1, year: 2019), time: Time(hours: 18), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 26, month: 1, year: 2019, hours: 18), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 26, month: 1, year: 2019), time: Time(hours: 21), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 26, month: 1, year: 2019, hours: 21), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 16, month: 2, year: 2019), time: Time(hours: 18), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 16, month: 2, year: 2019, hours: 18), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 16, month: 2, year: 2019), time: Time(hours: 21), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 16, month: 2, year: 2019, hours: 21), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 2, month: 3, year: 2019), time: Time(hours: 18), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 2, month: 3, year: 2019, hours: 18), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 2, month: 3, year: 2019), time: Time(hours: 21), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 2, month: 3, year: 2019, hours: 21), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: melihova, date: Date(day: 23, month: 3, year: 2019), time: Time(hours: 15), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: melihova, dateTime: Date(day: 23, month: 3, year: 2019, hours: 15), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: melihova, date: Date(day: 23, month: 3, year: 2019), time: Time(hours: 18), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: melihova, dateTime: Date(day: 23, month: 3, year: 2019, hours: 18), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
         // Наталья Герасимова
 
-        _ = Visit(client: gerasimova, date: Date(day: 26, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 26, month: 11, year: 2018, hours: 12), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 16, month: 11, year: 2018), time: Time(hours: 12), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 16, month: 11, year: 2018, hours: 12), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 7, month: 2, year: 2019), time: Time(hours: 15), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: gerasimova, dateTime: Date(day: 7, month: 2, year: 2019, hours: 15), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: gerasimova, date: Date(day: 6, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1000, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 6, month: 12, year: 2018, hours: 12), service: manicure, cost: 1000, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 29, month: 12, year: 2018), time: Time(hours: 15), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 29, month: 12, year: 2018, hours: 15), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 16, month: 1, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 16, month: 1, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 12, month: 2, year: 2019), time: Time(hours: 16), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: gerasimova, dateTime: Date(day: 12, month: 2, year: 2019, hours: 16), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: gerasimova, date: Date(day: 8, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 8, month: 2, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 28, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal], isCancelled: true)
+        _ = Visit(client: gerasimova, dateTime: Date(day: 28, month: 2, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal], isCancelled: true)
 
-        _ = Visit(client: gerasimova, date: Date(day: 12, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 12, month: 3, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: gerasimova, date: Date(day: 15, month: 3, year: 2019), time: Time(hours: 12), service: brows, cost: 500, duration: Time(hours: 1))
+        _ = Visit(client: gerasimova, dateTime: Date(day: 15, month: 3, year: 2019, hours: 12), service: brows, cost: 500, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: gerasimova, date: Date(day: 29, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1100, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: gerasimova, dateTime: Date(day: 29, month: 3, year: 2019, hours: 12), service: manicure, cost: 1100, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
         // Ольга Ольгина
 
-        _ = Visit(client: olgina, date: Date(day: 8, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 8, month: 11, year: 2018, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 21, month: 11, year: 2018), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 21, month: 11, year: 2018, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 7, month: 12, year: 2018), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 7, month: 12, year: 2018, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 26, month: 12, year: 2018), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 26, month: 12, year: 2018, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 17, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 17, month: 1, year: 2019, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 1, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 1, month: 2, year: 2019, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 14, month: 2, year: 2019), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal], isClientNotCome: true)
+        _ = Visit(client: olgina, dateTime: Date(day: 14, month: 2, year: 2019, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal], isClientNotCome: true)
 
-        _ = Visit(client: olgina, date: Date(day: 15, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 15, month: 3, year: 2019, hours: 9), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: olgina, date: Date(day: 28, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1300, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: olgina, dateTime: Date(day: 28, month: 3, year: 2019, hours: 12), service: manicure, cost: 1300, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
         // Елизавета Пешнова
 
-        _ = Visit(client: peshnova, date: Date(day: 5, month: 2, year: 2019), time: Time(hours: 19), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: peshnova, dateTime: Date(day: 5, month: 2, year: 2019, hours: 19), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: peshnova, date: Date(day: 9, month: 2, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: peshnova, dateTime: Date(day: 9, month: 2, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: peshnova, date: Date(day: 19, month: 2, year: 2019), time: Time(hours: 19), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: peshnova, dateTime: Date(day: 19, month: 2, year: 2019, hours: 19), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: peshnova, date: Date(day: 28, month: 2, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: peshnova, dateTime: Date(day: 28, month: 2, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: peshnova, date: Date(day: 5, month: 3, year: 2019), time: Time(hours: 19), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: peshnova, dateTime: Date(day: 5, month: 3, year: 2019, hours: 19), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: peshnova, date: Date(day: 6, month: 3, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: peshnova, dateTime: Date(day: 6, month: 3, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: peshnova, date: Date(day: 14, month: 3, year: 2019), time: Time(hours: 18), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: peshnova, dateTime: Date(day: 14, month: 3, year: 2019, hours: 18), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: peshnova, date: Date(day: 29, month: 3, year: 2019), time: Time(hours: 15), service: manicure, cost: 1800, duration: Time(hours: 4), additionalServices: [nailExtension, removal])
+        _ = Visit(client: peshnova, dateTime: Date(day: 29, month: 3, year: 2019, hours: 15), service: manicure, cost: 1800, duration: TimeInterval(hours: 4), additionalServices: [nailExtension, removal])
 
-        _ = Visit(client: peshnova, date: Date(day: 29, month: 3, year: 2019), time: Time(hours: 19), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: peshnova, dateTime: Date(day: 29, month: 3, year: 2019, hours: 19), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
         // Виктория Троц
 
-        _ = Visit(client: trots, date: Date(day: 7, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 7, month: 2, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 26, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 26, month: 2, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 14, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 14, month: 3, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 26, month: 3, year: 2019), time: Time(hours: 19), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 26, month: 3, year: 2019, hours: 19), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 7, month: 2, year: 2019), time: Time(hours: 19), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 7, month: 2, year: 2019, hours: 19), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 28, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 28, month: 2, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 6, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 6, month: 3, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: trots, date: Date(day: 22, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: trots, dateTime: Date(day: 22, month: 3, year: 2019, hours: 12), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
         // Екатерина Сергеева
 
-        _ = Visit(client: sergeeva, date: Date(day: 5, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: sergeeva, dateTime: Date(day: 5, month: 2, year: 2019, hours: 9), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: sergeeva, date: Date(day: 22, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: sergeeva, dateTime: Date(day: 22, month: 2, year: 2019, hours: 9), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: sergeeva, date: Date(day: 7, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: sergeeva, dateTime: Date(day: 7, month: 3, year: 2019, hours: 9), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
-        _ = Visit(client: sergeeva, date: Date(day: 30, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1200, duration: Time(hours: 3), additionalServices: [withoutDesign, removal])
+        _ = Visit(client: sergeeva, dateTime: Date(day: 30, month: 3, year: 2019, hours: 9), service: manicure, cost: 1200, duration: TimeInterval(hours: 3), additionalServices: [withoutDesign, removal])
 
         // Яна Осипова
 
-        _ = Visit(client: osipova, date: Date(day: 22, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: osipova, dateTime: Date(day: 22, month: 1, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: osipova, date: Date(day: 13, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: osipova, dateTime: Date(day: 13, month: 2, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: osipova, date: Date(day: 13, month: 2, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: osipova, dateTime: Date(day: 13, month: 2, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: osipova, date: Date(day: 1, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: osipova, dateTime: Date(day: 1, month: 3, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: osipova, date: Date(day: 1, month: 3, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: osipova, dateTime: Date(day: 1, month: 3, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: osipova, date: Date(day: 13, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: osipova, dateTime: Date(day: 13, month: 3, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: osipova, date: Date(day: 13, month: 3, year: 2019), time: Time(hours: 12), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: osipova, dateTime: Date(day: 13, month: 3, year: 2019, hours: 12), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
-        _ = Visit(client: osipova, date: Date(day: 26, month: 3, year: 2019), time: Time(hours: 9), service: manicure, cost: 1400, duration: Time(hours: 3), additionalServices: [removal])
+        _ = Visit(client: osipova, dateTime: Date(day: 26, month: 3, year: 2019, hours: 9), service: manicure, cost: 1400, duration: TimeInterval(hours: 3), additionalServices: [removal])
 
-        _ = Visit(client: osipova, date: Date(day: 29, month: 3, year: 2019), time: Time(hours: 20), service: brows, cost: 700, duration: Time(hours: 1))
+        _ = Visit(client: osipova, dateTime: Date(day: 29, month: 3, year: 2019, hours: 20), service: brows, cost: 700, duration: TimeInterval(hours: 1))
 
         // Дарья Фёдорова
 
-        _ = Visit(client: fedorova, date: Date(day: 30, month: 1, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: fedorova, dateTime: Date(day: 30, month: 1, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: fedorova, date: Date(day: 13, month: 2, year: 2019), time: Time(hours: 13), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: fedorova, dateTime: Date(day: 13, month: 2, year: 2019, hours: 13), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: fedorova, date: Date(day: 21, month: 2, year: 2019), time: Time(hours: 9), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: fedorova, dateTime: Date(day: 21, month: 2, year: 2019, hours: 9), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: fedorova, date: Date(day: 6, month: 3, year: 2019), time: Time(hours: 13), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: fedorova, dateTime: Date(day: 6, month: 3, year: 2019, hours: 13), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
 
-        _ = Visit(client: fedorova, date: Date(day: 27, month: 3, year: 2019), time: Time(hours: 12), service: manicure, cost: 1600, duration: Time(hours: 3), additionalServices: [strengthening, removal])
+        _ = Visit(client: fedorova, dateTime: Date(day: 27, month: 3, year: 2019, hours: 12), service: manicure, cost: 1600, duration: TimeInterval(hours: 3), additionalServices: [strengthening, removal])
     }
 }

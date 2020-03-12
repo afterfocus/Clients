@@ -57,9 +57,9 @@ class CalendarController: HidingNavigationBarViewController {
    
      `section` = количество лет, предществующих текущему * 12 + номер текущего месяца - 1
      */
-    private let todayCell = IndexPath(item: Date.today.day, section: 84 + Date.today.month.rawValue - 1)
+    private let todayCell = IndexPath(item: Date.today.day, section: 84 + Date.today.month - 1)
     /// Индекс текущей выбранной ячейки
-    private var pickedCell = IndexPath(item: Date.today.day, section: 84 + Date.today.month.rawValue - 1) {
+    private var pickedCell = IndexPath(item: Date.today.day, section: 84 + Date.today.month - 1) {
         /// При изменении обновляет представление `scheduleView` и данные списка записей `tableData`
         didSet {
             guard pickedCell != oldValue else { return }
@@ -453,7 +453,7 @@ extension CalendarController: UICollectionViewDataSource {
         let header: CalendarCollectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                                for: indexPath)
         // Текст = название месяца, связанного с секцией
-        header.monthLabel.text = calendarData.dateFor(indexPath.section).month.name
+        header.monthLabel.text = calendarData.dateFor(indexPath.section).monthNameStirng
         // Цвет текста красный, если связанный месяц - текущий
         header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .systemRed : .label
         // Горизонатальный центр метки совпадает с центром первой видимой ячейки секции

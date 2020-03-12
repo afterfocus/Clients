@@ -46,7 +46,7 @@ class ClientRepository {
         do {
             let clients = try context.fetch(fetchRequest)
             clients.forEach {
-                if $0.visits.isEmpty || $0.visitsSorted.first!.date < minimumDate {
+                if $0.visits.isEmpty || $0.visitsSorted.first!.dateTime < minimumDate {
                     archiveClients.append($0)
                 } else {
                     activeClients.append($0)

@@ -79,7 +79,7 @@ class EditAdditionalServiceController: UITableViewController {
             let costSign = costSignSegmentedControl.selectedSegmentIndex == 0 ? 1 : -1
             let cost = Float(costSign) * NumberFormatter.convertToFloat(costText)
             let durationSign = durationSignSegmentedControl.selectedSegmentIndex == 0 ? 1 : -1
-            let duration = Time(
+            let duration = TimeInterval(
                 hours: durationSign * durationPicker.selectedRow(inComponent: 0),
                 minutes: durationSign * durationPicker.selectedRow(inComponent: 2) * 5
             )
@@ -160,7 +160,7 @@ extension EditAdditionalServiceController: UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         durationLabel.text = (durationSignSegmentedControl.selectedSegmentIndex == 0) ? "+ " : "- "
-        let selectedTime = Time(
+        let selectedTime = TimeInterval(
             hours: durationPicker.selectedRow(inComponent: 0),
             minutes: durationPicker.selectedRow(inComponent: 2) * 5
         )

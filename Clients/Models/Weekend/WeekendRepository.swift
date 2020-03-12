@@ -22,8 +22,7 @@ class WeekendRepository {
      */
     class func isWeekend(_ date: Date) -> Bool {
         let request = fetchRequest
-        request.predicate = NSPredicate(format: "day == %i AND month == %id AND year == %i",
-                                        date.day, date.month.rawValue, date.year)
+        request.predicate = NSPredicate(format: "date == %@", date as NSDate)
         request.includesPropertyValues = false
         request.fetchLimit = 1
         do {
@@ -44,8 +43,7 @@ class WeekendRepository {
     /// Сделать дату `date` рабочим днём
     class func removeWeekend(for date: Date) {
         let request = fetchRequest
-        request.predicate = NSPredicate(format: "day == %i AND month == %i AND year == %i",
-                                        date.day, date.month.rawValue, date.year)
+        request.predicate = NSPredicate(format: "date == %@", date as NSDate)
         request.includesPropertyValues = false
         do {
             let weekends = try context.fetch(request)

@@ -18,8 +18,8 @@ class TodayViewController: UITableViewController {
     private var unoccupiedPlacesCellHeight: CGFloat!
     
     private var searchParameters = UnoccupiedPlacesSearchParameters(startDate: Date.today,
-                                                                    endDate: Date.today + 7,
-                                                                    requiredDuration: 1)
+                                                                    endDate: Date.today.addDays(7),
+                                                                    requiredDuration: TimeInterval(hours: 1))
 
     private var clientsAndVisits = [AnyObject]()
     

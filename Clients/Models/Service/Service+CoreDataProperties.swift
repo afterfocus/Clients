@@ -15,10 +15,8 @@ extension Service {
     @NSManaged public var color: UIColor
     /// Стоимость
     @NSManaged public var cost: Float
-    /// Продолжительность (часы)
-    @NSManaged public var durationHours: Int16
-    /// Продолжительность (минуты)
-    @NSManaged public var durationMinutes: Int16
+    /// Продолжительность
+    @NSManaged public var duration: TimeInterval
     /// Является ли архивной
     @NSManaged public var isArchive: Bool
     /// Название

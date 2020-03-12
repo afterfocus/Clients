@@ -14,7 +14,7 @@ struct UnoccupiedPlacesSearchParameters {
     /// Конец интервала поиска свободных мест
     private(set) var endDate: Date
     /// Требуемая продолжительность записи для поиска свободных мест
-    private(set) var requiredDuration: Time
+    private(set) var requiredDuration: TimeInterval
     
     private var isStartAndEndMonthsEqual: Bool {
         return startDate.month == endDate.month && startDate.year == endDate.year
@@ -24,6 +24,6 @@ struct UnoccupiedPlacesSearchParameters {
         let startDateString = isStartAndEndMonthsEqual ? "\(startDate.day)" : "\(startDate.dayAndMonthString)"
         let endDateString = "\(NSLocalizedString("UNTIL", comment: "по")) \(endDate.dayAndMonthString)"
         return NSLocalizedString("FROM", comment: "с") +
-            " \(startDateString) \(endDateString), \(requiredDuration.string(style: .duration))"
+                " \(startDateString) \(endDateString), " + requiredDuration.string(style: .duration)
     }
 }

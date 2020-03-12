@@ -86,7 +86,6 @@
 		B573E6E324126C8700DEDC34 /* ClientsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B573E6E224126C8700DEDC34 /* ClientsTableViewModel.swift */; };
 		B573E6E524127C7700DEDC34 /* VisitsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B573E6E424127C7700DEDC34 /* VisitsTableViewModel.swift */; };
 		B573E6E924128DB500DEDC34 /* ClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B573E6E824128DB500DEDC34 /* ClientViewModel.swift */; };
-		B5768A0123F17E0600506953 /* UIDatePickerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */; };
 		B5777F6623CFDCBE00FB96D3 /* VisitHistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5777F6523CFDCBE00FB96D3 /* VisitHistoryTableCell.swift */; };
 		B5777F6823D0011600FB96D3 /* ClientProfileTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5777F6723D0011600FB96D3 /* ClientProfileTopView.swift */; };
 		B57FDC222402953900B4D757 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */; };
@@ -104,6 +103,11 @@
 		B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
 		B5BB473E241924CC00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
 		B5BB473F2419251000714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
+		B5BDEF0124194B0D00A5B23B /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */; };
+		B5BDEF0224194C5A00A5B23B /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */; };
+		B5BDEF0324194C5A00A5B23B /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */; };
+		B5BDEF06241988F800A5B23B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B552D69723D2651000DF1CB9 /* StringExtension.swift */; };
+		B5BDEF072419890300A5B23B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B552D69723D2651000DF1CB9 /* StringExtension.swift */; };
 		B5E2269023D119AA0024C0AF /* VisitInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */; };
 		B5E4219B23EC77AD00476480 /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219A23EC77AD00476480 /* ClientRepository.swift */; };
 		B5E4219D23EC7B3700476480 /* VisitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219C23EC7B3700476480 /* VisitRepository.swift */; };
@@ -225,7 +229,6 @@
 		B573E6E424127C7700DEDC34 /* VisitsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsTableViewModel.swift; sourceTree = "<group>"; };
 		B573E6E62412854200DEDC34 /* VisitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitViewModel.swift; sourceTree = "<group>"; };
 		B573E6E824128DB500DEDC34 /* ClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientViewModel.swift; sourceTree = "<group>"; };
-		B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDatePickerExtension.swift; sourceTree = "<group>"; };
 		B5777F6523CFDCBE00FB96D3 /* VisitHistoryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitHistoryTableCell.swift; sourceTree = "<group>"; };
 		B5777F6723D0011600FB96D3 /* ClientProfileTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientProfileTopView.swift; sourceTree = "<group>"; };
 		B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 		B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B5B3BE5124019448008CA7BF /* MonthGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGradientView.swift; sourceTree = "<group>"; };
 		B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkdaySchedule.swift; sourceTree = "<group>"; };
+		B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitInfoController.swift; sourceTree = "<group>"; };
 		B5E4219A23EC77AD00476480 /* ClientRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRepository.swift; sourceTree = "<group>"; };
 		B5E4219C23EC7B3700476480 /* VisitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitRepository.swift; sourceTree = "<group>"; };
@@ -409,6 +413,7 @@
 				B5E3E4D723ED527B00E61B9D /* AdditionalService */,
 				B5E3E4D823ED529100E61B9D /* Weekend */,
 				B516F28723CE1F830087B2CB /* Date.swift */,
+				B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */,
 				B516F28923CE1F8A0087B2CB /* Time.swift */,
 				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
 				B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */,
@@ -468,7 +473,6 @@
 				B57FDC212402953900B4D757 /* UIAlertControllerExtension.swift */,
 				B5E76F4F23CE7B9D009F6D99 /* UIButtonExtension.swift */,
 				B5E76F5323CE7DBD009F6D99 /* UIColorExtension.swift */,
-				B5768A0023F17E0600506953 /* UIDatePickerExtension.swift */,
 				B503F1DB23D202FD0097B04E /* UIImageExtension.swift */,
 				B5E76F5123CE7C29009F6D99 /* UIViewControllerExtension.swift */,
 			);
@@ -827,6 +831,7 @@
 				B5E9745823E7189C0061AB9B /* ScheduleController.swift in Sources */,
 				B516F26323CE15EA0087B2CB /* AppDelegate.swift in Sources */,
 				B504599524129F99000C96E7 /* AdditionalServiceViewModel.swift in Sources */,
+				B5BDEF0124194B0D00A5B23B /* TimeInterval.swift in Sources */,
 				B5E939D723EC5C58008112D4 /* Service+CoreDataProperties.swift in Sources */,
 				B5E9C64B23F047E9004A4AA9 /* EditAdditionalServiceController.swift in Sources */,
 				B5E939DA23EC5C58008112D4 /* AdditionalService.swift in Sources */,
@@ -864,7 +869,6 @@
 				B510584B23E8975D00546D8D /* WidgetController.swift in Sources */,
 				B5E76F5823CE9562009F6D99 /* SegueHandler.swift in Sources */,
 				B516F28823CE1F830087B2CB /* Date.swift in Sources */,
-				B5768A0123F17E0600506953 /* UIDatePickerExtension.swift in Sources */,
 				B5121A8923EC54E900D27926 /* CoreDataManager.swift in Sources */,
 				B5206E562413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */,
 				B5E9746223E8620D0061AB9B /* ServiceTableCell.swift in Sources */,
@@ -922,6 +926,7 @@
 				B56A274823F69984005D8DBE /* UIColorExtension.swift in Sources */,
 				B56A274723F69981005D8DBE /* AdditionalService+CoreDataProperties.swift in Sources */,
 				B5045991241299A5000C96E7 /* VisitViewModel.swift in Sources */,
+				B5BDEF06241988F800A5B23B /* StringExtension.swift in Sources */,
 				B56A273A23F69724005D8DBE /* Date.swift in Sources */,
 				B56A273E23F697AF005D8DBE /* AppSettings.swift in Sources */,
 				B5BB473E241924CC00714ED8 /* WorkdaySchedule.swift in Sources */,
@@ -931,6 +936,7 @@
 				B56A273623F69697005D8DBE /* HairlineConstraint.swift in Sources */,
 				B5206E572413D79D00B05ED9 /* UnoccupiedPlacesSearchParameters.swift in Sources */,
 				B56A272A23F69573005D8DBE /* TodayViewController.swift in Sources */,
+				B5BDEF0324194C5A00A5B23B /* TimeInterval.swift in Sources */,
 				B56A273923F6971F005D8DBE /* Visit.swift in Sources */,
 				B56A273C23F6979F005D8DBE /* CoreDataManager.swift in Sources */,
 				B56A274323F69969005D8DBE /* Visit+CoreDataProperties.swift in Sources */,
@@ -945,6 +951,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B569304E23F92D6000853B9E /* AdditionalService.swift in Sources */,
+				B5BDEF0224194C5A00A5B23B /* TimeInterval.swift in Sources */,
 				B569304823F92D4C00853B9E /* Client+CoreDataProperties.swift in Sources */,
 				B569305223F92D7600853B9E /* Clients.xcdatamodeld in Sources */,
 				B569305523F92E2800853B9E /* AppSettings.swift in Sources */,
@@ -959,6 +966,7 @@
 				B569305023F92D6A00853B9E /* Date.swift in Sources */,
 				B569305423F92E1E00853B9E /* UIColorExtension.swift in Sources */,
 				B569304923F92D4F00853B9E /* Client.swift in Sources */,
+				B5BDEF072419890300A5B23B /* StringExtension.swift in Sources */,
 				B5EB22DB23EF07FC00BB16D0 /* CallDirectoryHandler.swift in Sources */,
 				B569304A23F92D5500853B9E /* Visit.swift in Sources */,
 			);

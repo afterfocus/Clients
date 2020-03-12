@@ -24,24 +24,24 @@ class VisitViewModel {
     }
 
     var dateText: String {
-        return visit.date.fullString
+        return visit.dateTime.fullWithWeekdayString
     }
     
     var shortDateText: String {
-        return visit.date.shortString
+        return visit.dateTime.shortString
     }
     
     var fullTimeText: String {
-        return "\(NSLocalizedString("FROM", comment: "с")) \(visit.time) " +
-                "\(NSLocalizedString("TO", comment: "до")) \(visit.time + visit.duration)"
+        return "\(NSLocalizedString("FROM", comment: "с")) " + visit.dateTime.timeString +
+                " \(NSLocalizedString("TO", comment: "до")) " + visit.endTime.string(style: .short)
     }
     
     var startTimeText: String {
-        return "\(visit.time)"
+        return visit.dateTime.timeString
     }
     
     var endTimeText: String {
-        return "\(visit.time + visit.duration)"
+        return visit.endTime.string(style: .short)
     }
     
     var serviceText: String {
@@ -98,7 +98,7 @@ class VisitViewModel {
     }
     
     var isOnNow: Bool {
-        let currentTime = Time.currentTime
-        return visit.date == Date.today && visit.time < currentTime && visit.endTime > currentTime
+        let now = Date.today
+        return visit.dateTime < now && visit.endDateTime > now
     }
 }
