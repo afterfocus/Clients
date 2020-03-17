@@ -12,12 +12,8 @@ class AppSettings {
 
     // MARK: - WidgetPlacesSearchRange
     
-    // FIXME: Rewrite to TimeInterval
     enum WidgetPlacesSearchRange: Int {
-        case month
-        case week
-        case day
-        case counter
+        case month = 30, week = 7, day = 1, byNumberOfPlaces = 0
 
         var string: String {
             switch self {
@@ -27,18 +23,9 @@ class AppSettings {
                 return NSLocalizedString("WEEK", comment: "Неделя")
             case .month:
                 return NSLocalizedString("MONTH_UPPERCASE", comment: "Месяц")
-            case .counter:
+            case .byNumberOfPlaces:
                 return NSLocalizedString("BY_NUMBER_OF_PLACES",
                                          comment: "По количеству мест") + "(\(AppSettings.shared.widgetPlacesSearchCounter))"
-            }
-        }
-
-        var daysInRange: Int {
-            switch self {
-            case .month: return 30
-            case .week: return 7
-            case .day: return 1
-            default: return -1
             }
         }
     }
@@ -102,7 +89,7 @@ class AppSettings {
         get { userDefaults.double(forKey: Keys.widgetPlacesSearchRequiredDuration) }
     }
 
-    /// Интервал дат для быстрого поиска свободных мест из виджета
+    /// Количество дней для быстрого поиска свободных мест из виджета
     var widgetPlacesSearchRange: WidgetPlacesSearchRange {
         set { userDefaults.set(newValue.rawValue, forKey: Keys.widgetPlacesSearchRange) }
         get { return WidgetPlacesSearchRange(rawValue: userDefaults.integer(forKey: Keys.widgetPlacesSearchRange))! }
@@ -139,14 +126,13 @@ class AppSettings {
         get { return userDefaults.bool(forKey: Keys.shouldBlockIncomingCalls) }
     }
 
-    // FIXME: Время начала и окончания не получается извлечь после регистрации начальных значений
     /// Получить рабочий график на день недели `dayOfWeek`
     func schedule(for dayOfWeek: Weekday) -> WorkdaySchedule {
         let day = String(dayOfWeek.rawValue)
         return WorkdaySchedule(
             isWeekend: userDefaults.bool(forKey: day + Keys.isWeekend),
-            start: userDefaults.object(forKey: day + Keys.workdayStart) as? Date ?? Date(),
-            end: userDefaults.object(forKey: day + Keys.workdayEnd) as? Date ?? Date()
+            start: userDefaults.object(forKey: day + Keys.workdayStart) as? Date ?? Date(hours: 9),
+            end: userDefaults.object(forKey: day + Keys.workdayEnd) as? Date ?? Date(hours: 18)
         )
     }
 
@@ -177,8 +163,6 @@ class AppSettings {
         ]
         for day in 0...6 {
             defaults[String(day) + Keys.isWeekend] = ([0, 1].contains(day) ? "YES" : "NO")
-            defaults[String(day) + Keys.workdayStart] = "2020-03-12T05:00:00Z"
-            defaults[String(day) + Keys.workdayEnd] = "2020-03-12T14:00:09Z"
         }
         return defaults
     }

@@ -37,8 +37,8 @@ class EditScheduleController: UITableViewController {
         isWeekendOldValue = schedule.isWeekend
         startTimePicker.date = schedule.start
         endTimePicker.date = schedule.end
-        startTimeLabel.text = schedule.start.timeString
-        endTimeLabel.text = schedule.end.timeString
+        startTimeLabel.text = schedule.start.string(style: .time)
+        endTimeLabel.text = schedule.end.string(style: .time)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -60,15 +60,15 @@ class EditScheduleController: UITableViewController {
 
     @IBAction func pickerValueChanged(_ sender: UIDatePicker) {
         if sender === startTimePicker {
-            startTimeLabel.text = sender.date.timeString
+            startTimeLabel.text = sender.date.string(style: .time)
             if endTimePicker.date < sender.date {
-                endTimeLabel.text = sender.date.timeString
+                endTimeLabel.text = sender.date.string(style: .time)
                 endTimePicker.date = sender.date
             }
         } else {
-            endTimeLabel.text = sender.date.timeString
+            endTimeLabel.text = sender.date.string(style: .time)
             if startTimePicker.date > sender.date {
-                startTimeLabel.text = sender.date.timeString
+                startTimeLabel.text = sender.date.string(style: .time)
                 startTimePicker.date = sender.date
             }
         }

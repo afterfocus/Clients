@@ -21,7 +21,6 @@
 		B516F26323CE15EA0087B2CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F26223CE15EA0087B2CB /* AppDelegate.swift */; };
 		B516F26D23CE15EA0087B2CB /* Clients.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */; };
 		B516F28823CE1F830087B2CB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28723CE1F830087B2CB /* Date.swift */; };
-		B516F28A23CE1F8A0087B2CB /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28923CE1F8A0087B2CB /* Time.swift */; };
 		B516F28E23CE501D0087B2CB /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28D23CE501D0087B2CB /* AppSettings.swift */; };
 		B51AE46C2412C2F500EE167B /* VisitsHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */; };
 		B51E721123DC793500C9623C /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E721023DC793400C9623C /* SearchResultsController.swift */; };
@@ -41,6 +40,8 @@
 		B5465E6523F82E56004F0C09 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5465E6723F82E56004F0C09 /* MainInterface.storyboard */; };
 		B5465E7923F82F9F004F0C09 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5465E7723F82F9F004F0C09 /* Localizable.strings */; };
 		B552D69823D2651000DF1CB9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B552D69723D2651000DF1CB9 /* StringExtension.swift */; };
+		B553D08F2421841800BDB48E /* TimeIntervalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */; };
+		B553D0902421841800BDB48E /* TimeIntervalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */; };
 		B569304223F9219400853B9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B569304023F9219400853B9E /* Localizable.strings */; };
 		B569304723F92D4A00853B9E /* ClientRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219A23EC77AD00476480 /* ClientRepository.swift */; };
 		B569304823F92D4C00853B9E /* Client+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E939DD23EC5CBB008112D4 /* Client+CoreDataProperties.swift */; };
@@ -52,7 +53,6 @@
 		B569304E23F92D6000853B9E /* AdditionalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E939D223EC5C58008112D4 /* AdditionalService.swift */; };
 		B569304F23F92D6000853B9E /* AdditionalService+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E939D323EC5C58008112D4 /* AdditionalService+CoreDataProperties.swift */; };
 		B569305023F92D6A00853B9E /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28723CE1F830087B2CB /* Date.swift */; };
-		B569305123F92D6A00853B9E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28923CE1F8A0087B2CB /* Time.swift */; };
 		B569305223F92D7600853B9E /* Clients.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */; };
 		B569305323F92E0A00853B9E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5121A8823EC54E900D27926 /* CoreDataManager.swift */; };
 		B569305423F92E1E00853B9E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E76F5323CE7DBD009F6D99 /* UIColorExtension.swift */; };
@@ -62,7 +62,6 @@
 		B56A273123F69573005D8DBE /* ClientsTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B56A272423F69573005D8DBE /* ClientsTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B56A273623F69697005D8DBE /* HairlineConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F415AD23D6438300D48319 /* HairlineConstraint.swift */; };
 		B56A273723F6970F005D8DBE /* VisitHistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5777F6523CFDCBE00FB96D3 /* VisitHistoryTableCell.swift */; };
-		B56A273823F6971A005D8DBE /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28923CE1F8A0087B2CB /* Time.swift */; };
 		B56A273923F6971F005D8DBE /* Visit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E939CC23EC5C58008112D4 /* Visit.swift */; };
 		B56A273A23F69724005D8DBE /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B516F28723CE1F830087B2CB /* Date.swift */; };
 		B56A273B23F69790005D8DBE /* VisitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4219C23EC7B3700476480 /* VisitRepository.swift */; };
@@ -98,6 +97,10 @@
 		B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */; };
 		B5890AF923E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */; };
 		B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */; };
+		B5B035992421748300B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
+		B5B0359B2421749500B26C70 /* TimeIntervalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */; };
+		B5B0359C2421767A00B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
+		B5B0359D242176B400B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
 		B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */; };
 		B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE5124019448008CA7BF /* MonthGradientView.swift */; };
 		B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
@@ -198,7 +201,6 @@
 		B516F26E23CE15FB0087B2CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B516F27323CE15FB0087B2CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B516F28723CE1F830087B2CB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		B516F28923CE1F8A0087B2CB /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		B516F28D23CE501D0087B2CB /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		B51AE46B2412C2F500EE167B /* VisitsHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsHistoryViewModel.swift; sourceTree = "<group>"; };
 		B51E721023DC793400C9623C /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
@@ -242,6 +244,8 @@
 		B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionCell.swift; sourceTree = "<group>"; };
 		B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionHeader.swift; sourceTree = "<group>"; };
 		B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesTableCell.swift; sourceTree = "<group>"; };
+		B5B035982421748300B26C70 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalFormatter.swift; sourceTree = "<group>"; };
 		B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		B5B3BE5124019448008CA7BF /* MonthGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGradientView.swift; sourceTree = "<group>"; };
 		B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkdaySchedule.swift; sourceTree = "<group>"; };
@@ -412,9 +416,7 @@
 				B5E3E4D623ED526E00E61B9D /* Service */,
 				B5E3E4D723ED527B00E61B9D /* AdditionalService */,
 				B5E3E4D823ED529100E61B9D /* Weekend */,
-				B516F28723CE1F830087B2CB /* Date.swift */,
-				B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */,
-				B516F28923CE1F8A0087B2CB /* Time.swift */,
+				B5B035972421744D00B26C70 /* DateTime */,
 				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
 				B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */,
 				B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */,
@@ -519,6 +521,17 @@
 				B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */,
 			);
 			path = Today;
+			sourceTree = "<group>";
+		};
+		B5B035972421744D00B26C70 /* DateTime */ = {
+			isa = PBXGroup;
+			children = (
+				B516F28723CE1F830087B2CB /* Date.swift */,
+				B5B035982421748300B26C70 /* DateFormatter.swift */,
+				B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */,
+				B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */,
+			);
+			path = DateTime;
 			sourceTree = "<group>";
 		};
 		B5E3E4D423ED524500E61B9D /* Client */ = {
@@ -875,12 +888,12 @@
 				B5890AF323E5BC9000C3A50E /* SearchIntervalTableCell.swift in Sources */,
 				B5F8955423ECA1C800938FA7 /* Weekend+CoreDataProperties.swift in Sources */,
 				B5249FE023DC6FA1005EFC00 /* NumberFormatterExtension.swift in Sources */,
-				B516F28A23CE1F8A0087B2CB /* Time.swift in Sources */,
 				B5F8955323ECA1C800938FA7 /* Weekend.swift in Sources */,
 				B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */,
 				B5E76F5E23CF9DA8009F6D99 /* ClientProfileController.swift in Sources */,
 				B5890AEC23E35A8000C3A50E /* AdditionalServiceTableCell.swift in Sources */,
 				B5E9745F23E861200061AB9B /* ServicesController.swift in Sources */,
+				B5B035992421748300B26C70 /* DateFormatter.swift in Sources */,
 				B51AE46C2412C2F500EE167B /* VisitsHistoryViewModel.swift in Sources */,
 				B5E76F5023CE7B9D009F6D99 /* UIButtonExtension.swift in Sources */,
 				B5364548240ED9AE000BA839 /* HidingNavigationBarViewController.swift in Sources */,
@@ -900,6 +913,7 @@
 				B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */,
 				B5E76F5223CE7C29009F6D99 /* UIViewControllerExtension.swift in Sources */,
 				B5777F6623CFDCBE00FB96D3 /* VisitHistoryTableCell.swift in Sources */,
+				B5B0359B2421749500B26C70 /* TimeIntervalFormatter.swift in Sources */,
 				B5890AF923E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift in Sources */,
 				B5E9746423E8652A0061AB9B /* EditServiceController.swift in Sources */,
 				B5E939DB23EC5C58008112D4 /* AdditionalService+CoreDataProperties.swift in Sources */,
@@ -916,12 +930,13 @@
 			files = (
 				B56A274923F69991005D8DBE /* NumberFormatterExtension.swift in Sources */,
 				B56A274623F6997E005D8DBE /* AdditionalService.swift in Sources */,
-				B56A273823F6971A005D8DBE /* Time.swift in Sources */,
 				B56A274123F69958005D8DBE /* Service.swift in Sources */,
 				B56A274223F69966005D8DBE /* Client+CoreDataProperties.swift in Sources */,
 				B56A273D23F697A8005D8DBE /* WeekendRepository.swift in Sources */,
 				B56A274023F69951005D8DBE /* Client.swift in Sources */,
+				B553D0902421841800BDB48E /* TimeIntervalFormatter.swift in Sources */,
 				B5206E5F2414313500B05ED9 /* ReusableView.swift in Sources */,
+				B5B0359C2421767A00B26C70 /* DateFormatter.swift in Sources */,
 				B56A273B23F69790005D8DBE /* VisitRepository.swift in Sources */,
 				B56A274823F69984005D8DBE /* UIColorExtension.swift in Sources */,
 				B56A274723F69981005D8DBE /* AdditionalService+CoreDataProperties.swift in Sources */,
@@ -955,13 +970,14 @@
 				B569304823F92D4C00853B9E /* Client+CoreDataProperties.swift in Sources */,
 				B569305223F92D7600853B9E /* Clients.xcdatamodeld in Sources */,
 				B569305523F92E2800853B9E /* AppSettings.swift in Sources */,
+				B5B0359D242176B400B26C70 /* DateFormatter.swift in Sources */,
+				B553D08F2421841800BDB48E /* TimeIntervalFormatter.swift in Sources */,
 				B569305323F92E0A00853B9E /* CoreDataManager.swift in Sources */,
 				B569304F23F92D6000853B9E /* AdditionalService+CoreDataProperties.swift in Sources */,
 				B5BB473F2419251000714ED8 /* WorkdaySchedule.swift in Sources */,
 				B569304C23F92D5C00853B9E /* Service.swift in Sources */,
 				B569304B23F92D5500853B9E /* Visit+CoreDataProperties.swift in Sources */,
 				B569304723F92D4A00853B9E /* ClientRepository.swift in Sources */,
-				B569305123F92D6A00853B9E /* Time.swift in Sources */,
 				B569304D23F92D5C00853B9E /* Service+CoreDataProperties.swift in Sources */,
 				B569305023F92D6A00853B9E /* Date.swift in Sources */,
 				B569305423F92E1E00853B9E /* UIColorExtension.swift in Sources */,

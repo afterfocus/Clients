@@ -8,20 +8,6 @@
 
 import Foundation
 
-// MARK: - Time Style Enum
-
-/// Стиль строкового представления времени `Time`
-enum TimeStyle {
-    /// Краткий стиль (H:mm)
-    case short
-    /// Стиль длительности (например, 3 часа 35 минут)
-    case duration
-    /// Стиль длительности краткий (например, 3 ч 35 мин (без минут - 3 часа))
-    case shortDuration
-}
-
-// MARK: - TimeInterval Extension
-
 extension TimeInterval {
     /// Текущее время
     static var currentTime: TimeInterval {
@@ -38,25 +24,20 @@ extension TimeInterval {
     }
 
     /// Получить локализованное строковое представление времени в формате `style`
-    func string(style: TimeStyle) -> String {
-        // TODO: TimeInterval formaters will be Flyweight in the next commit
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .full
+    func string(style: TimeFormattingStyle) -> String {
         switch style {
         case .short:
             let date = Calendar.current.date(from: DateComponents(hour: hours, minute: minutes))!
-            return date.timeString
+            return date.string(style: .time)
         case .duration:
-            formatter.unitsStyle = .full
+            return DateComponentsFormatter.durationFormatter.string(from: self)!
         case .shortDuration:
             if hours == 0 || minutes == 0 {
-                formatter.unitsStyle = .full
+                return DateComponentsFormatter.durationFormatter.string(from: self)!
             } else {
-                formatter.unitsStyle = .short
+                return DateComponentsFormatter.shortDurationFormatter.string(from: self)!
             }
         }
-        return formatter.string(from: self)!
     }
     
     init(hours: Int = 0, minutes: Int = 0) {

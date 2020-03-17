@@ -24,20 +24,20 @@ class VisitViewModel {
     }
 
     var dateText: String {
-        return visit.dateTime.fullWithWeekdayString
+        return visit.dateTime.string(style: .full)
     }
     
     var shortDateText: String {
-        return visit.dateTime.shortString
+        return visit.dateTime.string(style: .short)
     }
     
     var fullTimeText: String {
-        return "\(NSLocalizedString("FROM", comment: "с")) " + visit.dateTime.timeString +
+        return "\(NSLocalizedString("FROM", comment: "с")) " + visit.dateTime.string(style: .time) +
                 " \(NSLocalizedString("TO", comment: "до")) " + visit.endTime.string(style: .short)
     }
     
     var startTimeText: String {
-        return visit.dateTime.timeString
+        return visit.dateTime.string(style: .time)
     }
     
     var endTimeText: String {

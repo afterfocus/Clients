@@ -63,7 +63,7 @@ class TodayExtensionViewController: UIViewController {
     @IBAction func unoccupiedPlacesButtonPressed(_ sender: UIButton) {
         animateSuccess()
         let unoccupiedPlaces: [Date: [TimeInterval]]
-        if settings.widgetPlacesSearchRange == .counter {
+        if settings.widgetPlacesSearchRange == .byNumberOfPlaces {
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(
                 placesCount: settings.widgetPlacesSearchCounter,
                 requiredDuration: settings.widgetPlacesSearchRequiredDuration
@@ -71,7 +71,7 @@ class TodayExtensionViewController: UIViewController {
         } else {
             let searchParameters = UnoccupiedPlacesSearchParameters(
                     startDate: Date.today,
-                    endDate: Date.today.addDays(settings.widgetPlacesSearchRange.daysInRange),
+                    endDate: Date.today.addDays(settings.widgetPlacesSearchRange.rawValue),
                     requiredDuration: settings.widgetPlacesSearchRequiredDuration)
             unoccupiedPlaces = VisitRepository.unoccupiedPlaces(for: searchParameters)
         }

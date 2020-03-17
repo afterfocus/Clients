@@ -37,7 +37,12 @@ class WidgetSearchParametersController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectedRow = settings.widgetPlacesSearchRange.rawValue
+        switch settings.widgetPlacesSearchRange {
+        case .month: selectedRow = 0
+        case .week: selectedRow = 1
+        case .day: selectedRow = 2
+        case .byNumberOfPlaces: selectedRow = 3
+        }
         placesCountLabel.text = "\(settings.widgetPlacesSearchCounter)"
 
         durationPicker.countDownDuration = settings.widgetPlacesSearchRequiredDuration
@@ -53,7 +58,13 @@ class WidgetSearchParametersController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         settings.widgetPlacesSearchRequiredDuration = durationPicker.countDownDuration
-        settings.widgetPlacesSearchRange = AppSettings.WidgetPlacesSearchRange(rawValue: selectedRow)!
+        switch selectedRow {
+        case 0: settings.widgetPlacesSearchRange = .month
+        case 1: settings.widgetPlacesSearchRange = .week
+        case 2: settings.widgetPlacesSearchRange = .day
+        case 3: settings.widgetPlacesSearchRange = .byNumberOfPlaces
+        default: fatalError("Unknown WidgetPlacesSearchRange case")
+        }
         settings.widgetPlacesSearchCounter = placesCountPicker.selectedRow(inComponent: 0) + 1
     }
 

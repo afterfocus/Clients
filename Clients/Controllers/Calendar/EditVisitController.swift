@@ -318,8 +318,8 @@ extension EditVisitController: UIPickerViewDelegate {
             let schedule = AppSettings.shared.schedule(for: date.dayOfWeek)
             scheduleLabel.text = schedule.extendedScheduleString
         }
-        dateLabel.text = datePicker.date.fullWithoutWeekdayString
-        timeLabel.text = datePicker.date.timeString
+        dateLabel.text = datePicker.date.string(style: .long)
+        timeLabel.text = datePicker.date.string(style: .time)
     }
 
     // Изменено значение селектора продолжительности

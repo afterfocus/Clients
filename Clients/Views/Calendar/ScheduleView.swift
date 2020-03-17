@@ -45,8 +45,10 @@ class ScheduleView: UIView {
             heightConstraint.constant = 1.0 / UIScreen.main.scale
             workdayView.isHidden = false
             weekendView.isHidden = true
-            let text = "\(NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c")) " +
-                        "\(startTime.timeString) \(NSLocalizedString("TO", comment: "до")) \(endTime.timeString)"
+            let text = NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") +
+                        " \(startTime.string(style: .time)) " +
+                        NSLocalizedString("TO", comment: "до") +
+                        " \(endTime.string(style: .time))"
             scheduleLabel.text = text
         }
     }

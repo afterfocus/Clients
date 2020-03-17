@@ -40,42 +40,6 @@ extension Date {
     var isToday: Bool {
         Calendar.current.isDateInToday(self)
     }
-    
-    // FIXME: Date formaters will be Flyweight in the next commit
-    /// Строковое представление даты в формате "пн, 13 января"
-    var shortString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.setLocalizedDateFormatFromTemplate("EdMMMM")
-        return dateFormatter.string(from: self)
-    }
-    /// Строковое представление даты в формате "понедельник, 13 января 2020 г."
-    var fullWithWeekdayString: String {
-        return DateFormatter.localizedString(from: self, dateStyle: .full, timeStyle: .none)
-    }
-    /// Строковое представление даты в формате "13 января 2020 г."
-    var fullWithoutWeekdayString: String {
-        return DateFormatter.localizedString(from: self, dateStyle: .long, timeStyle: .none)
-    }
-    /// Строковое представление даты в формате "13 января"
-    var dayAndMonthString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.setLocalizedDateFormatFromTemplate("dMMMM")
-        return dateFormatter.string(from: self)
-    }
-    /// Строковое представление даты в формате "Январь 2020 г."
-    var monthAndYearString: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.setLocalizedDateFormatFromTemplate("LLLLyyyy")
-        return dateFormatter.string(from: self)
-    }
-    /// Название месяца
-    var monthNameStirng: String {
-        return Calendar.current.standaloneMonthSymbols[month - 1].firstCapitalized
-    }
-    /// Строковое представление времени
-    var timeString: String {
-        return DateFormatter.localizedString(from: self, dateStyle: .none, timeStyle: .short)
-    }
 
     /**
      Вычесть заданное количество месяцев из даты.
@@ -92,7 +56,27 @@ extension Date {
         return Calendar.current.date(byAdding: .day, value: count, to: self)!
     }
 
-    // MARK: Initializers
+    /// Строковое представление даты в формате `style`
+    func string(style: DateFormattingStyle) -> String {
+        switch style {
+        case .short:
+            return DateFormatter.shortFormatter.string(from: self)
+        case .full:
+            return DateFormatter.localizedString(from: self, dateStyle: .full, timeStyle: .none)
+        case .long:
+            return DateFormatter.localizedString(from: self, dateStyle: .long, timeStyle: .none)
+        case .dayAndMonth:
+            return DateFormatter.dayAndMonthFormatter.string(from: self)
+        case .monthAndYear:
+            return DateFormatter.monthAndYearFormatter.string(from: self)
+        case .month:
+            return Calendar.current.standaloneMonthSymbols[month - 1].firstCapitalized
+        case .time:
+            return DateFormatter.localizedString(from: self, dateStyle: .none, timeStyle: .short)
+        }
+    }
+    
+    // MARK: - Initializers
 
     init(day: Int = 1, month: Int, year: Int) {
         let components = DateComponents(year: year, month: month, day: day)
@@ -102,6 +86,12 @@ extension Date {
     
     init(day: Int, month: Int, year: Int, hours: Int = 0, minutes: Int = 0) {
         let components = DateComponents(year: year, month: month, day: day, hour: hours, minute: minutes)
+        let date = Calendar.current.date(from: components)!
+        self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
+    }
+    
+    init(hours: Int, minutes: Int = 0) {
+        let components = DateComponents(hour: hours, minute: minutes)
         let date = Calendar.current.date(from: components)!
         self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
     }

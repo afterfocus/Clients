@@ -19,21 +19,23 @@ struct WorkdaySchedule {
         if isWeekend {
             return NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
-            return "\(NSLocalizedString("FROM", comment: "c")) \(start.timeString) " +
-                    "\(NSLocalizedString("TO", comment: "до")) \(end.timeString)"
+            return "\(NSLocalizedString("FROM", comment: "c")) \(start.string(style: .time)) " +
+                    "\(NSLocalizedString("TO", comment: "до")) \(end.string(style: .time))"
         }
     }
     
     var shortScheduleString: String {
-        return isWeekend ? "—" : "\(start.timeString)\n\(end.timeString)"
+        return isWeekend ? "—" : "\(start.string(style: .time))\n\(end.string(style: .time))"
     }
     
     var extendedScheduleString: String {
         if isWeekend {
             return NSLocalizedString("WEEKEND", comment: "Выходной")
         } else {
-            return "\(NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c")) " +
-                    "\(start.timeString) \(NSLocalizedString("TO", comment: "до")) \(end.timeString)"
+            return NSLocalizedString("WORKDAY_LABEL_START", comment: "Рабочий день c") +
+                    " \(start.string(style: .time)) " +
+                    NSLocalizedString("TO", comment: "до") +
+                    " \(end.string(style: .time))"
         }
     }
 }

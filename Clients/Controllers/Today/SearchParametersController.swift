@@ -54,8 +54,8 @@ class SearchParametersController: UITableViewController {
         endDatePicker.setDate(searchParameters.endDate, animated: false)
 
         durationLabel.text = durationPicker.countDownDuration.string(style: .shortDuration)
-        startDateLabel.text = startDatePicker.date.fullWithoutWeekdayString
-        endDateLabel.text = endDatePicker.date.fullWithoutWeekdayString
+        startDateLabel.text = startDatePicker.date.string(style: .long)
+        endDateLabel.text = endDatePicker.date.string(style: .long)
     }
 
     // MARK: - IBActions
@@ -65,18 +65,18 @@ class SearchParametersController: UITableViewController {
         case durationPicker:
             durationLabel.text = sender.countDownDuration.string(style: .shortDuration)
         case startDatePicker:
-            startDateLabel.text = sender.date.fullWithoutWeekdayString
+            startDateLabel.text = sender.date.string(style: .long)
             // Если конец интервала меньше начала интервала, изменить значение селектора конца интервала
             if endDatePicker.date < sender.date {
                 endDatePicker.date = sender.date
-                endDateLabel.text = sender.date.fullWithoutWeekdayString
+                endDateLabel.text = sender.date.string(style: .long)
             }
         case endDatePicker:
-            endDateLabel.text = sender.date.fullWithoutWeekdayString
+            endDateLabel.text = sender.date.string(style: .long)
             // Если начало интервала больше конца интервала, изменить значение селектора начала интервала
             if startDatePicker.date > sender.date {
                 startDatePicker.date = sender.date
-                startDateLabel.text = sender.date.fullWithoutWeekdayString
+                startDateLabel.text = sender.date.string(style: .long)
             }
         default: break
         }

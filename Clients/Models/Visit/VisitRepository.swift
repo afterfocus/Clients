@@ -131,7 +131,7 @@ class VisitRepository {
                                                               requiredDuration duration: TimeInterval,
                                                               visits: [Visit]) -> [TimeInterval] {
         let unoccupiedPlaces = [TimeInterval]()
-        // FIXME: Will be rewrited in the next commit
+        // FIXME: Will be rewritten in the next commit
         /*
         // Сначала ищем места до первой записи
         while time &+ duration <= visits.first!.time {
@@ -164,7 +164,7 @@ class VisitRepository {
         //let duration = searchParameters.requiredDuration
         
         let result = [Date: [TimeInterval]]()
-        // FIXME: Will be rewrited in the next commit
+        // FIXME: Will be rewritten in the next commit
         /*
         var date = startDate
         // Проход по всем датам интервала
@@ -218,7 +218,7 @@ class VisitRepository {
     /// Если по достижении года с даты начала поиска требуемое количество мест не найдено, поиск останавливается.
     class func unoccupiedPlaces(placesCount: Int, requiredDuration duration: TimeInterval) -> [Date: [TimeInterval]] {
         let result = [Date: [TimeInterval]]()
-        // FIXME: Will be rewrited in the next commit
+        // FIXME: Will be rewritten in the next commit
         /*
         var date = Date.today
         let endDate = Date.today + 365

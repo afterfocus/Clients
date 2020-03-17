@@ -187,7 +187,7 @@ class CalendarController: HidingNavigationBarViewController {
     private func updateBackButtonTitle(section: Int) {
         let date = calendarData.dateFor(section)
         // "апрель 2020 г." в постраничном режиме  /  "2020" в свободном режиме
-        let title = isPagingEnabled ? date.monthAndYearString : "\(date.year)"
+        let title = isPagingEnabled ? date.string(style: .monthAndYear) : "\(date.year)"
         backButton.setTitleWithoutAnimation(title)
     }
 
@@ -263,7 +263,7 @@ extension CalendarController: UIScrollViewDelegate {
         }
         // Скроллинг календаря в свободном режиме обновляет текст метки названия месяца
         else if scrollView === calendarView && !isPagingEnabled {
-            monthGradientView.text = calendarData.dateFor(calendarView.currentSection).monthAndYearString
+            monthGradientView.text = calendarData.dateFor(calendarView.currentSection).string(style: .monthAndYear)
         }
     }
 
@@ -453,7 +453,7 @@ extension CalendarController: UICollectionViewDataSource {
         let header: CalendarCollectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                                for: indexPath)
         // Текст = название месяца, связанного с секцией
-        header.monthLabel.text = calendarData.dateFor(indexPath.section).monthNameStirng
+        header.monthLabel.text = calendarData.dateFor(indexPath.section).string(style: .month)
         // Цвет текста красный, если связанный месяц - текущий
         header.monthLabel.textColor = (indexPath.section == todayCell.section) ? .systemRed : .label
         // Горизонатальный центр метки совпадает с центром первой видимой ячейки секции

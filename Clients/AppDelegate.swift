@@ -12,11 +12,12 @@ import CallKit
 
 /*
  TODO: LIST
-    1. Завершить переход на Foundation.Date
-    2. Переписать код, связанный с Core Data
-    3. Закончить переход на MVVM
-    4. Использовать Combine / RxSwift
-    5. ...
+    1. Переписать код, связанный с Core Data
+    2. Завершить переход на MVVM
+    3. Использовать Combine / RxSwift
+    4. Внедрить Coordinator
+    5. Внедрить Builder
+    6. ...
  */
 
 // swiftlint: disable all
