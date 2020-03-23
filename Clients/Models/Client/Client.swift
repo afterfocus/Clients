@@ -44,7 +44,7 @@ public class Client: NSManagedObject {
                      vk: String = "",
                      notes: String = "",
                      isBlocked: Bool = false) {
-        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.managedContext)
         self.photo = photo
         self.surname = surname
         self.name = name

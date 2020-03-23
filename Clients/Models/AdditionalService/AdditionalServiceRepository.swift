@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class AdditionalServiceRepository {
-    private static let context = CoreDataManager.shared.persistentContainer.viewContext
+    private static let context = CoreDataManager.shared.managedContext
 
     /**
      Удалить дополнительную услугу

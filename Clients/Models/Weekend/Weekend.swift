@@ -14,12 +14,12 @@ import CoreData
 @objc(Weekend)
 public class Weekend: NSManagedObject {
     convenience init(day: Int, month: Int, year: Int) {
-        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.managedContext)
         self.date = Date(day: day, month: month, year: year)
     }
 
     convenience init(date: Date) {
-        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.managedContext)
         self.date = date
     }
 }

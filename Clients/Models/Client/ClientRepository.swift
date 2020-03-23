@@ -10,16 +10,12 @@ import Foundation
 import CoreData
 
 class ClientRepository {
-    private static let context = CoreDataManager.shared.persistentContainer.viewContext
-
-    private class var fetchRequest: NSFetchRequest<Client> {
-        return NSFetchRequest<Client>(entityName: "Client")
-    }
+    private static let context = CoreDataManager.shared.managedContext
 
     /// Возвращает `true`, если в БД нет ни одного клиента
     class var isEmpty: Bool {
         do {
-            return try context.count(for: fetchRequest) == 0
+            return try context.count(for: Client.fetchRequest) == 0
         } catch {
             fatalError(#function + ": \(error)")
         }
@@ -27,9 +23,9 @@ class ClientRepository {
 
     /// Номера телефонов клиентов для CallDirectoryExtension
     class var identificationPhoneNumbers: [(label: String, number: String, isBlocked: Bool)] {
-        let request = fetchRequest
-        request.predicate = NSPredicate(format: "phonenumber != ''")
-        request.sortDescriptors = [NSSortDescriptor(key: "phonenumber", ascending: true)]
+        let request = Client.fetchRequest
+        request.predicate = NSPredicate(format: "%K != ''", #keyPath(Client.phonenumber))
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Client.phonenumber), ascending: true)]
         do {
             let clients = try context.fetch(request)
             return clients.map { ($0.description, $0.phonenumber, $0.isBlocked) }
@@ -44,7 +40,7 @@ class ClientRepository {
         var activeClients = [Client]()
         var archiveClients = [Client]()
         do {
-            let clients = try context.fetch(fetchRequest)
+            let clients = try context.fetch(Client.fetchRequest)
             clients.forEach {
                 if $0.visits.isEmpty || $0.visitsSorted.first!.dateTime < minimumDate {
                     archiveClients.append($0)
@@ -65,8 +61,13 @@ class ClientRepository {
      - returns: Клиенты, сгруппированные по первой букве фамилии.
      */
     class func clients(matching pattern: String) -> [String: [Client]] {
-        let request = fetchRequest
-        request.predicate = NSPredicate(format: "surname BEGINSWITH[c] %@ OR name BEGINSWITH[c] %@ OR phonenumber CONTAINS[c] %@ OR vk CONTAINS[c] %@", pattern, pattern, pattern, pattern)
+        let request = Client.fetchRequest
+        request.predicate = NSPredicate(
+            format: "%K BEGINSWITH[c] %@ OR %K BEGINSWITH[c] %@ OR %K CONTAINS[c] %@ OR %K CONTAINS[c] %@",
+            argumentArray: [#keyPath(Client.surname), pattern,
+                            #keyPath(Client.name), pattern,
+                            #keyPath(Client.phonenumber), pattern,
+                            #keyPath(Client.vk), pattern])
         do {
             let fetchedClients = try context.fetch(request)
             return convertToDictionary(fetchedClients)

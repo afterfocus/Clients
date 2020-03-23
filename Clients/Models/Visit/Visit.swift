@@ -37,7 +37,7 @@ public class Visit: NSManagedObject {
                      notes: String = "",
                      isCancelled: Bool = false,
                      isClientNotCome: Bool = false) {
-        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.managedContext)
         self.client = client
         self.dateTime = dateTime
         self.duration = duration

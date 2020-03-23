@@ -29,7 +29,7 @@ public class Service: NSManagedObject {
                      duration: TimeInterval,
                      isArchive: Bool = false,
                      additionalServices: Set<AdditionalService> = []) {
-        self.init(context: CoreDataManager.shared.persistentContainer.viewContext)
+        self.init(context: CoreDataManager.shared.managedContext)
         self.color = color
         self.name = name
         self.cost = cost

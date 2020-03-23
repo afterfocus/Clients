@@ -8,8 +8,6 @@
 
 import Foundation
 
-// MARK: - Time Style Enum
-
 /// Стиль строкового представления времени `Time`
 enum TimeFormattingStyle {
     /// Краткий стиль (H:mm)

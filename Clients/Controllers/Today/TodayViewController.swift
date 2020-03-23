@@ -48,8 +48,8 @@ class TodayViewController: UITableViewController {
 
     private func updateTableData() {
         clientsAndVisits = VisitRepository.visitsWithClients(for: Date.today,
-                                                      hideCancelled: AppSettings.shared.isCancelledVisitsHidden,
-                                                      hideNotCome: AppSettings.shared.isClientNotComeVisitsHidden)
+                                                             hideCancelled: AppSettings.shared.isCancelledVisitsHidden,
+                                                             hideNotCome: AppSettings.shared.isClientNotComeVisitsHidden)
         let unoccupiedPlaces = VisitRepository.unoccupiedPlaces(for: searchParameters)
         unoccupiedPlacesViewModel = UnoccupiedPlacesViewModel(unoccupiedPlaces: unoccupiedPlaces)
         tableView.reloadData()

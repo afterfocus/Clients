@@ -11,6 +11,10 @@ import UIKit
 import CoreData
 
 extension Client {
+    @nonobjc
+    public class var fetchRequest: NSFetchRequest<Client> {
+        return NSFetchRequest<Client>(entityName: "Client")
+    }
     /// Имя
     @NSManaged public var name: String
     /// Заметки

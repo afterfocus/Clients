@@ -10,16 +10,7 @@ import Foundation
 import CoreData
 
 class VisitRepository {
-    private static let context = CoreDataManager.shared.persistentContainer.viewContext
-
-    private class var sortedFetchRequest: NSFetchRequest<Visit> {
-        let request = NSFetchRequest<Visit>(entityName: "Visit")
-        request.sortDescriptors = [
-            NSSortDescriptor(key: "dateTime", ascending: true),
-            NSSortDescriptor(key: "duration", ascending: true),
-        ]
-        return request
-    }
+    private static let context = CoreDataManager.shared.managedContext
 
     /**
      Получить записи на конкретную дату `date`.
@@ -30,8 +21,11 @@ class VisitRepository {
         let startOfDate = Calendar.current.startOfDay(for: date)
         let endOfDate = Calendar.current.date(byAdding: .day, value: 1, to: startOfDate)!
         
-        let request = sortedFetchRequest
-        request.predicate = NSPredicate(format: "dateTime >= %@ && dateTime < %@", startOfDate as NSDate, endOfDate as NSDate)
+        let request = Visit.sortedFetchRequest
+        request.predicate = NSPredicate(
+            format: "%K >= %@ && %K < %@",
+            argumentArray: [#keyPath(Visit.dateTime), startOfDate as NSDate,
+                            #keyPath(Visit.dateTime), endOfDate as NSDate])
         do {
             return try context.fetch(request)
         } catch {
@@ -51,13 +45,15 @@ class VisitRepository {
         let startOfDate = Calendar.current.startOfDay(for: date)
         let endOfDate = Calendar.current.date(byAdding: .day, value: 1, to: startOfDate)!
         
-        let request = sortedFetchRequest
-        var predicates = [NSPredicate(format: "dateTime >= %@ && dateTime < %@", startOfDate as NSDate, endOfDate as NSDate)]
+        let request = Visit.sortedFetchRequest
+        var predicates = [NSPredicate(format: "%K >= %@ && %K < %@",
+                                      argumentArray: [#keyPath(Visit.dateTime), startOfDate as NSDate,
+                                                      #keyPath(Visit.dateTime), endOfDate as NSDate])]
         if hideCancelled {
-            predicates.append(NSPredicate(format: "isCancelled != true"))
+            predicates.append(NSPredicate(format: "%K != true", #keyPath(Visit.isCancelled)))
         }
         if hideNotCome {
-            predicates.append(NSPredicate(format: "isClientNotCome != true"))
+            predicates.append(NSPredicate(format: "%K != true", #keyPath(Visit.isClientNotCome)))
         }
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
         do {
@@ -73,9 +69,10 @@ class VisitRepository {
      - returns: Записи, отсортированные по возрастанию времени начала и времени окончания и сгруппированные по дате.
      */
     class func visits(matching pattern: String) -> [Date: [Visit]] {
-        let request = sortedFetchRequest
-        request.predicate = NSPredicate(format: "client.name BEGINSWITH[c] %@ OR client.surname BEGINSWITH[c] %@",
-                                        pattern, pattern)
+        let request = Visit.sortedFetchRequest
+        request.predicate = NSPredicate(format: "%K BEGINSWITH[c] %@ OR %K BEGINSWITH[c] %@",
+                                        argumentArray: [#keyPath(Visit.client.name), pattern,
+                                                        #keyPath(Visit.client.surname), pattern])
         do {
             let matchingVisits = try context.fetch(request)
             return Dictionary(grouping: matchingVisits) { $0.dateTime }

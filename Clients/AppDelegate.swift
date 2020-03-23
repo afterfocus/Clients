@@ -17,7 +17,7 @@ import CallKit
     3. Использовать Combine / RxSwift
     4. Внедрить Coordinator
     5. Внедрить Builder
-    6. ...
+    6. Хранить фото как Binary Data вместо Transformable
  */
 
 // swiftlint: disable all
@@ -103,13 +103,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var date = Date(day: 04, month: 11, year: 2018)
         for _ in stride(from: 0, through: 365, by: 7) {
             _ = Weekend(date: date)
-            date = Calendar.current.date(byAdding: .day, value: 7, to: date)!
+            date = date.addDays(7)
         }
 
         date = Date(day: 05, month: 11, year: 2018)
         for _ in stride(from: 0, through: 365, by: 7) {
             _ = Weekend(date: date)
-            date = Calendar.current.date(byAdding: .day, value: 7, to: date)!
+            date = date.addDays(7)
         }
 
         _ = Weekend(day: 01, month: 01, year: 2019)

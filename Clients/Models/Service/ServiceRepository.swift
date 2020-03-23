@@ -10,17 +10,13 @@ import Foundation
 import CoreData
 
 class ServiceRepository {
-    private static let context = CoreDataManager.shared.persistentContainer.viewContext
-
-    private class var fetchRequest: NSFetchRequest<Service> {
-        return NSFetchRequest<Service>(entityName: "Service")
-    }
+    private static let context = CoreDataManager.shared.managedContext
 
     /// Предоставляемые  услуги
     class var activeServices: [Service] {
-        let request = fetchRequest
-        request.predicate = NSPredicate(format: "isArchive = false")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let request = Service.fetchRequest
+        request.predicate = NSPredicate(format: "%K = false", #keyPath(Service.isArchive))
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name), ascending: true)]
         do {
             return try context.fetch(request)
         } catch {
@@ -30,9 +26,9 @@ class ServiceRepository {
 
     /// Архивные  услуги
     class var archiveServices: [Service] {
-        let request = fetchRequest
-        request.predicate = NSPredicate(format: "isArchive = true")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        let request = Service.fetchRequest
+        request.predicate = NSPredicate(format: "%K = true", #keyPath(Service.isArchive))
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name), ascending: true)]
         do {
             return try context.fetch(request)
         } catch {

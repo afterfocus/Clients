@@ -45,9 +45,10 @@ class AppSettings {
         static let isClientNotComeVisitsHidden = "Is Client Not Come Visits Hidden"
         static let isOvertimeAllowed = "Is Overtime Allowed"
         static let shouldBlockIncomingCalls = "Should Block Incoming Calls"
-        static let isWeekend = " Is Weekend"
-        static let workdayStart = " Start"
-        static let workdayEnd = " End"
+        static let isWeekend = "Is Weekend"
+        static let workdayStart = "Workday Start"
+        static let workdayEnd = "Workday End"
+        static let weekdayKeys = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     }
     
     static let shared = AppSettings()
@@ -101,26 +102,31 @@ class AppSettings {
         get { return userDefaults.integer(forKey: Keys.widgetPlacesSearchCounter) }
     }
 
+    /// Количество месяцев, через которое клиент будет перенесён в список архивных при отсутствии записей
     var clientArchivingPeriod: Int {
         set { userDefaults.set(newValue, forKey: Keys.clientArchivingPeriod) }
         get { return userDefaults.integer(forKey: Keys.clientArchivingPeriod) }
     }
 
+    /// Скрывать ли отменённые клиентами записи в календаре
     var isCancelledVisitsHidden: Bool {
         set { userDefaults.set(newValue, forKey: Keys.isCancelledVisitsHidden) }
         get { return userDefaults.bool(forKey: Keys.isCancelledVisitsHidden) }
     }
 
+    /// Скрывать ли в календаре записи, по которым клиенты не явились
     var isClientNotComeVisitsHidden: Bool {
         set { userDefaults.set(newValue, forKey: Keys.isClientNotComeVisitsHidden) }
         get { return userDefaults.bool(forKey: Keys.isClientNotComeVisitsHidden) }
     }
 
+    /// Разрешены ли переработки
     var isOvertimeAllowed: Bool {
         set { userDefaults.set(newValue, forKey: Keys.isOvertimeAllowed) }
         get { return userDefaults.bool(forKey: Keys.isOvertimeAllowed) }
     }
 
+    /// Блокировать ли входящие звонки от клиентов, занесённых в чёрный список
     var shouldBlockIncomingCalls: Bool {
         set { userDefaults.set(newValue, forKey: Keys.shouldBlockIncomingCalls) }
         get { return userDefaults.bool(forKey: Keys.shouldBlockIncomingCalls) }
@@ -128,41 +134,46 @@ class AppSettings {
 
     /// Получить рабочий график на день недели `dayOfWeek`
     func schedule(for dayOfWeek: Weekday) -> WorkdaySchedule {
-        let day = String(dayOfWeek.rawValue)
+        let workdayKey = Keys.weekdayKeys[dayOfWeek.rawValue] + " "
         return WorkdaySchedule(
-            isWeekend: userDefaults.bool(forKey: day + Keys.isWeekend),
-            start: userDefaults.object(forKey: day + Keys.workdayStart) as? Date ?? Date(hours: 9),
-            end: userDefaults.object(forKey: day + Keys.workdayEnd) as? Date ?? Date(hours: 18)
+            isWeekend: userDefaults.bool(forKey: workdayKey + Keys.isWeekend),
+            start: userDefaults.object(forKey: workdayKey + Keys.workdayStart) as! Date,
+            end: userDefaults.object(forKey: workdayKey + Keys.workdayEnd) as! Date
         )
     }
 
     /// Установить рабочий график на день недели `dayOfWeek`
     func setSchedule(for dayOfWeek: Weekday, schedule: WorkdaySchedule) {
-        let day = String(dayOfWeek.rawValue)
-        userDefaults.set(schedule.isWeekend, forKey: day + Keys.isWeekend)
-        userDefaults.set(schedule.start, forKey: day + Keys.workdayStart)
-        userDefaults.set(schedule.end, forKey: day + Keys.workdayEnd)
+        let workdayKey = Keys.weekdayKeys[dayOfWeek.rawValue] + " "
+        userDefaults.set(schedule.isWeekend, forKey: workdayKey + Keys.isWeekend)
+        userDefaults.set(schedule.start, forKey: workdayKey + Keys.workdayStart)
+        userDefaults.set(schedule.end, forKey: workdayKey + Keys.workdayEnd)
     }
 
     // MARK: - Default Settings
 
     /// Настройки по умолчанию
-    private var defaultSettings: [String: String] {
+    private var defaultSettings: [String: Any] {
         var defaults = [
-            Keys.isVisitsShownInWidget: "YES",
-            Keys.isTomorrowVisitsShownInWidget: "YES",
+            Keys.isVisitsShownInWidget: true,
+            Keys.isTomorrowVisitsShownInWidget: true,
             Keys.priceListText: NSLocalizedString("DEFAULT_PRICE_LIST", comment: "Прайс-лист"),
             Keys.contactInformationText: NSLocalizedString("DEFAULT_CONTACT_INFO", comment: "Контактная информация"),
-            Keys.widgetPlacesSearchRequiredDuration: "3600",
-            Keys.widgetPlacesSearchRange: "\(WidgetPlacesSearchRange.week.rawValue)",
-            Keys.widgetPlacesSearchCounter: "30",
-            Keys.clientArchivingPeriod: "3",
-            Keys.isCancelledVisitsHidden: "YES",
-            Keys.isClientNotComeVisitsHidden: "YES",
-            Keys.isOvertimeAllowed: "NO"
-        ]
+            Keys.widgetPlacesSearchRequiredDuration: 3600,
+            Keys.widgetPlacesSearchRange: WidgetPlacesSearchRange.week.rawValue,
+            Keys.widgetPlacesSearchCounter: 30,
+            Keys.clientArchivingPeriod: 3,
+            Keys.isCancelledVisitsHidden: true,
+            Keys.isClientNotComeVisitsHidden: true,
+            Keys.isOvertimeAllowed: false,
+            Keys.shouldBlockIncomingCalls: false
+        ] as [String : Any]
+        
         for day in 0...6 {
-            defaults[String(day) + Keys.isWeekend] = ([0, 1].contains(day) ? "YES" : "NO")
+            let workdayKey = Keys.weekdayKeys[day] + " "
+            defaults[workdayKey + Keys.isWeekend] = [0, 1].contains(day)
+            defaults[workdayKey + Keys.workdayStart] = Date(hours: 9)
+            defaults[workdayKey + Keys.workdayEnd] = Date(hours: 18)
         }
         return defaults
     }

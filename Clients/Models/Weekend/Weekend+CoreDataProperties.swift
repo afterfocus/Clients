@@ -11,6 +11,9 @@ import Foundation
 import CoreData
 
 extension Weekend {
+    public class var fetchRequest: NSFetchRequest<Weekend> {
+        return NSFetchRequest<Weekend>(entityName: "Weekend")
+    }
     /// Дата
     @NSManaged public var date: Date
 }

@@ -11,6 +11,9 @@ import UIKit
 import CoreData
 
 extension Service {
+    public class var fetchRequest: NSFetchRequest<Service> {
+        return NSFetchRequest<Service>(entityName: "Service")
+    }
     /// Идентификатор цвета
     @NSManaged public var color: UIColor
     /// Стоимость

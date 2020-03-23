@@ -49,6 +49,7 @@ class EditScheduleController: UITableViewController {
         AppSettings.shared.setSchedule(for: dayOfWeek, schedule: schedule)
         if isWeekendOldValue != isWeekendSwitch.isOn {
             WeekendRepository.setIsWeekendForYearAhead(isWeekendSwitch.isOn, for: dayOfWeek)
+            CoreDataManager.shared.saveContext()
         }
     }
 

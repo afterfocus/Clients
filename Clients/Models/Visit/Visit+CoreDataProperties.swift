@@ -11,6 +11,15 @@ import Foundation
 import CoreData
 
 extension Visit {
+    @nonobjc
+    public class var sortedFetchRequest: NSFetchRequest<Visit> {
+        let request = NSFetchRequest<Visit>(entityName: "Visit")
+        request.sortDescriptors = [
+            NSSortDescriptor(key: #keyPath(Visit.dateTime), ascending: true),
+            NSSortDescriptor(key: #keyPath(Visit.duration), ascending: true),
+        ]
+        return request
+    }
     /// Клиент
     @NSManaged public var client: Client
     /// Услуга
