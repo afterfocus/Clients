@@ -12,7 +12,7 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="phonenumber" optional="YES" attributeType="String"/>
-        <attribute name="photo" optional="YES" attributeType="Transformable" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="surname" attributeType="String"/>
         <attribute name="vk" optional="YES" attributeType="String"/>
         <relationship name="visits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Visit" inverseName="client" inverseEntity="Visit"/>

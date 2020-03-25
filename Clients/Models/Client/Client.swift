@@ -7,7 +7,6 @@
 //
 //
 
-import UIKit
 import CoreData
 
 /// Клиент
@@ -37,7 +36,7 @@ public class Client: NSManagedObject {
         "\(name) \(surname)"
     }
 
-    convenience init(photo: UIImage?,
+    convenience init(photoData: Data?,
                      surname: String,
                      name: String,
                      phonenumber: String = "",
@@ -45,7 +44,7 @@ public class Client: NSManagedObject {
                      notes: String = "",
                      isBlocked: Bool = false) {
         self.init(context: CoreDataManager.shared.managedContext)
-        self.photo = photo
+        self.photoData = photoData
         self.surname = surname
         self.name = name
         self.phonenumber = phonenumber

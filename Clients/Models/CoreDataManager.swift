@@ -62,10 +62,9 @@ class CoreDataManager {
     }
     
     func saveContext() {
-        let context = persistentContainer.viewContext
-        guard context.hasChanges else { return }
+        guard managedContext.hasChanges else { return }
         do {
-            try context.save()
+            try managedContext.save()
         } catch let error as NSError {
             print("Unresolved error \(error), \(error.userInfo)")
         }

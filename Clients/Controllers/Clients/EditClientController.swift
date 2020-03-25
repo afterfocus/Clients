@@ -110,8 +110,8 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     /// Заполняет поля данными клиента `client`
     private func configureClientInfo(_ client: Client) {
         // Отобразить фотографию при наличии
-        if let photo = client.photo {
-            photoImageView.image = photo
+        if let photoData = client.photoData {
+            photoImageView.image = UIImage(data: photoData)
             isPhotoPicked = true
         }
         nameTextField.text = client.name
@@ -132,7 +132,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
         } else {
             /// Обновить существующий профиль клиента
             if let client = client {
-                client.photo = isPhotoPicked ? photoImageView.image : nil
+                client.photoData = isPhotoPicked ? photoImageView.image?.pngData() : nil
                 client.surname = surnameTextField.text!
                 client.name = nameTextField.text!
                 client.phonenumber = phoneTextField.text!.cleanPhoneNumber
@@ -144,7 +144,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
             } else {
                 // Или создать новый
                 let newClient = Client(
-                    photo: isPhotoPicked ? photoImageView.image : nil,
+                    photoData: isPhotoPicked ? photoImageView.image?.pngData() : nil,
                     surname: surnameTextField.text!,
                     name: nameTextField.text!,
                     phonenumber: phoneTextField.text!.cleanPhoneNumber,
@@ -174,7 +174,11 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
             showImagePicker()
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization {
-                $0 == .authorized ? self.showImagePicker() : self.showAccessDeniedAlert()
+                if $0 == .authorized {
+                    DispatchQueue.main.async { self.showImagePicker() }
+                } else {
+                    self.showAccessDeniedAlert()
+                }
             }
         case .denied, .restricted:
             showAccessDeniedAlert()

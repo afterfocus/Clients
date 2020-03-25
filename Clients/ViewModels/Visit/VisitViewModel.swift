@@ -16,7 +16,11 @@ class VisitViewModel {
     }
     
     var clientPhotoImage: UIImage {
-        return visit.client.photo ?? UIImage(named: "default_photo")!
+        if let photoData = visit.client.photoData {
+            return UIImage(data: photoData)!
+        } else {
+            return UIImage(named: "default_photo")!
+        }
     }
     
     var clientNameText: String {

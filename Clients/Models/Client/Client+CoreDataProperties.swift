@@ -22,7 +22,7 @@ extension Client {
     /// Номер телефона
     @NSManaged public var phonenumber: String
     /// Данные фотографии
-    @NSManaged public var photo: UIImage?
+    @NSManaged public var photoData: Data?
     /// Фамилия
     @NSManaged public var surname: String
     /// Ссылка на профиль ВКонтакте
