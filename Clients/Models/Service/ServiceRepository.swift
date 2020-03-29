@@ -16,7 +16,9 @@ class ServiceRepository {
     class var activeServices: [Service] {
         let request = Service.fetchRequest
         request.predicate = NSPredicate(format: "%K = false", #keyPath(Service.isArchive))
-        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name), ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name),
+                                                    ascending: true,
+                                                    selector: #selector(NSString.localizedStandardCompare(_:)))]
         do {
             return try context.fetch(request)
         } catch {
@@ -28,7 +30,9 @@ class ServiceRepository {
     class var archiveServices: [Service] {
         let request = Service.fetchRequest
         request.predicate = NSPredicate(format: "%K = true", #keyPath(Service.isArchive))
-        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name), ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Service.name),
+                                                    ascending: true,
+                                                    selector: #selector(NSString.localizedStandardCompare(_:)))]
         do {
             return try context.fetch(request)
         } catch {

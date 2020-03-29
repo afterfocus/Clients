@@ -13,13 +13,10 @@ import Photos
 
 protocol EditClientControllerDelegate: class {
     func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client)
-    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client)
     func editClientController(_ viewController: EditClientController, hasDeleted client: Client)
 }
 
 extension EditClientControllerDelegate {
-    func editClientController(_ viewController: EditClientController, didFinishedEditing client: Client) { }
-    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client) { }
     func editClientController(_ viewController: EditClientController, hasDeleted client: Client) { }
 }
 
@@ -37,29 +34,18 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     /// Кнопка смены/удаления фотографии
     @IBOutlet weak var changePhotoButton: UIButton!
     /// Поле имени
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameTextField: TextFieldWithIcon!
     /// Поле фамилии
-    @IBOutlet weak var surnameTextField: UITextField!
+    @IBOutlet weak var surnameTextField: TextFieldWithIcon!
     /// Поле номера телефона
-    @IBOutlet weak var phoneTextField: UITextField!
+    @IBOutlet weak var phoneTextField: TextFieldWithIcon!
     /// Поле ссылки на профиль ВКонтакте
-    @IBOutlet weak var vkTextField: UITextField!
+    @IBOutlet weak var vkTextField: TextFieldWithIcon!
     /// Поле заметок
-    @IBOutlet weak var notesTextField: UITextField!
-    /// Метка управления черным списком
+    @IBOutlet weak var notesTextField: TextFieldWithIcon!
+    /// Метка кнопки черного списка
     @IBOutlet weak var blacklistLabel: UILabel!
-
-    /// Иконка для `nameTextField`
-    @IBOutlet weak var nameIcon: UIImageView!
-    /// Иконка для `surnameTextField`
-    @IBOutlet weak var surnameIcon: UIImageView!
-    /// Иконка для `phoneTextField`
-    @IBOutlet weak var phoneIcon: UIImageView!
-    /// Иконка для `vkTextField`
-    @IBOutlet weak var vkIcon: UIImageView!
-    /// Иконка для `notesTextField`
-    @IBOutlet weak var notesIcon: UIImageView!
-
+    
     // MARK: - Segue properties
 
     /// Редактируемый клиент
@@ -67,8 +53,7 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
     weak var delegate: EditClientControllerDelegate?
 
     // MARK: - Private properties
-
-    private var textFieldIcons = [UITextField: UIImageView]()
+    
     /// Определяет, выбрана ли фотография
     private var isPhotoPicked = false {
         didSet {
@@ -90,11 +75,6 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldIcons[surnameTextField] = surnameIcon
-        textFieldIcons[nameTextField] = nameIcon
-        textFieldIcons[phoneTextField] = phoneIcon
-        textFieldIcons[vkTextField] = vkIcon
-        textFieldIcons[notesTextField] = notesIcon
         // Добавление распознавателя изменения текста в поле номера телефона
         phoneTextField.addTarget(self, action: #selector(self.phoneTextFieldDidChange), for: .editingChanged)
         // Закрывать клавиатуру при нажатии вне полей
@@ -130,31 +110,19 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
         if !surnameTextField.hasText || !nameTextField.hasText {
             present(UIAlertController.clientSavingErrorAlert, animated: true)
         } else {
-            /// Обновить существующий профиль клиента
-            if let client = client {
-                client.photoData = isPhotoPicked ? photoImageView.image?.pngData() : nil
-                client.surname = surnameTextField.text!
-                client.name = nameTextField.text!
-                client.phonenumber = phoneTextField.text!.cleanPhoneNumber
-                client.vk = vkTextField.text!
-                client.notes = notesTextField.text!
-                client.isBlocked = isBlocked
-                CoreDataManager.shared.saveContext()
-                delegate?.editClientController(self, didFinishedEditing: client)
-            } else {
-                // Или создать новый
-                let newClient = Client(
-                    photoData: isPhotoPicked ? photoImageView.image?.pngData() : nil,
-                    surname: surnameTextField.text!,
-                    name: nameTextField.text!,
-                    phonenumber: phoneTextField.text!.cleanPhoneNumber,
-                    vk: vkTextField.text!,
-                    notes: notesTextField.text!,
-                    isBlocked: isBlocked
-                )
-                CoreDataManager.shared.saveContext()
-                delegate?.editClientController(self, didFinishedCreating: newClient)
-            }
+            /// Обновить существующий профиль клиента или создать новый
+            let client = self.client ?? Client(context: CoreDataManager.shared.managedContext)
+            
+            client.photoData = isPhotoPicked ? photoImageView.image?.pngData() : nil
+            client.surname = surnameTextField.text!
+            client.name = nameTextField.text!
+            client.phonenumber = phoneTextField.text!.cleanPhoneNumber
+            client.vk = vkTextField.text!
+            client.notes = notesTextField.text!
+            client.isBlocked = isBlocked
+            
+            CoreDataManager.shared.saveContext()
+            delegate?.editClientController(self, didFinishedEditing: client)
             dismiss(animated: true)
         }
     }
@@ -223,17 +191,13 @@ class EditClientController: UITableViewController, UINavigationControllerDelegat
 extension EditClientController: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // Выделить иконку, связанную с активным textField
-        UIView.animate(withDuration: 0.2) {
-            self.textFieldIcons[textField]?.tintColor = .systemBlue
-        }
+        guard let textField = textField as? TextFieldWithIcon else { return }
+        textField.isIconHighlighted = true
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // Снять выделение с иконки, связанной с textField
-        UIView.animate(withDuration: 0.2) {
-            self.textFieldIcons[textField]?.tintColor = .gray
-        }
+        guard let textField = textField as? TextFieldWithIcon else { return }
+        textField.isIconHighlighted = false
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

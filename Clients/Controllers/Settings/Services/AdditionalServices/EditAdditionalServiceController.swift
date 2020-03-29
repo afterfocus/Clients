@@ -83,18 +83,14 @@ class EditAdditionalServiceController: UITableViewController {
                 hours: durationSign * durationPicker.selectedRow(inComponent: 0),
                 minutes: durationSign * durationPicker.selectedRow(inComponent: 2) * 5
             )
-            if let additionalService = additionalService {
-                additionalService.name = nameTextField.text!
-                additionalService.cost = cost
-                additionalService.duration = duration
-            } else {
-                _ = AdditionalService(
-                    service: service,
-                    name: nameTextField.text!,
-                    cost: cost,
-                    duration: duration
-                )
-            }
+            
+            // Обновить существующую доп.услугу или создать новую
+            additionalService = additionalService ?? AdditionalService(context: CoreDataManager.shared.managedContext)
+            additionalService.service = service
+            additionalService.name = nameTextField.text!
+            additionalService.cost = cost
+            additionalService.duration = duration
+            
             CoreDataManager.shared.saveContext()
             navigationController?.popViewController(animated: true)
         }

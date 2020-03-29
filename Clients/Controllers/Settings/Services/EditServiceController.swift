@@ -104,21 +104,14 @@ class EditServiceController: UITableViewController {
             present(UIAlertController.serviceSavingErrorAlert, animated: true)
             return false
         } else {
-            if let service = service {
-                service.color = pickedColor
-                service.name = nameTextField.text!
-                service.cost = NumberFormatter.convertToFloat(costTextField.text!)
-                service.duration = durationPicker.countDownDuration
-                service.isArchive = isArchive
-            } else {
-                service = Service(
-                    color: pickedColor,
-                    name: nameTextField.text!,
-                    cost: NumberFormatter.convertToFloat(costTextField.text!),
-                    duration: durationPicker.countDownDuration,
-                    isArchive: isArchive
-                )
-            }
+            /// Обновить существующую услугу  или создать новую
+            service = service ?? Service(context: CoreDataManager.shared.managedContext)
+            service.color = pickedColor
+            service.name = nameTextField.text!
+            service.cost = NumberFormatter.convertToFloat(costTextField.text!)
+            service.duration = durationPicker.countDownDuration
+            service.isArchive = isArchive
+            
             CoreDataManager.shared.saveContext()
             return true
         }

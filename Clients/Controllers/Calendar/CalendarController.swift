@@ -358,7 +358,7 @@ extension CalendarController: SegueHandler {
 // MARK: - EditVisitControllerDelegate
 
 extension CalendarController: EditVisitControllerDelegate {
-    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing newVisit: Visit) {
         calendarData.reset()
         calendarView.reloadData()
         tableData = calendarData[pickedCell].visits

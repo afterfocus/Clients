@@ -36,7 +36,7 @@ class ClientsTableViewController: UITableViewController {
     private var archiveClientsViewModel = ClientsTableViewModel()
     private var currentViewModel = ClientsTableViewModel() {
         didSet { tableView.reloadData() }
-    }
+    }    
 
     // MARK: - View Life Cycle
 
@@ -116,7 +116,7 @@ extension ClientsTableViewController: SegueHandler {
 // MARK: - EditClientControllerDelegate
 
 extension ClientsTableViewController: EditClientControllerDelegate {
-    func editClientController(_ viewController: EditClientController, didFinishedCreating newClient: Client) {
+    func editClientController(_ viewController: EditClientController, didFinishedEditing newClient: Client) {
         archiveClientsViewModel.add(client: newClient)
         currentViewModel = archiveClientsViewModel
         filterSegmentedControl.selectedSegmentIndex = 1
@@ -159,8 +159,8 @@ extension ClientsTableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ClientTableCell = tableView.dequeueReusableCell(for: indexPath)
-        let viewModel = ClientViewModel(client: currentViewModel.clientFor(indexPath: indexPath))
-        cell.configure(with: viewModel)
+        let client = currentViewModel.clientFor(indexPath: indexPath)
+        cell.configure(with: ClientViewModel(client: client))
         return cell
     }
 

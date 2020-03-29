@@ -12,12 +12,6 @@ import UIKit
 
 protocol EditVisitControllerDelegate: class {
     func editVisitController(_ viewController: EditVisitController, didFinishedEditing visit: Visit)
-    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit)
-}
-
-extension EditVisitControllerDelegate {
-    func editVisitController(_ viewController: EditVisitController, didFinishedEditing visit: Visit) { }
-    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) { }
 }
 
 // MARK: - EditVisitController
@@ -153,37 +147,22 @@ class EditVisitController: UITableViewController {
         if client == nil || costTextField.text!.isEmpty {
             present(UIAlertController.visitSavingErrorAlert(clientNotSpecified: client == nil), animated: true)
         } else {
+            /// Обновить существующую запись или создать новую
+            let visit = self.visit ?? Visit(context: CoreDataManager.shared.managedContext)
             let service = servicePickerData[servicePicker.selectedRow(inComponent: 0)]
-            // Обновить существующую запись
-            if let visit = visit {
-                visit.client = client!
-                visit.dateTime = datePicker.date
-                visit.service = service
-                visit.cost = NumberFormatter.convertToFloat(costTextField.text!)
-                visit.duration = durationPicker.countDownDuration
-                visit.additionalServices = additionalServices
-                visit.notes = notesTextField.text!
-                visit.isCancelled = visitCancelledSwitch.isOn
-                visit.isClientNotCome = clientNotComeSwitch.isOn
-                CoreDataManager.shared.saveContext()
-                delegate?.editVisitController(self, didFinishedEditing: visit)
-            }
-            // Или создать новую
-            else {
-                let newVisit = Visit(
-                    client: client!,
-                    dateTime: datePicker.date,
-                    service: service,
-                    cost: NumberFormatter.convertToFloat(costTextField.text!),
-                    duration: durationPicker.countDownDuration,
-                    additionalServices: additionalServices,
-                    notes: notesTextField.text!,
-                    isCancelled: visitCancelledSwitch.isOn,
-                    isClientNotCome: clientNotComeSwitch.isOn
-                )
-                CoreDataManager.shared.saveContext()
-                delegate?.editVisitController(self, didFinishedCreating: newVisit)
-            }
+            
+            visit.client = client!
+            visit.dateTime = datePicker.date
+            visit.service = service
+            visit.cost = NumberFormatter.convertToFloat(costTextField.text!)
+            visit.duration = durationPicker.countDownDuration
+            visit.additionalServices = additionalServices
+            visit.notes = notesTextField.text!
+            visit.isCancelled = visitCancelledSwitch.isOn
+            visit.isClientNotCome = clientNotComeSwitch.isOn
+            
+            CoreDataManager.shared.saveContext()
+            delegate?.editVisitController(self, didFinishedEditing: visit)
             dismiss(animated: true)
         }
     }

@@ -43,7 +43,8 @@ class ClientsTableViewModel {
     }
     
     func add(client: Client) {
-        let dictionary = [String(client.surname.first!): [client]]
+        let key = String(client.surname.first!)
+        let dictionary = [key: [client]]
         clients.merge(dictionary) { $0 + $1 }
         keys = clients.keys.sorted()
     }

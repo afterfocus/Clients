@@ -121,7 +121,7 @@ extension TodayViewController: SegueHandler {
 // MARK: - EditVisitControllerDelegate
 
 extension TodayViewController: EditVisitControllerDelegate {
-    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing newVisit: Visit) {
         updateTableData()
     }
 }

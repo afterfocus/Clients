@@ -1372,7 +1372,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Имя" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7H4-wy-5VO">
+                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Имя" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7H4-wy-5VO" customClass="TextFieldWithIcon" customModule="Clients" customModuleProvider="target">
                                                     <rect key="frame" x="61" y="-1.5" width="298" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="4ml-St-mU0"/>
@@ -1381,6 +1381,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" textContentType="name"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="ibt-F5-o2V" id="IkQ-KW-FPS"/>
+                                                        <outlet property="icon" destination="BzP-fv-Gtl" id="bNy-6R-Tn1"/>
                                                     </connections>
                                                 </textField>
                                                 <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="name" translatesAutoresizingMaskIntoConstraints="NO" id="BzP-fv-Gtl">
@@ -1413,7 +1414,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Фамилия" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="W6s-9d-kGc">
+                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Фамилия" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="W6s-9d-kGc" customClass="TextFieldWithIcon" customModule="Clients" customModuleProvider="target">
                                                     <rect key="frame" x="61" y="-1.5" width="298" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="DyT-l4-zBC"/>
@@ -1422,6 +1423,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES" textContentType="family-name"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="ibt-F5-o2V" id="jcP-I7-j39"/>
+                                                        <outlet property="icon" destination="SHh-s7-3UF" id="qyM-BL-Oc6"/>
                                                     </connections>
                                                 </textField>
                                                 <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="surname" translatesAutoresizingMaskIntoConstraints="NO" id="SHh-s7-3UF">
@@ -1458,7 +1460,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Телефон" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cp4-Nn-nLF">
+                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Телефон" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cp4-Nn-nLF" customClass="TextFieldWithIcon" customModule="Clients" customModuleProvider="target">
                                                     <rect key="frame" x="61" y="-1.5" width="298" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="AQU-mo-t6g"/>
@@ -1467,6 +1469,7 @@
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" textContentType="tel"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="ibt-F5-o2V" id="haq-D2-vH1"/>
+                                                        <outlet property="icon" destination="gcT-VP-WW5" id="rdo-tC-JLo"/>
                                                     </connections>
                                                 </textField>
                                                 <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" translatesAutoresizingMaskIntoConstraints="NO" id="gcT-VP-WW5">
@@ -1512,7 +1515,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Вконтакте" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1JL-bA-BOe">
+                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Вконтакте" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1JL-bA-BOe" customClass="TextFieldWithIcon" customModule="Clients" customModuleProvider="target">
                                                     <rect key="frame" x="61" y="-1.5" width="298" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="JfO-9y-Zsr"/>
@@ -1521,6 +1524,7 @@
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" textContentType="url"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="ibt-F5-o2V" id="THu-xk-vhV"/>
+                                                        <outlet property="icon" destination="tui-X5-pqF" id="mld-Uu-yYa"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -1540,7 +1544,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Примечания" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZSV-gv-8Fv">
+                                                <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" placeholder="Примечания" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZSV-gv-8Fv" customClass="TextFieldWithIcon" customModule="Clients" customModuleProvider="target">
                                                     <rect key="frame" x="61" y="-1.5" width="298" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="tIq-fE-lXQ"/>
@@ -1549,6 +1553,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="no"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="ibt-F5-o2V" id="Xxc-e5-xxE"/>
+                                                        <outlet property="icon" destination="V4Y-Rv-RzE" id="oMX-lm-2KX"/>
                                                     </connections>
                                                 </textField>
                                                 <imageView clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notes" translatesAutoresizingMaskIntoConstraints="NO" id="V4Y-Rv-RzE">
@@ -1641,17 +1646,12 @@
                     <connections>
                         <outlet property="blacklistLabel" destination="GQR-CZ-SCq" id="xfk-ed-qJ8"/>
                         <outlet property="changePhotoButton" destination="Dj9-sC-cEe" id="pwK-fC-nQh"/>
-                        <outlet property="nameIcon" destination="BzP-fv-Gtl" id="4hw-Cg-cta"/>
                         <outlet property="nameTextField" destination="7H4-wy-5VO" id="D5W-h9-jKd"/>
-                        <outlet property="notesIcon" destination="V4Y-Rv-RzE" id="gAO-d8-YWZ"/>
                         <outlet property="notesTextField" destination="ZSV-gv-8Fv" id="YgU-7F-9VK"/>
-                        <outlet property="phoneIcon" destination="gcT-VP-WW5" id="fUA-sD-WGL"/>
                         <outlet property="phoneTextField" destination="cp4-Nn-nLF" id="Ysn-Pf-s6e"/>
                         <outlet property="photoImageView" destination="ikm-KI-IWp" id="y9o-0e-sLl"/>
                         <outlet property="pickPhotoButton" destination="WmQ-9d-Uck" id="roo-qW-Ek6"/>
-                        <outlet property="surnameIcon" destination="SHh-s7-3UF" id="nzE-ju-ScS"/>
                         <outlet property="surnameTextField" destination="W6s-9d-kGc" id="cQS-3x-2yD"/>
-                        <outlet property="vkIcon" destination="tui-X5-pqF" id="h1F-EJ-coc"/>
                         <outlet property="vkTextField" destination="1JL-bA-BOe" id="qpl-Ea-2g2"/>
                     </connections>
                 </tableViewController>

@@ -213,7 +213,7 @@ extension ClientProfileController: EditClientControllerDelegate {
 // MARK: - EditVisitControllerDelegate
 
 extension ClientProfileController: EditVisitControllerDelegate {
-    func editVisitController(_ viewController: EditVisitController, didFinishedCreating newVisit: Visit) {
+    func editVisitController(_ viewController: EditVisitController, didFinishedEditing newVisit: Visit) {
         visits = client.visitsByYear
         services = client.usedServices
         configureSegmentedControl()
@@ -247,8 +247,9 @@ extension ClientProfileController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: VisitHistoryTableCell = tableView.dequeueReusableCell(for: indexPath)
-        let viewModel = VisitViewModel(visit: visitsHistoryViewModel.visitFor(indexPath: indexPath))
-        cell.configure(with: viewModel, labelStyle: .date)
+        let visit = visitsHistoryViewModel.visitFor(indexPath: indexPath)
+        cell.configure(with: VisitViewModel(visit: visit),
+                       labelStyle: .date)
         return cell
     }
 

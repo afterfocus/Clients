@@ -20,10 +20,8 @@ class WeekendRepository {
         let request = Weekend.fetchRequest
         request.predicate = NSPredicate(format: "%K == %@",
                                         argumentArray: [#keyPath(Weekend.date), date as NSDate])
-        request.includesPropertyValues = false
-        request.fetchLimit = 1
         do {
-            return try context.count(for: request) != 0
+            return try context.count(for: request) > 0
         } catch {
             fatalError(#function + ": \(error)")
         }
@@ -40,15 +38,13 @@ class WeekendRepository {
 
     /// Сделать дату `date` рабочим днём
     private class func removeWeekend(for date: Date) {
-        let request = Weekend.fetchRequest
-        request.predicate = NSPredicate(format: "%K == %@",
-                                        argumentArray: [#keyPath(Weekend.date), date as NSDate])
-        request.includesPropertyValues = false
+        let fetchRequest = Weekend.fetchRequest
+        fetchRequest.predicate = NSPredicate(format: "%K == %@",
+                                             argumentArray: [#keyPath(Weekend.date), date as NSDate])
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
+
         do {
-            let weekends = try context.fetch(request)
-            for weekend in weekends {
-                context.delete(weekend)
-            }
+            try context.execute(deleteRequest)
         } catch {
             fatalError(#function + ": \(error)")
         }
