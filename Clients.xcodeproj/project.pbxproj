@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -714,7 +714,6 @@
 				FA17A119CD4AC55312D82329 /* Pods-ClientsTodayExtension.debug.xcconfig */,
 				27DDBE0DE5D8B834F7F77224 /* Pods-ClientsTodayExtension.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -1389,7 +1388,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B884EB3AAD10E04E4C6ED0D9 /* Pods-ClientsCallExtension.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = ClientsCallExtension/ClientsCallExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TA67UG9J4;
@@ -1412,7 +1410,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C74310C5639AD083041D06E8 /* Pods-ClientsCallExtension.release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = ClientsCallExtension/ClientsCallExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8TA67UG9J4;
