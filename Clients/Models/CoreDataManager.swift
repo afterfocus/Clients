@@ -9,11 +9,10 @@
 import CoreData
 import Foundation
 
-// MARK: - PersistentContainer
-
-class PersistentContainer: NSPersistentContainer {
-    override class func defaultDirectoryURL() -> URL {
-        return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.MaximGolov.Clients")!
+public extension URL {
+    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else { fatalError("Shared file container could not be created.") }
+        return fileContainer.appendingPathComponent("\(databaseName).sqlite")
     }
 }
 
@@ -25,8 +24,17 @@ class CoreDataManager {
 
     private init() { }
 
+    private lazy var storeDescription: NSPersistentStoreDescription = {
+        let url = URL.storeURL(for: "group.MaximGolov.Clients", databaseName: "Clients")
+        let description = NSPersistentStoreDescription(url: url)
+        description.shouldMigrateStoreAutomatically = true
+        description.shouldInferMappingModelAutomatically = true
+        return description
+    }()
+    
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = PersistentContainer(name: "Clients")
+        let container = NSPersistentContainer(name: "Clients")
+        container.persistentStoreDescriptions = [self.storeDescription]
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -42,9 +50,10 @@ class CoreDataManager {
     }
     
     func saveContext() {
-        guard managedContext.hasChanges else { return }
+        let context = persistentContainer.viewContext
+        guard context.hasChanges else { return }
         do {
-            try managedContext.save()
+            try context.save()
         } catch let error as NSError {
             print("Unresolved error \(error), \(error.userInfo)")
         }

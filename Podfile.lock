@@ -1,0 +1,16 @@
+PODS:
+  - CalendarView (0.0.1)
+
+DEPENDENCIES:
+  - CalendarView (~> 0.0.1)
+
+SPEC REPOS:
+  https://github.com/afterfocus/PodSpecs.git:
+    - CalendarView
+
+SPEC CHECKSUMS:
+  CalendarView: 70bc77892ee6e517d25dfdb4a835cebaf6dd61b5
+
+PODFILE CHECKSUM: feb58264745b1d816257e2bde87c35d8b1732bc8
+
+COCOAPODS: 1.9.3

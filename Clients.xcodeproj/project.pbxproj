@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0361BD9D022F6E26AE840EB0 /* libPods-ClientsTodayExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E3195A4162F82699B4AB02 /* libPods-ClientsTodayExtension.a */; };
+		0477AB9B3761E27206C3C7B3 /* libPods-Clients.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 479A292F82BA6E669E67C27E /* libPods-Clients.a */; };
+		A83583343E1D1F9A1ACD19E6 /* libPods-ClientsCallExtension.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD8785183050A060565A1D9 /* libPods-ClientsCallExtension.a */; };
 		B503F1DC23D202FD0097B04E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B503F1DB23D202FD0097B04E /* UIImageExtension.swift */; };
 		B504598F2412999F000C96E7 /* VisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B573E6E62412854200DEDC34 /* VisitViewModel.swift */; };
 		B5045991241299A5000C96E7 /* VisitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B573E6E62412854200DEDC34 /* VisitViewModel.swift */; };
@@ -97,13 +100,13 @@
 		B5890AF723E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */; };
 		B5890AF923E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */; };
 		B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */; };
+		B58D89EA24C344F2005A5ABE /* CalendarControllerCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D89E924C344F2005A5ABE /* CalendarControllerCache.swift */; };
 		B59DC58D2430A2F800C12C97 /* TextFieldWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59DC58C2430A2F800C12C97 /* TextFieldWithIcon.swift */; };
 		B5B035992421748300B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
 		B5B0359B2421749500B26C70 /* TimeIntervalFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */; };
 		B5B0359C2421767A00B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
 		B5B0359D242176B400B26C70 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B035982421748300B26C70 /* DateFormatter.swift */; };
 		B5B3BE5024017DC3008CA7BF /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */; };
-		B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B3BE5124019448008CA7BF /* MonthGradientView.swift */; };
 		B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
 		B5BB473E241924CC00714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
 		B5BB473F2419251000714ED8 /* WorkdaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */; };
@@ -143,14 +146,10 @@
 		B5F0CF3E23EC0CC60057C23A /* AdditionalServicesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F0CF3D23EC0CC60057C23A /* AdditionalServicesController.swift */; };
 		B5F415AC23D63DB300D48319 /* CalendarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F415AB23D63DB300D48319 /* CalendarController.swift */; };
 		B5F415AE23D6438300D48319 /* HairlineConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F415AD23D6438300D48319 /* HairlineConstraint.swift */; };
-		B5F415B023D7313B00D48319 /* CalendarCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F415AF23D7313B00D48319 /* CalendarCollectionCell.swift */; };
-		B5F415B323D732F900D48319 /* CalendarCollectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */; };
 		B5F8955323ECA1C800938FA7 /* Weekend.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955123ECA1C800938FA7 /* Weekend.swift */; };
 		B5F8955423ECA1C800938FA7 /* Weekend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955223ECA1C800938FA7 /* Weekend+CoreDataProperties.swift */; };
 		B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */; };
 		B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */; };
-		B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB89A42402ACA7005A31B0 /* CalendarView.swift */; };
-		B5FB89A92402C6CD005A31B0 /* CalendarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB89A82402C6CD005A31B0 /* CalendarData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +170,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B52C371C24379DB40013ED3B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5EB22E023EF07FC00BB16D0 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +195,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0AD8785183050A060565A1D9 /* libPods-ClientsCallExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClientsCallExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		27DDBE0DE5D8B834F7F77224 /* Pods-ClientsTodayExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientsTodayExtension.release.xcconfig"; path = "Target Support Files/Pods-ClientsTodayExtension/Pods-ClientsTodayExtension.release.xcconfig"; sourceTree = "<group>"; };
+		43E3195A4162F82699B4AB02 /* libPods-ClientsTodayExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClientsTodayExtension.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		479A292F82BA6E669E67C27E /* libPods-Clients.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clients.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A879292B5B1FFC24B10EB82D /* Pods-Clients.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clients.release.xcconfig"; path = "Target Support Files/Pods-Clients/Pods-Clients.release.xcconfig"; sourceTree = "<group>"; };
 		B503F1DB23D202FD0097B04E /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		B504599224129E15000C96E7 /* ServiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewModel.swift; sourceTree = "<group>"; };
 		B504599424129F99000C96E7 /* AdditionalServiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServiceViewModel.swift; sourceTree = "<group>"; };
@@ -245,11 +259,12 @@
 		B5890AF623E5BCAB00C3A50E /* NearestPlacesCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionCell.swift; sourceTree = "<group>"; };
 		B5890AF823E5BCB700C3A50E /* NearestPlacesCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesCollectionHeader.swift; sourceTree = "<group>"; };
 		B5890AFA23E5BF7600C3A50E /* NearestPlacesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestPlacesTableCell.swift; sourceTree = "<group>"; };
+		B58D89E924C344F2005A5ABE /* CalendarControllerCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarControllerCache.swift; sourceTree = "<group>"; };
 		B59DC58C2430A2F800C12C97 /* TextFieldWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithIcon.swift; sourceTree = "<group>"; };
+		B59DC58E2430C30B00C12C97 /* Clients Data Model 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Clients Data Model 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		B5B035982421748300B26C70 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		B5B0359A2421749500B26C70 /* TimeIntervalFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalFormatter.swift; sourceTree = "<group>"; };
 		B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
-		B5B3BE5124019448008CA7BF /* MonthGradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthGradientView.swift; sourceTree = "<group>"; };
 		B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkdaySchedule.swift; sourceTree = "<group>"; };
 		B5BDEF0024194B0D00A5B23B /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitInfoController.swift; sourceTree = "<group>"; };
@@ -286,14 +301,14 @@
 		B5F0CF3D23EC0CC60057C23A /* AdditionalServicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalServicesController.swift; sourceTree = "<group>"; };
 		B5F415AB23D63DB300D48319 /* CalendarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarController.swift; sourceTree = "<group>"; };
 		B5F415AD23D6438300D48319 /* HairlineConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HairlineConstraint.swift; sourceTree = "<group>"; };
-		B5F415AF23D7313B00D48319 /* CalendarCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionCell.swift; sourceTree = "<group>"; };
-		B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionHeader.swift; sourceTree = "<group>"; };
 		B5F8955123ECA1C800938FA7 /* Weekend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weekend.swift; sourceTree = "<group>"; };
 		B5F8955223ECA1C800938FA7 /* Weekend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weekend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B5F8955523ECA1F600938FA7 /* WeekendRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekendRepository.swift; sourceTree = "<group>"; };
 		B5F8955723ECA95E00938FA7 /* ServiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRepository.swift; sourceTree = "<group>"; };
-		B5FB89A42402ACA7005A31B0 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		B5FB89A82402C6CD005A31B0 /* CalendarData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarData.swift; sourceTree = "<group>"; };
+		B884EB3AAD10E04E4C6ED0D9 /* Pods-ClientsCallExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientsCallExtension.debug.xcconfig"; path = "Target Support Files/Pods-ClientsCallExtension/Pods-ClientsCallExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		C74310C5639AD083041D06E8 /* Pods-ClientsCallExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientsCallExtension.release.xcconfig"; path = "Target Support Files/Pods-ClientsCallExtension/Pods-ClientsCallExtension.release.xcconfig"; sourceTree = "<group>"; };
+		FA17A119CD4AC55312D82329 /* Pods-ClientsTodayExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClientsTodayExtension.debug.xcconfig"; path = "Target Support Files/Pods-ClientsTodayExtension/Pods-ClientsTodayExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		FA88FE1C579FE977EAE056C4 /* Pods-Clients.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clients.debug.xcconfig"; path = "Target Support Files/Pods-Clients/Pods-Clients.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0477AB9B3761E27206C3C7B3 /* libPods-Clients.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B56A272723F69573005D8DBE /* NotificationCenter.framework in Frameworks */,
+				0361BD9D022F6E26AE840EB0 /* libPods-ClientsTodayExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +333,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A83583343E1D1F9A1ACD19E6 /* libPods-ClientsCallExtension.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +397,7 @@
 				B56A272823F69573005D8DBE /* ClientsTodayExtension */,
 				B56A272523F69573005D8DBE /* Frameworks */,
 				B516F26023CE15EA0087B2CB /* Products */,
+				D66DCD656AEB0094B9F1F8F6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -395,8 +414,9 @@
 		B516F26123CE15EA0087B2CB /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				B516F26223CE15EA0087B2CB /* AppDelegate.swift */,
 				B5EB22E423EF0E6300BB16D0 /* Clients.entitlements */,
+				B516F26223CE15EA0087B2CB /* AppDelegate.swift */,
+				B5890AF123E5BC7B00C3A50E /* Today */,
 				B516F27A23CE177C0087B2CB /* Models */,
 				B516F27B23CE1CBF0087B2CB /* Views */,
 				B573E6E124126C1500DEDC34 /* ViewModels */,
@@ -419,7 +439,6 @@
 				B5E3E4D723ED527B00E61B9D /* AdditionalService */,
 				B5E3E4D823ED529100E61B9D /* Weekend */,
 				B5B035972421744D00B26C70 /* DateTime */,
-				B5FB89A82402C6CD005A31B0 /* CalendarData.swift */,
 				B5206E552413D22800B05ED9 /* UnoccupiedPlacesSearchParameters.swift */,
 				B5BB473C241923EA00714ED8 /* WorkdaySchedule.swift */,
 			);
@@ -434,7 +453,6 @@
 				B58127152411B76800116FAC /* Settings.storyboard */,
 				B5206E5B2414287B00B05ED9 /* ReusableView.swift */,
 				B5F415AD23D6438300D48319 /* HairlineConstraint.swift */,
-				B5890AF123E5BC7B00C3A50E /* Today */,
 				B5F415B123D732E200D48319 /* Calendar */,
 				B5E76F5F23CF9F2D009F6D99 /* Clients */,
 				B5E9746023E861FD0061AB9B /* Settings */,
@@ -487,6 +505,9 @@
 			isa = PBXGroup;
 			children = (
 				B56A272623F69573005D8DBE /* NotificationCenter.framework */,
+				479A292F82BA6E669E67C27E /* libPods-Clients.a */,
+				0AD8785183050A060565A1D9 /* libPods-ClientsCallExtension.a */,
+				43E3195A4162F82699B4AB02 /* libPods-ClientsTodayExtension.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -611,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				B5F415AB23D63DB300D48319 /* CalendarController.swift */,
+				B58D89E924C344F2005A5ABE /* CalendarControllerCache.swift */,
 				B5E76F6423CFAC74009F6D99 /* EditVisitController.swift */,
 				B5890AE923E3585500C3A50E /* SelectAdditionalServicesController.swift */,
 				B5E2268F23D119AA0024C0AF /* VisitInfoController.swift */,
@@ -677,13 +699,23 @@
 		B5F415B123D732E200D48319 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				B5F415AF23D7313B00D48319 /* CalendarCollectionCell.swift */,
-				B5F415B223D732F900D48319 /* CalendarCollectionHeader.swift */,
-				B5FB89A42402ACA7005A31B0 /* CalendarView.swift */,
-				B5B3BE5124019448008CA7BF /* MonthGradientView.swift */,
 				B5B3BE4F24017DC3008CA7BF /* ScheduleView.swift */,
 			);
 			path = Calendar;
+			sourceTree = "<group>";
+		};
+		D66DCD656AEB0094B9F1F8F6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FA88FE1C579FE977EAE056C4 /* Pods-Clients.debug.xcconfig */,
+				A879292B5B1FFC24B10EB82D /* Pods-Clients.release.xcconfig */,
+				B884EB3AAD10E04E4C6ED0D9 /* Pods-ClientsCallExtension.debug.xcconfig */,
+				C74310C5639AD083041D06E8 /* Pods-ClientsCallExtension.release.xcconfig */,
+				FA17A119CD4AC55312D82329 /* Pods-ClientsTodayExtension.debug.xcconfig */,
+				27DDBE0DE5D8B834F7F77224 /* Pods-ClientsTodayExtension.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -693,11 +725,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B516F27623CE15FB0087B2CB /* Build configuration list for PBXNativeTarget "Clients" */;
 			buildPhases = (
+				44CEE28EEC04EF2AD6D0D48E /* [CP] Check Pods Manifest.lock */,
 				B516F25B23CE15EA0087B2CB /* Sources */,
 				B516F25C23CE15EA0087B2CB /* Frameworks */,
 				B516F25D23CE15EA0087B2CB /* Resources */,
 				B516F27923CE175C0087B2CB /* ShellScript */,
 				B5EB22E023EF07FC00BB16D0 /* Embed App Extensions */,
+				B52C371C24379DB40013ED3B /* Embed Frameworks */,
+				5EE5C85312DE20A885FC5864 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -714,6 +749,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B56A273423F69574005D8DBE /* Build configuration list for PBXNativeTarget "ClientsTodayExtension" */;
 			buildPhases = (
+				D92B270504EE041F222BD04E /* [CP] Check Pods Manifest.lock */,
 				B56A272023F69573005D8DBE /* Sources */,
 				B56A272123F69573005D8DBE /* Frameworks */,
 				B56A272223F69573005D8DBE /* Resources */,
@@ -731,6 +767,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5EB22E323EF07FC00BB16D0 /* Build configuration list for PBXNativeTarget "ClientsCallExtension" */;
 			buildPhases = (
+				9CB74E5653774C6BC710D14B /* [CP] Check Pods Manifest.lock */,
 				B5EB22D423EF07FC00BB16D0 /* Sources */,
 				B5EB22D523EF07FC00BB16D0 /* Frameworks */,
 				B5EB22D623EF07FC00BB16D0 /* Resources */,
@@ -818,6 +855,67 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		44CEE28EEC04EF2AD6D0D48E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Clients-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5EE5C85312DE20A885FC5864 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clients/Pods-Clients-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clients/Pods-Clients-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clients/Pods-Clients-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9CB74E5653774C6BC710D14B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ClientsCallExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B516F27923CE175C0087B2CB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -834,6 +932,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"\n";
+		};
+		D92B270504EE041F222BD04E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ClientsTodayExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -856,11 +976,9 @@
 				B5E76F6223CF9F58009F6D99 /* ClientTableCell.swift in Sources */,
 				B5890AEA23E3585500C3A50E /* SelectAdditionalServicesController.swift in Sources */,
 				B5F415AE23D6438300D48319 /* HairlineConstraint.swift in Sources */,
-				B5F415B023D7313B00D48319 /* CalendarCollectionCell.swift in Sources */,
 				B5E76F5423CE7DBD009F6D99 /* UIColorExtension.swift in Sources */,
 				B503F1DC23D202FD0097B04E /* UIImageExtension.swift in Sources */,
 				B5E4219B23EC77AD00476480 /* ClientRepository.swift in Sources */,
-				B5F415B323D732F900D48319 /* CalendarCollectionHeader.swift in Sources */,
 				B5E2269023D119AA0024C0AF /* VisitInfoController.swift in Sources */,
 				B573E6E524127C7700DEDC34 /* VisitsTableViewModel.swift in Sources */,
 				B5890AF023E5B26200C3A50E /* TodayViewController.swift in Sources */,
@@ -873,6 +991,7 @@
 				B5206E5C2414287B00B05ED9 /* ReusableView.swift in Sources */,
 				B5777F6823D0011600FB96D3 /* ClientProfileTopView.swift in Sources */,
 				B504598F2412999F000C96E7 /* VisitViewModel.swift in Sources */,
+				B58D89EA24C344F2005A5ABE /* CalendarControllerCache.swift in Sources */,
 				B5890AFB23E5BF7700C3A50E /* NearestPlacesTableCell.swift in Sources */,
 				B57FDC222402953900B4D757 /* UIAlertControllerExtension.swift in Sources */,
 				B573E6E324126C8700DEDC34 /* ClientsTableViewModel.swift in Sources */,
@@ -902,7 +1021,6 @@
 				B5364548240ED9AE000BA839 /* HidingNavigationBarViewController.swift in Sources */,
 				B504599324129E15000C96E7 /* ServiceViewModel.swift in Sources */,
 				B5E939D623EC5C58008112D4 /* Service.swift in Sources */,
-				B5FB89A52402ACA7005A31B0 /* CalendarView.swift in Sources */,
 				B5E939DE23EC5CBB008112D4 /* Client.swift in Sources */,
 				B541E21C23CFD30A00FD1F3F /* ClientProfileTableTopView.swift in Sources */,
 				B59DC58D2430A2F800C12C97 /* TextFieldWithIcon.swift in Sources */,
@@ -910,7 +1028,6 @@
 				B5890AEE23E35A9100C3A50E /* OneLabelTableCell.swift in Sources */,
 				B52C1F8223F15C7E001CCDAB /* SearchParametersController.swift in Sources */,
 				B50C937E23E6FE4C00B2D2CB /* SettingsController.swift in Sources */,
-				B5FB89A92402C6CD005A31B0 /* CalendarData.swift in Sources */,
 				B5BB473D241923EA00714ED8 /* WorkdaySchedule.swift in Sources */,
 				B5F8955623ECA1F600938FA7 /* WeekendRepository.swift in Sources */,
 				B5E939D423EC5C58008112D4 /* Visit.swift in Sources */,
@@ -922,7 +1039,6 @@
 				B5E9746423E8652A0061AB9B /* EditServiceController.swift in Sources */,
 				B5E939DB23EC5C58008112D4 /* AdditionalService+CoreDataProperties.swift in Sources */,
 				B5F8955823ECA95F00938FA7 /* ServiceRepository.swift in Sources */,
-				B5B3BE5224019448008CA7BF /* MonthGradientView.swift in Sources */,
 				B5E939D523EC5C58008112D4 /* Visit+CoreDataProperties.swift in Sources */,
 				B5F415AC23D63DB300D48319 /* CalendarController.swift in Sources */,
 			);
@@ -1183,6 +1299,7 @@
 		};
 		B516F27723CE15FB0087B2CB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA88FE1C579FE977EAE056C4 /* Pods-Clients.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1204,6 +1321,7 @@
 		};
 		B516F27823CE15FB0087B2CB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A879292B5B1FFC24B10EB82D /* Pods-Clients.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1225,6 +1343,7 @@
 		};
 		B56A273223F69573005D8DBE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA17A119CD4AC55312D82329 /* Pods-ClientsTodayExtension.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ClientsTodayExtension/ClientsTodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1246,6 +1365,7 @@
 		};
 		B56A273323F69573005D8DBE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27DDBE0DE5D8B834F7F77224 /* Pods-ClientsTodayExtension.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ClientsTodayExtension/ClientsTodayExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -1267,6 +1387,7 @@
 		};
 		B5EB22E123EF07FC00BB16D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B884EB3AAD10E04E4C6ED0D9 /* Pods-ClientsCallExtension.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = ClientsCallExtension/ClientsCallExtension.entitlements;
@@ -1289,6 +1410,7 @@
 		};
 		B5EB22E223EF07FC00BB16D0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C74310C5639AD083041D06E8 /* Pods-ClientsCallExtension.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_ENTITLEMENTS = ClientsCallExtension/ClientsCallExtension.entitlements;
@@ -1354,9 +1476,10 @@
 		B516F26B23CE15EA0087B2CB /* Clients.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B59DC58E2430C30B00C12C97 /* Clients Data Model 1.0.xcdatamodel */,
 				B516F26C23CE15EA0087B2CB /* Clients.xcdatamodel */,
 			);
-			currentVersion = B516F26C23CE15EA0087B2CB /* Clients.xcdatamodel */;
+			currentVersion = B59DC58E2430C30B00C12C97 /* Clients Data Model 1.0.xcdatamodel */;
 			path = Clients.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

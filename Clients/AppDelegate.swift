@@ -10,15 +10,6 @@ import UIKit
 import CoreData
 import CallKit
 
-/*
- TODO: LIST
-    1. Переписать код, связанный с Core Data
-    2. Завершить переход на MVVM
-    3. Использовать Combine / RxSwift
-    4. Внедрить Coordinator
-    5. Внедрить Builder
- */
-
 // swiftlint: disable all
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,8 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    
+        Date.ignoreTimeZone()
         AppSettings.shared.registerDefaults()
-
+        
         // MARK: Загрузка тестовых данных
         if ClientRepository.isEmpty {
             initializeData()

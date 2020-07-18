@@ -27,6 +27,7 @@ class TodayExtensionViewController: UIViewController {
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
+        Date.ignoreTimeZone()
         self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         settings.registerDefaults()
 

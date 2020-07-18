@@ -29,7 +29,7 @@
             </objects>
             <point key="canvasLocation" x="-565" y="12"/>
         </scene>
-        <!--Calendar Controller-->
+        <!--Calendar Data Source-->
         <scene sceneID="S32-fR-cjY">
             <objects>
                 <viewController id="65x-lW-Aug" customClass="CalendarController" customModule="Clients" customModuleProvider="target" sceneMemberID="viewController">
@@ -37,198 +37,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WB3-ZZ-jc0" customClass="CalendarView" customModule="Clients" customModuleProvider="target">
-                                <rect key="frame" x="9.5" y="22" width="356" height="344.5"/>
+                            <collectionView opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WB3-ZZ-jc0" customClass="CalendarView" customModule="CalendarView">
+                                <rect key="frame" x="9.5" y="21" width="356" height="344.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mv2-Wi-P9s">
                                     <size key="itemSize" width="50" height="55"/>
-                                    <size key="headerReferenceSize" width="50" height="40"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CalendarPlaceholderCell" id="De1-Tx-eX9">
-                                        <rect key="frame" x="0.0" y="40" width="100" height="55"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="GjM-Xc-e2k">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="55"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                        <size key="customSize" width="100" height="55"/>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarCollectionCell" id="T1T-qh-BXN" customClass="CalendarCollectionCell" customModule="Clients" customModuleProvider="target">
-                                        <rect key="frame" x="100" y="40" width="50" height="55"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="QTi-ei-QAt">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="55"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oRI-yh-6FO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="1"/>
-                                                    <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="1" id="a8W-DB-9bh" customClass="HairlineConstraint" customModule="Clients" customModuleProvider="target"/>
-                                                    </constraints>
-                                                </view>
-                                                <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7EB-ls-ZO7">
-                                                    <rect key="frame" x="9.5" y="5.5" width="31" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="31" id="J5n-7e-JMN"/>
-                                                        <constraint firstAttribute="height" constant="31" id="QkC-sZ-8yq"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <real key="value" value="15.5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3X-uB-1ja">
-                                                    <rect key="frame" x="15.5" y="10.5" width="19.5" height="21.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <stackView clearsContextBeforeDrawing="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="bottom" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="acQ-h0-77f">
-                                                    <rect key="frame" x="25" y="41" width="0.0" height="5"/>
-                                                    <subviews>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ou6-lW-hqg">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="hRu-Hj-ghT"/>
-                                                                <constraint firstAttribute="width" constant="5" id="kHH-Il-MDo"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Y4-Mx-Xnc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="HYm-vY-Lvd"/>
-                                                                <constraint firstAttribute="width" constant="5" id="twh-jo-B2I"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RsK-rw-qt0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="4j8-bj-w6P"/>
-                                                                <constraint firstAttribute="width" constant="5" id="5Ey-DT-ovU"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JN4-F1-Sab">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="0Cs-zX-4dP"/>
-                                                                <constraint firstAttribute="width" constant="5" id="6aa-KW-Jf0"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucf-dp-a9x">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="HrY-KF-DAu"/>
-                                                                <constraint firstAttribute="width" constant="5" id="O3q-as-GuE"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                        <view hidden="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TTp-hw-ueL">
-                                                            <rect key="frame" x="0.0" y="0.0" width="5" height="5"/>
-                                                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="ncj-51-tmz"/>
-                                                                <constraint firstAttribute="width" constant="5" id="z3P-LH-UMn"/>
-                                                            </constraints>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="3"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="35" id="4sx-4B-ZhK"/>
-                                                        <constraint firstAttribute="height" constant="5" id="w0H-BH-IGy"/>
-                                                    </constraints>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="B3X-uB-1ja" firstAttribute="centerX" secondItem="QTi-ei-QAt" secondAttribute="centerX" id="3HF-8z-Lcq"/>
-                                                <constraint firstAttribute="trailing" secondItem="oRI-yh-6FO" secondAttribute="trailing" id="8by-aQ-2HV"/>
-                                                <constraint firstItem="acQ-h0-77f" firstAttribute="centerX" secondItem="QTi-ei-QAt" secondAttribute="centerX" id="9Xg-K6-efK"/>
-                                                <constraint firstItem="oRI-yh-6FO" firstAttribute="leading" secondItem="QTi-ei-QAt" secondAttribute="leading" id="NhY-S3-gL8"/>
-                                                <constraint firstItem="acQ-h0-77f" firstAttribute="centerY" secondItem="QTi-ei-QAt" secondAttribute="centerY" multiplier="1.25" constant="9" id="g8b-PL-Ign"/>
-                                                <constraint firstItem="B3X-uB-1ja" firstAttribute="centerY" secondItem="QTi-ei-QAt" secondAttribute="centerY" multiplier="0.77" id="kPv-VG-pRe"/>
-                                                <constraint firstItem="oRI-yh-6FO" firstAttribute="top" secondItem="QTi-ei-QAt" secondAttribute="top" id="ofm-yN-zUy"/>
-                                                <constraint firstItem="7EB-ls-ZO7" firstAttribute="centerY" secondItem="B3X-uB-1ja" secondAttribute="centerY" id="rRc-cg-hBd"/>
-                                                <constraint firstItem="7EB-ls-ZO7" firstAttribute="centerX" secondItem="B3X-uB-1ja" secondAttribute="centerX" id="zs3-nL-RLx"/>
-                                            </constraints>
-                                        </collectionViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <outlet property="circleView" destination="7EB-ls-ZO7" id="nIt-Tv-ROH"/>
-                                            <outlet property="numberLabel" destination="B3X-uB-1ja" id="BDg-tR-jvb"/>
-                                            <outletCollection property="visitIndicators" destination="ou6-lW-hqg" collectionClass="NSMutableArray" id="Vlp-EO-q7D"/>
-                                            <outletCollection property="visitIndicators" destination="6Y4-Mx-Xnc" collectionClass="NSMutableArray" id="rSe-jQ-9Nw"/>
-                                            <outletCollection property="visitIndicators" destination="RsK-rw-qt0" collectionClass="NSMutableArray" id="pam-ml-y1R"/>
-                                            <outletCollection property="visitIndicators" destination="JN4-F1-Sab" collectionClass="NSMutableArray" id="6DL-0D-ANr"/>
-                                            <outletCollection property="visitIndicators" destination="ucf-dp-a9x" collectionClass="NSMutableArray" id="v9v-6i-I9B"/>
-                                            <outletCollection property="visitIndicators" destination="TTp-hw-ueL" collectionClass="NSMutableArray" id="U4R-NG-z81"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="CalendarCollectionHeader" id="2Bk-6T-se5" customClass="CalendarCollectionHeader" customModule="Clients" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="356" height="40"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="September" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asn-pn-NRg">
-                                            <rect key="frame" x="123" y="8" width="110" height="24"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="qqC-U1-e7R"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="asn-pn-NRg" firstAttribute="centerY" secondItem="2Bk-6T-se5" secondAttribute="centerY" id="GDy-we-vsI"/>
-                                        <constraint firstItem="asn-pn-NRg" firstAttribute="centerX" secondItem="2Bk-6T-se5" secondAttribute="centerX" id="tIZ-GN-35u"/>
-                                    </constraints>
-                                    <connections>
-                                        <outlet property="labelCenterX" destination="tIZ-GN-35u" id="vPd-ay-SAX"/>
-                                        <outlet property="monthLabel" destination="asn-pn-NRg" id="c72-CA-Bnw"/>
-                                    </connections>
-                                </collectionReusableView>
+                                <cells/>
                                 <connections>
-                                    <outlet property="dataSource" destination="65x-lW-Aug" id="cdU-sJ-5Pq"/>
-                                    <outlet property="delegate" destination="65x-lW-Aug" id="HAJ-MY-XNK"/>
-                                    <outlet property="heightConstraint" destination="eFM-of-EBE" id="tXg-xY-6li"/>
-                                    <outlet property="topConstraint" destination="iJ4-Bk-eg1" id="toH-u9-kDu"/>
+                                    <outlet property="calendarDataSource" destination="65x-lW-Aug" id="KSN-Ke-sZe"/>
+                                    <outlet property="calendarDelegate" destination="65x-lW-Aug" id="K2w-vG-8Fm"/>
+                                    <outlet property="monthGradientView" destination="fNX-Fa-1wj" id="BAe-S9-Uiv"/>
                                 </connections>
                             </collectionView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7j-HV-olx">
@@ -320,24 +142,11 @@
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
-                            <view clearsContextBeforeDrawing="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5jr-Kn-TRd" customClass="MonthGradientView" customModule="Clients" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNX-Fa-1wj" customClass="MonthGradientView" customModule="CalendarView">
                                 <rect key="frame" x="0.0" y="62" width="375" height="95"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="март 2019 г." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WcF-Uh-Pos">
-                                        <rect key="frame" x="131.5" y="11" width="112.5" height="23"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <constraints>
-                                    <constraint firstItem="WcF-Uh-Pos" firstAttribute="top" secondItem="5jr-Kn-TRd" secondAttribute="top" constant="11" id="FHo-kI-heu"/>
-                                    <constraint firstItem="WcF-Uh-Pos" firstAttribute="centerX" secondItem="5jr-Kn-TRd" secondAttribute="centerX" id="npc-Bc-Ajk"/>
-                                    <constraint firstAttribute="height" constant="95" id="v6X-Hr-hm1"/>
+                                    <constraint firstAttribute="height" constant="95" id="Sxa-Pe-MRc"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="monthLabel" destination="WcF-Uh-Pos" id="GUP-Lw-PuD"/>
-                                </connections>
                             </view>
                             <tableView clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5hr-Vi-Y3G">
                                 <rect key="frame" x="0.0" y="365.5" width="375" height="252.5"/>
@@ -552,18 +361,18 @@
                             <constraint firstItem="9TF-sS-hmf" firstAttribute="trailing" secondItem="5hr-Vi-Y3G" secondAttribute="trailing" id="ISZ-Zd-WSa"/>
                             <constraint firstItem="Lhq-o8-7pY" firstAttribute="leading" secondItem="EDj-ip-ISO" secondAttribute="leading" id="IYh-WM-6ch"/>
                             <constraint firstItem="WB3-ZZ-jc0" firstAttribute="trailing" secondItem="9TF-sS-hmf" secondAttribute="trailing" multiplier="39:40" id="MDH-ZA-gxQ"/>
-                            <constraint firstItem="5jr-Kn-TRd" firstAttribute="top" secondItem="d7j-HV-olx" secondAttribute="bottom" id="NUX-j7-Vsj"/>
                             <constraint firstItem="5hr-Vi-Y3G" firstAttribute="leading" secondItem="9TF-sS-hmf" secondAttribute="leading" id="Sbx-uT-7zL"/>
-                            <constraint firstAttribute="trailing" secondItem="5jr-Kn-TRd" secondAttribute="trailing" id="SlL-Gr-2ON"/>
+                            <constraint firstItem="9TF-sS-hmf" firstAttribute="trailing" secondItem="fNX-Fa-1wj" secondAttribute="trailing" id="Whk-3N-jjU"/>
+                            <constraint firstItem="fNX-Fa-1wj" firstAttribute="top" secondItem="d7j-HV-olx" secondAttribute="bottom" id="WkF-B4-slQ"/>
                             <constraint firstItem="d7j-HV-olx" firstAttribute="top" secondItem="EDj-ip-ISO" secondAttribute="top" id="XRJ-ZB-15k"/>
                             <constraint firstItem="9TF-sS-hmf" firstAttribute="bottom" secondItem="5hr-Vi-Y3G" secondAttribute="bottom" id="ato-Tr-aRJ"/>
                             <constraint firstItem="Lhq-o8-7pY" firstAttribute="top" secondItem="5hr-Vi-Y3G" secondAttribute="top" id="d9i-3n-Hbl"/>
                             <constraint firstItem="WB3-ZZ-jc0" firstAttribute="height" secondItem="9TF-sS-hmf" secondAttribute="height" multiplier="0.6" id="eFM-of-EBE"/>
-                            <constraint firstItem="WB3-ZZ-jc0" firstAttribute="top" secondItem="d7j-HV-olx" secondAttribute="bottom" constant="-40" id="iJ4-Bk-eg1"/>
+                            <constraint firstItem="WB3-ZZ-jc0" firstAttribute="top" secondItem="d7j-HV-olx" secondAttribute="bottom" constant="-41" id="iJ4-Bk-eg1"/>
                             <constraint firstItem="d7j-HV-olx" firstAttribute="bottom" secondItem="9TF-sS-hmf" secondAttribute="top" constant="18" id="iXo-It-7cO"/>
+                            <constraint firstItem="fNX-Fa-1wj" firstAttribute="leading" secondItem="9TF-sS-hmf" secondAttribute="leading" id="pBE-Kj-Zwc"/>
                             <constraint firstItem="9TF-sS-hmf" firstAttribute="trailing" secondItem="d7j-HV-olx" secondAttribute="trailing" id="pD2-Zj-Txx"/>
                             <constraint firstItem="d7j-HV-olx" firstAttribute="leading" secondItem="9TF-sS-hmf" secondAttribute="leading" id="sfh-I6-IQO"/>
-                            <constraint firstItem="5jr-Kn-TRd" firstAttribute="leading" secondItem="EDj-ip-ISO" secondAttribute="leading" id="udL-Lm-yi6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9TF-sS-hmf"/>
                     </view>
@@ -601,8 +410,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="fx8-8P-Zjl" id="fmL-dn-DpE"/>
+                        <outlet property="calendarHeight" destination="eFM-of-EBE" id="1dn-rQ-VT0"/>
+                        <outlet property="calendarTop" destination="iJ4-Bk-eg1" id="D1x-8y-8XF"/>
                         <outlet property="calendarView" destination="WB3-ZZ-jc0" id="Q1l-IB-UCK"/>
-                        <outlet property="monthGradientView" destination="5jr-Kn-TRd" id="r8S-i3-ez6"/>
                         <outlet property="scheduleView" destination="mdP-3G-dUP" id="Gmd-0S-XZP"/>
                         <outlet property="tableViewHeight" destination="6ts-H8-ATz" id="zca-O9-dZL"/>
                         <outlet property="visitsTableView" destination="5hr-Vi-Y3G" id="t2M-jG-QO4"/>
@@ -3317,8 +3127,8 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3wi-gr-yKZ"/>
-        <segue reference="6s8-le-3kf"/>
+        <segue reference="KII-3d-wr3"/>
+        <segue reference="611-hg-MTs"/>
         <segue reference="2No-Ee-I6G"/>
         <segue reference="TVg-Ae-W9g"/>
         <segue reference="uDz-xN-nKQ"/>

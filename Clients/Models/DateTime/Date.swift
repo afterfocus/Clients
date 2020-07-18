@@ -40,6 +40,11 @@ extension Date {
     var isToday: Bool {
         Calendar.current.isDateInToday(self)
     }
+    
+    var ignoringTimeZone: Date {
+        let seconds = TimeInterval(TimeZone.current.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
 
     /**
      Вычесть заданное количество месяцев из даты.
@@ -107,15 +112,7 @@ extension Date {
         // return Date()
     }
     
-    /// Количество дней в месяце
-    static func numberOfDaysIn(_ month: Int, year: Int) -> Int {
-        let date = Calendar.current.date(from: DateComponents(year: year, month: month))!
-        return Calendar.current.range(of: .day, in: .month, for: date)!.count
-    }
-
-    static func firstDayOf(_ month: Int, year: Int) -> Int {
-        let date = Calendar.current.date(from: DateComponents(year: year, month: month))!
-        let day = Calendar.current.component(.weekday, from: date) - 2
-        return day == -1 ? 6 : day
+    static func ignoreTimeZone() {
+        NSTimeZone.default = TimeZone(secondsFromGMT: 0)!
     }
 }

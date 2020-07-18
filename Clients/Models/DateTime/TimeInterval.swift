@@ -11,7 +11,7 @@ import Foundation
 extension TimeInterval {
     /// Текущее время
     static var currentTime: TimeInterval {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: Date())
+        let components = Calendar.current.dateComponents([.hour, .minute], from: Date().ignoringTimeZone)
         return TimeInterval(hours: components.hour!, minutes: components.minute!)
     }
     
